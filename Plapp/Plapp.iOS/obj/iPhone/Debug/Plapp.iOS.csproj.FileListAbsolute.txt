@@ -57,3 +57,10 @@ C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\obj\iPhone\Debug\XamlC.stamp
 C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\obj\iPhone\Debug\Plapp.iOS.csproj.CopyComplete
 C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\obj\iPhone\Debug\Plapp.iOS.exe
 C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\obj\iPhone\Debug\Plapp.iOS.pdb
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\Microsoft.Extensions.DependencyModel.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\Nancy.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\Newtonsoft.Json.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\System.Net.NameResolution.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp.iOS\bin\iPhone\Debug\System.Runtime.InteropServices.RuntimeInformation.dll

@@ -3,9 +3,9 @@
 namespace Plapp
 {
     public class BasePage<VM> : ContentPage
-        where VM : BaseViewModel, new()
+        where VM : BaseViewModel
     {
-        public VM ViewModel => new VM(); // TODO: Dependency Injection
+        public VM ViewModel => IoC.Get<VM>();
 
         protected BasePage()
         {

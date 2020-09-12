@@ -15,6 +15,7 @@ namespace Plapp
 
         protected override void OnStart()
         {
+            IoC.Setup();
         }
 
         protected override void OnSleep()

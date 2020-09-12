@@ -4,6 +4,11 @@ public class MonoPackageManager_Resources {
 		/* We need to ensure that "Plapp.Android.dll" comes first in this list. */
 		"Plapp.Android.dll",
 		"FormsViewGroup.dll",
+		"Microsoft.DotNet.PlatformAbstractions.dll",
+		"Microsoft.Extensions.DependencyModel.dll",
+		"Microsoft.Extensions.PlatformAbstractions.dll",
+		"Nancy.dll",
+		"Newtonsoft.Json.dll",
 		"Plapp.dll",
 		"Xamarin.Android.Arch.Core.Common.dll",
 		"Xamarin.Android.Arch.Core.Runtime.dll",
