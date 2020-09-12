@@ -1,0 +1,14 @@
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.AssemblyInfoInputs.cache
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.AssemblyInfo.cs
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.csproj.CoreCompileInputs.cache
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\bin\Debug\netstandard2.0\Plapp.deps.json
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\bin\Debug\netstandard2.0\Plapp.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\bin\Debug\netstandard2.0\ref\Plapp.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\bin\Debug\netstandard2.0\Plapp.pdb
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.csprojAssemblyReference.cache
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\ref\Plapp.dll
+C:\Users\bjorn\source\repos\Plapp\Plapp\Plapp\obj\Debug\netstandard2.0\Plapp.pdb

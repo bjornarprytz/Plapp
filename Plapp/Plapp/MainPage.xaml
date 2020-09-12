@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns:local="clr-namespace:Plapp"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                x:TypeArguments="local:DiaryViewModel"
+                x:Class="Plapp.MainPage">
+
+    <StackLayout Margin="10,35,10,10">
+        <Label Text="Notes"
+               HorizontalOptions="Center"
+               FontAttributes="Bold" />
+        <Editor x:Name="editor"
+                Placeholder="Enter your note"
+                HeightRequest="100" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Text="Save"
+                    Command="{Binding SayOkCommand}"/>
+            <Button Grid.Column="1"
+                    Text="Delete"/>
+        </Grid>
+    </StackLayout>
+
+</local:BasePage>
