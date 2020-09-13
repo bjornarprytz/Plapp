@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Plapp.Extensions;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -21,6 +23,7 @@ namespace Plapp
         public ObservableCollection<ITopicViewModel> Topics { get; private set; }
         public ICommand AddTopicCommand { get; private set; }
 
+        public int Something { get; private set; }
 
         private async Task AddTopic()
         {
@@ -32,9 +35,11 @@ namespace Plapp
 
             Topics.Add(newTopic);
 
+            Something++;
+
             Console.WriteLine($"Added topic {newTopic.Description}");
 
-            // TODO: Navigate to TopicPage
+            await NavigationHelpers.NavigateTo<ITopicViewModel>();
         }
     }
 }

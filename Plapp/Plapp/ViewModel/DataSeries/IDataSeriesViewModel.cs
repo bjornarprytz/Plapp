@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Plapp
 {
-    public interface IDataSeriesViewModel : INotifyPropertyChanged
+    public interface IDataSeriesViewModel : IViewModel
     {
         string Tag { get; }
         string Unit { get; }

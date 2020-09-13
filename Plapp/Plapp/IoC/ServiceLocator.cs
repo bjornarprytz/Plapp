@@ -1,4 +1,5 @@
 ﻿using Nancy.TinyIoc;
+using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -10,7 +11,8 @@ namespace Plapp
         {
             _container = new TinyIoCContainer();
                
-            _container.Register<ITopicService, TopicService>();
+            _container.Register<ITopicService>(new TopicService());
+            _container.Register<INavigator>(new Navigator());
         }
 
         public static T Get<T>()

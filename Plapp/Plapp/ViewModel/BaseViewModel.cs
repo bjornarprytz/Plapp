@@ -5,11 +5,17 @@ using System.Threading.Tasks;
 
 namespace Plapp
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : IViewModel
     {
         protected object mPropertyValueCheckLock = new object();
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+
+        public void SetState<T>(Action<T> action)
+            where T : class, IViewModel
+        {
+            action(this as T);
+        }
 
         public void OnPropertyChanged(string name)
         {

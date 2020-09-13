@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Plapp
 {
-    public interface IDataPointViewModel : INotifyPropertyChanged
+    public interface IDataPointViewModel : IViewModel
     {
         bool HasData { get; }
         DateTime Date { get; }

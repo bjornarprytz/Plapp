@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Plapp
 {
-    public interface IDiaryEntryViewModel : INotifyPropertyChanged
+    public interface IDiaryEntryViewModel : IViewModel
     {
         DateTime Date { get; set; }
         string ImagePath { get; set; }

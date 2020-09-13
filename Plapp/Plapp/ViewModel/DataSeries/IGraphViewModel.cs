@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Plapp.ViewModel
 {
-    public interface IGraphViewModel : INotifyPropertyChanged
+    public interface IGraphViewModel : IViewModel
     {
         string Header { get; set; }
         DateTime Start { get; set; }

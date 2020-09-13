@@ -1,4 +1,6 @@
 ﻿using Nancy.TinyIoc;
+using Plapp.ViewModel.Topc;
+using System;
 
 namespace Plapp
 {
@@ -10,13 +12,14 @@ namespace Plapp
         {
             _container = new TinyIoCContainer();
 
-            _container.Register<IDiaryViewModel, DiaryViewModel>();
+            _container.Register<IDiaryViewModel>(new DiaryViewModel());
+            _container.Register<ITopicViewModel>(new TopicViewModel());
         }
 
-        public static T Get<T>()
-            where T : class
+        public static VM Get<VM>()
+            where VM : class, IViewModel
         {
-            return _container.Resolve<T>();
+            return _container.Resolve<VM>();
         }
     }
 }

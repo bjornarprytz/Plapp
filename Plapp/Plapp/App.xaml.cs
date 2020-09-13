@@ -8,10 +8,12 @@ namespace Plapp
         {
             ServiceLocator.Setup();
             ViewModelLocator.Setup();
+            ViewLocator.Setup();
 
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = ViewFactory.Resolve<IDiaryViewModel>();
+
         }
 
         protected override void OnStart()
