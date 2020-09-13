@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Plapp
 {
@@ -10,10 +12,13 @@ namespace Plapp
         string Description { get; set; }
         DateTime FirstEntryDate { get; set; }
         DateTime LastEntryDate { get; set; }
-        IEnumerable<IDiaryEntryViewModel> DiaryEntries { get; }
-        IEnumerable<IDataSeriesViewModel> DataEntries { get; }
+        ObservableCollection<IDiaryEntryViewModel> DiaryEntries { get; }
+        ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
+
+        ICommand DeleteTopicCommand { get; }
+
         void AddDiaryEntry(IDiaryEntryViewModel newDiaryEntry);
-        void AddDataPoint(string tag, IDataPointViewModel newDiaryEntry);
+        void AddDataPoint(string tag, IDataPointViewModel newDataPoint);
         IDataSeriesViewModel GetDataSeries(string tag);
     }
 }

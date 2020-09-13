@@ -1,6 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -8,6 +6,9 @@ namespace Plapp
     {
         public App()
         {
+            ServiceLocator.Setup();
+            ViewModelLocator.Setup();
+
             InitializeComponent();
 
             MainPage = new MainPage();
@@ -15,7 +16,6 @@ namespace Plapp
 
         protected override void OnStart()
         {
-            IoC.Setup();
         }
 
         protected override void OnSleep()

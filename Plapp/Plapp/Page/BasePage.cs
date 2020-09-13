@@ -5,10 +5,11 @@ namespace Plapp
     public class BasePage<VM> : ContentPage
         where VM : BaseViewModel
     {
-        public VM ViewModel => IoC.Get<VM>();
+        public VM ViewModel { get; private set; } 
 
         protected BasePage()
         {
+            ViewModel = ViewModelLocator.Get<VM>();
             BindingContext = ViewModel;
         }
     }

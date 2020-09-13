@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Text="Save"
-                    Command="{Binding SayOkCommand}"/>
+                    Command="{Binding AddTopicCommand}"/>
             <Button Grid.Column="1"
                     Text="Delete"/>
         </Grid>

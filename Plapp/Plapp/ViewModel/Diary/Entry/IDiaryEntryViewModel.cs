@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Plapp
@@ -11,6 +11,6 @@ namespace Plapp
         string Header { get; set; }
         string Description { get; set; }
         string Notes { get; set; }
-        ICollection<IDataPointViewModel> DataPoints { get; set; }
+        ObservableCollection<IDataPointViewModel> DataPoints { get; set; }
     }
 }

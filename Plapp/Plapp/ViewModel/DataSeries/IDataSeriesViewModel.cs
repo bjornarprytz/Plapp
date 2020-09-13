@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Plapp
@@ -7,9 +9,10 @@ namespace Plapp
     {
         string Tag { get; }
         string Unit { get; }
-        IDataPointViewModel GetDataPoint(DateTime date);
         Icon Icon { get; set; }
 
+        IDataPointViewModel GetDataPoint(DateTime date);
+        IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end);
         void AddDataPoint(IDataPointViewModel dataPoint);
     }
 }

@@ -35,7 +35,7 @@ namespace Plapp
             }
         }
 
-        protected async Task<T> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default(T))
+        protected async Task<T> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default)
         {
             lock (mPropertyValueCheckLock)
             {
