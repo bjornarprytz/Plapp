@@ -3,7 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -39,7 +38,7 @@ namespace Plapp
 
             Console.WriteLine($"Added topic {newTopic.Description}");
 
-            await NavigationHelpers.NavigateTo<ITopicViewModel>();
+            await NavigationHelpers.NavigateTo<ITopicViewModel>(vm => vm.Title = "hello from the diary");
         }
     }
 }
