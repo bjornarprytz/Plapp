@@ -12,7 +12,7 @@ namespace Plapp
 
         public static void Setup()
         {
-            _container = new TinyIoCContainer();
+            _container = TinyIoCContainer.Current;
 
             _container.Register(new MainPage());
             _container.Register(new TopicPage());

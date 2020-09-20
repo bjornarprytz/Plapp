@@ -10,7 +10,7 @@ namespace Plapp
 
         public static void Setup()
         {
-            _container = new TinyIoCContainer();
+            _container = TinyIoCContainer.Current;
 
             _container.Register<IDiaryViewModel>(new DiaryViewModel());
             _container.Register<ITopicViewModel>(new TopicViewModel());

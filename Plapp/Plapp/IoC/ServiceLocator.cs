@@ -9,7 +9,7 @@ namespace Plapp
 
         public static void Setup()
         {
-            _container = new TinyIoCContainer();
+            _container = TinyIoCContainer.Current;
                
             _container.Register<ITopicService>(new TopicService());
             _container.Register<INavigator>(new Navigator());
