@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Plapp
 {
     public interface ITopicViewModel : IViewModel
     {
-        string Title { get; set; }
-        string Description { get; set; }
-        DateTime FirstEntryDate { get; set; }
-        DateTime LastEntryDate { get; set; }
+        ITopicMetaDataViewModel MetaData { get; set; }
         ObservableCollection<IDiaryEntryViewModel> DiaryEntries { get; }
         ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns:local="clr-namespace:Plapp"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                x:Class="Plapp.MainPage">
+
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <ListView 
+            VerticalOptions="Start"
+            ItemsSource="{Binding Topics}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:TopicMetaDataCell/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout 
+            Orientation="Horizontal" 
+            Margin="20"
+            HorizontalOptions="End" 
+            VerticalOptions="EndAndExpand">
+            <!-- bottom controls -->
+            <Button 
+                Text="Add Topic" 
+                HorizontalOptions="CenterAndExpand"
+                BackgroundColor="CadetBlue"
+                TextColor="Wheat"
+                Command="{Binding AddTopicCommand}"/>
+        </StackLayout>
+    </StackLayout>
+
+
+
+</ContentPage>

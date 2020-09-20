@@ -4,8 +4,8 @@
              x:Class="Plapp.TopicPage"
              Title="Note Entry">
     <StackLayout Margin="20">
-        <Editor Placeholder="Enter your note"
-                Text="{Binding Title}"
+        <Editor 
+                Text="{Binding MetaData.Title}"
                 HeightRequest="100" />
         <Grid>
             <Grid.ColumnDefinitions>

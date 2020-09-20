@@ -1,5 +1,4 @@
-﻿using Plapp.Extensions;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,7 +10,9 @@ namespace Plapp
         private readonly ITopicService _topicService;
         public DiaryViewModel()
         {
-            Topics = new ObservableCollection<ITopicViewModel>();
+            Topics = new ObservableCollection<ITopicMetaDataViewModel>();
+
+            Topics.Add(new TopicMetaDataViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now });
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
 
@@ -19,26 +20,20 @@ namespace Plapp
         }
 
         public bool IsBusy { get; private set; }
-        public ObservableCollection<ITopicViewModel> Topics { get; private set; }
+        public ObservableCollection<ITopicMetaDataViewModel> Topics { get; private set; }
         public ICommand AddTopicCommand { get; private set; }
-
-        public int Something { get; private set; }
 
         private async Task AddTopic()
         {
             var newTopic = await RunCommandAsync(
                 () => IsBusy,
-                _topicService.Create);
+                _topicService.CreateMetaData);
 
             if (newTopic == null) return;
 
+            newTopic.Title = "New Title";
+
             Topics.Add(newTopic);
-
-            Something++;
-
-            Console.WriteLine($"Added topic {newTopic.Description}");
-
-            await NavigationHelpers.NavigateTo<ITopicViewModel>(vm => vm.Title = "hello from the diary");
         }
     }
 }

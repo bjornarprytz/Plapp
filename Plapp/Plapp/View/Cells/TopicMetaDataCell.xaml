@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell 
+    xmlns:local="clr-namespace:Plapp"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Plapp.TopicMetaDataCell">
+    
+    <Grid BackgroundColor="Beige">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="0.3*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Command="{Binding OpenTopicCommand}" />
+        <Label Text="{Binding Title}" FontAttributes="Bold" />
+        <Label Grid.Column="1" Text="{Binding Description}" />
+        <Label Grid.Column="2" 
+               Text="{Binding LastEntryDate, Converter={local:DateTimeToDateStringConverter}}" 
+               HorizontalTextAlignment="End" />
+    </Grid>
+</ViewCell>

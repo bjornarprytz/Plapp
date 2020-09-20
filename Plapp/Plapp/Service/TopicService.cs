@@ -5,15 +5,19 @@ namespace Plapp
 {
     public class TopicService : ITopicService
     {
-        public TopicService()
-        {
-
-        }
         public async Task<ITopicViewModel> Create()
         {
-            await Task.Delay(1000);
-
             return IoC.Get<ITopicViewModel>();
+        }
+
+        public async Task<ITopicMetaDataViewModel> CreateMetaData()
+        {
+            return await Task.FromResult(new TopicMetaDataViewModel());
+        }
+
+        public Task Save(ITopicViewModel topic)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
