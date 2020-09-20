@@ -11,16 +11,10 @@ namespace Plapp
 
         Task PopToRootAsync();
 
-        Task<TViewModel> PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+        Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel;
 
-        Task<TViewModel> PushAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : class, IViewModel;
-
-        Task<TViewModel> PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : class, IViewModel;
-
-        Task<TViewModel> PushModalAsync<TViewModel>(TViewModel viewModel)
+        Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel;
     }
 }

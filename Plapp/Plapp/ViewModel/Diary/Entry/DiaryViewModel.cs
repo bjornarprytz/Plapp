@@ -16,7 +16,7 @@ namespace Plapp
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
 
-            _topicService = ServiceLocator.Get<ITopicService>();
+            _topicService = IoC.Get<ITopicService>();
         }
 
         public bool IsBusy { get; private set; }

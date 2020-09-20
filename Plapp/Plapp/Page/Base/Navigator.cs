@@ -6,7 +6,7 @@ namespace Plapp
 {
     public class Navigator : INavigator
     {
-        private INavigation Navigation => ServiceLocator.Get<INavigation>();
+        private INavigation Navigation => IoC.Get<INavigation>();
 
         public async Task<IViewModel> PopAsync()
         {
@@ -21,37 +21,20 @@ namespace Plapp
             await Navigation.PopToRootAsync();
         }
 
-        public async Task<VM> PushAsync<VM>(Action<VM> setStateAction = null)
-            where VM : class, IViewModel
+        public async Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel
         {
-            var view = ViewFactory.Resolve(setStateAction);
+            var view = IoC.Get<IViewFactory>().CreateView(setStateAction);
+
             await Navigation.PushAsync(view);
-            return ViewModelLocator.Get<VM>();
         }
 
-        public async Task<VM> PushAsync<VM>(VM viewModel)
-            where VM : class, IViewModel
+        public async Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel
         {
-            var view = ViewFactory.Resolve(viewModel);
-            await Navigation.PushAsync(view);
-            return viewModel;
-        }
+            var view = IoC.Get<IViewFactory>().CreateView(setStateAction);
 
-        public async Task<VM> PushModalAsync<VM>(Action<VM> setStateAction = null)
-            where VM : class, IViewModel
-        {
-            var viewModel = ViewModelLocator.Get<VM>();
-            var view = ViewFactory.Resolve(viewModel, setStateAction);
             await Navigation.PushModalAsync(view);
-            return viewModel;
-        }
-
-        public async Task<VM> PushModalAsync<VM>(VM viewModel)
-            where VM : class, IViewModel
-        {
-            var view = ViewFactory.Resolve(viewModel);
-            await Navigation.PushModalAsync(view);
-            return viewModel;
         }
     }
 }

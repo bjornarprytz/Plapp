@@ -5,19 +5,21 @@ namespace Plapp
 {
     public partial class App : Application
     {
-        public IViewFactory ViewFactory { get; private set; }
+        public IViewFactory ViewFactory => IoC.Get<IViewFactory>();
         public App()
         {
             TinyIoCContainer.Current.BuildUp(this);
 
-            ServiceLocator.Setup();
-            ViewModelLocator.Setup();
-            ViewLocator.Setup();
+            IoC.Setup();
+
+            ViewFactory.Bind<IDiaryViewModel, MainPage>();
+            ViewFactory.Bind<ITopicViewModel, TopicPage>();
 
             InitializeComponent();
 
-            MainPage = ViewFactory.Resolve<IDiaryViewModel>();
+            MainPage = new NavigationPage(ViewFactory.CreateView<IDiaryViewModel>());
 
+            TinyIoCContainer.Current.Register(MainPage.Navigation);
         }
 
         protected override void OnStart()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Plapp.ViewModel.Topc
+namespace Plapp
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
@@ -30,7 +30,7 @@ namespace Plapp.ViewModel.Topc
         {
             if (!_dataEntries.ContainsKey(tag))
             {
-                _dataEntries[tag] = ViewModelLocator.Get<IDataSeriesViewModel>();
+                _dataEntries[tag] = IoC.Get<IDataSeriesViewModel>();
             }
 
             _dataEntries[tag].AddDataPoint(newDataPoint);
@@ -49,7 +49,7 @@ namespace Plapp.ViewModel.Topc
         {
             return _dataEntries.ContainsKey(tag) ?
                 _dataEntries[tag] 
-                : ViewModelLocator.Get<IDataSeriesViewModel>();
+                : IoC.Get<IDataSeriesViewModel>();
         }
     }
 }

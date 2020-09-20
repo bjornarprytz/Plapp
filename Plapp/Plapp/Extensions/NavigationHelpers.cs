@@ -6,7 +6,7 @@ namespace Plapp.Extensions
     {
         public static async Task NavigateTo<VM>() where VM : class, IViewModel
         {
-            await ServiceLocator.Get<INavigator>().PushAsync<VM>();
+            await IoC.Get<INavigator>().PushAsync<VM>();
         }
     }
 }

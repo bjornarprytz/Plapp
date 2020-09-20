@@ -1,4 +1,4 @@
-﻿using Plapp.ViewModel.Topc;
+﻿
 using System.Threading.Tasks;
 
 namespace Plapp
@@ -13,7 +13,7 @@ namespace Plapp
         {
             await Task.Delay(1000);
 
-            return new TopicViewModel();
+            return IoC.Get<ITopicViewModel>();
         }
     }
 }
