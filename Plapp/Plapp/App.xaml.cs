@@ -16,6 +16,7 @@ namespace Plapp
             ViewFactory.Bind<ITopicViewModel, TopicPage>();
 
             InitializeComponent();
+            Device.SetFlags(new string[] { "Expander_Experimental" });
 
             MainPage = new NavigationPage(ViewFactory.CreateView<IDiaryViewModel>());
 

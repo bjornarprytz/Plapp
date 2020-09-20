@@ -1,20 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Plapp.TopicPage"
-             Title="Note Entry">
-    <StackLayout Margin="20">
-        <Editor 
-                Text="{Binding MetaData.Title}"
-                HeightRequest="100" />
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Text="Save"/>
-            <Button Grid.Column="1"
-                    Text="Delete"/>
-        </Grid>
-    </StackLayout>
+<ContentPage 
+    xmlns:local="clr-namespace:Plapp"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Plapp.TopicPage"
+    Title="{Binding MetaData.Title}"
+    BackgroundColor="Teal">
+    
+    <ScrollView>
+        <StackLayout 
+            Margin="20"
+            Orientation="Vertical">
+            <StackLayout 
+                Orientation="Vertical">
+                <Image Source="{Binding MetaData.ImagePath}"/>
+                <Editor Text="{Binding MetaData.Description}"
+                        AutoSize="TextChanges"/>
+                
+            </StackLayout>
+
+            <ListView
+                VerticalOptions="Start"
+                ItemsSource="{Binding DataEntries}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:DataSeriesCell/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

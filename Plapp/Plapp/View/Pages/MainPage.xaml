@@ -2,12 +2,14 @@
 <ContentPage xmlns:local="clr-namespace:Plapp"
                 xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Plapp"
                 x:Class="Plapp.MainPage">
 
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <ListView 
             VerticalOptions="Start"
-            ItemsSource="{Binding Topics}">
+            ItemsSource="{Binding Topics}"
+            HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:TopicMetaDataCell/>
@@ -15,10 +17,11 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackLayout 
-            Orientation="Horizontal" 
+            Orientation="Horizontal"
             Margin="20"
             HorizontalOptions="End" 
-            VerticalOptions="EndAndExpand">
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="Transparent">
             <!-- bottom controls -->
             <Button 
                 Text="Add Topic" 

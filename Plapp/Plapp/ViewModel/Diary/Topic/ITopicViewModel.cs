@@ -11,6 +11,7 @@ namespace Plapp
 
         ICommand DeleteTopicCommand { get; }
 
+        void StartDataSeries(IDataSeriesViewModel newSeries);
         void AddDiaryEntry(IDiaryEntryViewModel newDiaryEntry);
         void AddDataPoint(string tag, IDataPointViewModel newDataPoint);
         IDataSeriesViewModel GetDataSeries(string tag);

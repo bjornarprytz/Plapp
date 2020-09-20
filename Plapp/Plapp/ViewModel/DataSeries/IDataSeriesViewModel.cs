@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Plapp
 {
     public interface IDataSeriesViewModel : IViewModel
     {
-        string Tag { get; }
-        string Unit { get; }
+        string Tag { get; set; }
+        string Unit { get; set; }
         Icon Icon { get; set; }
+
+        IDataPointViewModel Latest { get; }
 
         IDataPointViewModel GetDataPoint(DateTime date);
         IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end);

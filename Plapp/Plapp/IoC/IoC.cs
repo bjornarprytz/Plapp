@@ -20,6 +20,7 @@ namespace Plapp
 
             _container.Register<IDiaryViewModel>(new DiaryViewModel());
             _container.Register<ITopicViewModel>(new TopicViewModel());
+            _container.Register<IDataSeriesViewModel, DataSeriesViewModel>();
         }
 
         public static T Get<T>()

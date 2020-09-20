@@ -6,16 +6,26 @@
     x:Class="Plapp.TopicMetaDataCell">
     
     <Grid BackgroundColor="Beige">
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*" />
-            <ColumnDefinition Width="0.2*" />
-            <ColumnDefinition Width="0.3*" />
-        </Grid.ColumnDefinitions>
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenTopicCommand}" />
+        </Grid.GestureRecognizers>
 
-        <Button Command="{Binding OpenTopicCommand}" />
-        <Label Text="{Binding Title}" FontAttributes="Bold" />
-        <Label Grid.Column="1" Text="{Binding Description}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Aspect="AspectFit" HeightRequest="80">
+            <Image.Source>
+                <FileImageSource File="{Binding ImagePath}" />
+            </Image.Source>
+        </Image>
+
+        <StackLayout Grid.Column="1">
+            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Large" />
+            <Label Text="{Binding Description}" LineBreakMode="TailTruncation"/>
+        </StackLayout>
+        
         <Label Grid.Column="2" 
                Text="{Binding LastEntryDate, Converter={local:DateTimeToDateStringConverter}}" 
                HorizontalTextAlignment="End" />

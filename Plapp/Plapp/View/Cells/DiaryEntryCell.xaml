@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell 
+    xmlns:local="clr-namespace:Plapp"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Plapp.DiaryEntryCell">
+    <ViewCell.View>
+        <Expander>
+            <Expander.Header>
+                <StackLayout 
+                    Orientation="Horizontal"
+                    VerticalOptions="StartAndExpand">
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="{Binding Header}"
+                        FontSize="Large"/>
+                    <Label 
+                        HorizontalOptions="End"
+                        Text="{Binding Date, Converter={local:DateTimeToDateStringConverter}}" />
+                </StackLayout>
+            </Expander.Header>
+            <StackLayout
+              BackgroundColor="Beige"
+              Margin="2">
+                <Label
+                  Margin="0, 0, 0, 10"
+                  Text="{Binding Notes}"/>
+            </StackLayout>
+        </Expander>
+  </ViewCell.View>
+</ViewCell>

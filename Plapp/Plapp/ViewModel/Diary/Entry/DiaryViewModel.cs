@@ -15,7 +15,7 @@ namespace Plapp
             Topics.Add(new TopicMetaDataViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now });
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
-
+            
             _topicService = IoC.Get<ITopicService>();
         }
 

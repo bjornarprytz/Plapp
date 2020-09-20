@@ -23,11 +23,16 @@ namespace Plapp
 
         public ICommand DeleteTopicCommand { get; private set; }
 
+        public void StartDataSeries(IDataSeriesViewModel newSeries)
+        {
+            _dataEntries[newSeries.Tag] = newSeries;
+        }
+
         public void AddDataPoint(string tag, IDataPointViewModel newDataPoint)
         {
             if (!_dataEntries.ContainsKey(tag))
             {
-                _dataEntries[tag] = IoC.Get<IDataSeriesViewModel>();
+                return;
             }
 
             _dataEntries[tag].AddDataPoint(newDataPoint);
