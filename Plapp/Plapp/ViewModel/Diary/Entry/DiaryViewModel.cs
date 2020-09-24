@@ -7,27 +7,28 @@ namespace Plapp
 {
     public class DiaryViewModel : BaseViewModel, IDiaryViewModel
     {
-        private readonly ITopicService _topicService;
+        private readonly IPlappDataStore _dataStore;
+
         public DiaryViewModel()
         {
-            Topics = new ObservableCollection<ITopicMetaDataViewModel>();
+            Topics = new ObservableCollection<ITopicViewModel>();
 
-            Topics.Add(new TopicMetaDataViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now });
+            Topics.Add(new TopicViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now });
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
-            
-            _topicService = IoC.Get<ITopicService>();
+
+            _dataStore = IoC.Get<IPlappDataStore>();
         }
 
         public bool IsBusy { get; private set; }
-        public ObservableCollection<ITopicMetaDataViewModel> Topics { get; private set; }
+        public ObservableCollection<ITopicViewModel> Topics { get; private set; }
         public ICommand AddTopicCommand { get; private set; }
 
         private async Task AddTopic()
         {
             var newTopic = await RunCommandAsync(
                 () => IsBusy,
-                _topicService.CreateMetaData);
+                _dataStore.CreateTopic);
 
             if (newTopic == null) return;
 

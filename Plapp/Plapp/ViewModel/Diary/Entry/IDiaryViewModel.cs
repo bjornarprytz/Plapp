@@ -6,7 +6,7 @@ namespace Plapp
     public interface IDiaryViewModel : IViewModel
     {
         bool IsBusy { get; }
-        ObservableCollection<ITopicMetaDataViewModel> Topics { get; }
+        ObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }
     }
 }

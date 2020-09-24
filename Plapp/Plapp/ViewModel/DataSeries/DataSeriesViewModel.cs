@@ -8,6 +8,7 @@ namespace Plapp
     {
         private readonly Dictionary<DateTime, IDataPointViewModel> _series = new Dictionary<DateTime, IDataPointViewModel>();
 
+        public int Id { get; set; }
         public string Tag { get; set; }
 
         public string Unit { get; set; }

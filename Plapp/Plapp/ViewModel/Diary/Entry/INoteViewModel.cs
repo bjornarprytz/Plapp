@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 
 namespace Plapp
 {
-    public interface IDiaryEntryViewModel : IViewModel
+    public interface INoteViewModel : IViewModel
     {
         DateTime Date { get; set; }
         string ImagePath { get; set; }
         string Header { get; set; }
-        string Notes { get; set; }
+        string Text { get; set; }
         ObservableCollection<IDataPointViewModel> DataPoints { get; set; }
     }
 }

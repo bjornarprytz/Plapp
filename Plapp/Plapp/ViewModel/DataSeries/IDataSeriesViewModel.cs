@@ -5,6 +5,7 @@ namespace Plapp
 {
     public interface IDataSeriesViewModel : IViewModel
     {
+        int Id { get; }
         string Tag { get; set; }
         string Unit { get; set; }
         Icon Icon { get; set; }

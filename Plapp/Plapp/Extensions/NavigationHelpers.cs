@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Plapp.Extensions
+namespace Plapp
 {
     public static class NavigationHelpers
     {
