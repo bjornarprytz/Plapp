@@ -13,8 +13,8 @@ namespace Plapp
         Task<IEnumerable<INoteViewModel>> FetchNotes(int? topicId=null);
         Task<IEnumerable<ITagViewModel>> FetchTags();
         
-        Task SaveTopicAsync(ITopicViewModel topicViewModel);
-        Task SaveDataSeriesAsync(IDataSeriesViewModel dataSeriesViewModel);
-        Task SaveTag(ITagViewModel tagViewModel);
+        Task<int> SaveTopicAsync(ITopicViewModel topicViewModel);
+        Task<int> SaveDataSeriesAsync(IDataSeriesViewModel dataSeriesViewModel);
+        Task<int> SaveTag(ITagViewModel tagViewModel);
     }
 }

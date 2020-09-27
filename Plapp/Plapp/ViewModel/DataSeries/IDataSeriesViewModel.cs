@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Plapp
 {
-    public interface IDataSeriesViewModel : IViewModel
+    public interface IDataSeriesViewModel : IViewModel, IData
     {
-        int Id { get; }
         string Tag { get; set; }
         string Unit { get; set; }
         Icon Icon { get; set; }

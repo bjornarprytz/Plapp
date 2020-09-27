@@ -1,8 +1,7 @@
 ﻿namespace Plapp
 {
-    public interface ITagViewModel
+    public interface ITagViewModel : IViewModel, IData
     {
-        int Id { get; }
         string Unit { get; set; }
         string Name { get; set; }
         DataType DataType { get; set; }

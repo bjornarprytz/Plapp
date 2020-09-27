@@ -5,6 +5,7 @@ namespace Plapp
 {
     public class NoteViewModel : BaseViewModel, INoteViewModel
     {
+        public int Id { get; set; }
         public DateTime Date { get; set; } = DateTime.Today;
         public string ImagePath { get; set; }
         public string Header { get; set; } = "The plant grew";

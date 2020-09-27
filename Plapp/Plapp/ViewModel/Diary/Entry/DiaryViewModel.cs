@@ -11,9 +11,10 @@ namespace Plapp
 
         public DiaryViewModel()
         {
-            Topics = new ObservableCollection<ITopicViewModel>();
-
-            Topics.Add(new TopicViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now });
+            Topics = new ObservableCollection<ITopicViewModel>
+            {
+                new TopicViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now }
+            };
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
 
@@ -33,6 +34,8 @@ namespace Plapp
             if (newTopic == null) return;
 
             newTopic.Title = "New Title";
+
+            await _dataStore.SaveTopicAsync(newTopic);
 
             Topics.Add(newTopic);
         }

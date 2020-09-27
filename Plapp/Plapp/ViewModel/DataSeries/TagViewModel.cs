@@ -1,6 +1,6 @@
 ﻿namespace Plapp
 {
-    public class TagViewModel : ITagViewModel
+    public class TagViewModel : BaseViewModel, ITagViewModel
     {
         public int Id { get; set; }
         public string Unit { get; set; }

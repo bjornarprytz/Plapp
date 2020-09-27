@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Plapp
 {
-    public interface INoteViewModel : IViewModel
+    public interface INoteViewModel : IViewModel, IData
     {
         DateTime Date { get; set; }
         string ImagePath { get; set; }

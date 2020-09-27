@@ -4,10 +4,8 @@ using System.Windows.Input;
 
 namespace Plapp
 {
-    public interface ITopicViewModel : IViewModel
+    public interface ITopicViewModel : IViewModel, IData
     {
-        int Id { get; }
-
         bool IsLoadingData { get; }
         bool IsLoadingNotes { get; }
 
