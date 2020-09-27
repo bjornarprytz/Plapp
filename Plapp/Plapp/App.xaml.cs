@@ -1,30 +1,27 @@
-﻿using Nancy.TinyIoc;
+﻿using Dna;
 using Xamarin.Forms;
 
 namespace Plapp
 {
     public partial class App : Application
     {
-        public IViewFactory ViewFactory => IoC.Get<IViewFactory>();
         public App()
         {
-            TinyIoCContainer.Current.BuildUp(this);
-
-            IoC.Setup();
-
-            ViewFactory.Bind<IDiaryViewModel, MainPage>();
-            ViewFactory.Bind<ITopicViewModel, TopicPage>();
 
             InitializeComponent();
-            Device.SetFlags(new string[] { "Expander_Experimental" });
-
-            MainPage = new NavigationPage(ViewFactory.CreateView<IDiaryViewModel>());
-
-            TinyIoCContainer.Current.Register(MainPage.Navigation);
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            Framework.Construct<DefaultFrameworkConstruction>()
+                .AddDataStore()
+                .AddViewModels()
+                .AddNavigation()
+                .Build();
+
+            MainPage = new NavigationPage(
+                IoC.Get<IViewFactory>()
+                 .CreateView<IDiaryViewModel>());
         }
 
         protected override void OnSleep()

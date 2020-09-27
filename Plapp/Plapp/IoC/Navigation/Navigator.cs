@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dna;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -7,6 +8,7 @@ namespace Plapp
     public class Navigator : INavigator
     {
         private INavigation Navigation => IoC.Get<INavigation>();
+        private IViewFactory ViewFactory => IoC.Get<IViewFactory>();
 
         public async Task<IViewModel> PopAsync()
         {
@@ -24,7 +26,7 @@ namespace Plapp
         public async Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel
         {
-            var view = IoC.Get<IViewFactory>().CreateView(setStateAction);
+            var view = ViewFactory.CreateView(setStateAction);
 
             await Navigation.PushAsync(view);
         }
@@ -32,7 +34,7 @@ namespace Plapp
         public async Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel
         {
-            var view = IoC.Get<IViewFactory>().CreateView(setStateAction);
+            var view = ViewFactory.CreateView(setStateAction);
 
             await Navigation.PushModalAsync(view);
         }
