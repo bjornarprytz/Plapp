@@ -2,9 +2,10 @@
 
 namespace Plapp
 {
-    public interface IDataPointViewModel : IViewModel, IData
+    public interface IDataPointViewModel : IViewModel
     {
+        int Id { get; }
         DateTime Date { get; }
-        long Data { get; }
+        object Data { get; }
     }
 }

@@ -4,17 +4,18 @@ using System.Windows.Input;
 
 namespace Plapp
 {
-    public interface ITopicViewModel : IViewModel, IData
+    public interface ITopicViewModel : IViewModel
     {
         bool IsLoadingData { get; }
         bool IsLoadingNotes { get; }
 
-        string ImagePath { get; set; }
+        int Id { get; }
+        string ImageUri { get; set; }
         string Title { get; set; }
         string Description { get; set; }
-        DateTime FirstEntryDate { get; set; }
-        DateTime LastEntryDate { get; set; }
 
+        DateTime FirstEntryDate { get; }
+        DateTime LastEntryDate { get; }
         ObservableCollection<INoteViewModel> DiaryEntries { get; }
         ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,7 +12,7 @@ namespace Plapp
         {
             Topics = new ObservableCollection<ITopicViewModel>
             {
-                new TopicViewModel { Title = "A title", Description = "some description", LastEntryDate = DateTime.Now }
+                new TopicViewModel { Title = "A title", Description = "some description" }
             };
 
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
@@ -29,7 +28,7 @@ namespace Plapp
         {
             var newTopic = await RunCommandAsync(
                 () => IsBusy,
-                _dataStore.CreateTopic);
+                _dataStore.CreateTopicAsync);
 
             if (newTopic == null) return;
 

@@ -1,49 +1,54 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Plapp
 {
     public class PlappDataStore : IPlappDataStore
     {
-        private readonly SQLiteAsyncConnection _database;
+        private readonly IPlappDatabase _database;
 
         public PlappDataStore()
         {
-            _database = new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Notes.db3"));
+            _database = IoC.Get<IPlappDatabase>();
         }
 
-        public async Task<ITagViewModel> CreateTag(string name)
+        public async Task<ITagViewModel> CreateTagAsync(string id)
         {
-            var tag = new Tag { Name = name };
+            var tag = await _database.FetchTagAsync(id);
 
-            var id = await _database.InsertAsync(tag);
-
-            return new TagViewModel { Id = id, Name = name };
+            if (tag == null)
+            {
+                tag = new Tag { Id = id };
+                await _database.SaveTagAsync(tag);
+            }
+            
+            return tag.ToViewModel();
+            
         }
 
-        public async Task<ITopicViewModel> CreateTopic()
+        public async Task<ITopicViewModel> CreateTopicAsync()
         {
             var topic = new Topic();
 
-            var id = await _database.InsertAsync(topic);
+            var id = await _database.SaveTopicAsync(topic);
 
             return new TopicViewModel { Id = id };
         }
 
-        public async Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeries(int? topicId = null, int? tagId = null)
+        public async Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeriesAsync(int? topicId = null, int? tagId = null)
+        {
+            var dataSeries = await _database.FetchDataSeriesAsync(topicId, tagId);
+
+            return dataSeries.Select(d => d.ToViewModel());
+        }
+
+        public async Task<IEnumerable<INoteViewModel>> FetchNotesAsync(int? topicId = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<INoteViewModel>> FetchNotes(int? topicId = null)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<IEnumerable<ITagViewModel>> FetchTags()
+        public async Task<IEnumerable<ITagViewModel>> FetchTagsAsync()
         {
             throw new System.NotImplementedException();
         }
@@ -53,25 +58,19 @@ namespace Plapp
             throw new System.NotImplementedException();
         }
 
-        public async Task<int> SaveDataSeriesAsync(IDataSeriesViewModel dataSeriesViewModel)
+        public async Task<int> SaveDataSeriesAsync(IEnumerable<IDataSeriesViewModel> dataSeriesViewModel)
         {
-            return dataSeriesViewModel.Id != 0 ?
-                  await _database.UpdateAsync(dataSeriesViewModel)
-                : await _database.InsertAsync(dataSeriesViewModel);
+            return await _database.SaveDataSeriesAsync(dataSeriesViewModel.Select(d => d.ToModel()));
         }
 
-        public async Task<int> SaveTag(ITagViewModel tagViewModel)
+        public async Task<bool> SaveTagAsync(ITagViewModel tagViewModel)
         {
-            return tagViewModel.Id != 0 ?
-                  await _database.UpdateAsync(tagViewModel)
-                : await _database.InsertAsync(tagViewModel);
+            return await _database.SaveTagAsync(tagViewModel.ToModel());
         }
 
         public async Task<int> SaveTopicAsync(ITopicViewModel topicViewModel)
         {
-            return topicViewModel.Id != 0 ?
-                  await _database.UpdateAsync(topicViewModel)
-                : await _database.InsertAsync(topicViewModel);
+            return await _database.SaveTopicAsync(topicViewModel.ToModel());
         }
     }
 }

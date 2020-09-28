@@ -5,16 +5,16 @@ namespace Plapp
 {
     public interface IPlappDataStore
     {
-        Task<ITopicViewModel> CreateTopic();
-        Task<ITagViewModel> CreateTag(string name);
+        Task<ITopicViewModel> CreateTopicAsync();
+        Task<ITagViewModel> CreateTagAsync(string tagId);
 
         Task<IEnumerable<ITopicViewModel>> FetchTopicsAsync();
-        Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeries(int? topicId=null, int? tagId=null);
-        Task<IEnumerable<INoteViewModel>> FetchNotes(int? topicId=null);
-        Task<IEnumerable<ITagViewModel>> FetchTags();
+        Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeriesAsync(int? topicId=null, int? tagId=null);
+        Task<IEnumerable<INoteViewModel>> FetchNotesAsync(int? topicId=null);
+        Task<IEnumerable<ITagViewModel>> FetchTagsAsync();
         
         Task<int> SaveTopicAsync(ITopicViewModel topicViewModel);
-        Task<int> SaveDataSeriesAsync(IDataSeriesViewModel dataSeriesViewModel);
-        Task<int> SaveTag(ITagViewModel tagViewModel);
+        Task<int> SaveDataSeriesAsync(IEnumerable<IDataSeriesViewModel> dataSeriesViewModel);
+        Task<bool> SaveTagAsync(ITagViewModel tagViewModel);
     }
 }

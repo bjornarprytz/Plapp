@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -30,11 +31,11 @@ namespace Plapp
 
         public bool IsLoadingData { get; private set; }
         public bool IsLoadingNotes { get; private set; }
-        public string ImagePath { get; set; }
+        public string ImageUri { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime FirstEntryDate { get; set; }
-        public DateTime LastEntryDate { get; set; }
+        public DateTime FirstEntryDate => _diaryEntries.Keys.OrderBy(d => d).FirstOrDefault();
+        public DateTime LastEntryDate => _diaryEntries.Keys.OrderByDescending(d => d).FirstOrDefault();
 
         public ICommand OpenTopicCommand { get; private set; }
         public ICommand LoadDataSeriesCommand { get; private set; }
@@ -43,7 +44,7 @@ namespace Plapp
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
-            _dataEntries[newSeries.Tag] = newSeries;
+            _dataEntries[newSeries.Tag.Id] = newSeries;
         }
 
         public void AddDataPoint(string tag, IDataPointViewModel newDataPoint)
@@ -84,7 +85,7 @@ namespace Plapp
                 () => IsLoadingData,
                 async () =>
                 {
-                    var dataSeries = await _dataStore.FetchDataSeries(topicId: Id);
+                    var dataSeries = await _dataStore.FetchDataSeriesAsync(topicId: Id);
 
                     foreach(var series in dataSeries)
                     {
@@ -99,7 +100,7 @@ namespace Plapp
                 () => IsLoadingNotes,
                 async () =>
                 {
-                    var notes = await _dataStore.FetchNotes(topicId: Id);
+                    var notes = await _dataStore.FetchNotesAsync(topicId: Id);
 
                     foreach (var note in notes)
                     {

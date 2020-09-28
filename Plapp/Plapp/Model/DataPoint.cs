@@ -2,9 +2,9 @@
 
 namespace Plapp
 {
-    public class DataPoint : DataTable
+    public class DataPoint
     {
-        public int DataSeriesId { get; set; }
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public object Value { get; set; }
     }
