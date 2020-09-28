@@ -45,17 +45,23 @@ namespace Plapp
 
         public async Task<IEnumerable<INoteViewModel>> FetchNotesAsync(int? topicId = null)
         {
-            throw new System.NotImplementedException();
+            var notes = await _database.FetchNotesAsync(topicId);
+
+            return notes.Select(n => n.ToViewModel());
         }
 
         public async Task<IEnumerable<ITagViewModel>> FetchTagsAsync()
         {
-            throw new System.NotImplementedException();
+            var tags = await _database.FetchTagsAsync();
+
+            return tags.Select(n => n.ToViewModel());
         }
 
         public async Task<IEnumerable<ITopicViewModel>> FetchTopicsAsync()
         {
-            throw new System.NotImplementedException();
+            var topics = await _database.FetchTopicsAsync();
+
+            return topics.Select(n => n.ToViewModel());
         }
 
         public async Task<int> SaveDataSeriesAsync(IEnumerable<IDataSeriesViewModel> dataSeriesViewModel)
