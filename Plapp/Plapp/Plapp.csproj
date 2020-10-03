@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Plapp.Corer\Plapp.Core.csproj" />
+    <ProjectReference Include="..\..\Plapp.Relationaler\Plapp.Relational.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="View\Cells\DataSeriesCell.xaml.cs">
       <DependentUpon>DataSeriesCell.xaml</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using Dna;
+﻿using Plapp.Core;
+using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
@@ -30,13 +31,6 @@ namespace Plapp
             construction.Services.AddSingleton<INavigator>(new Navigator());
 
             construction.Services.AddSingleton(provider => Application.Current.MainPage.Navigation);
-
-            return construction;
-        }
-
-        public static FrameworkConstruction AddDataStore(this FrameworkConstruction construction)
-        {
-            construction.Services.AddSingleton<IPlappDataStore, PlappDataStore>();
 
             return construction;
         }

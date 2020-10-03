@@ -93,7 +93,7 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Plapp\Plapp.csproj">
-      <Project>{16533C96-B3F1-4E9B-925A-44FAE41ADB88}</Project>
+      <Project>{981FDAF4-77E9-49E4-B8A6-DA129F0E4633}</Project>
       <Name>Plapp</Name>
     </ProjectReference>
   </ItemGroup>
