@@ -10,13 +10,13 @@ namespace Plapp
         private readonly Dictionary<Type, Type> _map = new Dictionary<Type, Type>();
 
         public void Bind<TViewModel, TView>()
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
             where TView : Page
         {
             _map[typeof(TViewModel)] = typeof(TView);
         }
 
-        public Page CreateView<TViewModel>() where TViewModel : IViewModel
+        public Page CreateView<TViewModel>() where TViewModel : class, IViewModel
         {
             return CreateView(typeof(TViewModel));
         }
@@ -26,6 +26,24 @@ namespace Plapp
         {
             var viewModel = IoC.Get<TViewModel>();
 
+            setStateAction?.Invoke(viewModel);
+
+            return CreateView(viewModel);
+        }
+
+        public Page CreateView<TViewModel>(TViewModel viewModel)
+            where TViewModel : class, IViewModel
+        {
+            var view = IoC.Resolve<Page>(_map[typeof(TViewModel)]);
+
+            view.BindingContext = viewModel;
+
+            return view;
+        }
+
+        public Page CreateView<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction)
+            where TViewModel : class, IViewModel
+        {
             setStateAction?.Invoke(viewModel);
 
             return CreateView(viewModel);
@@ -46,16 +64,5 @@ namespace Plapp
 
             return view;
         }
-
-
-        private Page CreateView<TViewModel>(TViewModel viewModel)
-        {
-            var view = IoC.Resolve<Page>(_map[typeof(TViewModel)]);
-
-            view.BindingContext = viewModel;
-
-            return view;
-        }
-        
     }
 }

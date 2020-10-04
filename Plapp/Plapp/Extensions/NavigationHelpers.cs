@@ -11,5 +11,11 @@ namespace Plapp
         {
             await IoC.Get<INavigator>().PushAsync(setStateAction);
         }
+
+        public static async Task NavigateTo<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel
+        {
+            await IoC.Get<INavigator>().PushAsync(viewModel, setStateAction);
+        }
     }
 }

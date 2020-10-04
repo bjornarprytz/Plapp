@@ -10,6 +10,7 @@ namespace Plapp
 
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
+            construction.Services.AddSingleton<IDiaryViewModel, DiaryViewModel>();
 
             return construction;
         }
@@ -34,7 +35,7 @@ namespace Plapp
 
 
         private static IViewFactory ChainBind<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
             where TView : Page
         {
             viewFactory.Bind<TViewModel, TView>();

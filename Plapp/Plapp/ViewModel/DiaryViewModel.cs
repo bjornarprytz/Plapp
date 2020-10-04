@@ -34,9 +34,10 @@ namespace Plapp
 
         private void AddTopic()
         {
-            var newTopic = new TopicViewModel();
-
-            newTopic.Title = "New Title";
+            var newTopic = new TopicViewModel 
+            { 
+                Title = "New Title"
+            };
 
             Topics.Add(newTopic);
         }

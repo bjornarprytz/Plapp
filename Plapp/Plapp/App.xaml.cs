@@ -1,6 +1,9 @@
 ﻿using Dna;
+using Microsoft.Extensions.Configuration;
 using Plapp.Core;
 using Plapp.Relational;
+using System;
+using System.IO;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -27,7 +30,7 @@ namespace Plapp
 
             var dataStore = IoC.Get<IPlappDataStore>();
 
-           // await dataStore.EnsureDbCreatedAsync();
+            await dataStore.EnsureDbCreatedAsync();
         }
 
         protected override void OnSleep()

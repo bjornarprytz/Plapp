@@ -30,11 +30,26 @@ namespace Plapp
 
             await Navigation.PushAsync(view);
         }
+        public async Task PushAsync<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel
+        {
+            var view = ViewFactory.CreateView(viewModel, setStateAction);
+
+            await Navigation.PushAsync(view);
+        }
 
         public async Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel
         {
             var view = ViewFactory.CreateView(setStateAction);
+
+            await Navigation.PushModalAsync(view);
+        }
+
+        public async Task PushModalAsync<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel
+        {
+            var view = ViewFactory.CreateView(viewModel, setStateAction);
 
             await Navigation.PushModalAsync(view);
         }

@@ -40,7 +40,7 @@ namespace Plapp
             var dataSeriesViewModel = new DataSeriesViewModel 
             { 
                 Id = dataSeries.Id,
-                Tag = dataSeries.Tag.ToViewModel(),
+                TagId = dataSeries.TagId,
                 Topic = topicViewModel,
             };
 
@@ -54,7 +54,7 @@ namespace Plapp
             return new DataPointViewModel
             {
                 Id = dataPoint.Id,
-                Data = dataPoint.Value,
+                Value = dataPoint.Value,
                 Date = dataPoint.Date,
                 DataSeries = dataSeriesViewModel,
             };
@@ -104,7 +104,7 @@ namespace Plapp
             {
                 Id = dataSeriesViewModel.Id,
                 TopicId = dataSeriesViewModel.Topic.Id,
-                Tag = dataSeriesViewModel.Tag.ToModel(),
+                TagId = dataSeriesViewModel.Tag.Id,
                 DataPoints = new List<DataPoint>(),
             };
 
@@ -122,7 +122,7 @@ namespace Plapp
             {
                 Id = dataPoinViewModel.Id,
                 DataSeriesId = dataPoinViewModel.DataSeries.Id,
-                Value = dataPoinViewModel.Data,
+                Value = dataPoinViewModel.Value,
                 Date = dataPoinViewModel.Date,
             };
         }

@@ -23,7 +23,7 @@ namespace Plapp.Relational
         public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagId = null)
         {
             var result = _dbContext.DataSeries.Where(
-                d => (tagId == null || d.Tag.Id == tagId)
+                d => (tagId == null || d.TagId == tagId)
                   && (topicId == null || d.TopicId == topicId));
 
              return await result.ToListAsync();
@@ -34,6 +34,11 @@ namespace Plapp.Relational
             var result = _dbContext.Notes.Where(n => topicId == null || n.TopicId == topicId);
 
             return await result.ToListAsync();
+        }
+
+        public async Task<Tag> FetchTagAsync(string tagId)
+        {
+            return await _dbContext.Tags.FindAsync(tagId);
         }
 
         public async Task<IEnumerable<Tag>> FetchTagsAsync()

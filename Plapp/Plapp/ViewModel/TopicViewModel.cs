@@ -46,6 +46,7 @@ namespace Plapp
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
             _dataEntries[newSeries.Tag.Id] = newSeries;
+            newSeries.LoadDataCommand.Execute(null);
         }
 
         public void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries)
@@ -98,7 +99,7 @@ namespace Plapp
 
         private async Task OpenTopic()
         {
-            await NavigationHelpers.NavigateTo<ITopicViewModel>();
+            await NavigationHelpers.NavigateTo(this);
         }
 
 

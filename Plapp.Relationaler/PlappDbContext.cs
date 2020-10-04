@@ -18,19 +18,23 @@ namespace Plapp.Relational
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Tag>().HasKey(d => d.Id);
+            modelBuilder.Entity<Tag>().Property(d => d.DataType).IsRequired();
+            modelBuilder.Entity<Tag>().Property(d => d.Unit).IsRequired();
+
+
             modelBuilder.Entity<DataPoint>().HasKey(d => d.Id);
+            modelBuilder.Entity<DataPoint>().Property(d => d.Date).IsRequired();
+            modelBuilder.Entity<DataPoint>().Property(d => d.Value).IsRequired();
             modelBuilder.Entity<DataPoint>().Property(d => d.DataSeriesId).IsRequired();
 
             modelBuilder.Entity<DataSeries>().HasKey(d => d.Id);
             modelBuilder.Entity<DataSeries>().Property(d => d.TopicId).IsRequired();
-            modelBuilder.Entity<DataSeries>().Property(d => d.Tag).IsRequired();
+            modelBuilder.Entity<DataSeries>().Property(d => d.TagId).IsRequired();
 
             modelBuilder.Entity<Note>().HasKey(d => d.Id);
             modelBuilder.Entity<Note>().Property(d => d.TopicId).IsRequired();
 
-            modelBuilder.Entity<Tag>().HasKey(d => d.Id);
-            modelBuilder.Entity<Tag>().Property(d => d.DataType).IsRequired();
-            modelBuilder.Entity<Tag>().Property(d => d.Unit).IsRequired();
 
             modelBuilder.Entity<Topic>().HasKey(d => d.Id);
         }
