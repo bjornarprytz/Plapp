@@ -8,16 +8,21 @@ namespace Plapp
     {
         public static ITopicViewModel ToViewModel(this Topic topic)
         {
-            return new TopicViewModel
+            var topicViewModel =  new TopicViewModel
             {
                 Id = topic.Id,
                 Title = topic.Title,
                 Description = topic.Description,
                 ImageUri = topic.ImageUri,
             };
+
+            topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel)));
+            topicViewModel.AddNotes(topic.Notes.Select(n => n.ToViewModel(topicViewModel)));
+
+            return topicViewModel;
         }
 
-        public static INoteViewModel ToViewModel(this Note note)
+        public static INoteViewModel ToViewModel(this Note note, ITopicViewModel topicViewModel)
         {
             return new NoteViewModel
             {
@@ -25,32 +30,33 @@ namespace Plapp
                 Header = note.Header,
                 Text = note.Text,
                 Date = note.Date,
-                ImageUri = note.ImageUri,               
+                ImageUri = note.ImageUri,
+                Topic = topicViewModel,
             };
         }
 
-        public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries)
+        public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries, ITopicViewModel topicViewModel)
         {
             var dataSeriesViewModel = new DataSeriesViewModel 
             { 
                 Id = dataSeries.Id,
                 Tag = dataSeries.Tag.ToViewModel(),
+                Topic = topicViewModel,
             };
 
-            dataSeriesViewModel.AddDataPoints(
-                dataSeries.DataPoints.Select(ToViewModel)
-                );
+            dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel)));
 
             return dataSeriesViewModel;
         }
 
-        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint)
+        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint, IDataSeriesViewModel dataSeriesViewModel)
         {
             return new DataPointViewModel
             {
                 Id = dataPoint.Id,
                 Data = dataPoint.Value,
                 Date = dataPoint.Date,
+                DataSeries = dataSeriesViewModel,
             };
         }
 
@@ -74,6 +80,8 @@ namespace Plapp
                 Title = topicViewModel.Title,
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
+                DataSeries = topicViewModel.DataEntries.Select(d => d.ToModel()).ToList(),
+                Notes = topicViewModel.DiaryEntries.Select(n => n.ToModel()).ToList()
             };
         }
 
@@ -82,6 +90,7 @@ namespace Plapp
             return new Note
             {
                 Id = noteViewModel.Id,
+                TopicId = noteViewModel.Topic.Id,
                 Header = noteViewModel.Header,
                 Text = noteViewModel.Text,
                 Date = noteViewModel.Date,
@@ -94,6 +103,7 @@ namespace Plapp
             var dataSeries = new DataSeries
             {
                 Id = dataSeriesViewModel.Id,
+                TopicId = dataSeriesViewModel.Topic.Id,
                 Tag = dataSeriesViewModel.Tag.ToModel(),
                 DataPoints = new List<DataPoint>(),
             };
@@ -111,6 +121,7 @@ namespace Plapp
             return new DataPoint
             {
                 Id = dataPoinViewModel.Id,
+                DataSeriesId = dataPoinViewModel.DataSeries.Id,
                 Value = dataPoinViewModel.Data,
                 Date = dataPoinViewModel.Date,
             };

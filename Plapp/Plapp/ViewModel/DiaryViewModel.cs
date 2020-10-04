@@ -1,5 +1,6 @@
 ﻿using Plapp.Core;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,7 +17,9 @@ namespace Plapp
                 new TopicViewModel { Title = "A title", Description = "some description" }
             };
 
-            AddTopicCommand = new CommandHandler(async () => await AddTopic());
+            AddTopicCommand = new CommandHandler(AddTopic);
+            SaveTopicsCommand = new CommandHandler(async () => await SaveTopics());
+            DeleteTopicCommand = new CommandHandler<ITopicViewModel>(async (topic) => await DeleteTopic(topic));
 
             _dataStore = IoC.Get<IPlappDataStore>();
         }
@@ -25,19 +28,37 @@ namespace Plapp
         public ObservableCollection<ITopicViewModel> Topics { get; private set; }
         public ICommand AddTopicCommand { get; private set; }
 
-        private async Task AddTopic()
-        {
-            var newTopic = await RunCommandAsync(
-                () => IsBusy,
-                _dataStore.CreateTopicAsync);
+        public ICommand SaveTopicsCommand { get; private set; }
 
-            if (newTopic == null) return;
+        public ICommand DeleteTopicCommand { get; private set; }
+
+        private void AddTopic()
+        {
+            var newTopic = new TopicViewModel();
 
             newTopic.Title = "New Title";
 
-            await _dataStore.SaveTopicAsync(newTopic);
-
             Topics.Add(newTopic);
+        }
+
+        private async Task SaveTopics()
+        {
+            await RunCommandAsync(
+                () => IsBusy,
+                async () =>
+                {
+                    await _dataStore.SaveTopicsAsync(Topics.Select(t => t.ToModel()));
+                });
+        }
+
+        private async Task DeleteTopic(ITopicViewModel topic)
+        {
+            await RunCommandAsync(
+                () => IsBusy,
+                async () =>
+                {
+                    await _dataStore.DeleteTopicAsync(topic.ToModel());
+                });
         }
     }
 }

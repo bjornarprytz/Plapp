@@ -7,5 +7,6 @@ namespace Plapp.Core
         int Id { get; }
         DateTime Date { get; }
         object Data { get; }
+        IDataSeriesViewModel DataSeries { get; }
     }
 }

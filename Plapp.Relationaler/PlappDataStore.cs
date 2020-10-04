@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using Plapp.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,49 +15,85 @@ namespace Plapp.Relational
             _dbContext = dbContext;
         }
 
-        public Task<ITagViewModel> CreateTagAsync(string tagId)
+        public async Task<bool> EnsureDbCreatedAsync()
         {
-            throw new System.NotImplementedException();
+            return await _dbContext.Database.EnsureCreatedAsync();
         }
 
-        public Task<ITopicViewModel> CreateTopicAsync()
+        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagId = null)
         {
-            throw new System.NotImplementedException();
+            var result = _dbContext.DataSeries.Where(
+                d => (tagId == null || d.Tag.Id == tagId)
+                  && (topicId == null || d.TopicId == topicId));
+
+             return await result.ToListAsync();
         }
 
-        public Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeriesAsync(int? topicId = null, int? tagId = null)
+        public async Task<IEnumerable<Note>> FetchNotesAsync(int? topicId = null)
         {
-            throw new System.NotImplementedException();
+            var result = _dbContext.Notes.Where(n => topicId == null || n.TopicId == topicId);
+
+            return await result.ToListAsync();
         }
 
-        public Task<IEnumerable<INoteViewModel>> FetchNotesAsync(int? topicId = null)
+        public async Task<IEnumerable<Tag>> FetchTagsAsync()
         {
-            throw new System.NotImplementedException();
+            return await _dbContext.Tags.ToListAsync();
         }
 
-        public Task<IEnumerable<ITagViewModel>> FetchTagsAsync()
+        public async Task<IEnumerable<Topic>> FetchTopicsAsync()
         {
-            throw new System.NotImplementedException();
+            return await _dbContext.Topics.ToListAsync();
         }
 
-        public Task<IEnumerable<ITopicViewModel>> FetchTopicsAsync()
+        public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries)
         {
-            throw new System.NotImplementedException();
+            await _dbContext.DataSeries.AddRangeAsync(dataSeries);
         }
 
-        public Task<int> SaveDataSeriesAsync(IEnumerable<IDataSeriesViewModel> dataSeriesViewModel)
+        public Task SaveTagAsync(Tag tag)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(_dbContext.Tags.Update(tag));
         }
 
-        public Task<bool> SaveTagAsync(ITagViewModel tagViewModel)
+        public Task SaveTopicAsync(Topic topic)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(_dbContext.Topics.Update(topic));
         }
 
-        public Task<int> SaveTopicAsync(ITopicViewModel topicViewModel)
+        public Task SaveTopicsAsync(IEnumerable<Topic> topics)
         {
-            throw new System.NotImplementedException();
+            _dbContext.Topics.UpdateRange(topics);
+
+            return Task.FromResult(0);
+        }
+
+        public Task DeleteDataPointAsync(DataPoint dataPoint)
+        {
+            _dbContext.DataPoints.Remove(dataPoint);
+
+            return Task.FromResult(0);
+        }
+
+        public Task DeleteDataSeriesAsync(DataSeries dataSeries)
+        {
+            _dbContext.DataSeries.Remove(dataSeries);
+
+            return Task.FromResult(0);
+        }
+
+        public Task DeleteTagAsync(Tag tag)
+        {
+            _dbContext.Tags.Remove(tag);
+
+            return Task.FromResult(0);
+        }
+
+        public Task DeleteTopicAsync(Topic topic)
+        {
+            _dbContext.Topics.Remove(topic);
+
+            return Task.FromResult(0);
         }
     }
 }

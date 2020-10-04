@@ -15,5 +15,7 @@ namespace Plapp.Core
         IEnumerable<IDataPointViewModel> GetDataPoints();
         void AddDataPoint(IDataPointViewModel dataPoint);
         void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints);
+
+        ITopicViewModel Topic { get; }
     }
 }

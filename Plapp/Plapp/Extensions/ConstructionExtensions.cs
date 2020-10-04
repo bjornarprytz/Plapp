@@ -10,9 +10,6 @@ namespace Plapp
 
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
-            construction.Services.AddTransient<IDiaryViewModel, DiaryViewModel>();
-            construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();
-            construction.Services.AddTransient<IDataSeriesViewModel, DataSeriesViewModel>();
 
             return construction;
         }

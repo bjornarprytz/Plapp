@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -24,7 +25,9 @@ namespace Plapp.Core
         ICommand LoadNotesCommand { get; }
 
         void AddDataSeries(IDataSeriesViewModel newSeries);
+        void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);
         void AddNote(INoteViewModel newNote);
+        void AddNotes(IEnumerable<INoteViewModel> newNotes);
         void AddDataPoint(string tag, IDataPointViewModel newDataPoint);
         IDataSeriesViewModel GetDataSeries(string tag);
     }

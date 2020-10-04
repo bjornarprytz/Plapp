@@ -12,7 +12,9 @@ namespace Plapp
         public int Id { get; set; }
 
         public ITagViewModel Tag { get; set; }
+        public ITopicViewModel Topic { get; set; }
         public IDataPointViewModel Latest => _series.Values.OrderBy(d => d.Date).FirstOrDefault();
+
 
         public void AddDataPoint(IDataPointViewModel dataPoint)
         {

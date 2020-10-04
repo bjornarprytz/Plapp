@@ -8,5 +8,7 @@ namespace Plapp
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public object Data { get; set; }
+
+        public IDataSeriesViewModel DataSeries { get; set; }
     }
 }

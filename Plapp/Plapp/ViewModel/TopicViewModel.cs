@@ -48,6 +48,16 @@ namespace Plapp
             _dataEntries[newSeries.Tag.Id] = newSeries;
         }
 
+        public void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries)
+        {
+            foreach(var series in newSeries)
+            {
+                _dataEntries[series.Tag.Id] = series;
+            }
+
+            OnPropertyChanged(nameof(DataEntries));
+        }
+
         public void AddDataPoint(string tag, IDataPointViewModel newDataPoint)
         {
             if (!_dataEntries.ContainsKey(tag))
@@ -65,6 +75,18 @@ namespace Plapp
             _diaryEntries[newNote.Date] = newNote;
 
             OnPropertyChanged(nameof(DiaryEntries));
+            OnPropertyChanged(nameof(LastEntryDate));
+        }
+
+        public void AddNotes(IEnumerable<INoteViewModel> newNotes)
+        {
+            foreach(var note in newNotes)
+            {
+                _diaryEntries[note.Date] = note;
+            }
+
+            OnPropertyChanged(nameof(DiaryEntries));
+            OnPropertyChanged(nameof(LastEntryDate));
         }
 
         public IDataSeriesViewModel GetDataSeries(string tag)
@@ -90,7 +112,7 @@ namespace Plapp
 
                     foreach(var series in dataSeries)
                     {
-                        AddDataSeries(series);
+                        AddDataSeries(series.ToViewModel(this));
                     }
                 });
         }
@@ -105,7 +127,7 @@ namespace Plapp
 
                     foreach (var note in notes)
                     {
-                        AddNote(note);
+                        AddNote(note.ToViewModel(this));
                     }
                 });
         }
