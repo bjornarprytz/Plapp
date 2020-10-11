@@ -24,11 +24,9 @@ namespace Plapp
 
             MainPage = new NavigationPage(
                 IoC.Get<IViewFactory>()
-                 .CreateView<IDiaryViewModel>());
+                 .CreateView<IApplicationViewModel>());
 
-            var dataStore = IoC.Get<IPlappDataStore>();
-
-            await dataStore.EnsureStorageReadyAsync();
+            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
         }
 
         protected override void OnSleep()

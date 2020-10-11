@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface IDiaryViewModel : IViewModel
+    public interface IApplicationViewModel : IViewModel
     {
         bool IsBusy { get; }
         ObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }
-        ICommand SaveTopicsCommand { get; }
         ICommand DeleteTopicCommand { get; }
+        ICommand LoadTopicsCommand { get; }
     }
 }

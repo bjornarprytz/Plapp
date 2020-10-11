@@ -10,13 +10,13 @@ namespace Plapp
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
-        private readonly Dictionary<DateTime, INoteViewModel> _diaryEntries;
+        private readonly Dictionary<DateTime, INoteViewModel> _notes;
         private readonly Dictionary<string, IDataSeriesViewModel> _dataEntries;
         private readonly IPlappDataStore _dataStore;
 
         public TopicViewModel()
         {
-            _diaryEntries = new Dictionary<DateTime, INoteViewModel>();
+            _notes = new Dictionary<DateTime, INoteViewModel>();
             _dataEntries = new Dictionary<string, IDataSeriesViewModel>();
             _dataStore = IoC.Get<IPlappDataStore>();
 
@@ -27,7 +27,7 @@ namespace Plapp
 
         public int Id { get; set; }
 
-        public ObservableCollection<INoteViewModel> DiaryEntries => new ObservableCollection<INoteViewModel>(_diaryEntries.Values);
+        public ObservableCollection<INoteViewModel> DiaryEntries => new ObservableCollection<INoteViewModel>(_notes.Values);
         public ObservableCollection<IDataSeriesViewModel> DataEntries => new ObservableCollection<IDataSeriesViewModel>(_dataEntries.Values);
 
         public bool IsLoadingData { get; private set; }
@@ -35,13 +35,12 @@ namespace Plapp
         public string ImageUri { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime FirstEntryDate => _diaryEntries.Keys.OrderBy(d => d).FirstOrDefault();
-        public DateTime LastEntryDate => _diaryEntries.Keys.OrderByDescending(d => d).FirstOrDefault();
+        public DateTime FirstEntryDate => _notes.Keys.OrderBy(d => d).FirstOrDefault();
+        public DateTime LastEntryDate => _notes.Keys.OrderByDescending(d => d).FirstOrDefault();
 
         public ICommand OpenTopicCommand { get; private set; }
         public ICommand LoadDataSeriesCommand { get; private set; }
         public ICommand LoadNotesCommand { get; private set; }
-
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
@@ -73,7 +72,7 @@ namespace Plapp
 
         public void AddNote(INoteViewModel newNote)
         {
-            _diaryEntries[newNote.Date] = newNote;
+            _notes[newNote.Date] = newNote;
 
             OnPropertyChanged(nameof(DiaryEntries));
             OnPropertyChanged(nameof(LastEntryDate));
@@ -83,7 +82,7 @@ namespace Plapp
         {
             foreach(var note in newNotes)
             {
-                _diaryEntries[note.Date] = note;
+                _notes[note.Date] = note;
             }
 
             OnPropertyChanged(nameof(DiaryEntries));
@@ -99,7 +98,7 @@ namespace Plapp
 
         private async Task OpenTopic()
         {
-            await NavigationHelpers.NavigateTo(this);
+            await NavigationHelpers.NavigateTo<ITopicViewModel>(this);
         }
 
 

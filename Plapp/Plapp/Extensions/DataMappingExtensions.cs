@@ -15,9 +15,11 @@ namespace Plapp
                 Description = topic.Description,
                 ImageUri = topic.ImageUri,
             };
+            if (topic.DataSeries != null && topic.DataSeries.Any())
+                topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel)));
 
-            topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel)));
-            topicViewModel.AddNotes(topic.Notes.Select(n => n.ToViewModel(topicViewModel)));
+            if (topic.Notes != null && topic.Notes.Any())
+                topicViewModel.AddNotes(topic.Notes.Select(n => n.ToViewModel(topicViewModel)));
 
             return topicViewModel;
         }
@@ -44,7 +46,8 @@ namespace Plapp
                 Topic = topicViewModel,
             };
 
-            dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel)));
+            if (dataSeries.DataPoints != null && dataSeries.DataPoints.Any())
+                dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel)));
 
             return dataSeriesViewModel;
         }
@@ -80,8 +83,8 @@ namespace Plapp
                 Title = topicViewModel.Title,
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
-                DataSeries = topicViewModel.DataEntries.Select(d => d.ToModel()).ToList(),
-                Notes = topicViewModel.DiaryEntries.Select(n => n.ToModel()).ToList()
+                DataSeries = topicViewModel.DataEntries?.Select(d => d.ToModel()).ToList(),
+                Notes = topicViewModel.DiaryEntries?.Select(n => n.ToModel()).ToList()
             };
         }
 

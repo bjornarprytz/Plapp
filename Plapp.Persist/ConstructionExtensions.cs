@@ -11,7 +11,7 @@ namespace Plapp.Persist
     {
         public static FrameworkConstruction LoadConfiguration(this FrameworkConstruction construction)
         {
-
+            construction.Configuration["ConnectionString"] = $"Data Source={FileSystem.Current.LocalStorage.Path}/Plapp.db";
             return construction;
         }
 
@@ -24,7 +24,7 @@ namespace Plapp.Persist
 
             construction.Services.AddDbContext<PlappDbContext>(options =>
             {
-                options.UseSqlite($"Data Source={FileSystem.Current.LocalStorage.Path}/Plapp.db");
+                options.UseSqlite(construction.Configuration["ConnectionString"]);
             }, contextLifetime: ServiceLifetime.Transient);
 
             construction.Services.AddScoped<IPlappDataStore>(

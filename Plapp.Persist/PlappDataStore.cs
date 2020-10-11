@@ -29,20 +29,6 @@ namespace Plapp.Persist
             return true;
         }
 
-        private async Task<bool> EnsureFileSystemCreatedAsync()
-        {
-            switch (await _fileSystem.LocalStorage.CheckExistsAsync("Plapp.db"))
-            {
-                case ExistenceCheckResult.NotFound:
-                    await _fileSystem.LocalStorage.CreateFileAsync("Plapp.db", CreationCollisionOption.FailIfExists);
-                    break;
-                default:
-                    break;
-            }
-
-            return true;
-        }
-
         public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagId = null)
         {
             var result = _dbContext.DataSeries.Where(
@@ -77,51 +63,71 @@ namespace Plapp.Persist
         public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries)
         {
             await _dbContext.DataSeries.AddRangeAsync(dataSeries);
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task SaveTagAsync(Tag tag)
+        public async Task SaveTagAsync(Tag tag)
         {
-            return Task.FromResult(_dbContext.Tags.Update(tag));
+            _dbContext.Tags.Update(tag);
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task SaveTopicAsync(Topic topic)
+        public async Task SaveTopicAsync(Topic topic)
         {
-            return Task.FromResult(_dbContext.Topics.Update(topic));
+            _dbContext.Topics.Update(topic);
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task SaveTopicsAsync(IEnumerable<Topic> topics)
+        public async Task SaveTopicsAsync(IEnumerable<Topic> topics)
         {
             _dbContext.Topics.UpdateRange(topics);
 
-            return Task.FromResult(0);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteDataPointAsync(DataPoint dataPoint)
+        public async Task DeleteDataPointAsync(DataPoint dataPoint)
         {
             _dbContext.DataPoints.Remove(dataPoint);
 
-            return Task.FromResult(0);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteDataSeriesAsync(DataSeries dataSeries)
+        public async Task DeleteDataSeriesAsync(DataSeries dataSeries)
         {
             _dbContext.DataSeries.Remove(dataSeries);
 
-            return Task.FromResult(0);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteTagAsync(Tag tag)
+        public async Task DeleteTagAsync(Tag tag)
         {
             _dbContext.Tags.Remove(tag);
 
-            return Task.FromResult(0);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteTopicAsync(Topic topic)
+        public async Task DeleteTopicAsync(Topic topic)
         {
             _dbContext.Topics.Remove(topic);
 
-            return Task.FromResult(0);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task<bool> EnsureFileSystemCreatedAsync()
+        {
+            switch (await _fileSystem.LocalStorage.CheckExistsAsync("Plapp.db"))
+            {
+                case ExistenceCheckResult.NotFound:
+                    await _fileSystem.LocalStorage.CreateFileAsync("Plapp.db", CreationCollisionOption.FailIfExists);
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
         }
     }
 }

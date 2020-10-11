@@ -9,7 +9,9 @@ namespace Plapp
     {
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton<IDiaryViewModel, DiaryViewModel>();
+            construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
+            
+            construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();
 
             return construction;
         }
@@ -21,7 +23,7 @@ namespace Plapp
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
-                    .ChainBind<IDiaryViewModel, MainPage>()
+                    .ChainBind<IApplicationViewModel, MainPage>()
                     .ChainBind<ITopicViewModel, TopicPage>()
             );
 

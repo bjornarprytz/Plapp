@@ -5,27 +5,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Plapp.DiaryEntryCell">
     <ViewCell.View>
-        <Expander>
-            <Expander.Header>
-                <StackLayout 
+        <StackLayout 
                     Orientation="Horizontal"
                     VerticalOptions="StartAndExpand">
-                    <Label
+            <Entry
                         HorizontalOptions="StartAndExpand"
-                        Text="{Binding Header}"
+                        Text="{Binding Title}"
                         FontSize="Large"/>
-                    <Label 
+            <Label 
                         HorizontalOptions="End"
                         Text="{Binding Date, Converter={local:DateTimeToDateStringConverter}}" />
-                </StackLayout>
-            </Expander.Header>
-            <StackLayout
-              BackgroundColor="Beige"
-              Margin="2">
-                <Label
+        
+            <Entry
                   Margin="0, 0, 0, 10"
                   Text="{Binding Notes}"/>
-            </StackLayout>
-        </Expander>
-  </ViewCell.View>
+        </StackLayout>
+    </ViewCell.View>
 </ViewCell>
