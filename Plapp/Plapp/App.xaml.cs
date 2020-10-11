@@ -16,6 +16,7 @@ namespace Plapp
         protected override async void OnStart()
         {
             Framework.Construct<DefaultFrameworkConstruction>()
+                .LoadConfiguration()
                 .UsePlappDataStore()
                 .AddViewModels()
                 .AddNavigation()
@@ -27,7 +28,7 @@ namespace Plapp
 
             var dataStore = IoC.Get<IPlappDataStore>();
 
-            await dataStore.EnsureDbCreatedAsync();
+            await dataStore.EnsureStorageReadyAsync();
         }
 
         protected override void OnSleep()

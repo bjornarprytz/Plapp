@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PCLStorage;
 using Plapp.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,37 @@ namespace Plapp.Persist
     public class PlappDataStore : IPlappDataStore
     {
         private readonly PlappDbContext _dbContext;
+        private readonly IFileSystem _fileSystem;
 
-        public PlappDataStore(PlappDbContext dbContext)
+        public PlappDataStore(PlappDbContext dbContext, IFileSystem fileSystem)
         {
+            _fileSystem = fileSystem;
             _dbContext = dbContext;
         }
 
-        public async Task<bool> EnsureDbCreatedAsync()
+        public async Task<bool> EnsureStorageReadyAsync()
         {
-            return await _dbContext.Database.EnsureCreatedAsync();
+            if (!(await EnsureFileSystemCreatedAsync()))
+                return false;
+
+            if (!(await _dbContext.Database.EnsureCreatedAsync()))
+                return false;
+
+            return true;
+        }
+
+        private async Task<bool> EnsureFileSystemCreatedAsync()
+        {
+            switch (await _fileSystem.LocalStorage.CheckExistsAsync("Plapp.db"))
+            {
+                case ExistenceCheckResult.NotFound:
+                    await _fileSystem.LocalStorage.CreateFileAsync("Plapp.db", CreationCollisionOption.FailIfExists);
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
         }
 
         public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagId = null)

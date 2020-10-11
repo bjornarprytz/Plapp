@@ -7,7 +7,6 @@ namespace Plapp
 {
     public static class ConstructionExtensions
     {
-
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<IDiaryViewModel, DiaryViewModel>();

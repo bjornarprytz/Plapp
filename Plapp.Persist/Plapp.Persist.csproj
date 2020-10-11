@@ -8,6 +8,7 @@
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+    <PackageReference Include="PCLStorage" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

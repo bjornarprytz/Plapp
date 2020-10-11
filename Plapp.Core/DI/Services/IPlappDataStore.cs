@@ -5,7 +5,7 @@ namespace Plapp.Core
 {
     public interface IPlappDataStore
     {
-        Task<bool> EnsureDbCreatedAsync();
+        Task<bool> EnsureStorageReadyAsync();
 
         Task<IEnumerable<Topic>> FetchTopicsAsync();
         Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagId=null);
