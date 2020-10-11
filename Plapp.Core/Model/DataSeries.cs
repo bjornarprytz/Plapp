@@ -6,7 +6,9 @@ namespace Plapp.Core
     public class DataSeries
     {
         public int Id { get; set; }
-        public Tag Tag { get; set; }
-        public List<DataPoint> DataPoints { get; set; }
+        public string TagId { get; set; }
+        public int TopicId { get; set; }
+
+        public ICollection<DataPoint> DataPoints { get; set; }
     }
 }

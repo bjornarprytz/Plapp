@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 
 namespace Plapp.Core
 {
@@ -10,6 +9,7 @@ namespace Plapp.Core
         string ImageUri { get; set; }
         string Header { get; set; }
         string Text { get; set; }
-        ObservableCollection<IDataPointViewModel> DataPoints { get; set; }
+
+        ITopicViewModel Topic { get; }
     }
 }

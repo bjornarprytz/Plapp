@@ -8,5 +8,7 @@ namespace Plapp.Core
         bool IsBusy { get; }
         ObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }
+        ICommand SaveTopicsCommand { get; }
+        ICommand DeleteTopicCommand { get; }
     }
 }

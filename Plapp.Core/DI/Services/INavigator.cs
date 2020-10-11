@@ -13,8 +13,14 @@ namespace Plapp.Core
 
         Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel;
+        
+        Task PushAsync<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel;
 
         Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+            where TViewModel : class, IViewModel;
+
+        Task PushModalAsync<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
             where TViewModel : class, IViewModel;
     }
 }

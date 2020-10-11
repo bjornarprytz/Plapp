@@ -1,5 +1,4 @@
-﻿
-namespace Plapp.Core
+﻿namespace Plapp.Core
 {
     public class Tag
     {

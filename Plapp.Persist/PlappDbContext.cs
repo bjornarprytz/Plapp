@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
 
-namespace Plapp.Relational
+namespace Plapp.Persist
 {
     public class PlappDbContext : DbContext
     {

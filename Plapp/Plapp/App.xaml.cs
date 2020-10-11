@@ -1,9 +1,6 @@
 ﻿using Dna;
-using Microsoft.Extensions.Configuration;
 using Plapp.Core;
-using Plapp.Relational;
-using System;
-using System.IO;
+using Plapp.Persist;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -19,7 +16,7 @@ namespace Plapp
         protected override async void OnStart()
         {
             Framework.Construct<DefaultFrameworkConstruction>()
-                .UsePlappDatabase()
+                .UsePlappDataStore()
                 .AddViewModels()
                 .AddNavigation()
                 .Build();

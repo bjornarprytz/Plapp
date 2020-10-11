@@ -5,16 +5,22 @@ namespace Plapp.Core
 {
     public interface IPlappDataStore
     {
-        Task<ITopicViewModel> CreateTopicAsync();
-        Task<ITagViewModel> CreateTagAsync(string tagId);
+        Task<bool> EnsureDbCreatedAsync();
 
-        Task<IEnumerable<ITopicViewModel>> FetchTopicsAsync();
-        Task<IEnumerable<IDataSeriesViewModel>> FetchDataSeriesAsync(int? topicId=null, int? tagId=null);
-        Task<IEnumerable<INoteViewModel>> FetchNotesAsync(int? topicId=null);
-        Task<IEnumerable<ITagViewModel>> FetchTagsAsync();
+        Task<IEnumerable<Topic>> FetchTopicsAsync();
+        Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagId=null);
+        Task<IEnumerable<Note>> FetchNotesAsync(int? topicId=null);
+        Task<Tag> FetchTagAsync(string tagId);
+        Task<IEnumerable<Tag>> FetchTagsAsync();
         
-        Task<int> SaveTopicAsync(ITopicViewModel topicViewModel);
-        Task<int> SaveDataSeriesAsync(IEnumerable<IDataSeriesViewModel> dataSeriesViewModel);
-        Task<bool> SaveTagAsync(ITagViewModel tagViewModel);
+        Task SaveTopicAsync(Topic topic);
+        Task SaveTopicsAsync(IEnumerable<Topic> topics);
+        Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries);
+        Task SaveTagAsync(Tag tag);
+
+        Task DeleteTopicAsync(Topic topic);
+        Task DeleteDataSeriesAsync(DataSeries dataSeries);
+        Task DeleteDataPointAsync(DataPoint dataPoint);
+        Task DeleteTagAsync(Tag tag);
     }
 }
