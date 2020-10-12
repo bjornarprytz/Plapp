@@ -22,5 +22,6 @@ namespace Plapp.Core
         Task DeleteDataSeriesAsync(DataSeries dataSeries);
         Task DeleteDataPointAsync(DataPoint dataPoint);
         Task DeleteTagAsync(Tag tag);
+
     }
 }

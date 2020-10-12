@@ -13,14 +13,14 @@
             Orientation="Vertical">
             <StackLayout 
                 Orientation="Vertical">
+                <Button Text="+" Command="{Binding AddImageCommand}"/>
                 <Image Source="{Binding ImageUri}"/>
                 <Editor Text="{Binding Description}"
                         AutoSize="TextChanges">
                     <Editor.Behaviors>
                         <local:EventToCommandBehavior
                             EventName="Completed"
-                            Command="{Binding SaveTopicCommand}"
-                            />
+                            Command="{Binding SaveTopicCommand}"/>
                     </Editor.Behaviors>
                 </Editor>
 

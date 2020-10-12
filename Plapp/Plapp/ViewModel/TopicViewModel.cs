@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -23,6 +24,7 @@ namespace Plapp
             LoadDataSeriesCommand = new CommandHandler(async () => await LoadDataSeries());
             LoadNotesCommand = new CommandHandler(async () => await LoadNotes());
             SaveTopicCommand = new CommandHandler(async () => await SaveTopic());
+            AddImageCommand = new CommandHandler(async () => await AddImage());
         }
 
         public int Id { get; set; }
@@ -43,6 +45,7 @@ namespace Plapp
         public ICommand LoadDataSeriesCommand { get; private set; }
         public ICommand LoadNotesCommand { get; private set; }
         public ICommand SaveTopicCommand { get; private set; }
+        public ICommand AddImageCommand { get; private set; }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
@@ -142,6 +145,14 @@ namespace Plapp
                 {
                     await _dataStore.SaveTopicAsync(this.ToModel());
                 });
+        }
+        
+        private async Task AddImage()
+        {
+            // TODO: Figure our navigation / popup logic
+
+            ImageUri = "plant.png";
+
         }
     }
 }
