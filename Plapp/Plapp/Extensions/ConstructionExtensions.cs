@@ -10,8 +10,6 @@ namespace Plapp
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
-            
-            construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();
 
             return construction;
         }

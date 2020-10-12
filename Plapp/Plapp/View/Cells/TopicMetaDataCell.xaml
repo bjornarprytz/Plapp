@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Image Grid.Column="0" Aspect="AspectFit" HeightRequest="80">
             <Image.Source>
-                <FileImageSource File="{Binding ImagePath}" />
+                <FileImageSource File="{Binding ImageUri}" />
             </Image.Source>
         </Image>
 

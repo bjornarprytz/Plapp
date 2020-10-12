@@ -9,6 +9,7 @@ namespace Plapp.Core
     {
         bool IsLoadingData { get; }
         bool IsLoadingNotes { get; }
+        bool IsSavingTopic { get; }
 
         int Id { get; }
         string ImageUri { get; set; }
@@ -23,6 +24,7 @@ namespace Plapp.Core
         ICommand OpenTopicCommand { get; }
         ICommand LoadDataSeriesCommand { get; }
         ICommand LoadNotesCommand { get; }
+        ICommand SaveTopicCommand { get; }
 
         void AddDataSeries(IDataSeriesViewModel newSeries);
         void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);

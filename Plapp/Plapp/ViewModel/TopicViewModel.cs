@@ -12,17 +12,17 @@ namespace Plapp
     {
         private readonly Dictionary<DateTime, INoteViewModel> _notes;
         private readonly Dictionary<string, IDataSeriesViewModel> _dataEntries;
-        private readonly IPlappDataStore _dataStore;
+        private IPlappDataStore _dataStore => IoC.Get<IPlappDataStore>();
 
         public TopicViewModel()
         {
             _notes = new Dictionary<DateTime, INoteViewModel>();
             _dataEntries = new Dictionary<string, IDataSeriesViewModel>();
-            _dataStore = IoC.Get<IPlappDataStore>();
 
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             LoadDataSeriesCommand = new CommandHandler(async () => await LoadDataSeries());
             LoadNotesCommand = new CommandHandler(async () => await LoadNotes());
+            SaveTopicCommand = new CommandHandler(async () => await SaveTopic());
         }
 
         public int Id { get; set; }
@@ -32,6 +32,7 @@ namespace Plapp
 
         public bool IsLoadingData { get; private set; }
         public bool IsLoadingNotes { get; private set; }
+        public bool IsSavingTopic { get; private set; }
         public string ImageUri { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -41,6 +42,7 @@ namespace Plapp
         public ICommand OpenTopicCommand { get; private set; }
         public ICommand LoadDataSeriesCommand { get; private set; }
         public ICommand LoadNotesCommand { get; private set; }
+        public ICommand SaveTopicCommand { get; private set; }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
@@ -132,5 +134,14 @@ namespace Plapp
                 });
         }
 
+        private async Task SaveTopic()
+        {
+            await RunCommandAsync(
+                () => IsSavingTopic,
+                async () =>
+                {
+                    await _dataStore.SaveTopicAsync(this.ToModel());
+                });
+        }
     }
 }

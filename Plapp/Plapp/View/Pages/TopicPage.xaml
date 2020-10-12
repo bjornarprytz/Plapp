@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Plapp.TopicPage"
-    Title="{Binding MetaData.Title}"
+    Title="{Binding Title}"
     BackgroundColor="Teal">
     
     <ScrollView>
@@ -13,10 +13,16 @@
             Orientation="Vertical">
             <StackLayout 
                 Orientation="Vertical">
-                <Image Source="{Binding MetaData.ImagePath}"/>
-                <Editor Text="{Binding MetaData.Description}"
-                        AutoSize="TextChanges"/>
-                
+                <Image Source="{Binding ImageUri}"/>
+                <Editor Text="{Binding Description}"
+                        AutoSize="TextChanges">
+                    <Editor.Behaviors>
+                        <local:EditorCompletedBehaviour
+                            Command="{Binding SaveTopicCommand}"
+                            />
+                    </Editor.Behaviors>
+                </Editor>
+
             </StackLayout>
 
             <ListView

@@ -27,7 +27,7 @@ namespace Plapp.Persist
                 options.UseSqlite(construction.Configuration["ConnectionString"]);
             }, contextLifetime: ServiceLifetime.Transient);
 
-            construction.Services.AddScoped<IPlappDataStore>(
+            construction.Services.AddTransient<IPlappDataStore>(
                 provider => new PlappDataStore(
                     provider.GetService<PlappDbContext>(), 
                     provider.GetService<IFileSystem>()));
