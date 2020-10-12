@@ -17,7 +17,8 @@
                 <Editor Text="{Binding Description}"
                         AutoSize="TextChanges">
                     <Editor.Behaviors>
-                        <local:EditorCompletedBehaviour
+                        <local:EventToCommandBehavior
+                            EventName="Completed"
                             Command="{Binding SaveTopicCommand}"
                             />
                     </Editor.Behaviors>
