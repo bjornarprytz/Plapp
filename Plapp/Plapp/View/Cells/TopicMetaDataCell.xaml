@@ -22,7 +22,7 @@
         </Image>
 
         <StackLayout Grid.Column="1">
-            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Large" />
+            <Label Text="{Binding Title}"/>
             <Label Text="{Binding Description}" LineBreakMode="TailTruncation"/>
         </StackLayout>
         

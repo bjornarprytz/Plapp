@@ -5,7 +5,12 @@
              Title="Plapp"
                 x:Class="Plapp.MainPage">
 
+    
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Button 
+                Text="Add Topic" 
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding AddTopicCommand}"/>
         <ListView 
             VerticalOptions="Start"
             ItemsSource="{Binding Topics}"
@@ -16,18 +21,19 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button 
+                Text="Add Topic" 
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding AddTopicCommand}"/>
         <StackLayout 
             Orientation="Horizontal"
             Margin="20"
             HorizontalOptions="End" 
-            VerticalOptions="EndAndExpand"
-            BackgroundColor="Transparent">
+            VerticalOptions="EndAndExpand">
             <!-- bottom controls -->
             <Button 
                 Text="Add Topic" 
                 HorizontalOptions="CenterAndExpand"
-                BackgroundColor="CadetBlue"
-                TextColor="Wheat"
                 Command="{Binding AddTopicCommand}"/>
         </StackLayout>
     </StackLayout>

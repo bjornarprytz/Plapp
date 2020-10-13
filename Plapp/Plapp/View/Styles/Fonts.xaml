@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Font sizes: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/text/fonts#named-font-sizes -->
+    
+    <Style TargetType="Label" ApplyToDerivedTypes="True">
+        <Setter Property="FontFamily" Value="Regular" />
+        <Setter Property="FontSize" Value="Medium" />
+    </Style>
+
+    <Style TargetType="Editor" ApplyToDerivedTypes="True">
+        <Setter Property="FontFamily" Value="Light" />
+        <Setter Property="FontSize" Value="Body" />
+    </Style>
+
+
+</ResourceDictionary>
