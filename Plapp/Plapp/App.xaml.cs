@@ -1,5 +1,6 @@
 ﻿using Dna;
 using Plapp.Core;
+using Plapp.Peripherals;
 using Plapp.Persist;
 using Xamarin.Forms;
 
@@ -32,6 +33,7 @@ namespace Plapp
                 .LoadConfiguration()
                 .UsePlappDataStore()
                 .AddViewModels()
+                .AddCamera()
                 .AddNavigation()
                 .Build();
 

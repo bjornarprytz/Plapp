@@ -149,7 +149,7 @@ namespace Plapp
         
         private async Task AddImage()
         {
-            await NavigationHelpers.DoPopup<IPopupViewModel>();
+            await NavigationHelpers.NavigateTo<ICameraViewModel>();
 
             ImageUri = "plant.png";
 

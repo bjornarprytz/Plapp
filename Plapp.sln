@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.iOS", "Plapp\Plapp.iO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp", "Plapp\Plapp\Plapp.csproj", "{981FDAF4-77E9-49E4-B8A6-DA129F0E4633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Persist", "Plapp.Persist\Plapp.Persist.csproj", "{C777D872-84F3-4B1E-B468-51262F96463C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Persist", "Plapp.Persist\Plapp.Persist.csproj", "{C777D872-84F3-4B1E-B468-51262F96463C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Core", "Plapp.Core\Plapp.Core.csproj", "{E8D3D471-7418-41CF-89B4-5033EED2FF4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Core", "Plapp.Core\Plapp.Core.csproj", "{E8D3D471-7418-41CF-89B4-5033EED2FF4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Peripherals", "Plapp.Peripherals\Plapp.Peripherals.csproj", "{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,18 @@ Global
 		{E8D3D471-7418-41CF-89B4-5033EED2FF4D}.Release|iPhone.Build.0 = Release|Any CPU
 		{E8D3D471-7418-41CF-89B4-5033EED2FF4D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{E8D3D471-7418-41CF-89B4-5033EED2FF4D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|iPhone.Build.0 = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Plapp.Core\Plapp.Core.csproj" />
+    <ProjectReference Include="..\..\Plapp.Peripherals\Plapp.Peripherals.csproj" />
     <ProjectReference Include="..\..\Plapp.Persist\Plapp.Persist.csproj" />
   </ItemGroup>
 
@@ -74,6 +75,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Cells\TopicMetaDataCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Pages\CameraView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\MainPage.xaml">

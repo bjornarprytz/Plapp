@@ -11,6 +11,7 @@ namespace Plapp
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
             construction.Services.AddSingleton<IPopupViewModel, PopupViewModel>();
+            construction.Services.AddSingleton<ICameraViewModel, CameraViewModel>();
 
             return construction;
         }
@@ -19,12 +20,14 @@ namespace Plapp
         {
             construction.Services.AddSingleton(new MainPage());
             construction.Services.AddSingleton(new TopicPage());
+            construction.Services.AddTransient<CameraView>();
             construction.Services.AddTransient<PopupPage>();
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
                     .ChainBind<IApplicationViewModel, MainPage>()
                     .ChainBind<ITopicViewModel, TopicPage>()
+                    .ChainBind<ICameraViewModel, CameraView>()
                     .ChainBind<IPopupViewModel, PopupPage>()
             );
 
