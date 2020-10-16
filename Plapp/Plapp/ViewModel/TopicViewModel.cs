@@ -149,9 +149,10 @@ namespace Plapp
         
         private async Task AddImage()
         {
-            // TODO: Figure our navigation / popup logic
+            await NavigationHelpers.DoPopup<IPopupViewModel>();
 
             ImageUri = "plant.png";
+
 
         }
     }

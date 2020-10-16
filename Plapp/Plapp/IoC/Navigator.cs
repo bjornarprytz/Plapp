@@ -12,11 +12,15 @@ namespace Plapp
 
         public async Task<IViewModel> PopAsync()
         {
-            Page view = await Navigation.PopAsync();
+            var view = await Navigation.PopAsync();
             return view.BindingContext as IViewModel;
         }
 
-        public async Task<IViewModel> PopModalAsync() => await PopAsync();
+        public async Task<IViewModel> PopModalAsync()
+        {
+            var view = await Navigation.PopModalAsync();
+            return view.BindingContext as IViewModel;
+        }
 
         public async Task PopToRootAsync()
         {

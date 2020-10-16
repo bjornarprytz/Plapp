@@ -18,21 +18,15 @@ namespace Plapp
             await IoC.Get<INavigator>().PushAsync(viewModel, setStateAction);
         }
 
-        public static async Task PushPopup<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : class, IViewModel
+        public static async Task DoPopup<TPopup>(Action<TPopup> setStateAction = null)
+            where TPopup : class, IPopupViewModel
         {
             await IoC.Get<INavigator>().PushModalAsync(setStateAction);
-        }
 
-        public static async Task PushPopup<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
-            where TViewModel : class, IViewModel
-        {
-            await IoC.Get<INavigator>().PushModalAsync(viewModel, setStateAction);
-        }
+            // Todo: await result();
 
-        public static async Task<IViewModel> PopPopup()
-        {
-            return await IoC.Get<INavigator>().PopModalAsync();
+            await IoC.Get<INavigator>().PopModalAsync();
+
         }
     }
 }
