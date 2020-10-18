@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Plugin.Iconize;
 
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
@@ -22,6 +23,8 @@ namespace Plapp.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

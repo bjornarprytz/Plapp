@@ -16,40 +16,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\materialdesignicons-webfont.ttf" />
     <None Remove="Resources\Fonts\SourceSansPro-Black.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-BlackIt.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-Bold.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-BoldIt.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-ExtraLight.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-ExtraLightIt.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-It.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-Light.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-LightIt.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-Regular.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-Semibold.otf" />
-    <None Remove="Resources\Fonts\SourceSansPro-SemiboldIt.otf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\materialdesignicons-webfont.ttf" />
     <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Black.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-BlackIt.otf" />
     <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Bold.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-BoldIt.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-ExtraLight.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-ExtraLightIt.otf" />
     <EmbeddedResource Include="Resources\Fonts\SourceSansPro-It.otf" />
     <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Light.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-LightIt.otf" />
     <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Regular.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Semibold.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-SemiboldIt.otf" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.9" />
+    <PackageReference Include="Xam.Plugin.Iconize.MaterialDesignIcons" Version="3.5.0.129" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>

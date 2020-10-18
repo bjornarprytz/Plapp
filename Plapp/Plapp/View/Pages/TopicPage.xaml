@@ -3,6 +3,7 @@
     xmlns:local="clr-namespace:Plapp"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
     x:Class="Plapp.TopicPage">
     
     <ScrollView>
@@ -18,7 +19,7 @@
                             Command="{Binding SaveTopicCommand}"/>
                     </Entry.Behaviors>
                 </Entry>
-                <Button Text="\\F0EDB" FontFamily="MDIcons" Command="{Binding AddImageCommand}"/>
+                <iconize:IconButton Text="mdi-camera" FontFamily="Material-Design-Icons" FontSize="Large" Command="{Binding AddImageCommand}"/>
                 <Image Source="{Binding ImageUri}"/>
                 <Editor Text="{Binding Description}"
                         AutoSize="TextChanges">
