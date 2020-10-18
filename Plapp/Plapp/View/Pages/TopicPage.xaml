@@ -11,8 +11,14 @@
             Orientation="Vertical">
             <StackLayout 
                 Orientation="Vertical">
-                <Entry Text="{Binding Title}" />
-                <Button Text="+" Command="{Binding AddImageCommand}"/>
+                <Entry Text="{Binding Title}">
+                    <Entry.Behaviors>
+                        <local:EventToCommandBehavior
+                            EventName="Completed"
+                            Command="{Binding SaveTopicCommand}"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Button Text="\\F0EDB" FontFamily="MDIcons" Command="{Binding AddImageCommand}"/>
                 <Image Source="{Binding ImageUri}"/>
                 <Editor Text="{Binding Description}"
                         AutoSize="TextChanges">

@@ -156,7 +156,6 @@ namespace Plapp
                 return;
             }    
 
-            // TODO: Maybe need some error handling.
             ImageUri = await _dataStore.SaveFileAsync($"{Title}.jpg", photo);
 
             await SaveTopic();

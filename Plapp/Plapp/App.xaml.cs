@@ -16,6 +16,7 @@ using Xamarin.Forms;
 [assembly: ExportFont("SourceSansPro-Regular.otf", Alias = "Regular")]
 [assembly: ExportFont("SourceSansPro-Semibold.otf", Alias = "Semibold")]
 [assembly: ExportFont("SourceSansPro-SemiboldIt.otf", Alias = "SemiboldIt")]
+[assembly: ExportFont("materialdesignicons-webfont.ttf", Alias = "MDIcons")]
 
 namespace Plapp
 {
