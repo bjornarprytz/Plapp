@@ -4,7 +4,9 @@
 
     <!-- Font sizes: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/text/fonts#named-font-sizes -->
     <!-- Icons: https://montemagno.com/using-font-icons-in-xamarin-forms-goodbye-images-hello-fonts/ -->
-    
-    
+
+
+    <x:String x:Key="MDCameraIcon">mdi-camera</x:String>
+
 
 </ResourceDictionary>

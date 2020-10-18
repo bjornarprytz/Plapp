@@ -10,6 +10,7 @@ namespace Plapp.Core
         bool IsLoadingData { get; }
         bool IsLoadingNotes { get; }
         bool IsSavingTopic { get; }
+        bool LacksImage { get; }
 
         int Id { get; }
         string ImageUri { get; set; }

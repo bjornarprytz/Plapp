@@ -19,8 +19,22 @@
                             Command="{Binding SaveTopicCommand}"/>
                     </Entry.Behaviors>
                 </Entry>
-                <iconize:IconButton Text="mdi-camera" FontFamily="Material-Design-Icons" FontSize="Large" Command="{Binding AddImageCommand}"/>
-                <Image Source="{Binding ImageUri}"/>
+                <ContentView 
+                    HeightRequest="300"
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="Fill"> 
+                    
+                    <Grid>
+                        <Image Source="{Binding ImageUri}"/>
+                        <iconize:IconButton
+                            
+                            Text="{StaticResource MDCameraIcon}" 
+                            Command="{Binding AddImageCommand}"
+                            IsVisible="{Binding LacksImage}"/>
+                        
+                    </Grid>
+                    
+                </ContentView>
                 <Editor Text="{Binding Description}"
                         AutoSize="TextChanges">
                     <Editor.Behaviors>

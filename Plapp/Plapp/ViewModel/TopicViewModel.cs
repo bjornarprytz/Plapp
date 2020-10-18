@@ -1,4 +1,6 @@
-﻿using Plapp.Core;
+﻿using Microsoft.Extensions.Options;
+using Plapp.Core;
+using PropertyChanged;
 using SQLitePCL;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,10 @@ namespace Plapp
         public bool IsLoadingData { get; private set; }
         public bool IsLoadingNotes { get; private set; }
         public bool IsSavingTopic { get; private set; }
+        
+        [AlsoNotifyFor(nameof(ImageUri))]
+        public bool LacksImage => string.IsNullOrEmpty(ImageUri);
+        
         public string ImageUri { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
