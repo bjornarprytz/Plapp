@@ -15,7 +15,7 @@ namespace Plapp.Peripherals
         {
             var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions() { });
             
-            return photo.GetStream();
+            return photo?.GetStream();
         }
     }
 }

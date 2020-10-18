@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Plapp.Core
@@ -23,5 +24,7 @@ namespace Plapp.Core
         Task DeleteDataPointAsync(DataPoint dataPoint);
         Task DeleteTagAsync(Tag tag);
 
+
+        Task<string> SaveFileAsync(string desiredName, Stream stream);
     }
 }

@@ -2,6 +2,7 @@
 using PCLStorage;
 using Plapp.Core;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -115,6 +116,21 @@ namespace Plapp.Persist
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<string> SaveFileAsync(string desiredName, Stream inputStream)
+        {
+            var file = await _fileSystem.LocalStorage.CreateFileAsync(
+                desiredName, 
+                CreationCollisionOption.GenerateUniqueName);
+
+            using (var stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite))
+            {
+                await inputStream.CopyToAsync(stream);
+            }
+
+            return file.Path;
+        }
+
 
         private async Task<bool> EnsureFileSystemCreatedAsync()
         {

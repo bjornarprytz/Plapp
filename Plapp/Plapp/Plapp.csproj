@@ -77,9 +77,6 @@
     <EmbeddedResource Update="View\Cells\TopicMetaDataCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Pages\CameraView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -3,8 +3,7 @@
     xmlns:local="clr-namespace:Plapp"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Plapp.TopicPage"
-    Title="{Binding Title}">
+    x:Class="Plapp.TopicPage">
     
     <ScrollView>
         <StackLayout 
@@ -12,6 +11,7 @@
             Orientation="Vertical">
             <StackLayout 
                 Orientation="Vertical">
+                <Entry Text="{Binding Title}" />
                 <Button Text="+" Command="{Binding AddImageCommand}"/>
                 <Image Source="{Binding ImageUri}"/>
                 <Editor Text="{Binding Description}"

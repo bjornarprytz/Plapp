@@ -1,11 +1,11 @@
 ﻿using Plapp.Core;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -149,11 +149,17 @@ namespace Plapp
         
         private async Task AddImage()
         {
-            await NavigationHelpers.NavigateTo<ICameraViewModel>();
+            var photo = await IoC.Get<ICamera>().TakePhotoAsync();
 
-            ImageUri = "plant.png";
+            if (photo == null)
+            {
+                return;
+            }    
 
+            // TODO: Maybe need some error handling.
+            ImageUri = await _dataStore.SaveFileAsync($"{Title}.jpg", photo);
 
+            await SaveTopic();
         }
     }
 }
