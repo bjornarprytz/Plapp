@@ -3,6 +3,7 @@
     xmlns:local="clr-namespace:Plapp"
     xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
              x:Class="Plapp.DataSeriesCell">
   <ViewCell.View>
       <StackLayout
@@ -11,6 +12,7 @@
             <Label Text="{Binding Latest.Date, Converter={local:DateTimeToDateStringConverter}}"/>
             <Label Text="{Binding Latest.Data}"/>
             <Label Text="{Binding Unit}"/>
+            <iconize:IconButton Text="{StaticResource PlusIcon}"/>
         </StackLayout>
   </ViewCell.View>
 </ViewCell>

@@ -26,12 +26,10 @@
                     
                     <Grid>
                         <Image Source="{Binding ImageUri}"/>
-                        <iconize:IconButton
-                            
-                            Text="{StaticResource MDCameraIcon}" 
+                        <iconize:IconButton 
+                            Text="{StaticResource CameraIcon}" 
                             Command="{Binding AddImageCommand}"
                             IsVisible="{Binding LacksImage}"/>
-                        
                     </Grid>
                     
                 </ContentView>

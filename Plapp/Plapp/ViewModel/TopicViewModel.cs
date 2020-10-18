@@ -22,6 +22,7 @@ namespace Plapp
             _notes = new Dictionary<DateTime, INoteViewModel>();
             _dataEntries = new Dictionary<string, IDataSeriesViewModel>();
 
+
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             LoadDataSeriesCommand = new CommandHandler(async () => await LoadDataSeries());
             LoadNotesCommand = new CommandHandler(async () => await LoadNotes());
@@ -37,6 +38,7 @@ namespace Plapp
         public bool IsLoadingData { get; private set; }
         public bool IsLoadingNotes { get; private set; }
         public bool IsSavingTopic { get; private set; }
+        public bool IsStartingCamera { get; private set; }
         
         [AlsoNotifyFor(nameof(ImageUri))]
         public bool LacksImage => string.IsNullOrEmpty(ImageUri);
@@ -155,7 +157,13 @@ namespace Plapp
         
         private async Task AddImage()
         {
-            var photo = await IoC.Get<ICamera>().TakePhotoAsync();
+            var photo = await RunCommandAsync(
+                () => IsStartingCamera,
+                async () =>
+                {
+                    return await IoC.Get<ICamera>().TakePhotoAsync();
+                });
+
 
             if (photo == null)
             {

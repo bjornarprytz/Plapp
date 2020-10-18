@@ -8,10 +8,12 @@ namespace Plapp.Core
     {
         int Id { get; }
 
+        ITopicViewModel Topic { get; }
         ITagViewModel Tag { get; set; }
         IDataPointViewModel Latest { get; }
 
         ICommand LoadDataCommand { get; }
+        ICommand AddDataPointCommand { get; }
 
         IDataPointViewModel GetDataPoint(DateTime date);
         IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end);
@@ -19,6 +21,5 @@ namespace Plapp.Core
         void AddDataPoint(IDataPointViewModel dataPoint);
         void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints);
 
-        ITopicViewModel Topic { get; }
     }
 }
