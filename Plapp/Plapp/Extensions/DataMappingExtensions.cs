@@ -1,4 +1,5 @@
 ﻿using Plapp.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,6 +27,9 @@ namespace Plapp
 
         public static INoteViewModel ToViewModel(this Note note, ITopicViewModel topicViewModel)
         {
+            if (note.TopicId != topicViewModel.Id)
+                throw new ArgumentException("Topic Id mismatch between new parent");
+
             return new NoteViewModel
             {
                 Id = note.Id,
@@ -39,6 +43,9 @@ namespace Plapp
 
         public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries, ITopicViewModel topicViewModel)
         {
+            if (dataSeries.TopicId != topicViewModel.Id)
+                throw new ArgumentException("Topic Id mismatch between new parent");
+
             var dataSeriesViewModel = new DataSeriesViewModel 
             { 
                 Id = dataSeries.Id,

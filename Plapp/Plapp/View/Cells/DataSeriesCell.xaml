@@ -6,13 +6,28 @@
              xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
              x:Class="Plapp.DataSeriesCell">
   <ViewCell.View>
-      <StackLayout
-          Orientation="Horizontal">
-            <Label Text="{Binding Tag}"/>
-            <Label Text="{Binding Latest.Date, Converter={local:DateTimeToDateStringConverter}}"/>
-            <Label Text="{Binding Latest.Data}"/>
-            <Label Text="{Binding Unit}"/>
-            <iconize:IconButton Text="{StaticResource PlusIcon}"/>
-        </StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="{Binding Tag.Id}"/>
+            <Label Text="{Binding Latest.Date, Converter={local:DateTimeToDateStringConverter}}" 
+                   Grid.Row="1"/>
+            <Label Text="{Binding Latest.Data}"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   />
+            <Label Text="{Binding Tag.Unit}" Grid.Column="1"/>
+            <iconize:IconButton 
+                Grid.Column="2"
+                FontSize="Large"
+                Text="{StaticResource PlusIcon}"/>
+        </Grid>
   </ViewCell.View>
 </ViewCell>

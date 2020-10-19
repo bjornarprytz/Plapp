@@ -26,6 +26,7 @@ namespace Plapp
             LoadNotesCommand = new CommandHandler(async () => await LoadNotes());
             SaveTopicCommand = new CommandHandler(async () => await SaveTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
+            AddTagCommand = new CommandHandler(async () => await AddTag());
         }
 
         public int Id { get; set; }
@@ -52,11 +53,13 @@ namespace Plapp
         public ICommand LoadNotesCommand { get; private set; }
         public ICommand SaveTopicCommand { get; private set; }
         public ICommand AddImageCommand { get; private set; }
+        public ICommand AddTagCommand { get; private set; }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
             _dataEntries[newSeries.Tag.Id] = newSeries;
-            newSeries.LoadDataCommand.Execute(null);
+
+            OnPropertyChanged(nameof(DataEntries));
         }
 
         public void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries)
@@ -171,6 +174,13 @@ namespace Plapp
             ImageUri = await DataStore.SaveFileAsync($"{Title}.jpg", photo);
 
             await SaveTopic();
+        }
+
+        private async Task AddTag()
+        {
+            var tag = new Tag { Id = "Vann", Unit = "L" }.ToViewModel();
+
+            AddDataSeries(new DataSeriesViewModel { Topic = this, Tag = tag });
         }
     }
 }

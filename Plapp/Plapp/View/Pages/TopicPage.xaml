@@ -44,6 +44,8 @@
 
             </StackLayout>
 
+            <iconize:IconButton Text="{StaticResource TagIcon}" Command="{Binding AddTagCommand}" />
+
             <ListView
                 VerticalOptions="Start"
                 ItemsSource="{Binding DataEntries}"
