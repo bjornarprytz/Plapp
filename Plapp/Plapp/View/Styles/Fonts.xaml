@@ -17,4 +17,5 @@
     <!-- Icons: https://cdn.materialdesignicons.com/5.4.55/ -->
     <x:String x:Key="CameraIcon">mdi-camera</x:String>
     <x:String x:Key="PlusIcon">mdi-plus</x:String>
+    <x:String x:Key="TagIcon">mdi-tag</x:String>
 </ResourceDictionary>

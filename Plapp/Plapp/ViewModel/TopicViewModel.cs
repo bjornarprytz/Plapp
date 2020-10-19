@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Plapp.Core;
+﻿using Plapp.Core;
 using PropertyChanged;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +13,7 @@ namespace Plapp
     {
         private readonly Dictionary<DateTime, INoteViewModel> _notes;
         private readonly Dictionary<string, IDataSeriesViewModel> _dataEntries;
-        private IPlappDataStore _dataStore => IoC.Get<IPlappDataStore>();
+        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
 
         public TopicViewModel()
         {
@@ -121,7 +119,7 @@ namespace Plapp
                 () => IsLoadingData,
                 async () =>
                 {
-                    var dataSeries = await _dataStore.FetchDataSeriesAsync(topicId: Id);
+                    var dataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
 
                     foreach(var series in dataSeries)
                     {
@@ -136,7 +134,7 @@ namespace Plapp
                 () => IsLoadingNotes,
                 async () =>
                 {
-                    var notes = await _dataStore.FetchNotesAsync(topicId: Id);
+                    var notes = await DataStore.FetchNotesAsync(topicId: Id);
 
                     foreach (var note in notes)
                     {
@@ -151,7 +149,7 @@ namespace Plapp
                 () => IsSavingTopic,
                 async () =>
                 {
-                    await _dataStore.SaveTopicAsync(this.ToModel());
+                    await DataStore.SaveTopicAsync(this.ToModel());
                 });
         }
         
@@ -170,7 +168,7 @@ namespace Plapp
                 return;
             }    
 
-            ImageUri = await _dataStore.SaveFileAsync($"{Title}.jpg", photo);
+            ImageUri = await DataStore.SaveFileAsync($"{Title}.jpg", photo);
 
             await SaveTopic();
         }

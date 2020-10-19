@@ -12,16 +12,13 @@ namespace Plapp
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
-            construction.Services.AddSingleton<IPopupViewModel, PopupViewModel>();
 
             return construction;
         }
         
         public static FrameworkConstruction AddIcons(this FrameworkConstruction construction)
         {
-
-            var s = new MaterialDesignIconsModule();
-            Iconize.With(s);
+            Iconize.With(new MaterialDesignIconsModule());
 
             return construction;
         }
@@ -30,13 +27,11 @@ namespace Plapp
         {
             construction.Services.AddSingleton(new MainPage());
             construction.Services.AddSingleton(new TopicPage());
-            construction.Services.AddTransient<PopupPage>();
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
                     .ChainBind<IApplicationViewModel, MainPage>()
                     .ChainBind<ITopicViewModel, TopicPage>()
-                    .ChainBind<IPopupViewModel, PopupPage>()
             );
 
             construction.Services.AddSingleton<INavigator>(new Navigator());

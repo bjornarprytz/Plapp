@@ -22,16 +22,5 @@ namespace Plapp
         {
             await IoC.Get<INavigator>().PopAsync();
         }
-
-        public static async Task DoPopup<TPopup>(Action<TPopup> setStateAction = null)
-            where TPopup : class, IPopupViewModel
-        {
-            await IoC.Get<INavigator>().PushModalAsync(setStateAction);
-
-            // Todo: await result();
-
-            await IoC.Get<INavigator>().PopModalAsync();
-
-        }
     }
 }

@@ -49,6 +49,9 @@
     <Compile Update="View\Cells\DataSeriesCell.xaml.cs">
       <DependentUpon>DataSeriesCell.xaml</DependentUpon>
     </Compile>
+    <Compile Update="View\Cells\NoteCell.xaml.cs">
+      <DependentUpon>NoteCell.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\Cells\TopicMetaDataCell.xaml.cs">
       <DependentUpon>TopicMetaDataCell.xaml</DependentUpon>
     </Compile>
@@ -58,7 +61,7 @@
     <EmbeddedResource Update="View\Cells\DataSeriesCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Cells\DiaryEntryCell.xaml">
+    <EmbeddedResource Update="View\Cells\NoteCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Cells\TopicMetaDataCell.xaml">
@@ -68,9 +71,6 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\TopicPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="View\Popups\PopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Styles\Colors.xaml">

@@ -9,8 +9,8 @@ namespace Plapp
 {
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
-        private readonly Dictionary<DateTime, IDataPointViewModel> _series = new Dictionary<DateTime, IDataPointViewModel>();
-        private IPlappDataStore _dataStore => IoC.Get<IPlappDataStore>();
+        private readonly Dictionary<DateTime, IDataPointViewModel> DataSeries = new Dictionary<DateTime, IDataPointViewModel>();
+        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
 
         public DataSeriesViewModel()
         {
@@ -25,14 +25,14 @@ namespace Plapp
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
-        public IDataPointViewModel Latest => _series.Values.OrderBy(d => d.Date).FirstOrDefault();
+        public IDataPointViewModel Latest => DataSeries.Values.OrderBy(d => d.Date).FirstOrDefault();
 
         public ICommand LoadDataCommand { get; private set; }
         public ICommand AddDataPointCommand { get; private set; }
 
         public void AddDataPoint(IDataPointViewModel dataPoint)
         {
-            _series[dataPoint.Date] = dataPoint;
+            DataSeries[dataPoint.Date] = dataPoint;
 
             OnPropertyChanged(nameof(Latest));
         }
@@ -41,7 +41,7 @@ namespace Plapp
         {
             foreach(var dataPoint in dataPoints)
             {
-               _series[dataPoint.Date] = dataPoint;
+               DataSeries[dataPoint.Date] = dataPoint;
             }
 
             OnPropertyChanged(nameof(Latest));
@@ -49,22 +49,22 @@ namespace Plapp
 
         public IDataPointViewModel GetDataPoint(DateTime date)
         {
-            if (!_series.ContainsKey(date))
+            if (!DataSeries.ContainsKey(date))
             {
                 return null;
             }
 
-            return _series[date];
+            return DataSeries[date];
         }
 
         public IEnumerable<IDataPointViewModel> GetDataPoints()
         {
-            return _series.Values;
+            return DataSeries.Values;
         }
 
         public IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end)
         {
-            return _series.Values.Where(d => d.Date > start && d.Date < end);
+            return DataSeries.Values.Where(d => d.Date > start && d.Date < end);
         }
 
         private async Task LoadData()
@@ -73,7 +73,7 @@ namespace Plapp
                 () => IsLoading,
                 async () =>
                 {
-                    var tag = await _dataStore.FetchTagAsync(TagId);
+                    var tag = await DataStore.FetchTagAsync(TagId);
                     Tag = tag.ToViewModel();
                 });
         }
