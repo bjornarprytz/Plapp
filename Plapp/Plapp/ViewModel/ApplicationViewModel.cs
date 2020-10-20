@@ -8,7 +8,7 @@ namespace Plapp
 {
     public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
     {
-        private readonly IPlappDataStore _dataStore;
+        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
 
         public ApplicationViewModel()
         {
@@ -17,8 +17,6 @@ namespace Plapp
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(async (topic) => await DeleteTopic(topic));
             LoadTopicsCommand = new CommandHandler(async () => await LoadTopics());
-
-            _dataStore = IoC.Get<IPlappDataStore>();
 
             LoadTopicsCommand.Execute(null);
         }
@@ -35,7 +33,7 @@ namespace Plapp
             await RunCommandAsync(
                 () => IsBusy,
                 async () => {
-                    var topics = await _dataStore.FetchTopicsAsync();
+                    var topics = await DataStore.FetchTopicsAsync();
                     Topics = new ObservableCollection<ITopicViewModel>(
                         topics.Select(t => t.ToViewModel()));
             });
@@ -49,7 +47,7 @@ namespace Plapp
                 () => IsBusy,
                 async () =>
                 {
-                    await _dataStore.SaveTopicAsync(newTopic.ToModel());
+                    await DataStore.SaveTopicAsync(newTopic.ToModel());
                 });
 
             Topics.Add(newTopic);
@@ -63,7 +61,7 @@ namespace Plapp
                 () => IsBusy,
                 async () =>
                 {
-                    await _dataStore.DeleteTopicAsync(topic.ToModel());
+                    await DataStore.DeleteTopicAsync(topic.ToModel());
                     Topics.Remove(topic);
                 });
         }
