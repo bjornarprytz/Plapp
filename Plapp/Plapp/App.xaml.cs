@@ -23,7 +23,6 @@ namespace Plapp
         protected override async void OnStart()
         {
             Framework.Construct<DefaultFrameworkConstruction>()
-                .LoadConfiguration()
                 .UsePlappDataStore()
                 .AddViewModels()
                 .AddIcons()
@@ -31,11 +30,11 @@ namespace Plapp
                 .AddNavigation()
                 .Build();
 
+            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
+
             MainPage = new NavigationPage(
                 IoC.Get<IViewFactory>()
                  .CreateView<IApplicationViewModel>());
-
-            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
         }
 
         protected override void OnSleep()
