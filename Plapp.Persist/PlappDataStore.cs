@@ -39,13 +39,6 @@ namespace Plapp.Persist
              return await result.ToListAsync();
         }
 
-        public async Task<IEnumerable<Note>> FetchNotesAsync(int? topicId = null)
-        {
-            var result = _dbContext.Notes.Where(n => topicId == null || n.TopicId == topicId);
-
-            return await result.ToListAsync();
-        }
-
         public async Task<Tag> FetchTagAsync(string tagId)
         {
             return await _dbContext.Tags.FindAsync(tagId);

@@ -19,26 +19,7 @@ namespace Plapp
             if (topic.DataSeries != null && topic.DataSeries.Any())
                 topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel)));
 
-            if (topic.Notes != null && topic.Notes.Any())
-                topicViewModel.AddNotes(topic.Notes.Select(n => n.ToViewModel(topicViewModel)));
-
             return topicViewModel;
-        }
-
-        public static INoteViewModel ToViewModel(this Note note, ITopicViewModel topicViewModel)
-        {
-            if (note.TopicId != topicViewModel.Id)
-                throw new ArgumentException("Topic Id mismatch between new parent");
-
-            return new NoteViewModel
-            {
-                Id = note.Id,
-                Header = note.Header,
-                Text = note.Text,
-                Date = note.Date,
-                ImageUri = note.ImageUri,
-                Topic = topicViewModel,
-            };
         }
 
         public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries, ITopicViewModel topicViewModel)
@@ -91,20 +72,6 @@ namespace Plapp
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
                 DataSeries = topicViewModel.DataEntries?.Select(d => d.ToModel()).ToList(),
-                Notes = topicViewModel.DiaryEntries?.Select(n => n.ToModel()).ToList()
-            };
-        }
-
-        public static Note ToModel(this INoteViewModel noteViewModel)
-        {
-            return new Note
-            {
-                Id = noteViewModel.Id,
-                TopicId = noteViewModel.Topic.Id,
-                Header = noteViewModel.Header,
-                Text = noteViewModel.Text,
-                Date = noteViewModel.Date,
-                ImageUri = noteViewModel.ImageUri,
             };
         }
 

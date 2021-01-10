@@ -10,7 +10,6 @@ namespace Plapp.Persist
 
         public DbSet<DataPoint> DataPoints { get; private set; }
         public DbSet<DataSeries> DataSeries { get; private set; }
-        public DbSet<Note> Notes { get; private set; }
         public DbSet<Tag> Tags { get; private set; }
         public DbSet<Topic> Topics { get; private set; }
 
@@ -31,9 +30,6 @@ namespace Plapp.Persist
             modelBuilder.Entity<DataSeries>().HasKey(d => d.Id);
             modelBuilder.Entity<DataSeries>().Property(d => d.TopicId).IsRequired();
             modelBuilder.Entity<DataSeries>().Property(d => d.TagId).IsRequired();
-
-            modelBuilder.Entity<Note>().HasKey(d => d.Id);
-            modelBuilder.Entity<Note>().Property(d => d.TopicId).IsRequired();
 
 
             modelBuilder.Entity<Topic>().HasKey(d => d.Id);

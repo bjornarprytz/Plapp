@@ -17,9 +17,6 @@ namespace Plapp.Core
         string Title { get; set; }
         string Description { get; set; }
 
-        DateTime FirstEntryDate { get; }
-        DateTime LastEntryDate { get; }
-        ObservableCollection<INoteViewModel> DiaryEntries { get; }
         ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 
         ICommand OpenTopicCommand { get; }
@@ -32,8 +29,6 @@ namespace Plapp.Core
 
         void AddDataSeries(IDataSeriesViewModel newSeries);
         void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);
-        void AddNote(INoteViewModel newNote);
-        void AddNotes(IEnumerable<INoteViewModel> newNotes);
         void AddDataPoint(string tag, IDataPointViewModel newDataPoint);
         IDataSeriesViewModel GetDataSeries(string tag);
     }
