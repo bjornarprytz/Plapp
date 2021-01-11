@@ -4,6 +4,5 @@
 
     <Style TargetType="ContentPage">
         <Setter Property="Visual" Value="Material" />
-        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundContrast}"/>
     </Style>
 </ResourceDictionary>

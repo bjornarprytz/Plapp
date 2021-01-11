@@ -2,37 +2,35 @@
 <ContentPage xmlns:local="clr-namespace:Plapp"
                 xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
                 Title="Plapp"
                 x:Class="Plapp.MainPage">
 
-    
+
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Button 
-                Text="Add Topic" 
-                HorizontalOptions="CenterAndExpand"
-                Command="{Binding AddTopicCommand}"/>
-        <ListView 
+        <CollectionView
+            ItemsLayout="GridItemsLayout"
             VerticalOptions="Start"
             ItemsSource="{Binding Topics}"
-            HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
+            <CollectionView.ItemTemplate>
+            <DataTemplate>
                     <local:TopicMetaDataCell/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button 
-                Text="Add Topic" 
-                HorizontalOptions="CenterAndExpand"
-                Command="{Binding AddTopicCommand}"/>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
         <StackLayout 
             Orientation="Horizontal"
             Margin="20"
-            HorizontalOptions="End" 
+            HorizontalOptions="Center" 
             VerticalOptions="EndAndExpand">
-            <!-- bottom controls -->
-            <Button 
-                Text="Add Topic" 
+            <iconize:IconButton 
+                FontSize="Large"
+                Text="{StaticResource PlusIcon}"
+                BackgroundColor="Transparent" 
+                CornerRadius="50" 
+                HeightRequest="100" 
+                WidthRequest="100"
                 HorizontalOptions="CenterAndExpand"
                 Command="{Binding AddTopicCommand}"/>
         </StackLayout>
