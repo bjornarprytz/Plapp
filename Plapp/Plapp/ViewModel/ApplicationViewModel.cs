@@ -12,17 +12,14 @@ namespace Plapp
 
         public ApplicationViewModel()
         {
-            Topics = new ObservableCollection<ITopicViewModel>();
-
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(async (topic) => await DeleteTopic(topic));
             LoadTopicsCommand = new CommandHandler(async () => await LoadTopics());
-
-            LoadTopicsCommand.Execute(null);
         }
 
         public bool IsBusy { get; private set; }
-        public ObservableCollection<ITopicViewModel> Topics { get; private set; }
+
+        public ObservableCollection<ITopicViewModel> Topics { get; private set; } = new ObservableCollection<ITopicViewModel>();
         
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }

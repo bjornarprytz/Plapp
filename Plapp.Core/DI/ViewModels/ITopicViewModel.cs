@@ -8,7 +8,6 @@ namespace Plapp.Core
     public interface ITopicViewModel : IViewModel
     {
         bool IsLoadingData { get; }
-        bool IsLoadingNotes { get; }
         bool IsSavingTopic { get; }
         bool LacksImage { get; }
 
@@ -21,7 +20,6 @@ namespace Plapp.Core
 
         ICommand OpenTopicCommand { get; }
         ICommand LoadDataSeriesCommand { get; }
-        ICommand LoadNotesCommand { get; }
         ICommand SaveTopicCommand { get; }
         ICommand AddImageCommand { get; }
         ICommand AddTagCommand { get; }

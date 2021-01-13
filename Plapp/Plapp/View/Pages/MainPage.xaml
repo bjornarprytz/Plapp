@@ -8,15 +8,19 @@
 
 
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <CollectionView
-            ItemsLayout="GridItemsLayout"
-            VerticalOptions="Start"
-            ItemsSource="{Binding Topics}"
+        
+        <CollectionView ItemsSource="{Binding Topics}">
+            
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            
             <CollectionView.ItemTemplate>
-            <DataTemplate>
+                <DataTemplate>
                     <local:TopicMetaDataCell/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+        
         </CollectionView>
 
         <StackLayout 

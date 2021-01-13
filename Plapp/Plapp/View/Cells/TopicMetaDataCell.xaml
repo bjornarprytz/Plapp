@@ -25,9 +25,5 @@
             <Label Text="{Binding Title}"/>
             <Label Text="{Binding Description}" LineBreakMode="TailTruncation"/>
         </StackLayout>
-        
-        <Label Grid.Column="2" 
-               Text="{Binding LastEntryDate, Converter={local:DateTimeToDateStringConverter}}" 
-               HorizontalTextAlignment="End" />
     </Grid>
 </ViewCell>

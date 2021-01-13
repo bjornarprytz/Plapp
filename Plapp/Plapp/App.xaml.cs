@@ -31,10 +31,13 @@ namespace Plapp
                 .Build();
 
             await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
+            
+            IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 
             MainPage = new NavigationPage(
                 IoC.Get<IViewFactory>()
                  .CreateView<IApplicationViewModel>());
+
         }
 
         protected override void OnSleep()

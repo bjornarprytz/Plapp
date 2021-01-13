@@ -16,7 +16,6 @@ namespace Plapp
         {
             _dataEntries = new Dictionary<string, IDataSeriesViewModel>();
 
-
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             LoadDataSeriesCommand = new CommandHandler(async () => await LoadDataSeries());
             SaveTopicCommand = new CommandHandler(async () => await SaveTopic());
@@ -29,7 +28,6 @@ namespace Plapp
         public ObservableCollection<IDataSeriesViewModel> DataEntries => new ObservableCollection<IDataSeriesViewModel>(_dataEntries.Values);
 
         public bool IsLoadingData { get; private set; }
-        public bool IsLoadingNotes { get; private set; }
         public bool IsSavingTopic { get; private set; }
         public bool IsStartingCamera { get; private set; }
         
@@ -42,7 +40,6 @@ namespace Plapp
 
         public ICommand OpenTopicCommand { get; private set; }
         public ICommand LoadDataSeriesCommand { get; private set; }
-        public ICommand LoadNotesCommand { get; private set; }
         public ICommand SaveTopicCommand { get; private set; }
         public ICommand AddImageCommand { get; private set; }
         public ICommand AddTagCommand { get; private set; }
