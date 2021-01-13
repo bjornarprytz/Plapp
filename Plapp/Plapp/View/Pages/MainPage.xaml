@@ -5,8 +5,7 @@
                 xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
                 Title="Plapp"
                 x:Class="Plapp.MainPage">
-
-
+    
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         
         <CollectionView ItemsSource="{Binding Topics}">
@@ -17,7 +16,7 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <local:TopicMetaDataCell/>
+                    <local:TopicMetaData/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         

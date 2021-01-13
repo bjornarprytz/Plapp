@@ -1,13 +1,12 @@
-﻿
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Plapp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TopicMetaDataCell : ViewCell
+    public partial class DataSeriesView : ContentView
     {
-        public TopicMetaDataCell()
+        public DataSeriesView()
         {
             InitializeComponent();
         }

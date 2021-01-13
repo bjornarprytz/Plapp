@@ -46,19 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="View\Cells\DataSeriesCell.xaml.cs">
-      <DependentUpon>DataSeriesCell.xaml</DependentUpon>
+    <Compile Update="View\Cells\DataSeriesView.xaml.cs">
+      <DependentUpon>DataSeriesView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Cells\TopicMetaDataCell.xaml.cs">
-      <DependentUpon>TopicMetaDataCell.xaml</DependentUpon>
+    <Compile Update="View\Cells\TopicMetadata.xaml.cs">
+      <DependentUpon>TopicMetaData.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="View\Cells\DataSeriesCell.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="View\Cells\TopicMetaDataCell.xaml">
+    <EmbeddedResource Update="View\Cells\DataSeriesView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\MainPage.xaml">
@@ -68,6 +65,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Styles\Colors.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Cells\TopicMetaData.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

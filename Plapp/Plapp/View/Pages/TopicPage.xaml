@@ -46,16 +46,13 @@
 
             <iconize:IconButton Text="{StaticResource TagIcon}" Command="{Binding AddTagCommand}" />
 
-            <ListView
-                VerticalOptions="Start"
-                ItemsSource="{Binding DataEntries}"
-                HasUnevenRows="True">
-                <ListView.ItemTemplate>
+            <CollectionView ItemsSource="{Binding DataEntries}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <local:DataSeriesCell/>
+                        <local:DataSeriesView/>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ScrollView>
 </ContentPage>
