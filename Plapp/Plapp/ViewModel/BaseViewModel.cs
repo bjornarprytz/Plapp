@@ -12,6 +12,8 @@ namespace Plapp
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
+        public bool IsShowing { get; private set; }
+
         public void SetState<T>(Action<T> action)
             where T : class, IViewModel
         {
@@ -22,6 +24,20 @@ namespace Plapp
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
+        public virtual void OnShow()
+        {
+            IsShowing = true;
+        }
+
+        public virtual void OnHide()
+        {
+            IsShowing = false;
+            OnUserInteractionStopped();
+        }
+
+        public virtual void OnUserInteractionStopped() { }
+
         protected async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
         {
             lock (mPropertyValueCheckLock)

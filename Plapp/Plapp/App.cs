@@ -4,20 +4,13 @@ using Plapp.Peripherals;
 using Plapp.Persist;
 using Xamarin.Forms;
 
-[assembly: ExportFont("SourceSansPro-Black.otf", Alias = "Black")]
-[assembly: ExportFont("SourceSansPro-Bold.otf", Alias = "Bold")]
-[assembly: ExportFont("SourceSansPro-It.otf", Alias = "It")]
-[assembly: ExportFont("SourceSansPro-Light.otf", Alias = "Light")]
-[assembly: ExportFont("SourceSansPro-Regular.otf", Alias = "Regular")]
-
-namespace Plapp
+namespace Plapp.Test
 {
-    public partial class App : Application
+    public class App : Application
     {
         public App()
         {
-
-            InitializeComponent();
+            Resources = Styles.Implicit;
         }
 
         protected override async void OnStart()
@@ -32,21 +25,13 @@ namespace Plapp
                 .Build();
 
             await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
-            
+
             IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 
             MainPage = new NavigationPage(
                 IoC.Get<IViewFactory>()
                  .CreateView<IApplicationViewModel>());
 
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
         }
     }
 }

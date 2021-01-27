@@ -25,14 +25,16 @@ namespace Plapp
 
         public static FrameworkConstruction AddNavigation(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton(new MainPage());
-            construction.Services.AddSingleton(new TopicPage());
+
+            construction.Services.AddSingleton<MainPage>();
+            construction.Services.AddSingleton<TopicPage>();
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
                     .ChainBind<IApplicationViewModel, MainPage>()
                     .ChainBind<ITopicViewModel, TopicPage>()
             );
+
 
             construction.Services.AddSingleton<INavigator>(new Navigator());
 
