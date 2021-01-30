@@ -6,25 +6,22 @@ using Xamarin.Forms;
 
 namespace Plapp
 {
-    public class BaseDataTemplateSelector<TViewModel> : DataTemplateSelector
+    public abstract class BaseDataTemplateSelector<TViewModel> : DataTemplateSelector
         where TViewModel : BaseViewModel
     {
-        public DataTemplate ValidTemplate { get; set; }
-        public DataTemplate InvalidTemplate { get; set; }
-
-        protected virtual DataTemplate SelectTemplate(TViewModel viewModel)
-        {
-            return ValidTemplate;
-        }
+        protected static DataTemplate InvalidTemplate { get; set; } // TODO: Make this template something like a red X
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
             if (item is not TViewModel)
             {
+                // TODO: Log something here
                 return InvalidTemplate;
             }
 
-            return SelectTemplate((TViewModel)item);
+            return OnSelectTypedTemplate((TViewModel)item, container);
         }
+
+        protected abstract DataTemplate OnSelectTypedTemplate(TViewModel item, BindableObject container);
     }
 }
