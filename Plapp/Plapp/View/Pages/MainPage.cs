@@ -9,7 +9,7 @@ namespace Plapp
     {
         public MainPage()
         {
-            ViewModel = (ApplicationViewModel)IoC.Get<IApplicationViewModel>();
+            ViewModel = (ApplicationViewModel)IoC.Get<IApplicationViewModel>(); // TODO: Investigate alternative way of setting ViewModel
 
             Content = new Grid
             {
@@ -17,16 +17,15 @@ namespace Plapp
                 {
                     new CollectionView()
                         .VerticalOptions(LayoutOptions.StartAndExpand)
-                        .DataTemplate(new TopicThumbnailTemplate())
-                        .BindItems(nameof(ViewModel.Topics)),
+                        .BindItems(nameof(ViewModel.Topics), new TopicThumbnailTemplate()),
                     
                     
                     new Button
                     {
                         Text = "Hello world, add some topics"
-                        , VerticalOptions = LayoutOptions.End
-
-                    }.BindCommand(nameof(ViewModel.AddTopicCommand))
+                    }
+                    .VerticalOptions(LayoutOptions.End)
+                    .BindCommand(nameof(ViewModel.AddTopicCommand))
                 }
             };
         }

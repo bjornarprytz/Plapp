@@ -13,5 +13,12 @@ namespace Plapp
             view.VerticalOptions = layout;
             return view;
         }
+        
+        public static T HorizontalOptions<T>(this T view, LayoutOptions layout)
+            where T : View
+        {
+            view.HorizontalOptions = layout;
+            return view;
+        }
     }
 }
