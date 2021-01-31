@@ -8,7 +8,7 @@ namespace Plapp
 {
     public class TopicThumbnailTemplate : BaseDataTemplateSelector<TopicViewModel>
     {
-        protected override DataTemplate OnSelectTypedTemplate(TopicViewModel item, BindableObject container)
+        protected override DataTemplate OnSelectTypedTemplate(TopicViewModel viewModel, BindableObject container)
         {
             return new DataTemplate(() =>
             {
@@ -27,7 +27,7 @@ namespace Plapp
 
                         GestureRecognizers =
                                 {
-                                    new TapGestureRecognizer().BindCommand(nameof(item.OpenTopicCommand))
+                                    new TapGestureRecognizer().BindCommand(nameof(viewModel.OpenTopicCommand))
                                 },
 
                         Children =
@@ -36,17 +36,17 @@ namespace Plapp
                                     .Column(0)
                                     .HeightRequest(80)
                                     .Aspect(Aspect.AspectFit)
-                                    .Bind(nameof(item.ImageUri)),
+                                    .Bind(nameof(viewModel.ImageUri)),
                                     
                                     new StackLayout
                                     {
                                         Children =
                                         {
                                             new Label()
-                                                .Bind(nameof(item.Title)),
+                                                .Bind(nameof(viewModel.Title)),
                                             new Label()
                                                 .LineBreakMode(LineBreakMode.TailTruncation)
-                                                .Bind(nameof(item.Description))
+                                                .Bind(nameof(viewModel.Description))
                                         }
                                     }.Column(1)
                                 }

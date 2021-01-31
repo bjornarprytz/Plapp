@@ -22,6 +22,6 @@ namespace Plapp
             return OnSelectTypedTemplate((TViewModel)item, container);
         }
 
-        protected abstract DataTemplate OnSelectTypedTemplate(TViewModel item, BindableObject container);
+        protected abstract DataTemplate OnSelectTypedTemplate(TViewModel viewModel, BindableObject container);
     }
 }
