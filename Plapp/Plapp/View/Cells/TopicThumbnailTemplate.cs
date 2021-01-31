@@ -16,6 +16,8 @@ namespace Plapp
                 {
                     Content = new Grid
                     {
+                        BackgroundColor = Color.Beige,
+
                         ColumnDefinitions =
                                 {
                                     new ColumnDefinition { Width = GridLength.Auto },
