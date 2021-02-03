@@ -1,5 +1,5 @@
-﻿using Plapp.Core;
-using Plugin.Iconize;
+﻿using MaterialDesign.Icons;
+using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
@@ -39,7 +39,7 @@ namespace Plapp
                                                 .Bind(nameof(ViewModel.ImageUri)),
 
                                             new Button()
-                                                .Icon("mdi-camera", "Material-Design-Icons")
+                                                .MaterialIcon(MaterialIcon.AddAPhoto)
                                                 .Bind(IsVisibleProperty, nameof(ViewModel.LacksImage))
                                                 .BindCommand(nameof(ViewModel.AddImageCommand))
                                         }

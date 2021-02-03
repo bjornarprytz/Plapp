@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace Plapp.Test
+namespace Plapp
 {
     public static partial class BrandingExtensions
     {

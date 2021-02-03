@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\MaterialDesign\MaterialIcons-Regular.ttf" />
+    <None Remove="Resources\Fonts\MaterialDesign\MaterialIconsOutlined-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialDesign\MaterialIconsRound-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialDesign\MaterialIconsSharp-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialDesign\MaterialIconsTwoTone-Regular.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-Black.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-Bold.otf" />
     <None Remove="Resources\Fonts\SourceSansPro-It.otf" />
@@ -24,17 +29,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Black.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Bold.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-It.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Light.otf" />
-    <EmbeddedResource Include="Resources\Fonts\SourceSansPro-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialDesign\MaterialIcons-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialDesign\MaterialIconsOutlined-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialDesign\MaterialIconsRound-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialDesign\MaterialIconsSharp-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialDesign\MaterialIconsTwoTone-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\SourceSans\SourceSansPro-Black.otf" />
+    <EmbeddedResource Include="Resources\Fonts\SourceSans\SourceSansPro-Bold.otf" />
+    <EmbeddedResource Include="Resources\Fonts\SourceSans\SourceSansPro-It.otf" />
+    <EmbeddedResource Include="Resources\Fonts\SourceSans\SourceSansPro-Light.otf" />
+    <EmbeddedResource Include="Resources\Fonts\SourceSans\SourceSansPro-Regular.otf" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
+    <PackageReference Include="MaterialDesign.Icons" Version="1.1.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.9" />
-    <PackageReference Include="Xam.Plugin.Iconize.MaterialDesignIcons" Version="3.5.0.129" />
     <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />

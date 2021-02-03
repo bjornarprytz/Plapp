@@ -2,8 +2,6 @@
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
-using Plugin.Iconize;
-using Plugin.Iconize.Fonts;
 
 namespace Plapp
 {
@@ -12,13 +10,6 @@ namespace Plapp
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
-
-            return construction;
-        }
-        
-        public static FrameworkConstruction AddIcons(this FrameworkConstruction construction)
-        {
-            Iconize.With(new MaterialDesignIconsModule());
 
             return construction;
         }

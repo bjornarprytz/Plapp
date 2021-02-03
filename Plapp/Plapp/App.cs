@@ -4,7 +4,7 @@ using Plapp.Peripherals;
 using Plapp.Persist;
 using Xamarin.Forms;
 
-namespace Plapp.Test
+namespace Plapp
 {
     public class App : Application
     {
@@ -19,7 +19,6 @@ namespace Plapp.Test
                 .AddDefaultLogger()
                 .UsePlappDataStore()
                 .AddViewModels()
-                .AddIcons()
                 .AddCamera()
                 .AddNavigation()
                 .Build();

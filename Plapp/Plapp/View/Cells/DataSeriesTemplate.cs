@@ -1,4 +1,5 @@
-﻿using Xamarin.CommunityToolkit.Markup;
+﻿using MaterialDesign.Icons;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -33,9 +34,8 @@ namespace Plapp
                                 .Bind(nameof(viewModel.Latest.Date), converter: new DateTimeToDateStringConverter()),
                             new Label().Row(1).Column(1)
                                 .Bind(nameof(viewModel.Tag.Unit)),
-                            new Button().Column(2) // TODO: Try Plugin.Iconize.IconButton() if it doesn't work
-                                .NamedFontSize(NamedSize.Large)
-                                .Icon("mdi-plus", "Material-Design-Icons")
+                            new Button().Column(2)
+                                .MaterialIcon(MaterialIcon.Add)
                                 
                         }
                     }
