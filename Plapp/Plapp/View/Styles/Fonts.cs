@@ -10,7 +10,7 @@ namespace Plapp
         public const string Light = "SS-Light";
         public const string Regular = "SS-Regular";
 
-        // Material Icons
+        // Material Icons (https://material.io/resources/icons/?style=baseline)
         public const string MIOutline = "MI-Outline";
         public const string MI = "MI";
         public const string MIRound = "MI-Round";

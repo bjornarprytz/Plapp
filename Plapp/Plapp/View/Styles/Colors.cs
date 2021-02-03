@@ -1,7 +1,4 @@
-﻿
-using Xamarin.Forms;
-
-namespace Plapp
+﻿namespace Plapp
 {
     public enum Colors : uint
     {
