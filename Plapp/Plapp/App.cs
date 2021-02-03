@@ -17,7 +17,7 @@ namespace Plapp
         {
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddDefaultLogger()
-                .UsePlappDataStore()
+                .AddPlappDataStore()
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()

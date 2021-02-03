@@ -9,7 +9,7 @@ namespace Plapp.Persist
     public static class ConstructionExtensions
     {
 
-        public static FrameworkConstruction UsePlappDataStore(this FrameworkConstruction construction)
+        public static FrameworkConstruction AddPlappDataStore(this FrameworkConstruction construction)
         {
             var connStr = $"Data Source={FileSystem.Current.LocalStorage.Path}/Plapp.db"; // TODO: Move this to config
 

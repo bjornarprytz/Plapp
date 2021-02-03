@@ -35,13 +35,13 @@ namespace Plapp
         public static T MaterialIcon<T>(this T button, MaterialIcon glyph, Color color = default)
             where T : Button
         {
-            return button.Icon(glyph.ToIconFontString(), Fonts.MI);
+            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)IconSize.Medium, color);
         }
 
-        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, double size, Color color = default)
+        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, IconSize size, Color color = default)
             where T : Button
         {
-            return button.Icon(glyph.ToIconFontString(), Fonts.MI, size);
+            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)size, color);
         }
     }
 }

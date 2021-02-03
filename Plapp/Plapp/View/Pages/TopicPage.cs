@@ -39,7 +39,7 @@ namespace Plapp
                                                 .Bind(nameof(ViewModel.ImageUri)),
 
                                             new Button()
-                                                .MaterialIcon(MaterialIcon.AddAPhoto)
+                                                .MaterialIcon(MaterialIcon.AddAPhoto, IconSize.Huge)
                                                 .Bind(IsVisibleProperty, nameof(ViewModel.LacksImage))
                                                 .BindCommand(nameof(ViewModel.AddImageCommand))
                                         }
