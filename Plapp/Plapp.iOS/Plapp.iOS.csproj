@@ -133,9 +133,6 @@
     <PackageReference Include="PropertyChanged.Fody">
       <Version>3.3.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.FileStorage.iOS">
-      <Version>1.0.6</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">

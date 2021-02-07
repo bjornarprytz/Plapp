@@ -16,6 +16,7 @@ namespace Plapp
         protected override async void OnStart()
         {
             Framework.Construct<DefaultFrameworkConstruction>()
+                .AddConfiguration()
                 .AddDefaultLogger()
                 .AddPlappDataStore()
                 .AddViewModels()

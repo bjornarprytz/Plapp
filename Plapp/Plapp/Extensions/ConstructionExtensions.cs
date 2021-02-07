@@ -7,6 +7,13 @@ namespace Plapp
 {
     public static class ConstructionExtensions
     {
+        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction)
+        {
+            // TODO: Get config (appsettings.json)
+
+            return construction;
+        }
+
         public static FrameworkConstruction AddViewModels(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
