@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Persist", "Plapp.Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Core", "Plapp.Core\Plapp.Core.csproj", "{E8D3D471-7418-41CF-89B4-5033EED2FF4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Peripherals", "Plapp.Peripherals\Plapp.Peripherals.csproj", "{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Peripherals", "Plapp.Peripherals\Plapp.Peripherals.csproj", "{CADA71DF-71DE-407F-AE6D-5C8ADD31F125}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

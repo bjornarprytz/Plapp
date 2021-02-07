@@ -69,6 +69,9 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <BundleResource Include="..\Plapp\appsettings.json">
+      <Link>appsettings.json</Link>
+    </BundleResource>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +132,9 @@
   <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody">
       <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FileStorage.iOS">
+      <Version>1.0.6</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
