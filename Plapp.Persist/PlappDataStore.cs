@@ -4,6 +4,7 @@ using Plapp.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plapp.Persist
@@ -11,20 +12,15 @@ namespace Plapp.Persist
     public class PlappDataStore : IPlappDataStore
     {
         private readonly PlappDbContext _dbContext;
-        private readonly IFileSystem _fileSystem;
 
-        public PlappDataStore(PlappDbContext dbContext, IFileSystem fileSystem)
+        public PlappDataStore(PlappDbContext dbContext)
         {
-            _fileSystem = fileSystem;
             _dbContext = dbContext;
         }
 
-        public async Task<bool> EnsureStorageReadyAsync()
+        public async Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken)
         {
-            if (!(await EnsureFileSystemCreatedAsync()))
-                return false;
-
-            if (!(await _dbContext.Database.EnsureCreatedAsync()))
+            if (!(await _dbContext.Database.EnsureCreatedAsync(cancellationToken)))
                 return false;
 
             return true;
@@ -108,35 +104,6 @@ namespace Plapp.Persist
             _dbContext.Topics.Remove(topic);
 
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<string> SaveFileAsync(string desiredName, Stream inputStream)
-        {
-            var file = await _fileSystem.LocalStorage.CreateFileAsync(
-                desiredName, 
-                CreationCollisionOption.GenerateUniqueName);
-
-            using (var stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite))
-            {
-                await inputStream.CopyToAsync(stream);
-            }
-
-            return file.Path;
-        }
-
-
-        private async Task<bool> EnsureFileSystemCreatedAsync()
-        {
-            switch (await _fileSystem.LocalStorage.CheckExistsAsync("Plapp.db"))
-            {
-                case ExistenceCheckResult.NotFound:
-                    await _fileSystem.LocalStorage.CreateFileAsync("Plapp.db", CreationCollisionOption.FailIfExists);
-                    break;
-                default:
-                    break;
-            }
-
-            return true;
         }
     }
 }

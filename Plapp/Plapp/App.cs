@@ -1,30 +1,34 @@
 ﻿using Dna;
 using Plapp.Core;
-using Plapp.Peripherals;
-using Plapp.Persist;
+using System.Threading;
 using Xamarin.Forms;
 
 namespace Plapp
 {
     public class App : Application
     {
-        public App()
+        public App(IConfigurationStreamProviderFactory configStreamProviderFactory)
         {
             Resources = Styles.Implicit;
-        }
-
-        protected override async void OnStart()
-        {
+            
             Framework.Construct<DefaultFrameworkConstruction>()
-                .AddConfiguration()
+                .AddFileSystem()
+                .AddConfig(configStreamProviderFactory)
                 .AddDefaultLogger()
                 .AddPlappDataStore()
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()
                 .Build();
+        }
 
-            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync();
+        protected override async void OnStart()
+        {
+            var cts = new CancellationTokenSource();
+
+            await FileHelpers.EnsureDbCreatedAsync(cts.Token);
+
+            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync(cts.Token);
 
             IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 

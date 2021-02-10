@@ -76,6 +76,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AndroidConfigurationStreamProvider.cs" />
+    <Compile Include="Configuration\AndroidConfigurationStreamProviderFactory.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

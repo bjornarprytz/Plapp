@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plapp.Core
 {
     public interface IPlappDataStore
     {
-        Task<bool> EnsureStorageReadyAsync();
+        Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken);
 
         Task<IEnumerable<Topic>> FetchTopicsAsync();
         Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagId=null);
@@ -22,8 +23,5 @@ namespace Plapp.Core
         Task DeleteDataSeriesAsync(DataSeries dataSeries);
         Task DeleteDataPointAsync(DataPoint dataPoint);
         Task DeleteTagAsync(Tag tag);
-
-
-        Task<string> SaveFileAsync(string desiredName, Stream stream);
     }
 }
