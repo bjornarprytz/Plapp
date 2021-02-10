@@ -37,7 +37,7 @@ namespace Plapp
 
             construction.Services.AddTransient<IPlappDataStore>(
                 provider => new PlappDataStore(
-                    provider.GetService<PlappDbContext>()));
+                    () => provider.GetService<PlappDbContext>()));
 
             return construction;
         }
