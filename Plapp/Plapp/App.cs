@@ -32,10 +32,7 @@ namespace Plapp
 
             IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 
-            MainPage = new NavigationPage(
-                IoC.Get<IViewFactory>()
-                 .CreateView<IApplicationViewModel>());
-
+            MainPage = new NavigationPage(IoC.Get<MainPage>());
         }
     }
 }
