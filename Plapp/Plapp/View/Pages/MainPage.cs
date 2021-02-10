@@ -5,12 +5,10 @@ using Xamarin.CommunityToolkit.Markup;
 
 namespace Plapp
 {
-    public class MainPage : BaseContentPage<ApplicationViewModel>
+    public class MainPage : BaseContentPage<IApplicationViewModel>
     {
         public MainPage()
         {
-            ViewModel = (ApplicationViewModel)IoC.Get<IApplicationViewModel>(); // TODO: Investigate alternative way of setting ViewModel
-
             Content = new Grid
             {
                 Children =

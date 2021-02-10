@@ -7,15 +7,15 @@ namespace Plapp
     public static class NavigationHelpers
     {
         public static async Task NavigateTo<TViewModel>(Action<TViewModel> setStateAction=null) 
-            where TViewModel : class, IViewModel
+            where TViewModel : IViewModel
         {
             await IoC.Get<INavigator>().PushAsync(setStateAction);
         }
 
-        public static async Task NavigateTo<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction = null)
-            where TViewModel : class, IViewModel
+        public static async Task NavigateTo<TViewModel>(TViewModel viewModel)
+            where TViewModel : IViewModel
         {
-            await IoC.Get<INavigator>().PushAsync(viewModel, setStateAction);
+            await IoC.Get<INavigator>().PushAsync(viewModel);
         }
 
         public static async Task Back()

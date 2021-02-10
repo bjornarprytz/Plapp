@@ -77,8 +77,8 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBind<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : class, IViewModel
-            where TView : Page
+            where TViewModel : IViewModel
+            where TView : BaseContentPage<TViewModel>
         {
             viewFactory.Bind<TViewModel, TView>();
 

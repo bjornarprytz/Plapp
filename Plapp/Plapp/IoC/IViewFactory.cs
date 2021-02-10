@@ -6,22 +6,17 @@ namespace Plapp
 {
     public interface IViewFactory
     {
-        void Bind<TViewModel, TView>() 
-            where TViewModel : class, IViewModel
-            where TView : Page;
+        void Bind<TViewModel, TView>()
+            where TViewModel : IViewModel
+            where TView : BaseContentPage<TViewModel>;
 
         Page CreateView<TViewModel>() 
-            where TViewModel : class, IViewModel;
+            where TViewModel : IViewModel;
 
         Page CreateView<TViewModel>(TViewModel viewModel)
-            where TViewModel : class, IViewModel;
+            where TViewModel : IViewModel;
 
         Page CreateView<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : class, IViewModel;
-
-        Page CreateView<TViewModel>(TViewModel viewModel, Action<TViewModel> setStateAction)
-            where TViewModel : class, IViewModel;
-
-        Page CreateView(Type viewModelType);
+            where TViewModel : IViewModel;
     }
 }

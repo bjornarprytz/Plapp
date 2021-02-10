@@ -5,12 +5,10 @@ using Xamarin.Forms;
 
 namespace Plapp
 {
-    public class TopicPage : BaseContentPage<TopicViewModel>
+    public class TopicPage : BaseContentPage<ITopicViewModel>
     {
         public TopicPage()
         {
-            ViewModel = (TopicViewModel)IoC.Get<ITopicViewModel>();
-
             Content = new ScrollView
             {
                 Content = new StackLayout

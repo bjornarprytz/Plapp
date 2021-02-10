@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plapp.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,14 @@ using Xamarin.Forms;
 namespace Plapp
 {
     public abstract class BaseContentPage<TViewModel> : ContentPage
-        where TViewModel : BaseViewModel
+        where TViewModel : IViewModel
     {
-        protected TViewModel ViewModel { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+        public TViewModel ViewModel { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+
+        protected BaseContentPage()
+        {
+            ViewModel = IoC.Get<TViewModel>();
+        }
 
         protected override void OnAppearing()
         {
