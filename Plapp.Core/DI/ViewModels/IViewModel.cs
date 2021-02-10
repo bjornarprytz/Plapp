@@ -7,6 +7,8 @@ namespace Plapp.Core
     {
         void SetState<T>(Action<T> action) where T : class, IViewModel;
 
+        bool IsShowing { get; }
+
         void OnShow();
         void OnHide();
         void OnUserInteractionStopped();

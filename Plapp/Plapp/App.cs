@@ -21,7 +21,7 @@ namespace Plapp
                 .AddNavigation()
                 .Build();
 
-            MainPage = new NavigationPage(new LoadingPage());
+            MainPage = new NavigationPage(new LoadingPage()); // TODO: Use IoC.Get<ILoadingViewModel>() here and implement ILoadingViewModel
         }
 
         protected override async void OnStart()
@@ -31,8 +31,6 @@ namespace Plapp
             await FileHelpers.EnsureDbCreatedAsync(cts.Token);
 
             await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync(cts.Token);
-
-            IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 
             await NavigationHelpers.NavigateTo<IApplicationViewModel>();
         }

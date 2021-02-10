@@ -31,14 +31,14 @@ namespace Plapp
         public static Style<Label> Labels => labels ??= new Style<Label>(
             (Label.FontSizeProperty, Device.GetNamedSize(NamedSize.Medium, typeof(Label))),
             (Label.FontFamilyProperty, Fonts.Light),
-            (Label.TextColorProperty, Colors.ForegroundMain.ToColor())
+            (Label.TextColorProperty, Colors.ForegroundVeryDark.ToColor())
         ).ApplyToDerivedTypes(true);
 
 
         public static Style<Editor> Editors => editors ??= new Style<Editor>(
             (Editor.FontSizeProperty, Device.GetNamedSize(NamedSize.Body, typeof(Editor))),
             (Editor.FontFamilyProperty, Fonts.Regular),
-            (Editor.TextColorProperty, Colors.ForegroundMain.ToColor())
+            (Editor.TextColorProperty, Colors.ForegroundVeryDark.ToColor())
         ).ApplyToDerivedTypes(true);
 
         public static Style<ContentPage> Pages => pages ??= new Style<ContentPage>(

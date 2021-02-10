@@ -10,29 +10,42 @@ namespace Plapp
     {
         private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
 
+        private bool topicsLoaded = false;
+
         public ApplicationViewModel()
         {
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
-            DeleteTopicCommand = new CommandHandler<ITopicViewModel>(async (topic) => await DeleteTopic(topic));
-            LoadTopicsCommand = new CommandHandler(async () => await LoadTopics());
+            DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
         }
 
-        public bool IsBusy { get; private set; }
+        public bool IsLoadingTopics { get; private set; }
 
         public ObservableCollection<ITopicViewModel> Topics { get; private set; } = new ObservableCollection<ITopicViewModel>();
         
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
-        public ICommand LoadTopicsCommand { get; private set; }
+
+        public override async void OnShow()
+        {
+            base.OnShow();
+            await LoadTopics();
+        }
 
         private async Task LoadTopics()
         {
+            if (topicsLoaded)
+            {
+                return;
+            }
+
             await RunCommandAsync(
-                () => IsBusy,
+                () => IsLoadingTopics,
                 async () => {
                     var topics = await DataStore.FetchTopicsAsync();
                     Topics = new ObservableCollection<ITopicViewModel>(
                         topics.Select(t => t.ToViewModel()));
+
+                    topicsLoaded = true;
             });
         }
 
@@ -40,27 +53,18 @@ namespace Plapp
         {
             var newTopic = new TopicViewModel();
 
-            await RunCommandAsync(
-                () => IsBusy,
-                async () =>
-                {
-                    await DataStore.SaveTopicAsync(newTopic.ToModel());
-                });
-
             Topics.Add(newTopic);
+
+            _ = DataStore.SaveTopicAsync(newTopic.ToModel());
 
             await NavigationHelpers.NavigateTo<ITopicViewModel>(newTopic);
         }
 
-        private async Task DeleteTopic(ITopicViewModel topic)
+        private void DeleteTopic(ITopicViewModel topic)
         {
-            await RunCommandAsync(
-                () => IsBusy,
-                async () =>
-                {
-                    await DataStore.DeleteTopicAsync(topic.ToModel());
-                    Topics.Remove(topic);
-                });
+            Topics.Remove(topic);
+            
+            _ = DataStore.DeleteTopicAsync(topic.ToModel());
         }
     }
 }

@@ -5,10 +5,9 @@ namespace Plapp.Core
 {
     public interface IApplicationViewModel : IViewModel
     {
-        bool IsBusy { get; }
+        bool IsLoadingTopics { get; }
         ObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }
         ICommand DeleteTopicCommand { get; }
-        ICommand LoadTopicsCommand { get; }
     }
 }

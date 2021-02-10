@@ -12,14 +12,16 @@ namespace Plapp
 
         public async Task<IViewModel> PopAsync()
         {
-            var view = await Navigation.PopAsync();
-            return view.BindingContext as IViewModel;
+            var view = await Navigation.PopAsync() as BaseContentPage<IViewModel>;
+
+            return view.ViewModel;
         }
 
         public async Task<IViewModel> PopModalAsync()
         {
-            var view = await Navigation.PopModalAsync();
-            return view.BindingContext as IViewModel;
+            var view = await Navigation.PopModalAsync() as BaseContentPage<IViewModel>;
+            
+            return view.ViewModel;
         }
 
         public async Task PopToRootAsync()
@@ -31,14 +33,12 @@ namespace Plapp
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(setStateAction);
-
             await Navigation.PushAsync(view);
         }
         public async Task PushAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(viewModel);
-
             await Navigation.PushAsync(view);
         }
 
@@ -46,7 +46,6 @@ namespace Plapp
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(setStateAction);
-
             await Navigation.PushModalAsync(view);
         }
 
@@ -54,7 +53,6 @@ namespace Plapp
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(viewModel);
-
             await Navigation.PushModalAsync(view);
         }
     }

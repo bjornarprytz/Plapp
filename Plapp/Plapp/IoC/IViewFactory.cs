@@ -1,6 +1,5 @@
 ﻿using Plapp.Core;
 using System;
-using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -10,13 +9,13 @@ namespace Plapp
             where TViewModel : IViewModel
             where TView : BaseContentPage<TViewModel>;
 
-        Page CreateView<TViewModel>() 
+        BaseContentPage<TViewModel> CreateView<TViewModel>() 
             where TViewModel : IViewModel;
 
-        Page CreateView<TViewModel>(TViewModel viewModel)
+        BaseContentPage<TViewModel> CreateView<TViewModel>(TViewModel viewModel)
             where TViewModel : IViewModel;
 
-        Page CreateView<TViewModel>(Action<TViewModel> setStateAction)
+        BaseContentPage<TViewModel> CreateView<TViewModel>(Action<TViewModel> setStateAction)
             where TViewModel : IViewModel;
     }
 }

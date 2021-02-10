@@ -1,7 +1,6 @@
 ﻿using Plapp.Core;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -16,13 +15,13 @@ namespace Plapp
             _map[typeof(TViewModel)] = typeof(TView);
         }
 
-        public Page CreateView<TViewModel>() 
+        public BaseContentPage<TViewModel> CreateView<TViewModel>() 
             where TViewModel : IViewModel
         {
             return ResolveView<TViewModel>();
         }
 
-        public Page CreateView<TViewModel>(Action<TViewModel> setStateAction) 
+        public BaseContentPage<TViewModel> CreateView<TViewModel>(Action<TViewModel> setStateAction) 
             where TViewModel : IViewModel
         {
             var view = ResolveView<TViewModel>();
@@ -32,7 +31,7 @@ namespace Plapp
             return view;
         }
 
-        public Page CreateView<TViewModel>(TViewModel viewModel)
+        public BaseContentPage<TViewModel> CreateView<TViewModel>(TViewModel viewModel)
             where TViewModel : IViewModel
         {
             var view = ResolveView<TViewModel>();

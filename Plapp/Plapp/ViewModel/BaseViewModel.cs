@@ -14,10 +14,10 @@ namespace Plapp
 
         public bool IsShowing { get; private set; }
 
-        public void SetState<T>(Action<T> action)
-            where T : class, IViewModel
+        public void SetState<TViewModel>(Action<TViewModel> action)
+            where TViewModel : class, IViewModel
         {
-            action(this as T);
+            action(this as TViewModel);
         }
 
         public void OnPropertyChanged(string name)
