@@ -20,6 +20,8 @@ namespace Plapp
                 .AddCamera()
                 .AddNavigation()
                 .Build();
+
+            MainPage = new NavigationPage(new LoadingPage());
         }
 
         protected override async void OnStart()
@@ -32,7 +34,7 @@ namespace Plapp
 
             IoC.Get<IApplicationViewModel>().LoadTopicsCommand.Execute(null);
 
-            MainPage = new NavigationPage(IoC.Get<MainPage>());
+            await NavigationHelpers.NavigateTo<IApplicationViewModel>();
         }
     }
 }
