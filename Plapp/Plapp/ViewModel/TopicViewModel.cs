@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,23 +10,18 @@ namespace Plapp
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
-        private readonly Dictionary<string, IDataSeriesViewModel> _dataEntries;
         private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
 
         public TopicViewModel()
         {
-            _dataEntries = new Dictionary<string, IDataSeriesViewModel>();
-
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
-            LoadDataSeriesCommand = new CommandHandler(async () => await LoadDataSeries());
-            SaveTopicCommand = new CommandHandler(async () => await SaveTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
-            AddTagCommand = new CommandHandler(async () => await AddTag());
+            AddDataSeriesCommand = new CommandHandler(AddTag);
         }
 
         public int Id { get; set; }
 
-        public ObservableCollection<IDataSeriesViewModel> DataEntries => new ObservableCollection<IDataSeriesViewModel>(_dataEntries.Values);
+        public ObservableCollection<IDataSeriesViewModel> DataEntries { get; private set; } = new ObservableCollection<IDataSeriesViewModel>();
 
         public bool IsLoadingData { get; private set; }
         public bool IsSavingTopic { get; private set; }
@@ -39,45 +35,43 @@ namespace Plapp
         public string Description { get; set; }
 
         public ICommand OpenTopicCommand { get; private set; }
-        public ICommand LoadDataSeriesCommand { get; private set; }
-        public ICommand SaveTopicCommand { get; private set; }
         public ICommand AddImageCommand { get; private set; }
-        public ICommand AddTagCommand { get; private set; }
+        public ICommand AddDataSeriesCommand { get; private set; }
+
+        public override async void OnShow()
+        {
+            base.OnShow();
+
+            await LoadDataSeries();
+        }
+
+        public override async void OnUserInteractionStopped()
+        {
+            base.OnUserInteractionStopped();
+
+            await SaveTopic();
+        }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
-            _dataEntries[newSeries.Tag.Id] = newSeries;
+            var existingSeries = DataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id);
 
-            OnPropertyChanged(nameof(DataEntries));
+            if (existingSeries != null)
+            {
+                existingSeries.AddDataPoints(newSeries.GetDataPoints());
+            }
+            else
+            {
+                DataEntries.Add(newSeries);
+            }
         }
 
         public void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries)
         {
             foreach(var series in newSeries)
             {
-                _dataEntries[series.Tag.Id] = series;
+                AddDataSeries(series);
             }
-
-            OnPropertyChanged(nameof(DataEntries));
-        }
-
-        public void AddDataPoint(string tag, IDataPointViewModel newDataPoint)
-        {
-            if (!_dataEntries.ContainsKey(tag))
-            {
-                return;
-            }
-
-            _dataEntries[tag].AddDataPoint(newDataPoint);
-
-            OnPropertyChanged(nameof(DataEntries));
-        }
-
-        public IDataSeriesViewModel GetDataSeries(string tag)
-        {
-            return _dataEntries.ContainsKey(tag) ?
-                _dataEntries[tag] 
-                : IoC.Get<IDataSeriesViewModel>();
         }
 
         private async Task OpenTopic()
@@ -120,19 +114,18 @@ namespace Plapp
                     return await IoC.Get<ICamera>().TakePhotoAsync();
                 });
 
-
             if (photo == null)
             {
                 return;
-            }    
+            }
 
             ImageUri = await FileHelpers.SaveAsync($"{Title}.jpg", photo);
-
-            await SaveTopic();
         }
 
-        private async Task AddTag()
+        private void AddTag()
         {
+            // TODO: Replace this dummy code
+
             var tag = new Tag { Id = "Vann", Unit = "L" }.ToViewModel();
 
             AddDataSeries(new DataSeriesViewModel { Topic = this, Tag = tag });

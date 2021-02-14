@@ -19,15 +19,11 @@ namespace Plapp.Core
         ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 
         ICommand OpenTopicCommand { get; }
-        ICommand LoadDataSeriesCommand { get; }
-        ICommand SaveTopicCommand { get; }
         ICommand AddImageCommand { get; }
-        ICommand AddTagCommand { get; }
+        ICommand AddDataSeriesCommand { get; }
 
 
         void AddDataSeries(IDataSeriesViewModel newSeries);
         void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);
-        void AddDataPoint(string tag, IDataPointViewModel newDataPoint);
-        IDataSeriesViewModel GetDataSeries(string tag);
     }
 }

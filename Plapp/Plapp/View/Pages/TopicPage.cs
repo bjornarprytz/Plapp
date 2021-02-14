@@ -55,7 +55,7 @@ namespace Plapp
                         },
 
                         new Button()
-                            .BindCommand(nameof(ViewModel.AddTagCommand)),
+                            .BindCommand(nameof(ViewModel.AddDataSeriesCommand)),
 
                         new CollectionView()
                             .BindItems(nameof(ViewModel.DataEntries), new DataSeriesTemplate())
