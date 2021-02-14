@@ -8,5 +8,7 @@
 
         ForegroundMain = 0x686868a7u,
         ForegroundVeryDark = 0x0000007u,
+
+        Attention = 0x7fff00ff,
     }
 }

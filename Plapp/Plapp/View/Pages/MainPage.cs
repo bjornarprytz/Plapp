@@ -13,17 +13,22 @@ namespace Plapp
             {
                 Children =
                 {
-                    new CollectionView()
-                        .VerticalOptions(LayoutOptions.StartAndExpand)
-                        .BindItems(nameof(ViewModel.Topics), new TopicThumbnailTemplate()),
-                    
-                    
-                    new Button
+                    new StackLayout
                     {
-                        Text = "Hello world, add some topics"
-                    }
-                    .VerticalOptions(LayoutOptions.End)
-                    .BindCommand(nameof(ViewModel.AddTopicCommand))
+                        Children =
+                        {
+                            new CollectionView()
+                                .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
+                                .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
+                                .VerticalOptions(LayoutOptions.StartAndExpand)
+                                .BindItems(nameof(ViewModel.Topics), new TopicThumbnailTemplate()),
+                        }
+                    },
+                    
+                    Buttons.FloatingActionButton
+                        .HorizontalOptions(LayoutOptions.EndAndExpand)
+                        .VerticalOptions(LayoutOptions.EndAndExpand)
+                        .BindCommand(nameof(ViewModel.AddTopicCommand)),
                 }
             };
         }

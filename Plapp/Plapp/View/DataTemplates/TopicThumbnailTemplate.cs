@@ -14,42 +14,41 @@ namespace Plapp
             {
                 return new ContentView
                 {
-                    Content = new Grid
+
+                    Content = new Frame
                     {
-                        BackgroundColor = Color.Beige,
+                        CornerRadius = 10,
+                        Margin = 5,
+                        BorderColor = Color.White,
+                        BackgroundColor = Color.Transparent,
 
-                        ColumnDefinitions =
-                                {
-                                    new ColumnDefinition { Width = GridLength.Auto },
-                                    new ColumnDefinition { Width = GridLength.Star },
-                                    new ColumnDefinition { Width = GridLength.Star },
-                                },
+                        Content = new StackLayout
+                        {
+                            GestureRecognizers =
+                            {
+                                new TapGestureRecognizer().BindCommand(nameof(viewModel.OpenTopicCommand))
+                            },
 
-                        GestureRecognizers =
-                                {
-                                    new TapGestureRecognizer().BindCommand(nameof(viewModel.OpenTopicCommand))
-                                },
-
-                        Children =
-                                {
-                                    new Image()
-                                    .Column(0)
-                                    .HeightRequest(80)
+                                Children =
+                            {
+                                new Image()
                                     .Aspect(Aspect.AspectFit)
                                     .Bind(nameof(viewModel.ImageUri)),
-                                    
-                                    new StackLayout
+
+                                new StackLayout
+                                {
+                                    Children =
                                     {
-                                        Children =
-                                        {
-                                            new Label()
-                                                .Bind(nameof(viewModel.Title)),
-                                            new Label()
-                                                .LineBreakMode(LineBreakMode.TailTruncation)
-                                                .Bind(nameof(viewModel.Description))
-                                        }
-                                    }.Column(1)
+                                        new Label()
+                                            .Bind(nameof(viewModel.Title)),
+                                        new Label()
+                                            .LineBreakMode(LineBreakMode.TailTruncation)
+                                            .TextColor(Colors.BackgroundVeryLight)
+                                            .Bind(nameof(viewModel.Description))
+                                    }
                                 }
+                            }
+                        }
                     }
                 };
             });

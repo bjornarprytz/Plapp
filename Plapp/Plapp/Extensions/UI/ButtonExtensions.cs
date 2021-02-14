@@ -5,6 +5,16 @@ namespace Plapp
 {
     public static class ButtonExtensions
     {
+        public static T Circle<T>(this T button, double diameter)
+            where T : Button
+        {
+            button.HeightRequest = diameter;
+            button.WidthRequest = diameter;
+            button.CornerRadius = (int)(diameter / 2);
+
+            return button;
+        }
+
         public static T Icon<T>(this T button, string glyph, string fontFamily, Color color=default)
             where T : Button
         {
