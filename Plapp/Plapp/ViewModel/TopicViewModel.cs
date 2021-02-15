@@ -38,18 +38,18 @@ namespace Plapp
         public ICommand AddImageCommand { get; private set; }
         public ICommand AddDataSeriesCommand { get; private set; }
 
-        public override async void OnShow()
+        public override void OnShow()
         {
             base.OnShow();
 
-            await LoadDataSeries();
+            Task.Run(LoadDataSeries);
         }
 
-        public override async void OnUserInteractionStopped()
+        public override void OnUserInteractionStopped()
         {
             base.OnUserInteractionStopped();
 
-            await SaveTopic();
+            Task.Run(SaveTopic);
         }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)

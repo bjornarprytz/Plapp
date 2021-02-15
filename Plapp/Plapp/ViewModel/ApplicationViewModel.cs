@@ -25,10 +25,10 @@ namespace Plapp
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
 
-        public override async void OnShow()
+        public override void OnShow()
         {
             base.OnShow();
-            await LoadTopics();
+            Task.Run(LoadTopics);
         }
 
         private async Task LoadTopics()

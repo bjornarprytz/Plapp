@@ -18,7 +18,7 @@ namespace Plapp
                     Content = new Frame
                     {
                         CornerRadius = 10,
-                        Margin = 5,
+                        Padding = 5,
                         BorderColor = Color.White,
                         BackgroundColor = Color.Transparent,
 
@@ -29,7 +29,7 @@ namespace Plapp
                                 new TapGestureRecognizer().BindCommand(nameof(viewModel.OpenTopicCommand))
                             },
 
-                                Children =
+                            Children =
                             {
                                 new Image()
                                     .Aspect(Aspect.AspectFit)
