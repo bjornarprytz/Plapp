@@ -17,33 +17,25 @@ namespace Plapp
 
                     Children =
                     {
-                        new StackLayout
-                        {
-                            Orientation = StackOrientation.Vertical,
+                        new Entry()
+                            .Bind(nameof(VM.Title)),
 
-                            Children =
-                            {
-                                new Entry()
-                                    .Bind(nameof(VM.Title)),
+                        Components.PhotoFrame(
+                                nameof(VM.ImageUri),
+                                nameof(VM.LacksImage),
+                                nameof(VM.AddImageCommand)),
 
-                                Components.PhotoFrame(
-                                     nameof(VM.ImageUri),
-                                     nameof(VM.LacksImage),
-                                     nameof(VM.AddImageCommand)),
-
-                                new Editor()
-                                    .AutoSize(EditorAutoSizeOption.TextChanges)
-                                    .Bind(nameof(VM.Description))
-                            }
-                        },
-
-                        new Button()
-                            .BindCommand(nameof(VM.AddDataSeriesCommand)),
+                        new Editor()
+                            .AutoSize(EditorAutoSizeOption.TextChanges)
+                            .Bind(nameof(VM.Description)),
 
                         new CollectionView()
-                            .BindItems(nameof(VM.DataEntries), new DataSeriesTemplate())
+                            .BindItems(nameof(VM.DataEntries), new DataSeriesTemplate()),
+                                
+                        new Button()
+                            .BindCommand(nameof(VM.AddDataSeriesCommand)),
                     }
-                }
+                },
             };
         }
     }

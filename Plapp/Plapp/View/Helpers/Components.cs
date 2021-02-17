@@ -7,9 +7,13 @@ namespace Plapp
 {
     public static class Components
     {
+        public static Button FloatingActionButton()
+            => new Button()
+            .MaterialIcon(MaterialIcon.Add)
+            .Circle(80);
+
         public static Grid PhotoFrame(string imageBinding, string isVisibleBinding, string takePhotoCommandBinding)
-        {
-            return new Grid
+            => new Grid
             {
                 Children =
                     {
@@ -22,6 +26,6 @@ namespace Plapp
                             .BindCommand(takePhotoCommandBinding)
                     }
             };
-        }
+
     }
 }

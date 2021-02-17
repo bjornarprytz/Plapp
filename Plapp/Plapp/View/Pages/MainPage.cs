@@ -13,19 +13,13 @@ namespace Plapp
             {
                 Children =
                 {
-                    new StackLayout
-                    {
-                        Children =
-                        {
-                            new CollectionView()
-                                .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
-                                .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
-                                .VerticalOptions(LayoutOptions.StartAndExpand)
-                                .BindItems(nameof(VM.Topics), new TopicThumbnailTemplate()),
-                        }
-                    },
-                    
-                    Buttons.FloatingActionButton
+                    new CollectionView()
+                        .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
+                        .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
+                        .VerticalOptions(LayoutOptions.StartAndExpand)
+                        .BindItems(nameof(VM.Topics), new TopicThumbnailTemplate()),
+
+                    Components.FloatingActionButton()
                         .HorizontalOptions(LayoutOptions.EndAndExpand)
                         .VerticalOptions(LayoutOptions.EndAndExpand)
                         .BindCommand(nameof(VM.AddTopicCommand)),
