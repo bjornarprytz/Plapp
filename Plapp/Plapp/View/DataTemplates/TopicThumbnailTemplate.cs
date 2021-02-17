@@ -19,8 +19,6 @@ namespace Plapp
                     {
                         CornerRadius = 10,
                         Padding = 5,
-                        BorderColor = Color.White,
-                        BackgroundColor = Color.Transparent,
 
                         Content = new StackLayout
                         {
@@ -43,13 +41,15 @@ namespace Plapp
                                             .Bind(nameof(viewModel.Title)),
                                         new Label()
                                             .LineBreakMode(LineBreakMode.TailTruncation)
-                                            .TextColor(Colors.BackgroundVeryLight)
+                                            .TextColor(Palette.White)
                                             .Bind(nameof(viewModel.Description))
                                     }
                                 }
                             }
                         }
                     }
+                    .BackgroundColor(Palette.BackgroundLight)
+                    .BorderColor(Palette.Border)
                 };
             });
         }

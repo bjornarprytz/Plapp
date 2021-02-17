@@ -9,7 +9,6 @@ namespace Plapp
         public static Button FloatingActionButton
             => new Button()
             .MaterialIcon(MaterialDesign.Icons.MaterialIcon.Add)
-            .BackgroundColor(Colors.Attention)
             .Circle(80);
     }
 }
