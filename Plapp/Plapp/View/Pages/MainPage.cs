@@ -17,9 +17,9 @@ namespace Plapp
                         .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
                         .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
                         .VerticalOptions(LayoutOptions.StartAndExpand)
-                        .BindItems(nameof(VM.Topics), new TopicThumbnailTemplate()),
+                        .BindItems(nameof(VM.Topics), new DataTemplate(() => new TopicThumbnail())),
 
-                    Components.FloatingActionButton()
+                    ViewHelpers.FloatingActionButton()
                         .HorizontalOptions(LayoutOptions.EndAndExpand)
                         .VerticalOptions(LayoutOptions.EndAndExpand)
                         .BindCommand(nameof(VM.AddTopicCommand)),

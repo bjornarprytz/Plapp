@@ -51,6 +51,8 @@
   <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="MaterialDesign.Icons" Version="1.1.0" />
+    <PackageReference Include="Microcharts" Version="0.9.5.9" />
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
     <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />

@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Plapp
 {
-    public static class Components
+    public static class ViewHelpers
     {
         public static Button FloatingActionButton()
             => new Button()
@@ -16,15 +16,15 @@ namespace Plapp
             => new Grid
             {
                 Children =
-                    {
-                        new Image()
-                            .Bind(imageBinding),
+                {
+                    new Image()
+                        .Bind(imageBinding),
 
-                        new Button()
-                            .MaterialIcon(MaterialIcon.AddAPhoto, IconSize.Huge)
-                            .Bind(VisualElement.IsVisibleProperty, isVisibleBinding)
-                            .BindCommand(takePhotoCommandBinding)
-                    }
+                    new Button()
+                        .MaterialIcon(MaterialIcon.AddAPhoto, IconSize.Huge)
+                        .Bind(VisualElement.IsVisibleProperty, isVisibleBinding)
+                        .BindCommand(takePhotoCommandBinding)
+                }
             };
 
     }

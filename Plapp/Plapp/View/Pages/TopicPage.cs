@@ -20,7 +20,7 @@ namespace Plapp
                         new Entry()
                             .Bind(nameof(VM.Title)),
 
-                        Components.PhotoFrame(
+                        ViewHelpers.PhotoFrame(
                                 nameof(VM.ImageUri),
                                 nameof(VM.LacksImage),
                                 nameof(VM.AddImageCommand)),
@@ -30,7 +30,7 @@ namespace Plapp
                             .Bind(nameof(VM.Description)),
 
                         new CollectionView()
-                            .BindItems(nameof(VM.DataEntries), new DataSeriesTemplate()),
+                            .BindItems(nameof(VM.DataEntries), new DataTemplate(() => new DataSeriesInfoCard())),
                                 
                         new Button()
                             .BindCommand(nameof(VM.AddDataSeriesCommand)),
