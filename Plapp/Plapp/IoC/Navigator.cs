@@ -10,7 +10,7 @@ namespace Plapp
         private INavigation Navigation => IoC.Get<INavigation>();
         private IViewFactory ViewFactory => IoC.Get<IViewFactory>();
 
-        public async Task<IViewModel> PopAsync()
+        public async Task<IViewModel> GoBackAsync()
         {
             var view = await Navigation.PopAsync() as BaseContentPage<IViewModel>;
 
@@ -24,18 +24,18 @@ namespace Plapp
             return view.ViewModel;
         }
 
-        public async Task PopToRootAsync()
+        public async Task BackToRootAsync()
         {
             await Navigation.PopToRootAsync();
         }
 
-        public async Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+        public async Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(setStateAction);
             await Navigation.PushAsync(view);
         }
-        public async Task PushAsync<TViewModel>(TViewModel viewModel)
+        public async Task GoToAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : IViewModel
         {
             var view = ViewFactory.CreateView(viewModel);

@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public static class DataMappingExtensions
     {
-        public static ITopicViewModel ToViewModel(this Topic topic)
+        public static ITopicViewModel ToViewModel(this Topic topic, IServiceProvider sp)
         {
-            var topicViewModel =  new TopicViewModel
+            var topicViewModel =  new TopicViewModel(sp)
             {
                 Id = topic.Id,
                 Title = topic.Title,
@@ -17,17 +17,17 @@ namespace Plapp
                 ImageUri = topic.ImageUri,
             };
             if (topic.DataSeries != null && topic.DataSeries.Any())
-                topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel)));
+                topicViewModel.AddDataSeries(topic.DataSeries.Select(d => d.ToViewModel(topicViewModel, sp)));
 
             return topicViewModel;
         }
 
-        public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries, ITopicViewModel topicViewModel)
+        public static IDataSeriesViewModel ToViewModel(this DataSeries dataSeries, ITopicViewModel topicViewModel, IServiceProvider sp)
         {
             if (dataSeries.TopicId != topicViewModel.Id)
                 throw new ArgumentException("Topic Id mismatch between new parent");
 
-            var dataSeriesViewModel = new DataSeriesViewModel 
+            var dataSeriesViewModel = new DataSeriesViewModel(sp)
             { 
                 Id = dataSeries.Id,
                 TagId = dataSeries.TagId,
@@ -35,14 +35,14 @@ namespace Plapp
             };
 
             if (dataSeries.DataPoints != null && dataSeries.DataPoints.Any())
-                dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel)));
+                dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel, sp)));
 
             return dataSeriesViewModel;
         }
 
-        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint, IDataSeriesViewModel dataSeriesViewModel)
+        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint, IDataSeriesViewModel dataSeriesViewModel, IServiceProvider sp)
         {
-            return new DataPointViewModel
+            return new DataPointViewModel(sp)
             {
                 Id = dataPoint.Id,
                 Value = dataPoint.Value,
@@ -51,9 +51,9 @@ namespace Plapp
             };
         }
 
-        public static ITagViewModel ToViewModel(this Tag tag)
+        public static ITagViewModel ToViewModel(this Tag tag, IServiceProvider sp)
         {
-            return new TagViewModel
+            return new TagViewModel(sp)
             {
                 Id = tag.Id,
                 Unit = tag.Unit,

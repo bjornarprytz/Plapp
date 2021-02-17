@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Plapp.Core;
+using Plapp.ViewModels;
 using Xamarin.Forms;
 
 namespace Plapp
 {
     public abstract class BaseDataTemplateSelector<TViewModel> : DataTemplateSelector
-        where TViewModel : BaseViewModel
+        where TViewModel : IViewModel
     {
         protected static DataTemplate InvalidTemplate { get; set; } // TODO: Make this template something like a red X
 
@@ -15,7 +14,7 @@ namespace Plapp
         {
             if (item is not TViewModel)
             {
-                // TODO: Log something here
+                IoC.Get<ILogger>().LogWarning($"Provided item was not a view model, but of type: {item?.GetType()}");
                 return InvalidTemplate;
             }
 

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public static class ExpressionHelpers
     {

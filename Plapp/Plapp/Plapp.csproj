@@ -51,7 +51,6 @@
   <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="MaterialDesign.Icons" Version="1.1.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.3.1" />
     <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
@@ -61,5 +60,6 @@
     <ProjectReference Include="..\..\Plapp.Core\Plapp.Core.csproj" />
     <ProjectReference Include="..\..\Plapp.Peripherals\Plapp.Peripherals.csproj" />
     <ProjectReference Include="..\..\Plapp.Persist\Plapp.Persist.csproj" />
+    <ProjectReference Include="..\..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public class CommandHandler : ICommand
     {

@@ -5,16 +5,16 @@ namespace Plapp.Core
 {
     public interface INavigator
     {
-        Task<IViewModel> PopAsync();
+        Task<IViewModel> GoBackAsync();
 
         Task<IViewModel> PopModalAsync();
 
-        Task PopToRootAsync();
+        Task BackToRootAsync();
 
-        Task PushAsync<TViewModel>(Action<TViewModel> setStateAction = null)
+        Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
             where TViewModel : IViewModel;
         
-        Task PushAsync<TViewModel>(TViewModel viewModel)
+        Task GoToAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : IViewModel;
 
         Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)

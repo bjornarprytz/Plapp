@@ -1,6 +1,8 @@
 ﻿using Dna;
+using PCLStorage;
 using Plapp.Core;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -28,11 +30,24 @@ namespace Plapp
         {
             var cts = new CancellationTokenSource();
 
-            await FileHelpers.EnsureDbCreatedAsync(cts.Token);
+            await EnsureDbCreatedAsync(cts.Token);
 
             await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync(cts.Token);
 
-            await NavigationHelpers.NavigateTo<IApplicationViewModel>();
+            await IoC.Get<INavigator>().GoToAsync<IApplicationViewModel>();
+        }
+
+
+        private async Task EnsureDbCreatedAsync(CancellationToken cancellationToken)
+        {
+            switch (await IoC.Get<IFileSystem>().LocalStorage.CheckExistsAsync("Plapp.db", cancellationToken))
+            {
+                case ExistenceCheckResult.NotFound:
+                    await IoC.Get<IFileSystem>().LocalStorage.CreateFileAsync("Plapp.db", CreationCollisionOption.FailIfExists, cancellationToken);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

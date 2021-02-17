@@ -1,18 +1,21 @@
 ﻿using Plapp.Core;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
     {
-        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
-
         private bool topicsLoaded = false;
 
-        public ApplicationViewModel()
+        private INavigator Navigator => ServiceProvider.Get<INavigator>();
+        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
+
+        public ApplicationViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
@@ -43,7 +46,7 @@ namespace Plapp
                 async () => {
                     var topics = await DataStore.FetchTopicsAsync();
                     Topics = new ObservableCollection<ITopicViewModel>(
-                        topics.Select(t => t.ToViewModel()));
+                        topics.Select(t => t.ToViewModel(ServiceProvider)));
 
                     topicsLoaded = true;
             });
@@ -51,13 +54,13 @@ namespace Plapp
 
         private async Task AddTopic()
         {
-            var newTopic = new TopicViewModel();
+            var newTopic = new TopicViewModel(ServiceProvider);
 
             Topics.Add(newTopic);
 
             _ = DataStore.SaveTopicAsync(newTopic.ToModel());
 
-            await NavigationHelpers.NavigateTo<ITopicViewModel>(newTopic);
+            await Navigator.GoToAsync<ITopicViewModel>(newTopic);
         }
 
         private void DeleteTopic(ITopicViewModel topic)

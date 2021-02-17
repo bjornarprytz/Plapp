@@ -1,9 +1,14 @@
 ﻿using Plapp.Core;
+using System;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public class TagViewModel : BaseViewModel, ITagViewModel
     {
+        public TagViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
+        { }
+
         public string Id { get; set; }
         public string Unit { get; set; }
         public DataType DataType { get; set; }

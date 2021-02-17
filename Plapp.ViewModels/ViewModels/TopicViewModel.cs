@@ -1,18 +1,24 @@
-﻿using Plapp.Core;
+﻿using PCLStorage;
+using Plapp.Core;
 using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
-        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
+        private INavigator Navigator => ServiceProvider.Get<INavigator>();
+        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
+        private ICamera Camera => ServiceProvider.Get<ICamera>();
+        private IFileSystem FileSystem => ServiceProvider.Get<IFileSystem>();
 
-        public TopicViewModel()
+        public TopicViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
@@ -76,7 +82,7 @@ namespace Plapp
 
         private async Task OpenTopic()
         {
-            await NavigationHelpers.NavigateTo<ITopicViewModel>(this);
+            await Navigator.GoToAsync<ITopicViewModel>(this);
         }
 
 
@@ -90,7 +96,7 @@ namespace Plapp
 
                     foreach(var series in dataSeries)
                     {
-                        AddDataSeries(series.ToViewModel(this));
+                        AddDataSeries(series.ToViewModel(this, ServiceProvider));
                     }
                 });
         }
@@ -111,7 +117,7 @@ namespace Plapp
                 () => IsStartingCamera,
                 async () =>
                 {
-                    return await IoC.Get<ICamera>().TakePhotoAsync();
+                    return await Camera.TakePhotoAsync();
                 });
 
             if (photo == null)
@@ -119,16 +125,16 @@ namespace Plapp
                 return;
             }
 
-            ImageUri = await FileHelpers.SaveAsync($"{Title}.jpg", photo);
+            ImageUri = await FileSystem.SaveAsync($"{Title}.jpg", photo);
         }
 
         private void AddTag()
         {
             // TODO: Replace this dummy code
 
-            var tag = new Tag { Id = "Vann", Unit = "L" }.ToViewModel();
+            var tag = new Tag { Id = "Vann", Unit = "L" }.ToViewModel(ServiceProvider);
 
-            AddDataSeries(new DataSeriesViewModel { Topic = this, Tag = tag });
+            AddDataSeries(new DataSeriesViewModel(ServiceProvider) { Topic = this, Tag = tag });
         }
     }
 }

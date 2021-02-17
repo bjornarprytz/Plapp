@@ -6,6 +6,7 @@ using PCLStorage;
 using Plapp.Persist;
 using Microsoft.EntityFrameworkCore;
 using Plapp.Peripherals;
+using Plapp.ViewModels;
 
 namespace Plapp
 {
@@ -31,7 +32,7 @@ namespace Plapp
             {
                 var config = await IoC.Get<IConfigurationManager>().GetAsync();
 
-                var connStr = $"Data Source={FileHelpers.PathFromRoot(config.ConnectionStrings.PlappDb)}";
+                var connStr = $"Data Source={IoC.Get<IFileSystem>().PathFromRoot(config.ConnectionStrings.PlappDb)}";
                 options.UseSqlite(connStr);
             }, contextLifetime: ServiceLifetime.Transient);
 

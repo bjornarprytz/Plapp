@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp
 {
-    public class TopicThumbnailTemplate : BaseDataTemplateSelector<TopicViewModel>
+    public class TopicThumbnailTemplate : BaseDataTemplateSelector<ITopicViewModel>
     {
-        protected override DataTemplate OnSelectTypedTemplate(TopicViewModel viewModel, BindableObject container)
+        protected override DataTemplate OnSelectTypedTemplate(ITopicViewModel viewModel, BindableObject container)
         {
             return new DataTemplate(() =>
             {

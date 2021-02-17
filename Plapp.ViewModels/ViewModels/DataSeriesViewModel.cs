@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
         private readonly Dictionary<DateTime, IDataPointViewModel> DataSeries = new Dictionary<DateTime, IDataPointViewModel>();
-        private IPlappDataStore DataStore => IoC.Get<IPlappDataStore>();
-
-        public DataSeriesViewModel()
+        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
+        public DataSeriesViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             LoadDataCommand = new CommandHandler(async () => await LoadData());
             AddDataPointCommand = new CommandHandler<IDataPointViewModel>(AddDataPoint);
@@ -74,7 +74,7 @@ namespace Plapp
                 async () =>
                 {
                     var tag = await DataStore.FetchTagAsync(TagId);
-                    Tag = tag.ToViewModel();
+                    Tag = tag.ToViewModel(ServiceProvider);
                 });
         }
     }

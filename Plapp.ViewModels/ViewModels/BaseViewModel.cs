@@ -4,11 +4,18 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Plapp
+namespace Plapp.ViewModels
 {
     public abstract class BaseViewModel : IViewModel
     {
         protected object mPropertyValueCheckLock = new object();
+
+        protected IServiceProvider ServiceProvider { get; private set; }
+
+        protected BaseViewModel(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 

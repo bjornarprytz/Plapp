@@ -1,12 +1,13 @@
 ﻿using MaterialDesign.Icons;
+using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp
 {
-    public class DataSeriesTemplate : BaseDataTemplateSelector<DataSeriesViewModel>
+    public class DataSeriesTemplate : BaseDataTemplateSelector<IDataSeriesViewModel>
     {
-        protected override DataTemplate OnSelectTypedTemplate(DataSeriesViewModel viewModel, BindableObject container)
+        protected override DataTemplate OnSelectTypedTemplate(IDataSeriesViewModel viewModel, BindableObject container)
         {
             return new DataTemplate(
                 () => new ContentView
@@ -28,8 +29,9 @@ namespace Plapp
 
                         Children =
                         {
+                            // TODO: Replace this with TagTemplate or something
                             new Label().Row(0)
-                                .Bind(nameof(viewModel.TagId)),
+                                .Bind(nameof(viewModel.Id)), // Should be TagId
                             new Label().Row(1)
                                 .Bind(nameof(viewModel.Latest.Date), converter: new DateTimeToDateStringConverter()),
                             new Label().Row(1).Column(1)
