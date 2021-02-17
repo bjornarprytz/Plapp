@@ -26,7 +26,7 @@ namespace Plapp
         {
             var view = ResolveView<TViewModel>();
 
-            setStateAction?.Invoke(view.ViewModel);
+            setStateAction?.Invoke(view.VM);
 
             return view;
         }
@@ -36,7 +36,7 @@ namespace Plapp
         {
             var view = ResolveView<TViewModel>();
 
-            view.ViewModel = viewModel;
+            view.VM = viewModel;
 
             return view;
         }

@@ -8,11 +8,11 @@ namespace Plapp
     public abstract class BaseContentPage<TViewModel> : ContentPage
         where TViewModel : IViewModel
     {
-        public TViewModel ViewModel { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+        public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
 
         protected BaseContentPage()
         {
-            ViewModel = IoC.Get<TViewModel>();
+            VM = IoC.Get<TViewModel>();
         }
 
         protected override void OnAppearing()
@@ -20,7 +20,7 @@ namespace Plapp
             try
             {
                 base.OnAppearing();
-                ViewModel?.OnShow();
+                VM?.OnShow();
             }
             catch (Exception ex) { IoC.Get<ILogger>().LogTrace(ex.Message); }
         }
@@ -29,7 +29,7 @@ namespace Plapp
         {
             try
             {
-                ViewModel?.OnHide();
+                VM?.OnHide();
                 base.OnDisappearing();
             }
             catch (Exception ex) { IoC.Get<ILogger>().LogTrace(ex.Message); }

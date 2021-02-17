@@ -14,14 +14,14 @@ namespace Plapp
         {
             var view = await Navigation.PopAsync() as BaseContentPage<IViewModel>;
 
-            return view.ViewModel;
+            return view.VM;
         }
 
         public async Task<IViewModel> PopModalAsync()
         {
             var view = await Navigation.PopModalAsync() as BaseContentPage<IViewModel>;
             
-            return view.ViewModel;
+            return view.VM;
         }
 
         public async Task BackToRootAsync()

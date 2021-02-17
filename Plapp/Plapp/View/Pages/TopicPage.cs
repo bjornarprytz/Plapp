@@ -1,5 +1,4 @@
-﻿using MaterialDesign.Icons;
-using Plapp.Core;
+﻿using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
@@ -25,40 +24,24 @@ namespace Plapp
                             Children =
                             {
                                 new Entry()
-                                .Bind(nameof(ViewModel.Title)),
+                                    .Bind(nameof(VM.Title)),
 
-                                new ContentView
-                                {
-                                    Content = new Grid
-                                    {
-                                        Children =
-                                        {
-                                            new Image()
-                                                .Bind(nameof(ViewModel.ImageUri)),
+                                Components.PhotoFrame(
+                                     nameof(VM.ImageUri),
+                                     nameof(VM.LacksImage),
+                                     nameof(VM.AddImageCommand)),
 
-                                            new Button()
-                                                .MaterialIcon(MaterialIcon.AddAPhoto, IconSize.Huge)
-                                                .Bind(IsVisibleProperty, nameof(ViewModel.LacksImage))
-                                                .BindCommand(nameof(ViewModel.AddImageCommand))
-                                        }
-                                    }
-                                }
-                                    .HeightRequest(300)
-                                    .VerticalOptions(LayoutOptions.StartAndExpand)
-                                    .HorizontalOptions(LayoutOptions.Fill),
-
-                                new Editor
-                                {
-                                    AutoSize = EditorAutoSizeOption.TextChanges,
-                                }.Bind(nameof(ViewModel.Description))
+                                new Editor()
+                                    .AutoSize(EditorAutoSizeOption.TextChanges)
+                                    .Bind(nameof(VM.Description))
                             }
                         },
 
                         new Button()
-                            .BindCommand(nameof(ViewModel.AddDataSeriesCommand)),
+                            .BindCommand(nameof(VM.AddDataSeriesCommand)),
 
                         new CollectionView()
-                            .BindItems(nameof(ViewModel.DataEntries), new DataSeriesTemplate())
+                            .BindItems(nameof(VM.DataEntries), new DataSeriesTemplate())
                     }
                 }
             };

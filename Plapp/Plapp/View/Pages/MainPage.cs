@@ -21,14 +21,14 @@ namespace Plapp
                                 .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
                                 .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
                                 .VerticalOptions(LayoutOptions.StartAndExpand)
-                                .BindItems(nameof(ViewModel.Topics), new TopicThumbnailTemplate()),
+                                .BindItems(nameof(VM.Topics), new TopicThumbnailTemplate()),
                         }
                     },
                     
                     Buttons.FloatingActionButton
                         .HorizontalOptions(LayoutOptions.EndAndExpand)
                         .VerticalOptions(LayoutOptions.EndAndExpand)
-                        .BindCommand(nameof(ViewModel.AddTopicCommand)),
+                        .BindCommand(nameof(VM.AddTopicCommand)),
                 }
             };
         }
