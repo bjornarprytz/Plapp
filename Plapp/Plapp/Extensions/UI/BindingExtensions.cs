@@ -14,10 +14,16 @@ namespace Plapp
             return collectionView;
         }
 
-        public static T BindContext<T>(this T bindableObject, string path)
+        public static T BindContext<T>(this T bindableObject, string path = ".")
             where T : BindableObject
         {
             return bindableObject.Bind(BindableObject.BindingContextProperty, path);
+        }
+
+        public static T BindContext<T>(this T bindableObject, string path, IValueConverter valueConverter)
+            where T : BindableObject
+        {
+            return bindableObject.Bind(BindableObject.BindingContextProperty, path, converter: valueConverter);
         }
     }
 }

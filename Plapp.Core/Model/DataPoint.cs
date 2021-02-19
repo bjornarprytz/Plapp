@@ -8,6 +8,5 @@ namespace Plapp.Core
         public int DataSeriesId { get; set; }
         public DateTime Date { get; set; }
         public long Value { get; set; }
-
     }
 }

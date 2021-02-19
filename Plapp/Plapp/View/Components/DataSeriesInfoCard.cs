@@ -1,6 +1,5 @@
 ﻿using Plapp.Core;
 using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -12,7 +11,7 @@ namespace Plapp
             {
                 Header = new DataSeriesHeader().BindContext(nameof(VM.Tag)),
 
-                Content = new DataSeriesGraph().BindContext(".")
+                Content = new DataSeriesGraph().BindContext()
             };
         }
     }

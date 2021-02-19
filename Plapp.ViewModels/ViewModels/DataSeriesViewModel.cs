@@ -1,7 +1,6 @@
 ﻿using Plapp.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,7 +8,7 @@ namespace Plapp.ViewModels
 {
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
-        private readonly Dictionary<DateTime, IDataPointViewModel> DataSeries = new Dictionary<DateTime, IDataPointViewModel>();
+        private readonly Dictionary<DateTime, IDataPointViewModel> _dataSeries = new Dictionary<DateTime, IDataPointViewModel>();
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         public DataSeriesViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -25,46 +24,22 @@ namespace Plapp.ViewModels
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
-        public IDataPointViewModel Latest => DataSeries.Values.OrderBy(d => d.Date).FirstOrDefault();
+        public IEnumerable<IDataPointViewModel> DataPoints => _dataSeries.Values;
 
         public ICommand LoadDataCommand { get; private set; }
         public ICommand AddDataPointCommand { get; private set; }
 
         public void AddDataPoint(IDataPointViewModel dataPoint)
         {
-            DataSeries[dataPoint.Date] = dataPoint;
-
-            OnPropertyChanged(nameof(Latest));
+            _dataSeries[dataPoint.Date] = dataPoint;
         }
 
         public void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints)
         {
             foreach(var dataPoint in dataPoints)
             {
-               DataSeries[dataPoint.Date] = dataPoint;
+                _dataSeries[dataPoint.Date] = dataPoint;
             }
-
-            OnPropertyChanged(nameof(Latest));
-        }
-
-        public IDataPointViewModel GetDataPoint(DateTime date)
-        {
-            if (!DataSeries.ContainsKey(date))
-            {
-                return null;
-            }
-
-            return DataSeries[date];
-        }
-
-        public IEnumerable<IDataPointViewModel> GetDataPoints()
-        {
-            return DataSeries.Values;
-        }
-
-        public IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end)
-        {
-            return DataSeries.Values.Where(d => d.Date > start && d.Date < end);
         }
 
         private async Task LoadData()

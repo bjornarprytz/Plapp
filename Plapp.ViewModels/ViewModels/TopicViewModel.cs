@@ -64,7 +64,7 @@ namespace Plapp.ViewModels
 
             if (existingSeries != null)
             {
-                existingSeries.AddDataPoints(newSeries.GetDataPoints());
+                existingSeries.AddDataPoints(newSeries.DataPoints);
             }
             else
             {

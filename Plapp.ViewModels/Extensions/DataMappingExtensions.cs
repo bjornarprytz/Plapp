@@ -47,7 +47,6 @@ namespace Plapp.ViewModels
                 Id = dataPoint.Id,
                 Value = dataPoint.Value,
                 Date = dataPoint.Date,
-                DataSeries = dataSeriesViewModel,
             };
         }
 
@@ -85,20 +84,20 @@ namespace Plapp.ViewModels
                 DataPoints = new List<DataPoint>(),
             };
 
-            foreach(var dataSerie in dataSeriesViewModel.GetDataPoints())
+            foreach(var dataSerie in dataSeriesViewModel.DataPoints)
             {
-                dataSeries.DataPoints.Add(dataSerie.ToModel());
+                dataSeries.DataPoints.Add(dataSerie.ToModel(dataSerie.Id));
             }
 
             return dataSeries;
         }
 
-        public static DataPoint ToModel(this IDataPointViewModel dataPoinViewModel)
+        public static DataPoint ToModel(this IDataPointViewModel dataPoinViewModel, int dataSeriesId)
         {
             return new DataPoint
             {
                 Id = dataPoinViewModel.Id,
-                DataSeriesId = dataPoinViewModel.DataSeries.Id,
+                DataSeriesId = dataSeriesId,
                 Value = dataPoinViewModel.Value,
                 Date = dataPoinViewModel.Date,
             };

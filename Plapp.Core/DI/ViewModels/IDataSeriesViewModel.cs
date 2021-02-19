@@ -10,14 +10,12 @@ namespace Plapp.Core
 
         ITopicViewModel Topic { get; }
         ITagViewModel Tag { get; set; }
-        IDataPointViewModel Latest { get; }
+        IEnumerable<IDataPointViewModel> DataPoints { get; }
 
         ICommand LoadDataCommand { get; }
         ICommand AddDataPointCommand { get; }
 
-        IDataPointViewModel GetDataPoint(DateTime date);
-        IEnumerable<IDataPointViewModel> GetDataPointsInWindow(DateTime start, DateTime end);
-        IEnumerable<IDataPointViewModel> GetDataPoints();
+
         void AddDataPoint(IDataPointViewModel dataPoint);
         void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints);
 

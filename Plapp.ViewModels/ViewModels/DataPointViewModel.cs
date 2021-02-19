@@ -12,7 +12,5 @@ namespace Plapp.ViewModels
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public long Value { get; set; }
-
-        public IDataSeriesViewModel DataSeries { get; set; }
     }
 }
