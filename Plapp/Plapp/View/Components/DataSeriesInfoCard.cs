@@ -1,5 +1,9 @@
-﻿using Plapp.Core;
+﻿using MaterialDesign.Icons;
+using Plapp.Core;
+using System.Collections.Generic;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -7,11 +11,20 @@ namespace Plapp
     {
         public DataSeriesInfoCard()
         {
-            Content = new Expander
-            {
-                Header = new DataSeriesHeader().BindContext(),
-                Content = new DataSeriesGraph().BindContext()
-            };
+            var expander = ViewHelpers.ExpanderWithHeader(
+                new StackLayout
+                {
+                    Orientation = StackOrientation.Horizontal,
+                    Children =
+                    {
+                        new TagBadge().BindContext(nameof(VM.Tag)),
+                        new Label().Bind(nameof(VM.Title))
+                    }
+                }).BindContext();
+
+            expander.Content = new DataSeriesGraph().BindContext();
+
+            Content = expander;
         }
     }
 }

@@ -25,5 +25,31 @@ namespace Plapp
         {
             return bindableObject.Bind(BindableObject.BindingContextProperty, path, converter: valueConverter);
         }
+
+        public static T BindTrigger<T>(this T visualElement, BindableProperty property, object propertySetterValue, object source, string path, object triggerValue)
+            where T : VisualElement
+        {
+            var binding = new Binding
+            {
+                Source = source,
+                Path = path
+            };
+
+            var trigger = new DataTrigger(typeof(T))
+            {
+                Binding = binding,
+                Value = triggerValue,
+            };
+
+            trigger.Setters.Add(new Setter
+            {
+                Property = property,
+                Value = propertySetterValue
+            });
+
+            visualElement.Triggers.Add(trigger);
+
+            return visualElement;
+        }
     }
 }

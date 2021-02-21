@@ -1,5 +1,7 @@
 ﻿using MaterialDesign.Icons;
+using System.Collections.Generic;
 using Xamarin.CommunityToolkit.Markup;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 
@@ -30,5 +32,43 @@ namespace Plapp
                 }
             };
 
+        public static Expander ExpanderWithHeader(View headerDecor)
+        {
+            var expander = new Expander()
+                .HorizontalOptions(LayoutOptions.FillAndExpand);
+
+            var expanderIcon = new Image
+            {
+                Source = Icon(MaterialIcon.ExpandMore)
+            }.BindTrigger(
+                Image.SourceProperty,
+                Icon(MaterialIcon.ExpandLess),
+                expander,
+                nameof(Expander.IsExpanded),
+                true);
+
+            expander.Header = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+
+                Children = {
+                    headerDecor,
+                    expanderIcon.HorizontalOptions(LayoutOptions.End)
+                }
+            };
+
+            return expander;
+        }
+
+        public static FontImageSource Icon(MaterialIcon icon, Color color = default)
+        {
+            return new FontImageSource
+            {
+                Glyph = icon.ToIconFontString(),
+                FontFamily = Fonts.MI,
+                Size = (double)IconSize.Medium,
+                Color = color,
+            };
+        }
     }
 }
