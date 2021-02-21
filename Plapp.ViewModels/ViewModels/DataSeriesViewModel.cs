@@ -1,6 +1,7 @@
 ﻿using Plapp.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -8,11 +9,14 @@ namespace Plapp.ViewModels
 {
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
-        private readonly Dictionary<DateTime, IDataPointViewModel> _dataSeries = new Dictionary<DateTime, IDataPointViewModel>();
+        private readonly ObservableCollection<IDataPointViewModel> _dataSeries;
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         public DataSeriesViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _dataSeries = new ObservableCollection<IDataPointViewModel>();
+            DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataSeries);
+
             LoadDataCommand = new CommandHandler(async () => await LoadData());
             AddDataPointCommand = new CommandHandler<IDataPointViewModel>(AddDataPoint);
         }
@@ -24,22 +28,19 @@ namespace Plapp.ViewModels
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
-        public IEnumerable<IDataPointViewModel> DataPoints => _dataSeries.Values;
+        public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         public ICommand LoadDataCommand { get; private set; }
         public ICommand AddDataPointCommand { get; private set; }
 
         public void AddDataPoint(IDataPointViewModel dataPoint)
         {
-            _dataSeries[dataPoint.Date] = dataPoint;
+            _dataSeries.Add(dataPoint);
         }
 
         public void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints)
         {
-            foreach(var dataPoint in dataPoints)
-            {
-                _dataSeries[dataPoint.Date] = dataPoint;
-            }
+            _dataSeries.AddRange(dataPoints);
         }
 
         private async Task LoadData()

@@ -9,6 +9,8 @@ namespace Plapp.ViewModels
 {
     public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
     {
+        private readonly ObservableCollection<ITopicViewModel> _topics;
+
         private bool topicsLoaded = false;
 
         private INavigator Navigator => ServiceProvider.Get<INavigator>();
@@ -17,13 +19,16 @@ namespace Plapp.ViewModels
         public ApplicationViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _topics = new ObservableCollection<ITopicViewModel>();
+            Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
+
             AddTopicCommand = new CommandHandler(async () => await AddTopic());
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
         }
 
         public bool IsLoadingTopics { get; private set; }
 
-        public ObservableCollection<ITopicViewModel> Topics { get; private set; } = new ObservableCollection<ITopicViewModel>();
+        public ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
@@ -45,8 +50,9 @@ namespace Plapp.ViewModels
                 () => IsLoadingTopics,
                 async () => {
                     var topics = await DataStore.FetchTopicsAsync();
-                    Topics = new ObservableCollection<ITopicViewModel>(
-                        topics.Select(t => t.ToViewModel(ServiceProvider)));
+
+                    _topics.Clear();
+                    _topics.AddRange(topics.Select(t => t.ToViewModel(ServiceProvider)));
 
                     topicsLoaded = true;
             });
@@ -56,7 +62,7 @@ namespace Plapp.ViewModels
         {
             var newTopic = new TopicViewModel(ServiceProvider);
 
-            Topics.Add(newTopic);
+            _topics.Add(newTopic);
 
             _ = DataStore.SaveTopicAsync(newTopic.ToModel());
 
@@ -65,9 +71,9 @@ namespace Plapp.ViewModels
 
         private void DeleteTopic(ITopicViewModel topic)
         {
-            Topics.Remove(topic);
+            _topics.Remove(topic);
             
-            _ = DataStore.DeleteTopicAsync(topic.ToModel());
+            Task.Run(() => DataStore.DeleteTopicAsync(topic.ToModel()));
         }
     }
 }

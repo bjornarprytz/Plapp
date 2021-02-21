@@ -16,12 +16,11 @@ namespace Plapp.Core
         string Title { get; set; }
         string Description { get; set; }
 
-        ObservableCollection<IDataSeriesViewModel> DataEntries { get; }
+        ReadOnlyObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 
         ICommand OpenTopicCommand { get; }
         ICommand AddImageCommand { get; }
         ICommand AddDataSeriesCommand { get; }
-
 
         void AddDataSeries(IDataSeriesViewModel newSeries);
         void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);

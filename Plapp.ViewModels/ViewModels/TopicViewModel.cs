@@ -12,6 +12,7 @@ namespace Plapp.ViewModels
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
+        private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
         private INavigator Navigator => ServiceProvider.Get<INavigator>();
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         private ICamera Camera => ServiceProvider.Get<ICamera>();
@@ -20,6 +21,9 @@ namespace Plapp.ViewModels
         public TopicViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _dataEntries = new ObservableCollection<IDataSeriesViewModel>();
+            DataEntries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataEntries);
+
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
             AddDataSeriesCommand = new CommandHandler(AddTag);
@@ -27,7 +31,7 @@ namespace Plapp.ViewModels
 
         public int Id { get; set; }
 
-        public ObservableCollection<IDataSeriesViewModel> DataEntries { get; private set; } = new ObservableCollection<IDataSeriesViewModel>();
+        public ReadOnlyObservableCollection<IDataSeriesViewModel> DataEntries { get; }
 
         public bool IsLoadingData { get; private set; }
         public bool IsSavingTopic { get; private set; }
@@ -60,7 +64,7 @@ namespace Plapp.ViewModels
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
-            var existingSeries = DataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id);
+            var existingSeries = _dataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id);
 
             if (existingSeries != null)
             {
@@ -68,7 +72,7 @@ namespace Plapp.ViewModels
             }
             else
             {
-                DataEntries.Add(newSeries);
+                _dataEntries.Add(newSeries);
             }
         }
 
