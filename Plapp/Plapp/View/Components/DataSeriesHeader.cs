@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Plapp
 {
-    public class DataSeriesHeader : BaseContentView<ITagViewModel>
+    public class DataSeriesHeader : BaseContentView<IDataSeriesViewModel>
     {
         public DataSeriesHeader()
         {
@@ -13,15 +13,11 @@ namespace Plapp
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label
-                    {
-                        
-                    }.Bind(nameof(VM.Id))
-                    .BackgroundColor(Color.Pink),
+                    new TagBadge().BindContext(nameof(VM.Tag)),
+                    new Label().Bind(nameof(VM.Title)),
+                    // TODO: Expander icon
                 }
             };
         }
-
-
     }
 }

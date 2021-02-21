@@ -11,12 +11,14 @@ namespace Plapp.Core
         bool IsSavingTopic { get; }
         bool LacksImage { get; }
 
+        bool IsStartingCamera { get; }
+
         int Id { get; }
         string ImageUri { get; set; }
         string Title { get; set; }
         string Description { get; set; }
 
-        ReadOnlyObservableCollection<IDataSeriesViewModel> DataEntries { get; }
+        ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
         ICommand OpenTopicCommand { get; }
         ICommand AddImageCommand { get; }

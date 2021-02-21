@@ -30,17 +30,18 @@ namespace Plapp.ViewModels
             var dataSeriesViewModel = new DataSeriesViewModel(sp)
             { 
                 Id = dataSeries.Id,
+                Title = dataSeries.Title,
                 TagId = dataSeries.TagId,
                 Topic = topicViewModel,
             };
 
             if (dataSeries.DataPoints != null && dataSeries.DataPoints.Any())
-                dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(dataSeriesViewModel, sp)));
+                dataSeriesViewModel.AddDataPoints(dataSeries.DataPoints.Select(d => d.ToViewModel(sp)));
 
             return dataSeriesViewModel;
         }
 
-        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint, IDataSeriesViewModel dataSeriesViewModel, IServiceProvider sp)
+        public static IDataPointViewModel ToViewModel(this DataPoint dataPoint, IServiceProvider sp)
         {
             return new DataPointViewModel(sp)
             {
@@ -70,7 +71,7 @@ namespace Plapp.ViewModels
                 Title = topicViewModel.Title,
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
-                DataSeries = topicViewModel.DataEntries?.Select(d => d.ToModel()).ToList(),
+                DataSeries = topicViewModel.DataSeries?.Select(d => d.ToModel()).ToList(),
             };
         }
 
@@ -79,6 +80,7 @@ namespace Plapp.ViewModels
             var dataSeries = new DataSeries
             {
                 Id = dataSeriesViewModel.Id,
+                Title = dataSeriesViewModel.Title,
                 TopicId = dataSeriesViewModel.Topic.Id,
                 TagId = dataSeriesViewModel.Tag.Id,
                 DataPoints = new List<DataPoint>(),

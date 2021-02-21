@@ -13,6 +13,7 @@ namespace Plapp.ViewModels
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
+
         private INavigator Navigator => ServiceProvider.Get<INavigator>();
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         private ICamera Camera => ServiceProvider.Get<ICamera>();
@@ -22,7 +23,7 @@ namespace Plapp.ViewModels
             : base(serviceProvider)
         {
             _dataEntries = new ObservableCollection<IDataSeriesViewModel>();
-            DataEntries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataEntries);
+            DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataEntries);
 
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
@@ -31,7 +32,7 @@ namespace Plapp.ViewModels
 
         public int Id { get; set; }
 
-        public ReadOnlyObservableCollection<IDataSeriesViewModel> DataEntries { get; }
+        public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
         public bool IsLoadingData { get; private set; }
         public bool IsSavingTopic { get; private set; }
@@ -64,13 +65,9 @@ namespace Plapp.ViewModels
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
-            var existingSeries = _dataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id);
+            var existingSeries = _dataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id && s.Title == newSeries.Title);
 
-            if (existingSeries != null)
-            {
-                existingSeries.AddDataPoints(newSeries.DataPoints);
-            }
-            else
+            if (existingSeries == null)
             {
                 _dataEntries.Add(newSeries);
             }
@@ -88,7 +85,6 @@ namespace Plapp.ViewModels
         {
             await Navigator.GoToAsync<ITopicViewModel>(this);
         }
-
 
         private async Task LoadDataSeries()
         {
@@ -134,9 +130,7 @@ namespace Plapp.ViewModels
 
         private void AddTag()
         {
-            // TODO: Replace this dummy code
-
-            var tag = new Tag { Id = "Vann", Unit = "L" }.ToViewModel(ServiceProvider);
+            var tag = new TagViewModel(ServiceProvider) { Id = "Vann", Color = "#ffa500" }; // TODO: Open picker, select tag
 
             AddDataSeries(new DataSeriesViewModel(ServiceProvider) { Topic = this, Tag = tag });
         }

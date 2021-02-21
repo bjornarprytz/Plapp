@@ -9,8 +9,7 @@ namespace Plapp
         {
             Content = new Expander
             {
-                Header = new DataSeriesHeader().BindContext(nameof(VM.Tag)),
-
+                Header = new DataSeriesHeader().BindContext(),
                 Content = new DataSeriesGraph().BindContext()
             };
         }

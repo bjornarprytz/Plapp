@@ -30,7 +30,7 @@ namespace Plapp
                             .Bind(nameof(VM.Description)),
 
                         new CollectionView()
-                            .BindItems(nameof(VM.DataEntries), new DataTemplate(() => new DataSeriesInfoCard())),
+                            .BindItems(nameof(VM.DataSeries), new DataTemplate(() => new DataSeriesInfoCard())),
                                 
                         new Button()
                             .BindCommand(nameof(VM.AddDataSeriesCommand)),
