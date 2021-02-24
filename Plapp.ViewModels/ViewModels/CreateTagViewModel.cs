@@ -9,21 +9,21 @@ namespace Plapp.ViewModels
     class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
-
-        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
-
+        
         public CreateTagViewModel(IServiceProvider serviceProvider)
             :base(serviceProvider)
         {
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
+
+            UnderCreation = VMFactory.Create<ITagViewModel>();
         }
 
         public bool IsLoadingTags { get; private set; }
 
         public ReadOnlyObservableCollection<ITagViewModel> AvailableTags { get; }
 
-        public override IViewModel UnderCreation => throw new NotImplementedException();
+        public override IViewModel UnderCreation { get; set; }
 
         public override void OnShow()
         {

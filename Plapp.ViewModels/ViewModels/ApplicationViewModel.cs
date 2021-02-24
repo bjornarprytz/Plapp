@@ -13,10 +13,6 @@ namespace Plapp.ViewModels
 
         private bool topicsLoaded = false;
 
-        private INavigator Navigator => ServiceProvider.Get<INavigator>();
-        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
-        private IViewModelFactory VMFactory => ServiceProvider.Get<IViewModelFactory>();
-
         public ApplicationViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {

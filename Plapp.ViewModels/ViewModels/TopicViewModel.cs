@@ -13,13 +13,9 @@ namespace Plapp.ViewModels
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
-
-        private INavigator Navigator => ServiceProvider.Get<INavigator>();
-        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         private ICamera Camera => ServiceProvider.Get<ICamera>();
         private IFileSystem FileSystem => ServiceProvider.Get<IFileSystem>();
         private IPrompter Prompter => ServiceProvider.Get<IPrompter>();
-        private IViewModelFactory VMFactory => ServiceProvider.Get<IViewModelFactory>();
 
         public TopicViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -29,7 +25,7 @@ namespace Plapp.ViewModels
 
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
-            AddDataSeriesCommand = new CommandHandler(async () => await AddTag());
+            AddDataSeriesCommand = new CommandHandler(async () => await AddDataSeriesAsync());
         }
 
         public int Id { get; set; }
@@ -130,9 +126,18 @@ namespace Plapp.ViewModels
             ImageUri = await FileSystem.SaveAsync($"{Title}.jpg", photo);
         }
 
-        private async Task AddTag()
+        private async Task AddDataSeriesAsync()
         {
-            var tag = await Prompter.CreateAsync<ITagViewModel>();
+            var options = new List<string> { "Create new Tag" };
+
+            options.AddRange((await DataStore.FetchTagsAsync()).Select(t => t.Id));
+
+            var choice = await Prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
+
+
+            var tag = choice == "Create new Tag"
+            ? await Prompter.CreateAsync<ITagViewModel>()
+            : (await DataStore.FetchTagAsync(choice))?.ToViewModel(ServiceProvider);
 
             if (tag == null)
             {

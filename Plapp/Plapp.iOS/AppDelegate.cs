@@ -18,7 +18,7 @@ namespace Plapp.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             Rg.Plugins.Popup.Popup.Init();
 
@@ -27,7 +27,7 @@ namespace Plapp.iOS
 
             LoadApplication(new App(new IOSConfigurationStreamProviderFactory()));
 
-            return base.FinishedLaunching(app, options);
+            return base.FinishedLaunching(uiApplication, launchOptions);
         }
     }
 }
