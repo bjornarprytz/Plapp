@@ -15,6 +15,7 @@ namespace Plapp.ViewModels
 
         private INavigator Navigator => ServiceProvider.Get<INavigator>();
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
+        private IViewModelFactory VMFactory => ServiceProvider.Get<IViewModelFactory>();
 
         public ApplicationViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -60,13 +61,13 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var newTopic = new TopicViewModel(ServiceProvider);
+            var newTopic = VMFactory.Create<ITopicViewModel>();
 
             _topics.Add(newTopic);
 
             _ = DataStore.SaveTopicAsync(newTopic.ToModel());
 
-            await Navigator.GoToAsync<ITopicViewModel>(newTopic);
+            await Navigator.GoToAsync(newTopic);
         }
 
         private void DeleteTopic(ITopicViewModel topic)

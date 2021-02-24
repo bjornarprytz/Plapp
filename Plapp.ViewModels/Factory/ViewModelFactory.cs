@@ -8,9 +8,11 @@ namespace Plapp.ViewModels
     {
         private readonly IServiceProvider _serviceProvider;
 
-        private Dictionary<Type, Func<IViewModel>> FactoryMap => new Dictionary<Type, Func<IViewModel>>
+        private Dictionary<Type, Func<IViewModel>> _factoryMap => new Dictionary<Type, Func<IViewModel>>
         {
             {typeof(ITagViewModel), () => new TagViewModel(_serviceProvider)},
+            {typeof(ITopicViewModel), () => new TopicViewModel(_serviceProvider)},
+            {typeof(IDataSeriesViewModel), () => new DataSeriesViewModel(_serviceProvider) }
         };
 
         public ViewModelFactory(IServiceProvider serviceProvider)
@@ -18,14 +20,15 @@ namespace Plapp.ViewModels
             _serviceProvider = serviceProvider;
         }
 
-        public TViewModel Create<TViewModel>() where TViewModel : IViewModel
+        public TViewModel Create<TViewModel>(Action<TViewModel> setStateAction = null) where TViewModel : IViewModel
         {
-            if (FactoryMap.ContainsKey(typeof(TViewModel)))
-            {
-                return (TViewModel) FactoryMap[typeof(TViewModel)].Invoke();
-            }
+            var vm = _factoryMap.TryGetValue(typeof(TViewModel), out var getter)
+                ? (TViewModel)getter.Invoke()
+                : throw new ArgumentException($"Cannot create instance of ViewModel of type {typeof(TViewModel)}");
 
-            return _serviceProvider.Get<TViewModel>();
+            setStateAction?.Invoke(vm);
+
+            return vm;
         }
     }
 }

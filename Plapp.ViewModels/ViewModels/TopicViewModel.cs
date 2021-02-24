@@ -18,6 +18,8 @@ namespace Plapp.ViewModels
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         private ICamera Camera => ServiceProvider.Get<ICamera>();
         private IFileSystem FileSystem => ServiceProvider.Get<IFileSystem>();
+        private IPrompter Prompter => ServiceProvider.Get<IPrompter>();
+        private IViewModelFactory VMFactory => ServiceProvider.Get<IViewModelFactory>();
 
         public TopicViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -27,7 +29,7 @@ namespace Plapp.ViewModels
 
             OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
             AddImageCommand = new CommandHandler(async () => await AddImage());
-            AddDataSeriesCommand = new CommandHandler(AddTag);
+            AddDataSeriesCommand = new CommandHandler(async () => await AddTag());
         }
 
         public int Id { get; set; }
@@ -128,11 +130,23 @@ namespace Plapp.ViewModels
             ImageUri = await FileSystem.SaveAsync($"{Title}.jpg", photo);
         }
 
-        private void AddTag()
+        private async Task AddTag()
         {
-            var tag = new TagViewModel(ServiceProvider) { Id = "Vann", Color = "#ffa500" }; // TODO: Open picker, select tag
+            var tag = await Prompter.CreateAsync<ITagViewModel>();
 
-            AddDataSeries(new DataSeriesViewModel(ServiceProvider) { Topic = this, Tag = tag });
+            if (tag == null)
+            {
+                return;
+            }
+
+            var dataSeries = VMFactory.Create<IDataSeriesViewModel>(
+                ds =>
+                {
+                    ds.Topic = this;
+                    ds.Tag = tag;
+                });
+
+            AddDataSeries(dataSeries);
         }
     }
 }

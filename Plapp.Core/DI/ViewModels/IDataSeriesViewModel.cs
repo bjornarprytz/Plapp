@@ -9,8 +9,8 @@ namespace Plapp.Core
         bool IsLoadingData { get; }
         bool IsSavingData { get; }
         int Id { get; }
-        string Title { get; }
-        ITopicViewModel Topic { get; }
+        string Title { get; set; }
+        ITopicViewModel Topic { get; set; }
         ITagViewModel Tag { get; set; }
         ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
