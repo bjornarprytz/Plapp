@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plapp.ViewModels
+namespace Plapp
 {
     public static class InversionOfControlExtensions
     {

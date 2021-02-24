@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Plapp.ViewModels
 {
-    class SelectTagViewModel : BaseViewModel, ISelectTagViewModel
+    class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
 
         private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
 
-        public SelectTagViewModel(IServiceProvider serviceProvider)
+        public CreateTagViewModel(IServiceProvider serviceProvider)
             :base(serviceProvider)
         {
             _availableTags = new ObservableCollection<ITagViewModel>();
@@ -22,6 +22,8 @@ namespace Plapp.ViewModels
         public bool IsLoadingTags { get; private set; }
 
         public ReadOnlyObservableCollection<ITagViewModel> AvailableTags { get; }
+
+        public override IViewModel UnderCreation => throw new NotImplementedException();
 
         public override void OnShow()
         {
@@ -40,6 +42,10 @@ namespace Plapp.ViewModels
 
                     _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
                 });
+        }
+        public override Task<ITagViewModel> Creation()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -21,6 +21,8 @@ namespace Plapp
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()
+                .AddPopupNavigation()
+                .AddPrompter()
                 .Build();
 
             MainPage = new NavigationPage(new LoadingPage()); // TODO: Use IoC.Get<ILoadingViewModel>() here and implement ILoadingViewModel

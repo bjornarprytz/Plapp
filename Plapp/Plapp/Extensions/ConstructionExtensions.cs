@@ -7,6 +7,8 @@ using Plapp.Persist;
 using Microsoft.EntityFrameworkCore;
 using Plapp.Peripherals;
 using Plapp.ViewModels;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 
 namespace Plapp
 {
@@ -47,6 +49,8 @@ namespace Plapp
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
 
+            construction.Services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+
             return construction;
         }
 
@@ -69,10 +73,28 @@ namespace Plapp
 
             return construction;
         }
+        
+        public static FrameworkConstruction AddPopupNavigation(this FrameworkConstruction construction)
+        {
+            // TODO: Add popup singletons (?)
+
+            // TODO: Bind viewmodel to popup
+
+            construction.Services.AddSingleton(provider => PopupNavigation.Instance);
+
+            return construction;
+        }
 
         public static FrameworkConstruction AddCamera(this FrameworkConstruction construction)
         {
             construction.Services.AddSingleton<ICamera>(new Camera());
+
+            return construction;
+        }
+        
+        public static FrameworkConstruction AddPrompter(this FrameworkConstruction construction)
+        {
+            construction.Services.AddSingleton<IPrompter, Prompter>();
 
             return construction;
         }
@@ -81,7 +103,7 @@ namespace Plapp
             where TViewModel : IViewModel
             where TView : BaseContentPage<TViewModel>
         {
-            viewFactory.Bind<TViewModel, TView>();
+            viewFactory.BindPage<TViewModel, TView>();
 
             return viewFactory;
         }
