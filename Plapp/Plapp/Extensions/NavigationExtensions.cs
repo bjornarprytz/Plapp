@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Linq;
+using Xamarin.Forms;
 
 namespace Plapp
 {
@@ -6,7 +7,7 @@ namespace Plapp
     {
         public static Page CurrentPage(this INavigation navigation)
         {
-            return navigation.NavigationStack.Count == 0 ? null : navigation.NavigationStack[0];
+            return navigation.NavigationStack.LastOrDefault();
         }
 
     }

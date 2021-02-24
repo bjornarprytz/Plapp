@@ -12,7 +12,8 @@ namespace Plapp.ViewModels
         {
             {typeof(ITagViewModel), () => new TagViewModel(_serviceProvider)},
             {typeof(ITopicViewModel), () => new TopicViewModel(_serviceProvider)},
-            {typeof(IDataSeriesViewModel), () => new DataSeriesViewModel(_serviceProvider) }
+            {typeof(IDataSeriesViewModel), () => new DataSeriesViewModel(_serviceProvider) },
+            {typeof(IDataPointViewModel), () => new DataPointViewModel(_serviceProvider) }
         };
 
         public ViewModelFactory(IServiceProvider serviceProvider)

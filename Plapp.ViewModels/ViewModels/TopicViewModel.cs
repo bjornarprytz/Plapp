@@ -128,6 +128,8 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
+            // TODO: Probably don't fetch so much in this function
+
             var options = new List<string> { "Create new Tag" };
 
             options.AddRange((await DataStore.FetchTagsAsync()).Select(t => t.Id));
