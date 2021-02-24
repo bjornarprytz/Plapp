@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Plapp.Core
 {
@@ -7,5 +8,8 @@ namespace Plapp.Core
     {
         IViewModel UnderCreation { get; set; }
         Task<TViewModel> Creation();
+
+        ICommand ConfirmCommand { get; }
+        ICommand CancelCommand { get; }
     }
 }

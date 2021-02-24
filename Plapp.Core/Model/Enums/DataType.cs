@@ -4,6 +4,6 @@
     {
         Integer,
         Decimal,
-        None, // Checkmark
+        Check,
     }
 }

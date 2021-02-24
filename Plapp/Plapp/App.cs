@@ -21,7 +21,6 @@ namespace Plapp
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()
-                .AddPopupNavigation()
                 .AddPrompter()
                 .Build();
 

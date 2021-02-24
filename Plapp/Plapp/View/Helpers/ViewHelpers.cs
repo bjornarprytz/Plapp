@@ -1,5 +1,7 @@
 ﻿using MaterialDesign.Icons;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
@@ -69,6 +71,22 @@ namespace Plapp
                 Size = (double)IconSize.Medium,
                 Color = color,
             };
+        }
+
+        public static Picker EnumPicker<TEnum>(string title = null) where TEnum : Enum
+        {
+            var values = Enum.GetNames(typeof(TEnum));
+
+            var picker = new Picker();
+
+            foreach (var val in values)
+            {
+                picker.Items.Add(val);
+            }
+
+            picker.Title = title ?? $"Pick a {typeof(TEnum)}";
+
+            return picker;
         }
     }
 }

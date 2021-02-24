@@ -59,28 +59,21 @@ namespace Plapp
 
             construction.Services.AddSingleton<MainPage>();
             construction.Services.AddSingleton<TopicPage>();
+            construction.Services.AddScoped(provider => new CreateTagPopup());
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
-                    .ChainBind<IApplicationViewModel, MainPage>()
-                    .ChainBind<ITopicViewModel, TopicPage>()
+                    .ChainBindPage<IApplicationViewModel, MainPage>()
+                    .ChainBindPage<ITopicViewModel, TopicPage>()
+
+                    .ChainBindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
             );
 
 
             construction.Services.AddSingleton<INavigator>(new Navigator());
+            construction.Services.AddSingleton(provider => PopupNavigation.Instance);
 
             construction.Services.AddSingleton(provider => Application.Current.MainPage.Navigation);
-
-            return construction;
-        }
-        
-        public static FrameworkConstruction AddPopupNavigation(this FrameworkConstruction construction)
-        {
-            // TODO: Add popup singletons (?)
-
-            // TODO: Bind viewmodel to popup
-
-            construction.Services.AddSingleton(provider => PopupNavigation.Instance);
 
             return construction;
         }
@@ -99,11 +92,20 @@ namespace Plapp
             return construction;
         }
 
-        private static IViewFactory ChainBind<TViewModel, TView>(this IViewFactory viewFactory)
+        private static IViewFactory ChainBindPage<TViewModel, TView>(this IViewFactory viewFactory)
             where TViewModel : IViewModel
             where TView : BaseContentPage<TViewModel>
         {
             viewFactory.BindPage<TViewModel, TView>();
+
+            return viewFactory;
+        }
+
+        private static IViewFactory ChainBindPopup<TViewModel, TView>(this IViewFactory viewFactory)
+            where TViewModel : IViewModel
+            where TView : BasePopupPage<TViewModel>
+        {
+            viewFactory.BindPopup<TViewModel, TView>();
 
             return viewFactory;
         }
