@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
@@ -23,9 +24,9 @@ namespace Plapp.ViewModels
             _dataEntries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataEntries);
 
-            OpenTopicCommand = new CommandHandler(async () => await OpenTopic());
-            AddImageCommand = new CommandHandler(async () => await AddImage());
-            AddDataSeriesCommand = new CommandHandler(async () => await AddDataSeriesAsync());
+            OpenTopicCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
+            AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
+            AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
         }
 
         public int Id { get; set; }
@@ -34,7 +35,6 @@ namespace Plapp.ViewModels
 
         public bool IsLoadingData { get; private set; }
         public bool IsSavingTopic { get; private set; }
-        public bool IsStartingCamera { get; private set; }
         
         [AlsoNotifyFor(nameof(ImageUri))]
         public bool LacksImage => string.IsNullOrEmpty(ImageUri);
@@ -86,7 +86,7 @@ namespace Plapp.ViewModels
 
         private async Task LoadDataSeries()
         {
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsLoadingData,
                 async () =>
                 {
@@ -101,7 +101,7 @@ namespace Plapp.ViewModels
 
         private async Task SaveTopic()
         {
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsSavingTopic,
                 async () =>
                 {
@@ -111,12 +111,7 @@ namespace Plapp.ViewModels
         
         private async Task AddImage()
         {
-            var photo = await RunCommandAsync(
-                () => IsStartingCamera,
-                async () =>
-                {
-                    return await Camera.TakePhotoAsync();
-                });
+            var photo = await Camera.TakePhotoAsync();
 
             if (photo == null)
             {

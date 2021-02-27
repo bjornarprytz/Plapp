@@ -24,12 +24,6 @@ namespace Plapp.ViewModels
 
         public bool IsShowing { get; private set; }
 
-        public void SetState<TViewModel>(Action<TViewModel> action)
-            where TViewModel : class, IViewModel
-        {
-            action(this as TViewModel);
-        }
-
         public void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
@@ -48,7 +42,7 @@ namespace Plapp.ViewModels
 
         public virtual void OnUserInteractionStopped() { }
 
-        protected async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
+        protected async Task FlagActionAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
         {
             lock (mPropertyValueCheckLock)
             {
@@ -68,7 +62,7 @@ namespace Plapp.ViewModels
             }
         }
 
-        protected async Task<T> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default)
+        protected async Task<T> FlagActionAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default)
         {
             lock (mPropertyValueCheckLock)
             {

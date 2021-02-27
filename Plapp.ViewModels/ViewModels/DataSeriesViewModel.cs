@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Plapp.ViewModels
             _dataPoints = new ObservableCollection<IDataPointViewModel>();
             DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataPoints);
 
-            AddDataPointCommand = new CommandHandler(async () => await AddDataPointsAsync());
+            AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             RefreshCommand = new CommandHandler(RefreshData);
         }
 
@@ -69,7 +70,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            var dataPoints = new List<IDataPointViewModel> { new DataPointViewModel(ServiceProvider) { Value = 69 } }; // TODO: await prompter to add datapoints
+            var dataPoints = new List<IDataPointViewModel> { VMFactory.Create<IDataPointViewModel>(dp => dp.Value = 69) }; // TODO: await prompter to add datapoints
 
             AddDataPoints(dataPoints);
         }
@@ -81,7 +82,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsLoadingData,
                 async () =>
                 {
@@ -103,7 +104,7 @@ namespace Plapp.ViewModels
 
         private async Task SaveData()
         {
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsSavingData,
                 async () =>
                 {

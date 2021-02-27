@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
@@ -19,7 +20,7 @@ namespace Plapp.ViewModels
             _topics = new ObservableCollection<ITopicViewModel>();
             Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
 
-            AddTopicCommand = new CommandHandler(async () => await AddTopic());
+            AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
         }
 
@@ -43,7 +44,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsLoadingTopics,
                 async () => {
                     var topics = await DataStore.FetchTopicsAsync();

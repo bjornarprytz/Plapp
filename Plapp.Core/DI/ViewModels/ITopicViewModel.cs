@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -10,8 +9,6 @@ namespace Plapp.Core
         bool IsLoadingData { get; }
         bool IsSavingTopic { get; }
         bool LacksImage { get; }
-
-        bool IsStartingCamera { get; }
 
         int Id { get; }
         string ImageUri { get; set; }

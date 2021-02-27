@@ -34,7 +34,7 @@ namespace Plapp.ViewModels
 
         private async Task LoadTags()
         {
-            await RunCommandAsync(
+            await FlagActionAsync(
                 () => IsLoadingTags,
                 async () =>
                 {
