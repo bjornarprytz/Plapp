@@ -131,10 +131,12 @@ namespace Plapp.ViewModels
 
             var choice = await Prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
 
-
-            var tag = choice == "Create new Tag"
-            ? await Prompter.CreateAsync<ITagViewModel>()
-            : (await DataStore.FetchTagAsync(choice))?.ToViewModel(ServiceProvider);
+            var tag = choice switch
+            {
+                "Cancel" => null,
+                "Create new Tag" => await Prompter.CreateAsync<ITagViewModel>(),
+                _ => (await DataStore.FetchTagAsync(choice))?.ToViewModel(ServiceProvider)
+            };
 
             if (tag == null)
             {
