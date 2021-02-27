@@ -1,15 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
-
-namespace Plapp.Core
+﻿namespace Plapp.Core
 {
-    public interface ICreateViewModel<TViewModel> : IViewModel
+    public interface ICreateViewModel<TViewModel> : ITaskViewModel
         where TViewModel : IViewModel
     {
-        IViewModel UnderCreation { get; set; }
-        Task<TViewModel> Creation();
-
-        ICommand ConfirmCommand { get; }
-        ICommand CancelCommand { get; }
+        TViewModel Result { get; set; }
     }
 }

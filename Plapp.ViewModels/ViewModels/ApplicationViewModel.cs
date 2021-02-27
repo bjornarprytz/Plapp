@@ -58,7 +58,7 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var newTopic = VMFactory.Create<ITopicViewModel>();
+            var newTopic = ServiceProvider.Get<ITopicViewModel>();
 
             _topics.Add(newTopic);
 

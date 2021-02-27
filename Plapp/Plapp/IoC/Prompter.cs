@@ -1,6 +1,7 @@
 ﻿using Plapp.Core;
 using Rg.Plugins.Popup.Contracts;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -23,13 +24,22 @@ namespace Plapp
         {
             var popup = ViewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
 
-            await PopupNavigation.PushAsync(popup);
+            await PopupTaskAsync(popup);
 
-            var vm = await popup.VM.Creation();
+            var vm = popup.VM.Result;
 
             await PopupNavigation.PopAsync();
 
             return vm;
+        }
+
+        public async Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel
+        {
+            var popup = ViewFactory.CreatePopup<TViewModel>();
+
+            await PopupTaskAsync(popup);
+
+            await PopupNavigation.PopAsync();
         }
 
         public async Task AlertAsync(string title, string alert, string confirm)
@@ -55,6 +65,15 @@ namespace Plapp
         public async Task<string> AnswerNumericAsync(string title, string question)
         {
             return await Navigation.CurrentPage().DisplayPromptAsync(title, question, keyboard: Keyboard.Numeric);
+        }
+
+
+        private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
+            where TViewModel : ITaskViewModel
+        {
+            await PopupNavigation.PushAsync(popupPage);
+
+            await Task.Run(() => popupPage.VM.TaskWaitHandle.WaitOne());
         }
     }
 }

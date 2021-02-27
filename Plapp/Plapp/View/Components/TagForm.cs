@@ -1,7 +1,4 @@
 ﻿using Plapp.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 

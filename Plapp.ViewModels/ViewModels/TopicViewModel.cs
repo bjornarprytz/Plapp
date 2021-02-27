@@ -141,7 +141,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            var dataSeries = VMFactory.Create<IDataSeriesViewModel>(
+            var dataSeries = ServiceProvider.Get<IDataSeriesViewModel>(
                 ds =>
                 {
                     ds.Topic = this;

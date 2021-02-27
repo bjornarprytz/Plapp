@@ -7,7 +7,6 @@ using Plapp.Persist;
 using Microsoft.EntityFrameworkCore;
 using Plapp.Peripherals;
 using Plapp.ViewModels;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Services;
 
 namespace Plapp
@@ -49,7 +48,12 @@ namespace Plapp
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
 
-            construction.Services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+            construction.Services.AddTransient<ITagViewModel, TagViewModel>();
+            construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();
+            construction.Services.AddTransient<IDataSeriesViewModel, DataSeriesViewModel>();
+            construction.Services.AddTransient<IDataPointViewModel, DataPointViewModel>();
+            construction.Services.AddTransient<ICreateViewModel<ITagViewModel>, CreateTagViewModel>();
+
 
             return construction;
         }
@@ -87,7 +91,7 @@ namespace Plapp
         
         public static FrameworkConstruction AddPrompter(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton<IPrompter, Prompter>();
+            construction.Services.AddScoped<IPrompter, Prompter>();
 
             return construction;
         }
@@ -102,7 +106,7 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBindPopup<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : IViewModel
+            where TViewModel : ITaskViewModel
             where TView : BasePopupPage<TViewModel>
         {
             viewFactory.BindPopup<TViewModel, TView>();

@@ -3,10 +3,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
+    public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
         
@@ -16,20 +17,23 @@ namespace Plapp.ViewModels
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
 
-            UnderCreation = VMFactory.Create<ITagViewModel>();
+            Result = ServiceProvider.Get<ITagViewModel>();
         }
 
         public bool IsLoadingTags { get; private set; }
 
         public ReadOnlyObservableCollection<ITagViewModel> AvailableTags { get; }
 
-        public override IViewModel UnderCreation { get; set; }
-
         public override void OnShow()
         {
             base.OnShow();
 
             Task.Run(LoadTags);
+        }
+
+        protected override bool ValidateResult()
+        {
+            return Result != null;
         }
 
         private async Task LoadTags()
@@ -42,10 +46,6 @@ namespace Plapp.ViewModels
 
                     _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
                 });
-        }
-        public override Task<ITagViewModel> Creation()
-        {
-            throw new NotImplementedException();
         }
     }
 }

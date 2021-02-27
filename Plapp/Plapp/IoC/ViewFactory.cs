@@ -17,7 +17,7 @@ namespace Plapp
         }
 
         public void BindPopup<TViewModel, TView>()
-            where TViewModel : IViewModel
+            where TViewModel : ITaskViewModel
             where TView : BasePopupPage<TViewModel>
         {
             _popupMap[typeof(TViewModel)] = typeof(TView);
@@ -48,13 +48,12 @@ namespace Plapp
 
             return view;
         }
-
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>() where TViewModel : IViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>() where TViewModel : ITaskViewModel
         {
             return ResolvePopup<TViewModel>();
         }
 
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction) where TViewModel : IViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction) where TViewModel : ITaskViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -63,7 +62,7 @@ namespace Plapp
             return view;
         }
 
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel) where TViewModel : IViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel) where TViewModel : ITaskViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -88,7 +87,7 @@ namespace Plapp
         }
 
         private BasePopupPage<TViewModel> ResolvePopup<TViewModel>()
-            where TViewModel : IViewModel
+            where TViewModel : ITaskViewModel
         {
             var viewModelType = typeof(TViewModel);
 

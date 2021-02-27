@@ -10,7 +10,7 @@ namespace Plapp
             where TView : BaseContentPage<TViewModel>;
 
         void BindPopup<TViewModel, TView>()
-            where TViewModel : IViewModel
+            where TViewModel : ITaskViewModel
             where TView : BasePopupPage<TViewModel>;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>() 
@@ -23,12 +23,12 @@ namespace Plapp
             where TViewModel : IViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>()
-            where TViewModel : IViewModel;
+            where TViewModel : ITaskViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel;
+            where TViewModel : ITaskViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : IViewModel;
+            where TViewModel : ITaskViewModel;
     }
 }

@@ -1,4 +1,6 @@
-﻿using Plapp.Core;
+﻿using MaterialDesign.Icons;
+using Plapp.Core;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -7,7 +9,19 @@ namespace Plapp
     {
         public CreateTagPopup()
         {
-            Content = ViewHelpers.PopupFrame(new TagForm().BindContext(nameof(VM.UnderCreation)));
+            Content = ViewHelpers.PopupFrame(
+                new StackLayout
+                {
+                    Orientation = StackOrientation.Vertical,
+                    Children =
+                    {
+                        new TagForm()
+                            .BindContext(nameof(VM.Result)),
+                        new Button()
+                            .MaterialIcon(MaterialIcon.Check)
+                            .BindCommand(nameof(VM.ConfirmCommand))
+                    }
+                });
         }
     }
 }

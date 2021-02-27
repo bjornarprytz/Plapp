@@ -6,6 +6,8 @@ namespace Plapp.Core
     {
         Task<TViewModel> CreateAsync<TViewModel>() where TViewModel : IViewModel;
 
+        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel;
+
         Task AlertAsync(string title, string alert, string confirm);
 
         Task<bool> DilemmaAsync(string title, string question, string yes, string no);

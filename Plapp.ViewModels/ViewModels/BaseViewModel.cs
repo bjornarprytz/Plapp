@@ -11,7 +11,6 @@ namespace Plapp.ViewModels
         protected object mPropertyValueCheckLock = new object();
 
         protected IServiceProvider ServiceProvider { get; private set; }
-        protected IViewModelFactory VMFactory => ServiceProvider.Get<IViewModelFactory>();
         protected INavigator Navigator => ServiceProvider.Get<INavigator>();
         protected IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
 

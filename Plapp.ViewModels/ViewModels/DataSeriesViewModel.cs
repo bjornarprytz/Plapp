@@ -70,7 +70,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            var dataPoints = new List<IDataPointViewModel> { VMFactory.Create<IDataPointViewModel>(dp => dp.Value = 69) }; // TODO: await prompter to add datapoints
+            var dataPoints = new List<IDataPointViewModel> { ServiceProvider.Get<IDataPointViewModel>(dp => dp.Value = 69) }; // TODO: await prompter to add datapoints
 
             AddDataPoints(dataPoints);
         }
