@@ -7,15 +7,7 @@ namespace Plapp
     {
         public CreateTagPopup()
         {
-            Content = new StackLayout // TODO: Remove StackLayout or add more Children (OK button?)
-            {
-                Orientation = StackOrientation.Vertical,
-
-                Children =
-                { 
-                    new TagForm().BindContext(nameof(VM.UnderCreation))
-                }
-            };
+            Content = ViewHelpers.PopupFrame(new TagForm().BindContext(nameof(VM.UnderCreation)));
         }
     }
 }

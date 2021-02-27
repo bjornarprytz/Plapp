@@ -14,7 +14,6 @@ namespace Plapp.ViewModels
 
         private bool hasLoadedDataSeries;
 
-        private IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
         public DataSeriesViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {

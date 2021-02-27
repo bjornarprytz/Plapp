@@ -88,5 +88,19 @@ namespace Plapp
 
             return picker;
         }
+
+        public static Frame PopupFrame(View content)
+        {
+            return new Frame
+            {
+                CornerRadius = 20,
+                Padding = 30,
+                Margin = new Thickness(20, 40),
+                BackgroundColor = Palette.BackgroundLight,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center,
+                Content = content
+            };
+        }
     }
 }
