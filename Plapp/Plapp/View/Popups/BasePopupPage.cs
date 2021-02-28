@@ -14,8 +14,7 @@ namespace Plapp
         {
             VM = IoC.Get<TViewModel>();
 
-            // TODO: TEST THIS: BackgroundClicked += BasePopupPage_BackgroundClicked;
-        }
+            BackgroundClicked += BasePopupPage_BackgroundClicked;        }
 
         private void BasePopupPage_BackgroundClicked(object sender, EventArgs e)
         {

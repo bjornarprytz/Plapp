@@ -63,7 +63,8 @@ namespace Plapp
 
             construction.Services.AddSingleton<MainPage>();
             construction.Services.AddSingleton<TopicPage>();
-            construction.Services.AddScoped(provider => new CreateTagPopup());
+
+            construction.Services.AddTransient<CreateTagPopup>();
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()

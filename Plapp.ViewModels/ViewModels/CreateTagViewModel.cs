@@ -31,6 +31,11 @@ namespace Plapp.ViewModels
             Task.Run(LoadTags);
         }
 
+        protected override void OnConfirm()
+        {
+            Task.Run(SaveTag);
+        }
+
         protected override bool ValidateResult()
         {
             return Result != null;
@@ -46,6 +51,11 @@ namespace Plapp.ViewModels
 
                     _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
                 });
+        }
+
+        private async Task SaveTag()
+        {
+            await DataStore.SaveTagAsync(Result.ToModel());
         }
     }
 }

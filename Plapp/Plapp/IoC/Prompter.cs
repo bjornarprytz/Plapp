@@ -73,7 +73,7 @@ namespace Plapp
         {
             await PopupNavigation.PushAsync(popupPage);
 
-            await Task.Run(() => popupPage.VM.TaskWaitHandle.WaitOne());
+            await popupPage.VM.GetAwaiter();
         }
     }
 }

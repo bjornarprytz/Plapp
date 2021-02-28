@@ -1,11 +1,13 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Plapp.Core
 {
     public interface ITaskViewModel : IViewModel
     {
-        EventWaitHandle TaskWaitHandle { get; }
+        Task GetAwaiter();
+
         ICommand ConfirmCommand { get; }
         ICommand CancelCommand { get; }
     }

@@ -43,7 +43,9 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<Tag>> FetchTagsAsync()
         {
-            return await Context.Tags.ToListAsync();
+            var tags = await Context.Tags.ToListAsync();
+
+            return tags;
         }
 
         public async Task<IEnumerable<Topic>> FetchTopicsAsync()
