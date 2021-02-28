@@ -3,7 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
@@ -16,8 +15,6 @@ namespace Plapp.ViewModels
         {
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
-
-            Result = ServiceProvider.Get<ITagViewModel>();
         }
 
         public bool IsLoadingTags { get; private set; }
@@ -33,12 +30,14 @@ namespace Plapp.ViewModels
 
         protected override void OnConfirm()
         {
+            base.OnConfirm();
+
             Task.Run(SaveTag);
         }
 
-        protected override bool ValidateResult()
+        protected override bool PartialIsValid()
         {
-            return Result != null;
+            return Partial != null;
         }
 
         private async Task LoadTags()
@@ -55,7 +54,7 @@ namespace Plapp.ViewModels
 
         private async Task SaveTag()
         {
-            await DataStore.SaveTagAsync(Result.ToModel());
+            await DataStore.SaveTagAsync(Partial.ToModel());
         }
     }
 }

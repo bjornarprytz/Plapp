@@ -1,5 +1,6 @@
 ﻿using Plapp.Core;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Events;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,11 +27,7 @@ namespace Plapp
 
             await PopupTaskAsync(popup);
 
-            var vm = popup.VM.Result;
-
-            await PopupNavigation.PopAsync();
-
-            return vm;
+            return popup.VM.GetResult();
         }
 
         public async Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel
@@ -38,8 +35,6 @@ namespace Plapp
             var popup = ViewFactory.CreatePopup<TViewModel>();
 
             await PopupTaskAsync(popup);
-
-            await PopupNavigation.PopAsync();
         }
 
         public async Task AlertAsync(string title, string alert, string confirm)
@@ -71,9 +66,26 @@ namespace Plapp
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
             where TViewModel : ITaskViewModel
         {
+            var waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+            
+            PopupNavigation.Popped += PopupNavigation_Popped;
+
             await PopupNavigation.PushAsync(popupPage);
 
-            await popupPage.VM.GetAwaiter();
+            await Task.Run(() => waitHandle.WaitOne());
+
+            void PopupNavigation_Popped(object sender, PopupNavigationEventArgs e)
+            {
+                if (e.Page != popupPage) 
+                {
+                    return;
+                }
+
+                waitHandle.Set();
+                PopupNavigation.Popped -= PopupNavigation_Popped;
+            }
         }
+
+        
     }
 }

@@ -16,7 +16,7 @@ namespace Plapp
                     Children =
                     {
                         new TagForm()
-                            .BindContext(nameof(VM.Result)),
+                            .BindContext(nameof(VM.Partial)),
                         new Button()
                             .MaterialIcon(MaterialIcon.Check)
                             .BindCommand(nameof(VM.ConfirmCommand))

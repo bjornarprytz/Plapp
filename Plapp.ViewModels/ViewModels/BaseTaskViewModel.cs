@@ -1,43 +1,40 @@
 ﻿using Plapp.Core;
+using Rg.Plugins.Popup.Contracts;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
     public abstract class BaseTaskViewModel : BaseViewModel, ITaskViewModel
     {
-        private readonly EventWaitHandle _taskWaitHandle;
-
-        public ICommand ConfirmCommand { get; protected set; }
-        public ICommand CancelCommand { get; protected set; }
+        protected IPopupNavigation PopupNavigation => ServiceProvider.Get<IPopupNavigation>();
+        public bool IsConfirmed { get; protected set; }
 
         protected BaseTaskViewModel(IServiceProvider serviceProvider) : base (serviceProvider)
         {
-            _taskWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
-
-            ConfirmCommand = new CommandHandler(Confirm, o => ValidateResult());
-            CancelCommand = new CommandHandler(Cancel);
+            ConfirmCommand = new AsyncCommand(Confirm, o => CanConfirm(), allowsMultipleExecutions: false);
+            CancelCommand = new AsyncCommand(Cancel, allowsMultipleExecutions: false);
         }
+        public ICommand ConfirmCommand { get; protected set; }
+        public ICommand CancelCommand { get; protected set; }
 
-        public Task GetAwaiter()
-        {
-            return Task.Run(() => _taskWaitHandle.WaitOne());
-        }
-
-        private void Confirm()
+        private async Task Confirm()
         {
             OnConfirm();
-            _taskWaitHandle.Set();
+            await PopupNavigation.PopAsync();
         }
 
-        private void Cancel()
+        private async Task Cancel()
         {
-            _taskWaitHandle.Set();
+            await PopupNavigation.PopAsync();
         }
 
-        protected abstract bool ValidateResult();
-        protected abstract void OnConfirm();
+        protected abstract bool CanConfirm();
+        protected virtual void OnConfirm()
+        {
+            IsConfirmed = true;
+        }
     }
 }

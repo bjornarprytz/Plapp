@@ -3,6 +3,7 @@
     public interface ICreateViewModel<TViewModel> : ITaskViewModel
         where TViewModel : IViewModel
     {
-        TViewModel Result { get; set; }
+        TViewModel Partial { get; set; }
+        TViewModel GetResult();
     }
 }
