@@ -1,5 +1,4 @@
 ﻿using Plapp.Core;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,7 +8,6 @@ namespace Plapp.ViewModels
 {
     public abstract class BaseTaskViewModel : BaseViewModel, ITaskViewModel
     {
-        protected IPopupNavigation PopupNavigation => ServiceProvider.Get<IPopupNavigation>();
         public bool IsConfirmed { get; protected set; }
 
         protected BaseTaskViewModel(IServiceProvider serviceProvider) : base (serviceProvider)
@@ -23,12 +21,12 @@ namespace Plapp.ViewModels
         private async Task Confirm()
         {
             OnConfirm();
-            await PopupNavigation.PopAsync();
+            await Prompter.PopAsync();
         }
 
         private async Task Cancel()
         {
-            await PopupNavigation.PopAsync();
+            await Prompter.PopAsync();
         }
 
         protected abstract bool CanConfirm();

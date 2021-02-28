@@ -62,6 +62,10 @@ namespace Plapp
             return await Navigation.CurrentPage().DisplayPromptAsync(title, question, keyboard: Keyboard.Numeric);
         }
 
+        public async Task PopAsync()
+        {
+            await PopupNavigation.PopAsync();
+        }
 
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
             where TViewModel : ITaskViewModel
@@ -85,7 +89,5 @@ namespace Plapp
                 PopupNavigation.Popped -= PopupNavigation_Popped;
             }
         }
-
-        
     }
 }

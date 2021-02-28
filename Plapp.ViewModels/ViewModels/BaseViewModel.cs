@@ -12,6 +12,7 @@ namespace Plapp.ViewModels
 
         protected IServiceProvider ServiceProvider { get; private set; }
         protected INavigator Navigator => ServiceProvider.Get<INavigator>();
+        protected IPrompter Prompter => ServiceProvider.Get<IPrompter>();
         protected IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
 
         protected BaseViewModel(IServiceProvider serviceProvider)

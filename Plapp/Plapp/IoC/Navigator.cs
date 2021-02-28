@@ -1,4 +1,5 @@
 ﻿using Plapp.Core;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -14,13 +15,6 @@ namespace Plapp
         {
             var view = await Navigation.PopAsync() as BaseContentPage<IViewModel>;
 
-            return view.VM;
-        }
-
-        public async Task<IViewModel> PopModalAsync()
-        {
-            var view = await Navigation.PopModalAsync() as BaseContentPage<IViewModel>;
-            
             return view.VM;
         }
 
@@ -40,20 +34,6 @@ namespace Plapp
         {
             var view = ViewFactory.CreatePage(viewModel);
             await Navigation.PushAsync(view);
-        }
-
-        public async Task PushModalAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IViewModel
-        {
-            var view = ViewFactory.CreatePage(setStateAction);
-            await Navigation.PushModalAsync(view);
-        }
-
-        public async Task PushModalAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel
-        {
-            var view = ViewFactory.CreatePage(viewModel);
-            await Navigation.PushModalAsync(view);
         }
     }
 }

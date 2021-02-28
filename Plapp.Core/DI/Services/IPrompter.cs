@@ -16,5 +16,7 @@ namespace Plapp.Core
 
         Task<string> AnswerAsync(string title, string question);
         Task<string> AnswerNumericAsync(string title, string question);
+
+        Task PopAsync();
     }
 }
