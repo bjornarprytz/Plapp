@@ -9,7 +9,7 @@ namespace Plapp
         public TagBadge()
         {
             Content = new Label()
-                        .Bind(nameof(VM.Id))
+                        .Bind(nameof(VM.Key))
                         .Bind(BackgroundColorProperty, nameof(VM.Color), converter: new StringToColorConverter());
         }
     }
