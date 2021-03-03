@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Plapp
 {
@@ -10,15 +9,29 @@ namespace Plapp
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is TFrom))
+            if (value is not TFrom)
             {
-                return null;
+                throw new ArgumentException($"Convert expected {typeof(TFrom)}, got {value?.GetType()}");
             }
 
             return Convert((TFrom)value);
         }
 
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is not TTo)
+            {
+                throw new ArgumentException($"ConvertBack expected {typeof(TTo)}, got {value?.GetType()}");
+            }
+
+            return ConvertBack((TTo)value);
+        }
+
         protected abstract TTo Convert(TFrom from);
+        protected virtual TFrom ConvertBack(TTo from)
+        {
+            throw new NotImplementedException();
+        }
     }
     
     public abstract class BaseValueConverter : IValueConverter

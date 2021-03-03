@@ -35,11 +35,9 @@ namespace Plapp
 
                 var connStr = $"Data Source={IoC.Get<IFileSystem>().PathFromRoot(config.ConnectionStrings.PlappDb)}";
                 options.UseSqlite(connStr);
-            }, contextLifetime: ServiceLifetime.Transient);
+            }, contextLifetime: ServiceLifetime.Scoped);
 
-            construction.Services.AddTransient<IPlappDataStore>(
-                provider => new PlappDataStore(
-                    () => provider.GetService<PlappDbContext>()));
+            construction.Services.AddTransient<IPlappDataStore, PlappDataStore>();
 
             return construction;
         }

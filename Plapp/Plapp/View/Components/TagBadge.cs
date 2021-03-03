@@ -10,7 +10,7 @@ namespace Plapp
         {
             Content = new Label()
                         .Bind(nameof(VM.Id))
-                        .Bind(BackgroundColorProperty, nameof(VM.Color), convert: (string s) => s == null ? Palette.Information : Color.FromHex(s));
+                        .Bind(BackgroundColorProperty, nameof(VM.Color), converter: new StringToColorConverter());
         }
     }
 }

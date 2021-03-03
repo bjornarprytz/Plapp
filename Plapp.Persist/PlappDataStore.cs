@@ -10,12 +10,12 @@ namespace Plapp.Persist
 {
     public class PlappDataStore : IPlappDataStore
     {
-        private readonly Func<PlappDbContext> _dbContext;
-        private PlappDbContext Context => _dbContext();
+        private readonly IServiceProvider _serviceProvider;
+        private PlappDbContext Context => _serviceProvider.Get<PlappDbContext>();
 
-        public PlappDataStore(Func<PlappDbContext> dbContext)
+        public PlappDataStore(IServiceProvider serviceProvider)
         {
-            _dbContext = dbContext;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken)
@@ -43,9 +43,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<Tag>> FetchTagsAsync()
         {
-            var tags = await Context.Tags.ToListAsync();
-
-            return tags;
+            return await Context.Tags.ToListAsync();
         }
 
         public async Task<IEnumerable<Topic>> FetchTopicsAsync()
