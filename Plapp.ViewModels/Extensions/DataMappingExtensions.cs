@@ -65,14 +65,21 @@ namespace Plapp.ViewModels
 
         public static Topic ToModel(this ITopicViewModel topicViewModel)
         {
-            return new Topic
+            var topic = new Topic
             {
                 Id = topicViewModel.Id,
                 Title = topicViewModel.Title,
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
-                DataSeries = topicViewModel.DataSeries?.Select(d => d.ToModel()).ToList(),
+                DataSeries = new List<DataSeries>(),
             };
+
+            foreach(var dataSeries in topicViewModel.DataSeries)
+            {
+                topic.DataSeries.Add(dataSeries.ToModel());
+            }
+
+            return topic;
         }
 
         public static DataSeries ToModel(this IDataSeriesViewModel dataSeriesViewModel)
@@ -81,8 +88,8 @@ namespace Plapp.ViewModels
             {
                 Id = dataSeriesViewModel.Id,
                 Title = dataSeriesViewModel.Title,
-                TopicId = dataSeriesViewModel.Topic.Id,
-                TagKey = dataSeriesViewModel.Tag.Key,
+                TopicId = dataSeriesViewModel.Topic?.Id ?? default,
+                TagKey = dataSeriesViewModel.Tag?.Key ?? default,
                 DataPoints = new List<DataPoint>(),
             };
 

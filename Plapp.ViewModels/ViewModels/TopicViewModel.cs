@@ -16,7 +16,6 @@ namespace Plapp.ViewModels
         private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
         private ICamera Camera => ServiceProvider.Get<ICamera>();
         private IFileSystem FileSystem => ServiceProvider.Get<IFileSystem>();
-        private IPrompter Prompter => ServiceProvider.Get<IPrompter>();
 
         public TopicViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
