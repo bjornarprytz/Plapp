@@ -86,18 +86,17 @@ namespace Plapp.ViewModels
                 () => IsLoadingData,
                 async () =>
                 {
-                    var tag = await DataStore.FetchTagAsync(TagKey);
-                    Tag = tag.ToViewModel(ServiceProvider);
+                    if (Tag == null)
+                    {
+                        Tag = (await DataStore.FetchTagAsync(TagKey)).ToViewModel(ServiceProvider);
+                    }
 
-                    var dataSeries = (await DataStore.FetchDataSeriesAsync(Topic.Id, Tag.Key, Title)).FirstOrDefault();
+                    var dataPoints = await DataStore.FetchDataPointsAsync(Id);
 
                     _dataPoints.Clear();
                     
-                    if (dataSeries != null)
-                    {
-                        _dataPoints.AddRange(dataSeries.DataPoints.Select(dp => dp.ToViewModel(ServiceProvider)));
-                    }
-
+                    _dataPoints.AddRange(dataPoints.Select(dp => dp.ToViewModel(ServiceProvider)));
+                    
                     hasLoadedDataSeries = true;
                 });
         }

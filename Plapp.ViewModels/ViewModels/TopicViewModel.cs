@@ -62,9 +62,9 @@ namespace Plapp.ViewModels
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
-            var existingSeries = _dataEntries.FirstOrDefault(s => s.Tag.Id == newSeries.Tag.Id && s.Title == newSeries.Title);
+            var existingSeries = _dataEntries.FirstOrDefault(s => s.Tag?.Key == newSeries.Tag?.Key && s.Title == newSeries.Title);
 
-            if (existingSeries == null)
+            if (existingSeries == default)
             {
                 _dataEntries.Add(newSeries);
             }
@@ -90,6 +90,8 @@ namespace Plapp.ViewModels
                 async () =>
                 {
                     var dataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
+
+                    _dataEntries.Clear();
 
                     foreach(var series in dataSeries)
                     {
@@ -124,9 +126,11 @@ namespace Plapp.ViewModels
         {
             // TODO: Probably don't fetch so much in this function
 
+            var existingTags = await DataStore.FetchTagsAsync();
+
             var options = new List<string> { "Create new Tag" };
 
-            options.AddRange((await DataStore.FetchTagsAsync()).Select(t => t.Key));
+            options.AddRange(existingTags.Select(t => t.Key));
 
             var choice = await Prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
 
@@ -134,7 +138,7 @@ namespace Plapp.ViewModels
             {
                 "Cancel" => default,
                 "Create new Tag" => await Prompter.CreateAsync<ITagViewModel>(),
-                _ => (await DataStore.FetchTagAsync(choice))?.ToViewModel(ServiceProvider)
+                _ => existingTags.First(t => t.Key == choice).ToViewModel(ServiceProvider)
             };
 
             if (tag == default)

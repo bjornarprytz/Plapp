@@ -56,6 +56,7 @@ namespace Plapp.ViewModels
             return new TagViewModel(sp)
             {
                 Id = tag.Id,
+                Key = tag.Key,
                 Unit = tag.Unit,
                 Color = tag.Color,
                 DataType = tag.DataType,

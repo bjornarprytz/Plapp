@@ -15,5 +15,6 @@ namespace Plapp.Core
         ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         ICommand AddDataPointCommand { get; }
+        ICommand RefreshCommand { get; }
     }
 }

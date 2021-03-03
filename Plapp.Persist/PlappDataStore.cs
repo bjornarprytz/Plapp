@@ -36,6 +36,11 @@ namespace Plapp.Persist
              return await result.ToListAsync();
         }
 
+        public async Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId)
+        {
+            return await Context.DataPoints.Where(d => d.DataSeriesId == dataSeriesId).ToListAsync();
+        }
+
         public async Task<Tag> FetchTagAsync(string tagKey)
         {
             return await Context.Tags.Where(d => d.Key == tagKey).FirstOrDefaultAsync();
@@ -54,6 +59,11 @@ namespace Plapp.Persist
         public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries)
         {
             await Context.DataSeries.AddRangeAsync(dataSeries);
+            
+            foreach(var dataSerie in dataSeries)
+            {
+                await Context.DataPoints.AddRangeAsync(dataSerie.DataPoints);
+            }
 
             await Context.SaveChangesAsync();
         }
@@ -61,6 +71,8 @@ namespace Plapp.Persist
         public async Task SaveDataSeriesAsync(DataSeries dataSeries)
         {
             await Context.DataSeries.AddAsync(dataSeries);
+
+            await Context.DataPoints.AddRangeAsync(dataSeries.DataPoints);
 
             await Context.SaveChangesAsync();
         }

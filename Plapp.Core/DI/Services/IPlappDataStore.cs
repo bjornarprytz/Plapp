@@ -10,6 +10,7 @@ namespace Plapp.Core
 
         Task<IEnumerable<Topic>> FetchTopicsAsync();
         Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagKey=null, string dataSeriesTitle=null);
+        Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId);
         Task<Tag> FetchTagAsync(string tagKey);
         Task<IEnumerable<Tag>> FetchTagsAsync();
         
