@@ -3,7 +3,7 @@ using System;
 
 namespace Plapp.ViewModels
 {
-    public class LoadingViewModel : BaseViewModel
+    public class LoadingViewModel : PageViewModel
     {
         public LoadingViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)

@@ -6,7 +6,7 @@ namespace Plapp.Core
     {
         Task<TViewModel> CreateAsync<TViewModel>() where TViewModel : IViewModel;
 
-        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel;
+        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel, IRootViewModel;
 
         Task AlertAsync(string title, string alert, string confirm);
 

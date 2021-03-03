@@ -10,27 +10,27 @@ namespace Plapp
         private readonly Dictionary<Type, Type> _popupMap = new Dictionary<Type, Type>();
 
         public void BindPage<TViewModel, TView>()
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
             where TView : BaseContentPage<TViewModel>
         {
             _pageMap[typeof(TViewModel)] = typeof(TView);
         }
 
         public void BindPopup<TViewModel, TView>()
-            where TViewModel : ITaskViewModel
+            where TViewModel : ITaskViewModel, IRootViewModel
             where TView : BasePopupPage<TViewModel>
         {
             _popupMap[typeof(TViewModel)] = typeof(TView);
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>() 
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             return ResolvePage<TViewModel>();
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>(Action<TViewModel> setStateAction) 
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             var view = ResolvePage<TViewModel>();
 
@@ -40,7 +40,7 @@ namespace Plapp
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             var view = ResolvePage<TViewModel>();
 
@@ -48,12 +48,14 @@ namespace Plapp
 
             return view;
         }
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>() where TViewModel : ITaskViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>() 
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             return ResolvePopup<TViewModel>();
         }
 
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction) where TViewModel : ITaskViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction) 
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -62,7 +64,8 @@ namespace Plapp
             return view;
         }
 
-        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel) where TViewModel : ITaskViewModel
+        public BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel) 
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -72,7 +75,7 @@ namespace Plapp
         }
 
         private BaseContentPage<TViewModel> ResolvePage<TViewModel>()
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             var viewModelType = typeof(TViewModel);
 
@@ -87,7 +90,7 @@ namespace Plapp
         }
 
         private BasePopupPage<TViewModel> ResolvePopup<TViewModel>()
-            where TViewModel : ITaskViewModel
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             var viewModelType = typeof(TViewModel);
 

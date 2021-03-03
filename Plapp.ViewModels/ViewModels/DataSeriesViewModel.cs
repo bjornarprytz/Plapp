@@ -42,19 +42,6 @@ namespace Plapp.ViewModels
         public ICommand AddDataPointCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
 
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            Task.Run(LoadData);
-        }
-
-        public override void OnUserInteractionStopped()
-        {
-            base.OnUserInteractionStopped();
-
-            Task.Run(SaveData);
-        }
 
         public void AddDataPoints(IEnumerable<IDataPointViewModel> dataPoints)
         {

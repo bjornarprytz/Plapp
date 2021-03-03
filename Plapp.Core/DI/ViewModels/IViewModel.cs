@@ -1,14 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Plapp.Core
 {
     public interface IViewModel : INotifyPropertyChanged
     {
-        bool IsShowing { get; }
-
-        void OnShow();
-        void OnHide();
-        void OnUserInteractionStopped();
+        // TODO: Anything left here?
     }
 }

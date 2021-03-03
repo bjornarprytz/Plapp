@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface ITopicViewModel : IViewModel
+    public interface ITopicViewModel : IRootViewModel
     {
         bool IsLoadingData { get; }
         bool IsSavingTopic { get; }

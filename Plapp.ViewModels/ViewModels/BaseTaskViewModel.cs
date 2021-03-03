@@ -6,7 +6,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public abstract class BaseTaskViewModel : BaseViewModel, ITaskViewModel
+    public abstract class BaseTaskViewModel : PageViewModel, ITaskViewModel
     {
         public bool IsConfirmed { get; protected set; }
 

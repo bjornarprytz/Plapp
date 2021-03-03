@@ -6,29 +6,29 @@ namespace Plapp
     public interface IViewFactory
     {
         void BindPage<TViewModel, TView>()
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
             where TView : BaseContentPage<TViewModel>;
 
         void BindPopup<TViewModel, TView>()
-            where TViewModel : ITaskViewModel
+            where TViewModel : ITaskViewModel, IRootViewModel
             where TView : BasePopupPage<TViewModel>;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>() 
-            where TViewModel : IViewModel;
+            where TViewModel : IRootViewModel;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel;
+            where TViewModel : IRootViewModel;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : IViewModel;
+            where TViewModel : IRootViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>()
-            where TViewModel : ITaskViewModel;
+            where TViewModel : ITaskViewModel, IRootViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel)
-            where TViewModel : ITaskViewModel;
+            where TViewModel : ITaskViewModel, IRootViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : ITaskViewModel;
+            where TViewModel : ITaskViewModel, IRootViewModel;
     }
 }

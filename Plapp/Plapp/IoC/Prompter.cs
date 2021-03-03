@@ -30,7 +30,8 @@ namespace Plapp
             return popup.VM.GetResult();
         }
 
-        public async Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel
+        public async Task PopupAsync<TViewModel>() 
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             var popup = ViewFactory.CreatePopup<TViewModel>();
 
@@ -68,7 +69,7 @@ namespace Plapp
         }
 
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
-            where TViewModel : ITaskViewModel
+            where TViewModel : ITaskViewModel, IRootViewModel
         {
             var waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             

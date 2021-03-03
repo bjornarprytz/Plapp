@@ -11,7 +11,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public class TopicViewModel : BaseViewModel, ITopicViewModel
+    public class TopicViewModel : PageViewModel, ITopicViewModel
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
         private ICamera Camera => ServiceProvider.Get<ICamera>();
@@ -50,7 +50,7 @@ namespace Plapp.ViewModels
         {
             base.OnShow();
 
-            Task.Run(LoadDataSeries);
+            Task.Run(LoadData);
         }
 
         public override void OnUserInteractionStopped()
@@ -83,7 +83,7 @@ namespace Plapp.ViewModels
             await Navigator.GoToAsync<ITopicViewModel>(this);
         }
 
-        private async Task LoadDataSeries()
+        private async Task LoadData()
         {
             await FlagActionAsync(
                 () => IsLoadingData,

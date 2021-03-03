@@ -8,7 +8,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
+    public class ApplicationViewModel : PageViewModel, IApplicationViewModel
     {
         private readonly ObservableCollection<ITopicViewModel> _topics;
 

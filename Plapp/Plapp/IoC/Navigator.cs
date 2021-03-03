@@ -1,5 +1,4 @@
 ﻿using Plapp.Core;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -11,9 +10,9 @@ namespace Plapp
         private INavigation Navigation => IoC.Get<INavigation>();
         private IViewFactory ViewFactory => IoC.Get<IViewFactory>();
 
-        public async Task<IViewModel> GoBackAsync()
+        public async Task<IRootViewModel> GoBackAsync()
         {
-            var view = await Navigation.PopAsync() as BaseContentPage<IViewModel>;
+            var view = await Navigation.PopAsync() as BaseContentPage<IRootViewModel>;
 
             return view.VM;
         }
@@ -24,13 +23,13 @@ namespace Plapp
         }
 
         public async Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             var view = ViewFactory.CreatePage(setStateAction);
             await Navigation.PushAsync(view);
         }
         public async Task GoToAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
         {
             var view = ViewFactory.CreatePage(viewModel);
             await Navigation.PushAsync(view);

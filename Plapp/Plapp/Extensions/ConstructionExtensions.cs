@@ -96,7 +96,7 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBindPage<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : IViewModel
+            where TViewModel : IRootViewModel
             where TView : BaseContentPage<TViewModel>
         {
             viewFactory.BindPage<TViewModel, TView>();
@@ -105,7 +105,7 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBindPopup<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : ITaskViewModel
+            where TViewModel : ITaskViewModel, IRootViewModel
             where TView : BasePopupPage<TViewModel>
         {
             viewFactory.BindPopup<TViewModel, TView>();
