@@ -13,7 +13,7 @@ namespace Plapp
                 Orientation = StackOrientation.Vertical,
                 Children =
                 {
-                    new Entry().Bind(nameof(VM.Id)),
+                    new Entry().Bind(nameof(VM.Key)),
                     new Entry().Bind(nameof(VM.Unit)),
                     ViewHelpers.EnumPicker<DataType>().Bind(Picker.SelectedItemProperty, nameof(VM.DataType)),
 

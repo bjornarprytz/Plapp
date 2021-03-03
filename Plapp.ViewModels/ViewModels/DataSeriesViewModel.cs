@@ -32,7 +32,7 @@ namespace Plapp.ViewModels
         public int Id { get; set; }
 
         public string Title { get; set; }
-        public string TagId { get; set; }
+        public string TagKey { get; set; }
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
@@ -86,10 +86,10 @@ namespace Plapp.ViewModels
                 () => IsLoadingData,
                 async () =>
                 {
-                    var tag = await DataStore.FetchTagAsync(TagId);
+                    var tag = await DataStore.FetchTagAsync(TagKey);
                     Tag = tag.ToViewModel(ServiceProvider);
 
-                    var dataSeries = (await DataStore.FetchDataSeriesAsync(Topic.Id, Tag.Id, Title)).FirstOrDefault();
+                    var dataSeries = (await DataStore.FetchDataSeriesAsync(Topic.Id, Tag.Key, Title)).FirstOrDefault();
 
                     _dataPoints.Clear();
                     

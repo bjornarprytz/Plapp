@@ -7,7 +7,7 @@ namespace Plapp.Core
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string TagId { get; set; }
+        public string TagKey { get; set; }
         public int TopicId { get; set; }
 
         public ICollection<DataPoint> DataPoints { get; set; }

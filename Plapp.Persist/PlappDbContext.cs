@@ -18,8 +18,10 @@ namespace Plapp.Persist
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Tag>().HasKey(d => d.Id);
+            modelBuilder.Entity<Tag>().Property(d => d.Key).IsRequired();
             modelBuilder.Entity<Tag>().Property(d => d.DataType).IsRequired();
             modelBuilder.Entity<Tag>().Property(d => d.Unit).IsRequired();
+            modelBuilder.Entity<Tag>().HasIndex(d => d.Key).IsUnique();
 
 
             modelBuilder.Entity<DataPoint>().HasKey(d => d.Id);
@@ -29,7 +31,7 @@ namespace Plapp.Persist
 
             modelBuilder.Entity<DataSeries>().HasKey(d => d.Id);
             modelBuilder.Entity<DataSeries>().Property(d => d.TopicId).IsRequired();
-            modelBuilder.Entity<DataSeries>().Property(d => d.TagId).IsRequired();
+            modelBuilder.Entity<DataSeries>().Property(d => d.TagKey).IsRequired();
 
 
             modelBuilder.Entity<Topic>().HasKey(d => d.Id);

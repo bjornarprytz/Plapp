@@ -54,6 +54,7 @@ namespace Plapp.ViewModels
 
         private async Task SaveTag()
         {
+            Partial.Color = "#FFA500";
             await DataStore.SaveTagAsync(Partial.ToModel());
         }
     }

@@ -26,19 +26,19 @@ namespace Plapp.Persist
             return true;
         }
 
-        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagId = null, string dataSeriesTitle = null)
+        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagKey = null, string dataSeriesTitle = null)
         {
             var result = Context.DataSeries.Where(
-                d => (tagId == null || d.TagId == tagId)
+                d => (tagKey == null || d.TagKey == tagKey)
                   && (dataSeriesTitle == null || d.Title == dataSeriesTitle)
                   && (topicId == null || d.TopicId == topicId));
 
              return await result.ToListAsync();
         }
 
-        public async Task<Tag> FetchTagAsync(string tagId)
+        public async Task<Tag> FetchTagAsync(string tagKey)
         {
-            return await Context.Tags.FindAsync(tagId);
+            return await Context.Tags.Where(d => d.Key == tagKey).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Tag>> FetchTagsAsync()

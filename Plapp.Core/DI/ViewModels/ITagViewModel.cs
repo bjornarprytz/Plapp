@@ -2,7 +2,8 @@
 {
     public interface ITagViewModel : IViewModel
     {
-        string Id { get; set; }
+        int Id { get; }
+        string Key { get; set; }
         string Unit { get; set; }
         DataType DataType { get; set; }
         Icon Icon { get; set; }

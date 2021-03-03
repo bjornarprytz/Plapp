@@ -31,7 +31,7 @@ namespace Plapp.ViewModels
             { 
                 Id = dataSeries.Id,
                 Title = dataSeries.Title,
-                TagId = dataSeries.TagId,
+                TagKey = dataSeries.TagKey,
                 Topic = topicViewModel,
             };
 
@@ -82,7 +82,7 @@ namespace Plapp.ViewModels
                 Id = dataSeriesViewModel.Id,
                 Title = dataSeriesViewModel.Title,
                 TopicId = dataSeriesViewModel.Topic.Id,
-                TagId = dataSeriesViewModel.Tag.Id,
+                TagKey = dataSeriesViewModel.Tag.Key,
                 DataPoints = new List<DataPoint>(),
             };
 
@@ -110,6 +110,7 @@ namespace Plapp.ViewModels
             return new Tag
             {
                 Id = tagViewModel.Id,
+                Key = tagViewModel.Key,
                 Unit = tagViewModel.Unit,
                 Color = tagViewModel.Color,
                 DataType = tagViewModel.DataType,

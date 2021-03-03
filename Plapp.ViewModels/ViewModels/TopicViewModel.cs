@@ -127,7 +127,7 @@ namespace Plapp.ViewModels
 
             var options = new List<string> { "Create new Tag" };
 
-            options.AddRange((await DataStore.FetchTagsAsync()).Select(t => t.Id));
+            options.AddRange((await DataStore.FetchTagsAsync()).Select(t => t.Key));
 
             var choice = await Prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
 
