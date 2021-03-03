@@ -17,45 +17,39 @@ namespace Plapp.ViewModels
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
         }
 
-        public bool IsLoadingTags { get; private set; }
-
         public ReadOnlyObservableCollection<ITagViewModel> AvailableTags { get; }
-
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            Task.Run(LoadTags);
-        }
-
-        protected override void OnConfirm()
-        {
-            base.OnConfirm();
-
-            Task.Run(SaveTag);
-        }
 
         protected override bool PartialIsValid()
         {
             return Partial != null;
         }
 
-        private async Task LoadTags()
+        protected override void OnConfirm()
         {
-            await FlagActionAsync(
-                () => IsLoadingTags,
-                async () =>
-                {
-                    var tags = await DataStore.FetchTagsAsync();
+            base.OnConfirm();
 
-                    _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
-                });
+            Task.Run(SaveResult);
         }
 
-        private async Task SaveTag()
+        protected override async Task AutoLoadDataAsync()
         {
-            Partial.Color = "#FFA500";
-            await DataStore.SaveTagAsync(Partial.ToModel());
+            await base.AutoLoadDataAsync();
+
+            var tags = await DataStore.FetchTagsAsync();
+
+            _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
+        }
+            
+        protected async Task SaveResult()
+        {
+            await FlagActionAsync(
+                () => IsSavingData,
+                async () =>
+                {
+                    Partial.Color = "#FFA500";
+                    await DataStore.SaveTagAsync(Partial.ToModel());
+                });
+
         }
     }
 }

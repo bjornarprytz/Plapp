@@ -1,5 +1,4 @@
-﻿using Plapp.Core;
-using System;
+﻿using System;
 
 namespace Plapp.ViewModels
 {

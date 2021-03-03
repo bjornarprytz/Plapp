@@ -12,8 +12,6 @@ namespace Plapp.ViewModels
     {
         private readonly ObservableCollection<ITopicViewModel> _topics;
 
-        private bool topicsLoaded = false;
-
         public ApplicationViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
@@ -24,37 +22,10 @@ namespace Plapp.ViewModels
             DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
         }
 
-        public bool IsLoadingTopics { get; private set; }
-
         public ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
-
-        public override void OnShow()
-        {
-            base.OnShow();
-            Task.Run(LoadTopics);
-        }
-
-        private async Task LoadTopics()
-        {
-            if (topicsLoaded)
-            {
-                return;
-            }
-
-            await FlagActionAsync(
-                () => IsLoadingTopics,
-                async () => {
-                    var topics = await DataStore.FetchTopicsAsync();
-
-                    _topics.Clear();
-                    _topics.AddRange(topics.Select(t => t.ToViewModel(ServiceProvider)));
-
-                    topicsLoaded = true;
-            });
-        }
 
         private async Task AddTopic()
         {
@@ -72,6 +43,16 @@ namespace Plapp.ViewModels
             _topics.Remove(topic);
             
             Task.Run(() => DataStore.DeleteTopicAsync(topic.ToModel()));
+        }
+
+        protected override async Task AutoLoadDataAsync()
+        {
+            await base.AutoLoadDataAsync();
+
+            var topics = await DataStore.FetchTopicsAsync();
+
+            _topics.Clear();
+            _topics.AddRange(topics.Select(t => t.ToViewModel(ServiceProvider)));
         }
     }
 }

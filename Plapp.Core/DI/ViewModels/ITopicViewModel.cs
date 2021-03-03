@@ -6,8 +6,6 @@ namespace Plapp.Core
 {
     public interface ITopicViewModel : IRootViewModel
     {
-        bool IsLoadingData { get; }
-        bool IsSavingTopic { get; }
         bool LacksImage { get; }
 
         int Id { get; }

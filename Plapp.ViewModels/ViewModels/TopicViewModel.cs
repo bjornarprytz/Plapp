@@ -46,19 +46,6 @@ namespace Plapp.ViewModels
         public ICommand AddImageCommand { get; private set; }
         public ICommand AddDataSeriesCommand { get; private set; }
 
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            Task.Run(LoadData);
-        }
-
-        public override void OnUserInteractionStopped()
-        {
-            base.OnUserInteractionStopped();
-
-            Task.Run(SaveTopic);
-        }
 
         public void AddDataSeries(IDataSeriesViewModel newSeries)
         {
@@ -83,33 +70,6 @@ namespace Plapp.ViewModels
             await Navigator.GoToAsync<ITopicViewModel>(this);
         }
 
-        private async Task LoadData()
-        {
-            await FlagActionAsync(
-                () => IsLoadingData,
-                async () =>
-                {
-                    var dataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
-
-                    _dataEntries.Clear();
-
-                    foreach(var series in dataSeries)
-                    {
-                        AddDataSeries(series.ToViewModel(this, ServiceProvider));
-                    }
-                });
-        }
-
-        private async Task SaveTopic()
-        {
-            await FlagActionAsync(
-                () => IsSavingTopic,
-                async () =>
-                {
-                    await DataStore.SaveTopicAsync(this.ToModel());
-                });
-        }
-        
         private async Task AddImage()
         {
             var photo = await Camera.TakePhotoAsync();
@@ -154,6 +114,27 @@ namespace Plapp.ViewModels
                 });
 
             AddDataSeries(dataSeries);
+        }
+
+        protected override async Task AutoLoadDataAsync()
+        {
+            await base.AutoLoadDataAsync();
+
+            var dataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
+
+            _dataEntries.Clear();
+
+            foreach (var series in dataSeries)
+            {
+                AddDataSeries(series.ToViewModel(this, ServiceProvider));
+            }
+        }
+
+        protected override async Task AutoSaveDataAsync()
+        {
+            await base.AutoSaveDataAsync();
+
+            await DataStore.SaveTopicAsync(this.ToModel());
         }
     }
 }
