@@ -122,19 +122,38 @@ namespace Plapp.ViewModels
 
             var dataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
 
+            foreach (var ds in dataSeries)
+            {
+                var tag = await DataStore.FetchTagAsync(ds.TagKey);
+
+                ds.Tag = tag;
+
+                var dp = await DataStore.FetchDataPointsAsync(ds.Id);
+
+                ds.DataPoints.AddRange(dp);
+            }
+
             _dataEntries.Clear();
 
             foreach (var series in dataSeries)
             {
-                AddDataSeries(series.ToViewModel(this, ServiceProvider));
+                var seriesVm = series.ToViewModel(this, ServiceProvider);
+
+                seriesVm.RefreshCommand.Execute(null);
+
+                AddDataSeries(seriesVm);
             }
         }
 
         protected override async Task AutoSaveDataAsync()
         {
             await base.AutoSaveDataAsync();
+            
+            var topic = this.ToModel();
 
-            await DataStore.SaveTopicAsync(this.ToModel());
+            await DataStore.SaveTopicAsync(topic);
+
+            Id = topic.Id;
         }
     }
 }

@@ -59,11 +59,6 @@ namespace Plapp.Persist
         public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries)
         {
             await Context.DataSeries.AddRangeAsync(dataSeries);
-            
-            foreach(var dataSerie in dataSeries)
-            {
-                await Context.DataPoints.AddRangeAsync(dataSerie.DataPoints);
-            }
 
             await Context.SaveChangesAsync();
         }
@@ -71,8 +66,6 @@ namespace Plapp.Persist
         public async Task SaveDataSeriesAsync(DataSeries dataSeries)
         {
             await Context.DataSeries.AddAsync(dataSeries);
-
-            await Context.DataPoints.AddRangeAsync(dataSeries.DataPoints);
 
             await Context.SaveChangesAsync();
         }
