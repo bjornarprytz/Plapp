@@ -2,23 +2,18 @@
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
-using PCLStorage;
 using Plapp.Persist;
 using Microsoft.EntityFrameworkCore;
 using Plapp.Peripherals;
 using Plapp.ViewModels;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Essentials;
+using System.IO;
 
 namespace Plapp
 {
     public static class ConstructionExtensions
     {
-        public static FrameworkConstruction AddFileSystem(this FrameworkConstruction construction)
-        {
-            construction.Services.AddSingleton(provider => FileSystem.Current);
-
-            return construction;
-        }
 
         public static FrameworkConstruction AddConfig(this FrameworkConstruction construction, IConfigurationStreamProviderFactory configStreamProviderFactory)
         {
@@ -33,7 +28,7 @@ namespace Plapp
             {
                 var config = await IoC.Get<IConfigurationManager>().GetAsync();
 
-                var connStr = $"Data Source={IoC.Get<IFileSystem>().PathFromRoot(config.ConnectionStrings.PlappDb)}";
+                var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, config.ConnectionStrings.PlappDb)}";
                 options.UseSqlite(connStr);
             }, contextLifetime: ServiceLifetime.Scoped);
 

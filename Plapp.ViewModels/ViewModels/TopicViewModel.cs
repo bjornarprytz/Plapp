@@ -1,5 +1,4 @@
-﻿using PCLStorage;
-using Plapp.Core;
+﻿using Plapp.Core;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 
 namespace Plapp.ViewModels
 {
@@ -15,7 +15,6 @@ namespace Plapp.ViewModels
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataEntries;
         private ICamera Camera => ServiceProvider.Get<ICamera>();
-        private IFileSystem FileSystem => ServiceProvider.Get<IFileSystem>();
 
         public TopicViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -32,7 +31,6 @@ namespace Plapp.ViewModels
 
         public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
-        public bool IsLoadingData { get; private set; }
         public bool IsSavingTopic { get; private set; }
         
         [AlsoNotifyFor(nameof(ImageUri))]
@@ -79,7 +77,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            ImageUri = await FileSystem.SaveAsync($"{Title}.jpg", photo);
+            ImageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Title}.jpg", photo);
         }
 
         private async Task AddDataSeriesAsync()
