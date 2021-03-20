@@ -1,6 +1,5 @@
 ﻿
 using Foundation;
-using Plapp.iOS.Configuration;
 using UIKit;
 
 namespace Plapp.iOS
@@ -25,7 +24,7 @@ namespace Plapp.iOS
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.Forms.FormsMaterial.Init();
 
-            LoadApplication(new App(new IOSConfigurationStreamProviderFactory()));
+            LoadApplication(new App());
 
             return base.FinishedLaunching(uiApplication, launchOptions);
         }

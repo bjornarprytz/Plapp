@@ -2,7 +2,6 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-using Plapp.Droid.Configuration;
 
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
@@ -26,7 +25,7 @@ namespace Plapp.Droid
 
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
 
-            LoadApplication(new App(new AndroidConfigurationStreamProviderFactory(() => this)));
+            LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

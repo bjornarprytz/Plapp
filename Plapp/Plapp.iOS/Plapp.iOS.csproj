@@ -67,8 +67,6 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Configuration\IOSConfigurationStreamProvider.cs" />
-    <Compile Include="Configuration\IOSConfigurationStreamProviderFactory.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <BundleResource Include="..\Plapp\appsettings.json">

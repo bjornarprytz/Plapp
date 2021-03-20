@@ -15,9 +15,9 @@ namespace Plapp
     public static class ConstructionExtensions
     {
 
-        public static FrameworkConstruction AddConfig(this FrameworkConstruction construction, IConfigurationStreamProviderFactory configStreamProviderFactory)
+        public static FrameworkConstruction AddConfig(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton<IConfigurationManager>(new ConfigurationManager(configStreamProviderFactory));
+            construction.Services.AddSingleton<IConfigurationManager>(new DefaultConfigurationManager("appsettings.json"));
 
             return construction;
         }

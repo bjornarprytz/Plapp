@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-
-namespace Plapp
+﻿namespace Plapp
 {
     public class Configuration
     {

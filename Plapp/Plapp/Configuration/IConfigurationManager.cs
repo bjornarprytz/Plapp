@@ -5,7 +5,6 @@ namespace Plapp
 {
     public interface IConfigurationManager
     {
-        Task<Configuration> GetAsync(CancellationToken cancellationToken);
         Task<Configuration> GetAsync();
     }
 }

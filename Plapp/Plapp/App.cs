@@ -10,12 +10,12 @@ namespace Plapp
 {
     public class App : Application
     {
-        public App(IConfigurationStreamProviderFactory configStreamProviderFactory)
+        public App()
         {
             Resources = Styles.Implicit;
             
             Framework.Construct<DefaultFrameworkConstruction>()
-                .AddConfig(configStreamProviderFactory)
+                .AddConfig()
                 .AddDefaultLogger()
                 .AddPlappDataStore()
                 .AddViewModels()
