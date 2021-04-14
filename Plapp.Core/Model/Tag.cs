@@ -1,6 +1,6 @@
 ﻿namespace Plapp.Core
 {
-    public class Tag
+    public record Tag
     {
         public int Id { get; set; }
         public string Key { get; set; }

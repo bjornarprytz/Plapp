@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Plapp.Core
 {
-    public class DataSeries
+    public record DataSeries
     {
         public int Id { get; set; }
         public string Title { get; set; }

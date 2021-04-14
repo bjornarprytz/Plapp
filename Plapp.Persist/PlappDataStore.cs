@@ -11,7 +11,7 @@ namespace Plapp.Persist
     public class PlappDataStore : IPlappDataStore
     {
         private readonly IServiceProvider _serviceProvider;
-        private PlappDbContext Context => _serviceProvider.Get<PlappDbContext>();
+        
 
         public PlappDataStore(IServiceProvider serviceProvider)
         {
@@ -20,103 +20,157 @@ namespace Plapp.Persist
 
         public async Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken)
         {
-            if (!(await Context.Database.EnsureCreatedAsync(cancellationToken)))
+            using var context = await GetContextAsync(cancellationToken);
+
+            if (!(await context.Database.EnsureCreatedAsync(cancellationToken)))
                 return false;
 
             return true;
         }
 
-        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagKey = null, string dataSeriesTitle = null)
+        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagKey = null, CancellationToken cancellationToken = default)
         {
-            var result = Context.DataSeries.Where(
+            using var context = await GetContextAsync(cancellationToken);
+
+            var result = context.DataSeries.Where(
                 d => (tagKey == null || d.TagKey == tagKey)
-                  && (dataSeriesTitle == null || d.Title == dataSeriesTitle)
                   && (topicId == null || d.TopicId == topicId));
 
-             return await result.ToListAsync();
+             return await result
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId)
+        public async Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default)
         {
-            return await Context.DataPoints.Where(d => d.DataSeriesId == dataSeriesId).ToListAsync();
+            using var context = await GetContextAsync(cancellationToken);
+
+            var result = context.DataPoints.Where(d => d.DataSeriesId == dataSeriesId);
+
+            return await result
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<Tag> FetchTagAsync(string tagKey)
+        public async Task<Tag> FetchTagAsync(string tagKey, CancellationToken cancellationToken = default)
         {
-            return await Context.Tags.Where(d => d.Key == tagKey).FirstOrDefaultAsync();
+            using var context = await GetContextAsync(cancellationToken);
+
+            var result = context.Tags.Where(d => d.Key == tagKey);
+
+            return await result
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Tag>> FetchTagsAsync()
+        public async Task<IEnumerable<Tag>> FetchTagsAsync(CancellationToken cancellationToken = default)
         {
-            return await Context.Tags.ToListAsync();
+            using var context = await GetContextAsync(cancellationToken);
+            
+            return await context.Tags
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Topic>> FetchTopicsAsync()
+        public async Task<IEnumerable<Topic>> FetchTopicsAsync(CancellationToken cancellationToken = default)
         {
-            return await Context.Topics.ToListAsync();
+            using var context = await GetContextAsync(cancellationToken);
+            
+            return await context.Topics
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries)
+        public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries, CancellationToken cancellationToken = default)
         {
-            await Context.DataSeries.AddRangeAsync(dataSeries);
+            using var context = await GetContextAsync(cancellationToken);
 
-            await Context.SaveChangesAsync();
+            await context.DataSeries.AddRangeAsync(dataSeries, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task SaveDataSeriesAsync(DataSeries dataSeries)
+        public async Task SaveDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default)
         {
-            await Context.DataSeries.AddAsync(dataSeries);
+            using var context = await GetContextAsync(cancellationToken);
 
-            await Context.SaveChangesAsync();
+            await context.DataSeries.AddAsync(dataSeries, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task SaveTagAsync(Tag tag)
+        public async Task SaveTagAsync(Tag tag, CancellationToken cancellationToken = default)
         {
-            Context.Tags.Update(tag);
+            using var context = await GetContextAsync(cancellationToken);
 
-            await Context.SaveChangesAsync();
+            await context.Tags.AddOrUpdate(tag.Id, tag);
+            
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task SaveTopicAsync(Topic topic)
+        public async Task SaveTopicAsync(Topic topic, CancellationToken cancellationToken = default)
         {
-            Context.Topics.Update(topic);
+            using var context = await GetContextAsync(cancellationToken);
+            
+            await context.Topics.AddOrUpdate(topic.Id, topic);
 
-            await Context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task SaveTopicsAsync(IEnumerable<Topic> topics)
+        public async Task SaveTopicsAsync(IEnumerable<Topic> topics, CancellationToken cancellationToken = default)
         {
-            Context.Topics.UpdateRange(topics);
+            using var context = await GetContextAsync(cancellationToken);
 
-            await Context.SaveChangesAsync();
+            var addOrUpdateTasks = topics.Select(t => context.Topics.AddOrUpdate(t.Id, t));
+
+            await Task.WhenAll(addOrUpdateTasks);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteDataPointAsync(DataPoint dataPoint)
+        public async Task DeleteDataPointAsync(DataPoint dataPoint, CancellationToken cancellationToken = default)
         {
-            Context.DataPoints.Remove(dataPoint);
+            using var context = await GetContextAsync(cancellationToken);
+            
+            context.DataPoints.Remove(dataPoint);
 
-            await Context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteDataSeriesAsync(DataSeries dataSeries)
+        public async Task DeleteDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default)
         {
-            Context.DataSeries.Remove(dataSeries);
+            using var context = await GetContextAsync(cancellationToken);
+            
+            context.DataSeries.Remove(dataSeries);
 
-            await Context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteTagAsync(Tag tag)
+        public async Task DeleteTagAsync(Tag tag, CancellationToken cancellationToken = default)
         {
-            Context.Tags.Remove(tag);
+            using var context = await GetContextAsync(cancellationToken);
+            
+            context.Tags.Remove(tag);
 
-            await Context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteTopicAsync(Topic topic)
+        public async Task DeleteTopicAsync(Topic topic, CancellationToken cancellationToken = default)
         {
-            Context.Topics.Remove(topic);
+            using var context = await GetContextAsync(cancellationToken);
 
-            await Context.SaveChangesAsync();
+            context.Topics.Remove(topic);
+            
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task<PlappDbContext> GetContextAsync(CancellationToken cancellationToken = default)
+        {
+            var context = _serviceProvider.Get<PlappDbContext>();
+
+            await context.Database.EnsureCreatedAsync(cancellationToken);
+
+            return context;
         }
     }
 }

@@ -8,21 +8,21 @@ namespace Plapp.Core
     {
         Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken);
 
-        Task<IEnumerable<Topic>> FetchTopicsAsync();
-        Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagKey=null, string dataSeriesTitle=null);
-        Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId);
-        Task<Tag> FetchTagAsync(string tagKey);
-        Task<IEnumerable<Tag>> FetchTagsAsync();
+        Task<IEnumerable<Topic>> FetchTopicsAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagKey=null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default);
+        Task<Tag> FetchTagAsync(string tagKey, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Tag>> FetchTagsAsync(CancellationToken cancellationToken = default);
         
-        Task SaveTopicAsync(Topic topic);
-        Task SaveTopicsAsync(IEnumerable<Topic> topics);
-        Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries);
-        Task SaveDataSeriesAsync(DataSeries dataSeries);
-        Task SaveTagAsync(Tag tag);
+        Task SaveTopicAsync(Topic topic, CancellationToken cancellationToken = default);
+        Task SaveTopicsAsync(IEnumerable<Topic> topics, CancellationToken cancellationToken = default);
+        Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries, CancellationToken cancellationToken = default);
+        Task SaveDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default);
+        Task SaveTagAsync(Tag tag, CancellationToken cancellationToken = default);
 
-        Task DeleteTopicAsync(Topic topic);
-        Task DeleteDataSeriesAsync(DataSeries dataSeries);
-        Task DeleteDataPointAsync(DataPoint dataPoint);
-        Task DeleteTagAsync(Tag tag);
+        Task DeleteTopicAsync(Topic topic, CancellationToken cancellationToken = default);
+        Task DeleteDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default);
+        Task DeleteDataPointAsync(DataPoint dataPoint, CancellationToken cancellationToken = default);
+        Task DeleteTagAsync(Tag tag, CancellationToken cancellationToken = default);
     }
 }

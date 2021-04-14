@@ -2,7 +2,7 @@
 
 namespace Plapp.Core
 {
-    public class Topic
+    public record Topic
     {
         public int Id { get; set; }
         public string Title { get; set; }

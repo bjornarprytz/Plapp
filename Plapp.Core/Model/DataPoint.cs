@@ -2,7 +2,7 @@
 
 namespace Plapp.Core
 {
-    public class DataPoint
+    public record DataPoint
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
