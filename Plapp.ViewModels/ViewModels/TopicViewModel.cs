@@ -70,14 +70,14 @@ namespace Plapp.ViewModels
 
         private async Task AddImage()
         {
-            var photo = await Camera.TakePhotoAsync();
+            using var photoStream = await Camera.TakePhotoAsync();
 
-            if (photo == null)
+            if (photoStream == null)
             {
                 return;
             }
 
-            ImageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Title}.jpg", photo);
+            ImageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream);
         }
 
         private async Task AddDataSeriesAsync()
