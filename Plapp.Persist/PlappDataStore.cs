@@ -20,7 +20,7 @@ namespace Plapp.Persist
 
         public async Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             if (!(await context.Database.EnsureCreatedAsync(cancellationToken)))
                 return false;
@@ -30,7 +30,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, int? tagId = null, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             var result = context.DataSeries.Where(
                 d => (tagId == null || d.TagId == tagId)
@@ -44,7 +44,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             var result = context.DataPoints.Where(d => d.DataSeriesId == dataSeriesId);
 
@@ -55,7 +55,7 @@ namespace Plapp.Persist
 
         public async Task<Tag> FetchTagAsync(string tagKey, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             var result = context.Tags.Where(d => d.Key == tagKey);
 
@@ -66,7 +66,7 @@ namespace Plapp.Persist
 
         public async Task<Tag> FetchTagAsync(int tagId, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             var result = context.Tags.Where(d => d.Id == tagId);
 
@@ -77,7 +77,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<Tag>> FetchTagsAsync(CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             return await context.Tags
                 .AsNoTracking()
@@ -86,7 +86,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<Topic>> FetchTopicsAsync(CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             return await context.Topics
                 .AsNoTracking()
@@ -95,7 +95,7 @@ namespace Plapp.Persist
 
         public async Task SaveDataSeriesAsync(IEnumerable<DataSeries> dataSeries, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             await context.DataSeries.AddRangeAsync(dataSeries, cancellationToken);
 
@@ -104,7 +104,7 @@ namespace Plapp.Persist
 
         public async Task SaveDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             await context.DataSeries.AddAsync(dataSeries, cancellationToken);
 
@@ -113,7 +113,7 @@ namespace Plapp.Persist
 
         public async Task SaveTagAsync(Tag tag, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             await context.Tags.AddOrUpdate(tag.Id, tag);
             
@@ -122,7 +122,7 @@ namespace Plapp.Persist
 
         public async Task SaveTopicAsync(Topic topic, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             await context.Topics.AddOrUpdate(topic.Id, topic);
 
@@ -131,7 +131,7 @@ namespace Plapp.Persist
 
         public async Task SaveTopicsAsync(IEnumerable<Topic> topics, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             var addOrUpdateTasks = topics.Select(t => context.Topics.AddOrUpdate(t.Id, t));
 
@@ -142,7 +142,7 @@ namespace Plapp.Persist
 
         public async Task DeleteDataPointAsync(DataPoint dataPoint, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             context.DataPoints.Remove(dataPoint);
 
@@ -151,7 +151,7 @@ namespace Plapp.Persist
 
         public async Task DeleteDataSeriesAsync(DataSeries dataSeries, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             context.DataSeries.Remove(dataSeries);
 
@@ -160,7 +160,7 @@ namespace Plapp.Persist
 
         public async Task DeleteTagAsync(Tag tag, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
             
             context.Tags.Remove(tag);
 
@@ -169,7 +169,7 @@ namespace Plapp.Persist
 
         public async Task DeleteTopicAsync(Topic topic, CancellationToken cancellationToken = default)
         {
-            using var context = await GetContextAsync(cancellationToken);
+            var context = await GetContextAsync(cancellationToken);
 
             context.Topics.Remove(topic);
             
@@ -180,7 +180,7 @@ namespace Plapp.Persist
         {
             var context = _serviceProvider.Get<PlappDbContext>();
 
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            await context.Database.MigrateAsync(cancellationToken);
 
             return context;
         }
