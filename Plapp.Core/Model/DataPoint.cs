@@ -4,11 +4,11 @@ namespace Plapp.Core
 {
     public record DataPoint
     {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public long Value { get; set; }
+        public int Id { get; init; }
+        public DateTime Date { get; init; }
+        public long Value { get; init; }
 
-        public int DataSeriesId { get; set; }
-        public DataSeries DataSeries { get; set; }
+        public int DataSeriesId { get; init; }
+        public DataSeries DataSeries { get; init; }
     }
 }

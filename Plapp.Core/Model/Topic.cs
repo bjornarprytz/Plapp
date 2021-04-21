@@ -4,11 +4,11 @@ namespace Plapp.Core
 {
     public record Topic
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string ImageUri { get; set; }
+        public int Id { get; init; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public string ImageUri { get; init; }
 
-        public ICollection<DataSeries> DataSeries { get; set; }
+        public ICollection<DataSeries> DataSeries { get; init; }
     }
 }

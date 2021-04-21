@@ -5,16 +5,15 @@ namespace Plapp.Core
 {
     public record DataSeries
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public int Id { get; init; }
+        public string Title { get; init; }
 
-        public ICollection<DataPoint> DataPoints { get; set; }
+        public ICollection<DataPoint> DataPoints { get; init; }
 
+        public int TopicId { get; init; }
+        public Topic Topic { get; init; }
 
-        public int TopicId { get; set; }
-        public Topic Topic { get; set; }
-
-        public string TagKey { get; set; }
-        public Tag Tag { get; set; }
+        public string TagKey { get; init; }
+        public Tag Tag { get; init; }
     }
 }

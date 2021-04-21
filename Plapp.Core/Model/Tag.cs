@@ -2,11 +2,11 @@
 {
     public record Tag
     {
-        public int Id { get; set; }
-        public string Key { get; set; }
-        public string Unit { get; set; }
-        public DataType DataType { get; set; }
-        public Icon Icon { get; set; }
-        public string Color { get; set; }
+        public int Id { get; init; }
+        public string Key { get; init; }
+        public string Unit { get; init; }
+        public DataType DataType { get; init; }
+        public Icon Icon { get; init; }
+        public string Color { get; init; }
     }
 }
