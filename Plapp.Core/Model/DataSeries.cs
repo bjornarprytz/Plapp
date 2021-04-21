@@ -13,7 +13,7 @@ namespace Plapp.Core
         public int TopicId { get; init; }
         public Topic Topic { get; init; }
 
-        public string TagKey { get; init; }
+        public int TagId { get; init; }
         public Tag Tag { get; init; }
     }
 }

@@ -29,9 +29,10 @@ namespace Plapp.Persist
             modelBuilder.Entity<DataPoint>().Property(d => d.Value).IsRequired();
             modelBuilder.Entity<DataPoint>().Property(d => d.DataSeriesId).IsRequired();
 
+            
             modelBuilder.Entity<DataSeries>().HasKey(d => d.Id);
             modelBuilder.Entity<DataSeries>().Property(d => d.TopicId).IsRequired();
-            modelBuilder.Entity<DataSeries>().Property(d => d.TagKey).IsRequired();
+            modelBuilder.Entity<DataSeries>().Property(d => d.TagId).IsRequired();
 
 
             modelBuilder.Entity<Topic>().HasKey(d => d.Id);

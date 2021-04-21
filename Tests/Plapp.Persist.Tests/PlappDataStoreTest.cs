@@ -30,7 +30,7 @@ namespace Plapp.Persist.Tests
         }
 
         [TestMethod]
-        public async Task FetchTopicsAsyncReturnsAllTopics()
+        public async Task FetchTopicsAsync_ReturnsAllTopics()
         {
             SeedTopics(
                 new Topic { Id = TOPIC_ID },
@@ -60,17 +60,21 @@ namespace Plapp.Persist.Tests
         [TestMethod]
         public async Task FetchDataSeriesAsync_TagFilters()
         {
-            const string TAG_FILTER = TAG_KEY;
+            const int TAG_FILTER = TAG_ID;
+
+            SeedTags(
+                new Tag { Id = TAG_FILTER, Key = TAG_KEY },
+                new Tag { Id = TAG_FILTER + 1, Key = "earth" });
 
             SeedDataSeries(
-                new DataSeries { Id = TOPIC_ID, TagKey = TAG_FILTER },
-                new DataSeries { Id = 2, TagKey = "earth" },
-                new DataSeries { Id = 3 });
+                new DataSeries { Id = DATASERIES_ID, TagId = TAG_FILTER },
+                new DataSeries { Id = DATASERIES_ID + 1, TagId = TAG_FILTER + 1 },
+                new DataSeries { Id = DATASERIES_ID + 2 });
 
-            var dataSeries = await plappDataStore.FetchDataSeriesAsync(tagKey: TAG_FILTER);
+            var dataSeries = await plappDataStore.FetchDataSeriesAsync(tagId: TAG_FILTER);
 
             Assert.IsTrue(dataSeries.Count() == 1);
-            Assert.IsTrue(dataSeries.Any(ds => ds.Id == TOPIC_ID));
+            Assert.IsTrue(dataSeries.Any(ds => ds.Id == DATASERIES_ID));
         }
 
         [TestMethod]
@@ -93,17 +97,42 @@ namespace Plapp.Persist.Tests
         public async Task FetchDataSeriesAsync_TopicAndTagFilters()
         {
             const int TOPIC_FILTER = TOPIC_ID;
-            const string TAG_FILTER = TAG_KEY;
+            const int TAG_FILTER = TAG_ID;
+
+            SeedTags(
+                new Tag { Id = TAG_FILTER, Key = TAG_KEY },
+                new Tag { Id = TAG_FILTER + 1, Key = "earth" });
 
             SeedDataSeries(
-                new DataSeries { Id = DATASERIES_ID, TopicId = TOPIC_FILTER, TagKey = TAG_FILTER },
-                new DataSeries { Id = DATASERIES_ID + 1, TopicId = TOPIC_FILTER, TagKey = "earth" },
-                new DataSeries { Id = DATASERIES_ID + 2, TopicId = 2, TagKey = TAG_FILTER });
+                new DataSeries { Id = DATASERIES_ID, TopicId = TOPIC_FILTER, TagId = TAG_FILTER },
+                new DataSeries { Id = DATASERIES_ID + 1, TopicId = TOPIC_FILTER, TagId = TAG_FILTER + 1 },
+                new DataSeries { Id = DATASERIES_ID + 2, TopicId = 2, TagId = TAG_FILTER });
 
-            var dataSeries = await plappDataStore.FetchDataSeriesAsync(topicId: TOPIC_FILTER, tagKey: TAG_FILTER);
+            var dataSeries = await plappDataStore.FetchDataSeriesAsync(topicId: TOPIC_FILTER, tagId: TAG_FILTER);
 
             Assert.IsTrue(dataSeries.Count() == 1);
             Assert.IsTrue(dataSeries.Any(ds => ds.Id == DATASERIES_ID));
+        }
+
+        [TestMethod]
+        public async Task FetchDataSeriesAsync_TagIsFetched()
+        {
+            const int TOPIC_FILTER = TOPIC_ID;
+            const int TAG_FILTER = TAG_ID;
+
+            SeedTags(new Tag { Id = TAG_FILTER, Key = TAG_KEY });
+
+            SeedDataSeries(
+                new DataSeries { Id = DATASERIES_ID, TopicId = TOPIC_FILTER, TagId = TAG_FILTER });
+
+
+            var dataSeries = await plappDataStore.FetchDataSeriesAsync(topicId: TOPIC_FILTER, tagId: TAG_FILTER);
+
+            Assert.IsTrue(dataSeries.Count() == 1);
+            Assert.IsTrue(dataSeries.Any(ds => ds.Id == DATASERIES_ID));
+            Assert.IsTrue(dataSeries.Any(ds => ds.Tag != default));
+            Assert.IsTrue(dataSeries.Any(ds => ds.Tag.Key == TAG_KEY));
+            Assert.IsTrue(dataSeries.Any(ds => ds.Tag.Id == TAG_FILTER));
         }
 
         [TestMethod]
@@ -156,6 +185,19 @@ namespace Plapp.Persist.Tests
                 new Tag { Id = TAG_ID + 1, Key = "earth" });
 
             var tag = await plappDataStore.FetchTagAsync(TAG_KEY);
+
+            Assert.IsTrue(tag.Id == TAG_ID);
+            Assert.IsTrue(tag.Key == TAG_KEY);
+        }
+
+        [TestMethod]
+        public async Task FetchTagAsync_ShouldReturnTagWithId()
+        {
+            SeedTags(
+                new Tag { Id = TAG_ID, Key = TAG_KEY },
+                new Tag { Id = TAG_ID + 1, Key = "earth" });
+
+            var tag = await plappDataStore.FetchTagAsync(TAG_ID);
 
             Assert.IsTrue(tag.Id == TAG_ID);
             Assert.IsTrue(tag.Key == TAG_KEY);
@@ -368,11 +410,13 @@ namespace Plapp.Persist.Tests
         }
 
         [TestMethod]
-        public async Task DeleteTagAsync_DataSeriesWithTagKey_DataSeriesIsNotDeleted()
+        public async Task DeleteTagAsync_DataSeriesWithTagId_DataSeriesIsNotDeleted()
         {
-            var seedTag = new Tag { Id = TAG_ID, Key = TAG_KEY };
+            const int TAG_FILTER = TAG_ID;
 
-            var seedSeries = new DataSeries { Id = DATASERIES_ID, TagKey = TAG_KEY };
+            var seedTag = new Tag { Id = TAG_FILTER, Key = TAG_KEY };
+
+            var seedSeries = new DataSeries { Id = DATASERIES_ID, TagId = TAG_FILTER };
 
             SeedTags(seedTag);
 
@@ -380,12 +424,12 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteTagAsync(seedTag);
 
-            var dataSeries = await plappDataStore.FetchDataSeriesAsync(tagKey: TAG_KEY);
+            var dataSeries = await plappDataStore.FetchDataSeriesAsync(tagId: TAG_FILTER);
 
             var singleSeries = dataSeries.FirstOrDefault();
 
             Assert.IsNotNull(singleSeries);
-            Assert.IsTrue(singleSeries.TagKey == TAG_KEY);
+            Assert.IsTrue(singleSeries.TagId == TAG_FILTER);
         }
 
         [TestMethod]

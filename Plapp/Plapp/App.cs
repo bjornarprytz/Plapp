@@ -31,7 +31,7 @@ namespace Plapp
         {
             var cts = new CancellationTokenSource();
 
-            EnsureDbCreatedAsync();
+            EnsureDbCreated();
 
             await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync(cts.Token);
 
@@ -39,7 +39,7 @@ namespace Plapp
         }
 
 
-        private void EnsureDbCreatedAsync()
+        private void EnsureDbCreated()
         {
             var path = Path.Combine(FileSystem.AppDataDirectory, "Plapp.db");
 

@@ -28,13 +28,14 @@ namespace Plapp.Persist
             return true;
         }
 
-        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, string tagKey = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId = null, int? tagId = null, CancellationToken cancellationToken = default)
         {
             using var context = await GetContextAsync(cancellationToken);
 
             var result = context.DataSeries.Where(
-                d => (tagKey == null || d.TagKey == tagKey)
-                  && (topicId == null || d.TopicId == topicId));
+                d => (tagId == null || d.TagId == tagId)
+                  && (topicId == null || d.TopicId == topicId))
+                .Include(d => d.Tag);
 
              return await result
                 .AsNoTracking()
@@ -57,6 +58,17 @@ namespace Plapp.Persist
             using var context = await GetContextAsync(cancellationToken);
 
             var result = context.Tags.Where(d => d.Key == tagKey);
+
+            return await result
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<Tag> FetchTagAsync(int tagId, CancellationToken cancellationToken = default)
+        {
+            using var context = await GetContextAsync(cancellationToken);
+
+            var result = context.Tags.Where(d => d.Id == tagId);
 
             return await result
                 .AsNoTracking()

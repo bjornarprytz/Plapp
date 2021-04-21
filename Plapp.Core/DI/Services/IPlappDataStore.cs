@@ -9,9 +9,10 @@ namespace Plapp.Core
         Task<bool> EnsureStorageReadyAsync(CancellationToken cancellationToken);
 
         Task<IEnumerable<Topic>> FetchTopicsAsync(CancellationToken cancellationToken = default);
-        Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, string tagKey=null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DataSeries>> FetchDataSeriesAsync(int? topicId=null, int? tagId=null, CancellationToken cancellationToken = default);
         Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default);
         Task<Tag> FetchTagAsync(string tagKey, CancellationToken cancellationToken = default);
+        Task<Tag> FetchTagAsync(int tagId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Tag>> FetchTagsAsync(CancellationToken cancellationToken = default);
         
         Task SaveTopicAsync(Topic topic, CancellationToken cancellationToken = default);

@@ -122,10 +122,6 @@ namespace Plapp.ViewModels
 
             foreach (var ds in dataSeries)
             {
-                var tag = await DataStore.FetchTagAsync(ds.TagKey);
-
-                ds.Tag = tag;
-
                 var dp = await DataStore.FetchDataPointsAsync(ds.Id);
 
                 ds.DataPoints.AddRange(dp);
