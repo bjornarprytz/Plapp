@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using Microsoft.Extensions.Logging;
+using Plapp.Core;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -14,6 +15,7 @@ namespace Plapp.ViewModels
         protected INavigator Navigator => ServiceProvider.Get<INavigator>();
         protected IPrompter Prompter => ServiceProvider.Get<IPrompter>();
         protected IPlappDataStore DataStore => ServiceProvider.Get<IPlappDataStore>();
+        protected ILogger Logger => ServiceProvider.Get<ILogger>();
 
         protected BaseViewModel(IServiceProvider serviceProvider)
         {

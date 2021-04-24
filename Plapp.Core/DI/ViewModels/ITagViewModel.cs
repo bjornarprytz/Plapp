@@ -1,4 +1,6 @@
-﻿namespace Plapp.Core
+﻿using System.Windows.Input;
+
+namespace Plapp.Core
 {
     public interface ITagViewModel : IViewModel
     {
@@ -8,5 +10,7 @@
         DataType DataType { get; set; }
         Icon Icon { get; set; }
         string Color { get; set; }
+
+        ICommand SaveCommand {get;}
     }
 }

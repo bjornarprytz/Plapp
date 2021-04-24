@@ -16,5 +16,6 @@ namespace Plapp.Core
 
         ICommand AddDataPointCommand { get; }
         ICommand RefreshCommand { get; }
+        ICommand SaveCommand { get; }
     }
 }

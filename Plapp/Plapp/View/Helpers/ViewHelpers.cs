@@ -20,7 +20,7 @@ namespace Plapp
          * The PhotoFrame a button to take a photo if there isn't one already.
          */
         public static Grid PhotoFrame(string imageBinding, string isVisibleBinding, string takePhotoCommandBinding)
-            => new Grid
+            => new()
             {
                 Children =
                 {

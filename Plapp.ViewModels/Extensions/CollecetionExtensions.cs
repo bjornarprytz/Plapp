@@ -19,5 +19,21 @@ namespace Plapp.ViewModels
 
             return collection;
         }
+
+        public static C RemoveRange<C, T>(this C collection, IEnumerable<T> items)
+            where C : ICollection<T>
+        {
+            if (items == null)
+            {
+                return collection;
+            }
+
+            foreach (var item in items)
+            {
+                collection.Remove(item);
+            }
+
+            return collection;
+        }
     }
 }

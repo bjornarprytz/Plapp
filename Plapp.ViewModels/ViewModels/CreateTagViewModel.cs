@@ -42,14 +42,9 @@ namespace Plapp.ViewModels
             
         protected async Task SaveResult()
         {
-            await FlagActionAsync(
-                () => IsSavingData,
-                async () =>
-                {
-                    Partial.Color = "#FFA500";
-                    await DataStore.SaveTagAsync(Partial.ToModel());
-                });
+            Partial.Color = "#FFA500";
 
+            Partial.SaveCommand.Execute(null);
         }
     }
 }

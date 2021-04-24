@@ -1,5 +1,6 @@
 ﻿using Plapp.Core;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,10 +50,33 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var topics = await DataStore.FetchTopicsAsync();
+            var freshTopics = await DataStore.FetchTopicsAsync();
 
-            _topics.Clear();
-            _topics.AddRange(topics.Select(t => t.ToViewModel(ServiceProvider)));
+            UpdateTopics(freshTopics);
+        }
+
+        private void UpdateTopics(IEnumerable<Topic> topics)
+        {
+            var topicsToAdd = new List<ITopicViewModel>();
+            var topicsToRemove = new List<ITopicViewModel>(_topics);
+
+            foreach (var topic in topics)
+            {
+                var existingTopic = _topics.OfType<TopicViewModel>().FirstOrDefault(t => t.Id == topic.Id);
+
+                if (existingTopic == default)
+                {
+                    topicsToAdd.Add(topic.ToViewModel(ServiceProvider));
+                }
+                else
+                {
+                    existingTopic.Hydrate(topic);
+                    topicsToRemove.Remove(existingTopic);
+                }
+            }
+
+            _topics.RemoveRange(topicsToRemove);
+            _topics.AddRange(topicsToAdd);
         }
     }
 }

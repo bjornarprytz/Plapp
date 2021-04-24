@@ -18,8 +18,5 @@ namespace Plapp.Core
         ICommand OpenTopicCommand { get; }
         ICommand AddImageCommand { get; }
         ICommand AddDataSeriesCommand { get; }
-
-        void AddDataSeries(IDataSeriesViewModel newSeries);
-        void AddDataSeries(IEnumerable<IDataSeriesViewModel> newSeries);
     }
 }

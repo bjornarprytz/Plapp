@@ -2,6 +2,7 @@
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -24,6 +25,16 @@ namespace Plapp
             where TViewModel : IViewModel
         {
             var popup = ViewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
+
+            await PopupTaskAsync(popup);
+
+            return popup.VM.GetResult();
+        }
+
+        public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>()
+            where TViewModel : IViewModel
+        {
+            var popup = ViewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>();
 
             await PopupTaskAsync(popup);
 
