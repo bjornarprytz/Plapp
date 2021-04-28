@@ -180,7 +180,7 @@ namespace Plapp.Persist
         {
             var context = _serviceProvider.Get<PlappDbContext>();
 
-            await context.Database.MigrateAsync(cancellationToken);
+            await context.Database.EnsureCreatedAsync(cancellationToken);
 
             return context;
         }

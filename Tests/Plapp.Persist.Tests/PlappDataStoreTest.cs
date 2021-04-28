@@ -46,9 +46,12 @@ namespace Plapp.Persist.Tests
         [TestMethod]
         public async Task FetchDataSeriesAsync_NoFilters_ShouldReturnAllDataSeries()
         {
+            SeedTags(
+                new Tag { Id = TAG_ID });
+
             SeedDataSeries(
-                new DataSeries { Id = DATASERIES_ID },
-                new DataSeries { Id = DATASERIES_ID + 1 });
+                new DataSeries { Id = DATASERIES_ID, TagId = TAG_ID },
+                new DataSeries { Id = DATASERIES_ID + 1, TagId = TAG_ID });
 
             var dataSeries = await plappDataStore.FetchDataSeriesAsync();
 
@@ -82,10 +85,13 @@ namespace Plapp.Persist.Tests
         {
             const int TOPIC_FILTER = TOPIC_ID;
 
+            SeedTags(
+                new Tag { Key = TAG_KEY, Id = TAG_ID });
+
             SeedDataSeries(
-                new DataSeries { Id = DATASERIES_ID, TopicId = TOPIC_FILTER },
-                new DataSeries { Id = 2, TopicId = 2 },
-                new DataSeries { Id = 3 });
+                new DataSeries { Id = DATASERIES_ID, TopicId = TOPIC_FILTER, TagId = TAG_ID },
+                new DataSeries { Id = DATASERIES_ID + 1, TopicId = 2, TagId = TAG_ID },
+                new DataSeries { Id = DATASERIES_ID + 2, TopicId = 2, TagId = TAG_ID });
 
             var dataSeries = await plappDataStore.FetchDataSeriesAsync(topicId: TOPIC_FILTER);
 
@@ -206,30 +212,42 @@ namespace Plapp.Persist.Tests
         [TestMethod]
         public async Task SaveDataSeriesAsync_NewDataSeries_ShouldAddDataSeriesAndDataPoints()
         {
+            SeedTags(
+                new Tag { Id = TAG_ID });
+
             var dataPoints = new List<DataPoint>
             {
                 new DataPoint { Id = DATAPOINT_ID, DataSeriesId = DATASERIES_ID },
                 new DataPoint { Id = DATAPOINT_ID + 1, DataSeriesId = DATASERIES_ID }
             };
 
-            var dataSeries = new DataSeries { Id = 1, DataPoints = dataPoints };
+            var dataSeries = new DataSeries { Id = 1, DataPoints = dataPoints, TagId = TAG_ID };
 
             await plappDataStore.SaveDataSeriesAsync(dataSeries);
 
-            var resultSeries = await plappDataStore.FetchDataSeriesAsync();
-            var resultPoints = await plappDataStore.FetchDataPointsAsync(dataSeriesId: 1);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(resultSeries.Count() == 1);
+            Assert.IsTrue(context.DataSeries.Count() == 1);
+            Assert.IsTrue(context.DataPoints.Count() == 2);
 
-            Assert.IsTrue(resultPoints.Count() == 2);
-            Assert.IsTrue(resultPoints.Any(dp => dp.Id == DATAPOINT_ID));
-            Assert.IsTrue(resultPoints.Any(dp => dp.Id == DATAPOINT_ID + 1));
-            Assert.IsTrue(resultPoints.All(dp => dp.DataSeriesId == DATASERIES_ID));
+            Assert.IsTrue(context.DataPoints.Any(
+                dp =>
+                   dp.Id == DATAPOINT_ID
+                && dp.DataSeriesId == DATASERIES_ID));
+
+            Assert.IsTrue(context.DataPoints.Any(
+                dp =>
+                   dp.Id == DATAPOINT_ID + 1
+                && dp.DataSeriesId == DATASERIES_ID));
+
         }
 
         [TestMethod]
         public async Task SaveDataSeriesAsync_NewDataSeries_ShouldAddMultipleDataSeriesAndDataPoints()
         {
+            SeedTags(
+                new Tag { Id = TAG_ID });
+
             var dataPoints = new List<DataPoint>
             {
                 new DataPoint { Id = DATAPOINT_ID, DataSeriesId = DATASERIES_ID },
@@ -241,25 +259,29 @@ namespace Plapp.Persist.Tests
                 new DataPoint { Id = DATAPOINT_ID + 2, DataSeriesId = DATASERIES_ID + 1 }
             };
 
-            var dataSeries = new DataSeries { Id = DATASERIES_ID, DataPoints = dataPoints };
-            var otherDataSeries = new DataSeries { Id = DATASERIES_ID + 1, DataPoints = otherDataPoints };
+            var dataSeries = new DataSeries { Id = DATASERIES_ID, TagId = TAG_ID, DataPoints = dataPoints };
+            var otherDataSeries = new DataSeries { Id = DATASERIES_ID + 1, TagId = TAG_ID, DataPoints = otherDataPoints };
 
             await plappDataStore.SaveDataSeriesAsync(new List<DataSeries> { dataSeries, otherDataSeries });
 
-            var resultSeries = await plappDataStore.FetchDataSeriesAsync();
-            var resultPoints = await plappDataStore.FetchDataPointsAsync(dataSeriesId: DATASERIES_ID);
-            var otherResultPoints = await plappDataStore.FetchDataPointsAsync(dataSeriesId: DATASERIES_ID + 1);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(resultSeries.Count() == 2);
+            Assert.IsTrue(context.DataSeries.Count() == 2);
 
-            Assert.IsTrue(resultPoints.Count() == 2);
-            Assert.IsTrue(resultPoints.Any(dp => dp.Id == DATAPOINT_ID));
-            Assert.IsTrue(resultPoints.Any(dp => dp.Id == DATAPOINT_ID + 1));
-            Assert.IsTrue(resultPoints.All(dp => dp.DataSeriesId == DATASERIES_ID));
+            Assert.IsTrue(context.DataPoints.Any(
+                dp =>
+                   dp.Id == DATAPOINT_ID
+                && dp.DataSeriesId == DATASERIES_ID));
+            
+            Assert.IsTrue(context.DataPoints.Any(
+                dp =>
+                   dp.Id == DATAPOINT_ID + 1
+                && dp.DataSeriesId == DATASERIES_ID));
 
-            Assert.IsTrue(otherResultPoints.Count() == 1);
-            Assert.IsTrue(otherResultPoints.Any(dp => dp.Id == DATAPOINT_ID + 2));
-            Assert.IsTrue(otherResultPoints.All(dp => dp.DataSeriesId == DATASERIES_ID + 1));
+            Assert.IsTrue(context.DataPoints.Any(
+                dp =>
+                   dp.Id == DATAPOINT_ID + 2
+                && dp.DataSeriesId == DATASERIES_ID + 1));
         }
 
         [TestMethod]
@@ -267,10 +289,12 @@ namespace Plapp.Persist.Tests
         {
             await plappDataStore.SaveTagAsync(new Tag { Id = TAG_ID, Key = TAG_KEY });
 
-            var tag = await plappDataStore.FetchTagAsync(tagKey: TAG_KEY);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(tag.Id == TAG_ID);
-            Assert.IsTrue(tag.Key == TAG_KEY);
+            Assert.IsTrue(context.Tags.Any(
+                t =>
+                   t.Id == TAG_ID
+                && t.Key == TAG_KEY));
         }
 
         [TestMethod]
@@ -280,10 +304,12 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.SaveTagAsync(new Tag { Id = TAG_ID, Key = TAG_KEY });
 
-            var tag = await plappDataStore.FetchTagAsync(tagKey: TAG_KEY);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(tag.Id == TAG_ID);
-            Assert.IsTrue(tag.Key == TAG_KEY);
+            Assert.IsTrue(context.Tags.Any(
+                t =>
+                   t.Id == TAG_ID
+                && t.Key == TAG_KEY));
         }
 
         [TestMethod]
@@ -291,9 +317,9 @@ namespace Plapp.Persist.Tests
         {
             await plappDataStore.SaveTopicAsync(new Topic { Id = TOPIC_ID });
 
-            var topics = await plappDataStore.FetchTopicsAsync();
+            using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(topics.Any(t => t.Id == TOPIC_ID));
+            Assert.IsTrue(context.Topics.Any(t => t.Id == TOPIC_ID));
         }
 
         [TestMethod]
@@ -309,15 +335,14 @@ namespace Plapp.Persist.Tests
                 ImageUri = TOPIC_IMAGE,
             });
 
-            var topics = await plappDataStore.FetchTopicsAsync();
+            using var context = new PlappDbContext(options);
 
-            var topic = topics.FirstOrDefault(t => t.Id == TOPIC_ID);
-
-            Assert.IsNotNull(topic);
-            Assert.IsTrue(topic.Id == TOPIC_ID);
-            Assert.IsTrue(topic.Title == TOPIC_TITLE);
-            Assert.IsTrue(topic.Description == TOPIC_DESCRIPTION);
-            Assert.IsTrue(topic.ImageUri == TOPIC_IMAGE);
+            Assert.IsTrue(context.Topics.Any(
+                t =>
+                   t.Id == TOPIC_ID
+                && t.Title == TOPIC_TITLE
+                && t.Description == TOPIC_DESCRIPTION
+                && t.ImageUri == TOPIC_IMAGE));
         }
 
         [TestMethod]
@@ -338,14 +363,10 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.SaveTopicsAsync(newTopics);
 
-            var topics = await plappDataStore.FetchTopicsAsync();
+            using var context = new PlappDbContext(options);
 
-            var existingTopic = topics.FirstOrDefault(t => t.Id == TOPIC_ID);
-
-            Assert.IsNotNull(existingTopic);
-            Assert.IsTrue(existingTopic.Title == TOPIC_TITLE);
-
-            Assert.IsTrue(topics.Any(t => t.Id == TOPIC_ID + 1));
+            Assert.IsTrue(context.Topics.Any(t => t.Id == TOPIC_ID && t.Title == TOPIC_TITLE));
+            Assert.IsTrue(context.Topics.Any(t => t.Id == TOPIC_ID + 1));
         }
 
         [TestMethod]
@@ -366,10 +387,10 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteDataPointAsync(dataPoint1);
 
-            var dataPoints = await plappDataStore.FetchDataPointsAsync(dataSeriesId: DATASERIES_ID);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(dataPoints.Any(dp => dp.Id == DATAPOINT_ID));
-            Assert.IsTrue(dataPoints.Any(dp => dp.Id == DATAPOINT_ID + 1));
+            Assert.IsFalse(context.DataPoints.Any(dp => dp.Id == DATAPOINT_ID));
+            Assert.IsTrue(context.DataPoints.Any(dp => dp.Id == DATAPOINT_ID + 1));
         }
 
         [TestMethod]
@@ -390,9 +411,9 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteDataSeriesAsync(seedSeries);
 
-            var dataPoints = await plappDataStore.FetchDataPointsAsync(dataSeriesId: DATASERIES_ID);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(dataPoints.Any());
+            Assert.IsFalse(context.DataPoints.Any(dp => dp.DataSeriesId == DATASERIES_ID));
         }
 
         [TestMethod]
@@ -404,9 +425,9 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteTagAsync(seedTag);
 
-            var tag = await plappDataStore.FetchTagAsync(tagKey: TAG_KEY);
+            using var context = new PlappDbContext(options);
 
-            Assert.IsNull(tag);
+            Assert.IsFalse(context.Tags.Any(t => t.Id == TAG_ID));
         }
 
         [TestMethod]
@@ -424,12 +445,9 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteTagAsync(seedTag);
 
-            var dataSeries = await plappDataStore.FetchDataSeriesAsync(tagId: TAG_FILTER);
+            using var context = new PlappDbContext(options);
 
-            var singleSeries = dataSeries.FirstOrDefault();
-
-            Assert.IsNotNull(singleSeries);
-            Assert.IsTrue(singleSeries.TagId == TAG_FILTER);
+            Assert.IsTrue(context.DataSeries.Count() == 1);
         }
 
         [TestMethod]
@@ -441,9 +459,9 @@ namespace Plapp.Persist.Tests
 
             await plappDataStore.DeleteTopicAsync(seedTopic);
 
-            var topics = await plappDataStore.FetchTopicsAsync();
+            using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(topics.Any(t => t.Id == TOPIC_ID));
+            Assert.IsFalse(context.Topics.Any(t => t.Id == TOPIC_ID));
         }
 
 
