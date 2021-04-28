@@ -63,8 +63,6 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            // TODO: Probably don't fetch so much in this function
-
             var existingTags = await DataStore.FetchTagsAsync();
 
             var options = new List<string> { "Create new Tag" };
@@ -84,6 +82,8 @@ namespace Plapp.ViewModels
             {
                 return;
             }
+
+            await DataStore.SaveTagAsync(tag.ToModel());
 
             var dataSeries = ServiceProvider.Get<IDataSeriesViewModel>(
                 ds =>

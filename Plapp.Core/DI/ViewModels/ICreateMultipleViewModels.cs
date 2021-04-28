@@ -9,6 +9,7 @@ namespace Plapp.Core
         where TViewModel : IViewModel
     {
         TViewModel Current { get; set; }
+        Func<TViewModel> TemplateFunc { get; set; }
         ObservableCollection<TViewModel> Partials { get; set; }
         IEnumerable<TViewModel> GetResult();
 

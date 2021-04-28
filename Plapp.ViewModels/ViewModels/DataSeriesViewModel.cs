@@ -124,7 +124,5 @@ namespace Plapp.ViewModels
             Id = dataSeriesModel.Id;
             Title = dataSeriesModel.Title;
         }
-
-        
     }
 }

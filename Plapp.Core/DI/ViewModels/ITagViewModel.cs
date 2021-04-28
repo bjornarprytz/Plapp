@@ -10,7 +10,5 @@ namespace Plapp.Core
         DataType DataType { get; set; }
         Icon Icon { get; set; }
         string Color { get; set; }
-
-        ICommand SaveCommand {get;}
     }
 }

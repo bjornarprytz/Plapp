@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Plapp.Core
 {
     public interface IPrompter
     {
-        Task<TViewModel> CreateAsync<TViewModel>() where TViewModel : IViewModel;
-        Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>() where TViewModel : IViewModel;
+        Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction=null) where TViewModel : IViewModel;
+        Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Action<TViewModel> setTemplateAction=null) where TViewModel : IViewModel;
 
         Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel, IRootViewModel;
 

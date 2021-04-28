@@ -24,13 +24,6 @@ namespace Plapp.ViewModels
             return Partial != null;
         }
 
-        protected override void OnConfirm()
-        {
-            base.OnConfirm();
-
-            Task.Run(SaveResult);
-        }
-
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();
@@ -38,13 +31,6 @@ namespace Plapp.ViewModels
             var tags = await DataStore.FetchTagsAsync();
 
             _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
-        }
-            
-        protected async Task SaveResult()
-        {
-            Partial.Color = "#FFA500";
-
-            Partial.SaveCommand.Execute(null);
         }
     }
 }

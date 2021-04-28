@@ -21,20 +21,30 @@ namespace Plapp
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<TViewModel> CreateAsync<TViewModel>()
+        public async Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction = null)
             where TViewModel : IViewModel
         {
             var popup = ViewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
+
+            setTemplateAction?.Invoke(popup.VM.Partial);
 
             await PopupTaskAsync(popup);
 
             return popup.VM.GetResult();
         }
 
-        public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>()
+        public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc=null)
             where TViewModel : IViewModel
         {
-            var popup = ViewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>();
+            getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>();
+
+            var popup = ViewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>(
+                vm => 
+                {
+                    vm.Current = getTemplateFunc();
+                    vm.TemplateFunc = getTemplateFunc;
+                });
+
 
             await PopupTaskAsync(popup);
 
