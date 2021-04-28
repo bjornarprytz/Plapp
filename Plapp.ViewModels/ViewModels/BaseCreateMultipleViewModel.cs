@@ -14,13 +14,15 @@ namespace Plapp.ViewModels
         public TViewModel Current { get; set; }
 
         public ICommand ConfirmCurrentCommand { get; private set; }
+        public ICommand BackToPreviousCommand { get; private set; }
 
         protected BaseCreateMultipleViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             Partials = new ObservableCollection<TViewModel>();
-            Current = ServiceProvider.Get<TViewModel>();
+            Current = ServiceProvider.Get<TViewModel>(); // NOTE: It's possible this won't work when adding a DataPoint because it needs some context from a DataSeries (e.g. DataType and Id)
 
             ConfirmCurrentCommand = new CommandHandler(ConfirmCurrent);
+            BackToPreviousCommand = new CommandHandler(BackToPrevious, p => Partials.Count > 0);
         }
 
         public IEnumerable<TViewModel> GetResult()
@@ -40,6 +42,14 @@ namespace Plapp.ViewModels
             Partials.Add(Current);
 
             Current = ServiceProvider.Get<TViewModel>();
+        }
+
+        private void BackToPrevious()
+        {
+            Current = Partials.LastOrDefault();
+
+            if (Current is not null)
+                Partials.Remove(Current);
         }
     }
 }

@@ -4,6 +4,7 @@
     {
         Integer,
         Decimal,
+        Bool,
         Check,
     }
 }

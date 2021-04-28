@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -12,5 +13,6 @@ namespace Plapp.Core
         IEnumerable<TViewModel> GetResult();
 
         ICommand ConfirmCurrentCommand { get; }
+        ICommand BackToPreviousCommand { get; }
     }
 }
