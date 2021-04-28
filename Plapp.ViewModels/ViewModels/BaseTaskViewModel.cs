@@ -14,7 +14,10 @@ namespace Plapp.ViewModels
         {
             ConfirmCommand = new AsyncCommand(Confirm, o => CanConfirm(), allowsMultipleExecutions: false);
             CancelCommand = new AsyncCommand(Cancel, allowsMultipleExecutions: false);
+
+            PropertyChanged += (s, e) => (ConfirmCommand as AsyncCommand).RaiseCanExecuteChanged(); // NOTE: Can this cause a memory leak?
         }
+
         public ICommand ConfirmCommand { get; protected set; }
         public ICommand CancelCommand { get; protected set; }
 

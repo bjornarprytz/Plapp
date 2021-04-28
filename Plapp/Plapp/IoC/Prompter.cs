@@ -33,7 +33,7 @@ namespace Plapp
             return popup.VM.GetResult();
         }
 
-        public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc=null)
+        public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null)
             where TViewModel : IViewModel
         {
             getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>();

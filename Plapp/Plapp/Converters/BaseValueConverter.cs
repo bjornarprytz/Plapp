@@ -9,7 +9,7 @@ namespace Plapp
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not TFrom)
+            if (value is not null and not TFrom)
             {
                 throw new ArgumentException($"Convert expected {typeof(TFrom)}, got {value?.GetType()}");
             }
@@ -19,7 +19,7 @@ namespace Plapp
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not TTo)
+            if (value is not null and not TTo)
             {
                 throw new ArgumentException($"ConvertBack expected {typeof(TTo)}, got {value?.GetType()}");
             }

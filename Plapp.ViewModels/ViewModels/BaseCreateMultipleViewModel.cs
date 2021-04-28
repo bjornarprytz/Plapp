@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -21,8 +22,8 @@ namespace Plapp.ViewModels
         {
             Partials = new ObservableCollection<TViewModel>();
 
-            ConfirmCurrentCommand = new CommandHandler(ConfirmCurrent);
-            BackToPreviousCommand = new CommandHandler(BackToPrevious, p => Partials.Count > 0);
+            ConfirmCurrentCommand = new Command(ConfirmCurrent);
+            BackToPreviousCommand = new Command(BackToPrevious, () => Partials.Count > 0);
         }
 
         public IEnumerable<TViewModel> GetResult()
@@ -34,7 +35,17 @@ namespace Plapp.ViewModels
 
         protected override bool CanConfirm()
         {
-            return Partials.Count > 0; // Should this also check for data validation?
+            return Partials.Count > 0 || CurrentIsValid();
+        }
+
+        protected override void OnConfirm()
+        {
+            base.OnConfirm();
+
+            if (CurrentIsValid())
+            {
+                Partials.Add(Current);
+            }
         }
 
         private void ConfirmCurrent()
@@ -42,6 +53,8 @@ namespace Plapp.ViewModels
             Partials.Add(Current);
 
             Current = TemplateFunc();
+
+            (BackToPreviousCommand as Command).ChangeCanExecute();
         }
 
         private void BackToPrevious()
@@ -50,6 +63,11 @@ namespace Plapp.ViewModels
 
             if (Current is not null)
                 Partials.Remove(Current);
+        }
+
+        private bool CurrentIsValid()
+        {
+            return Current != null; // Should this also check for extra data validation? If so, update CreateTag as well probably.
         }
     }
 }

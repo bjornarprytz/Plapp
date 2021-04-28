@@ -46,6 +46,7 @@ namespace Plapp
             construction.Services.AddTransient<IDataSeriesViewModel, DataSeriesViewModel>();
             construction.Services.AddTransient<IDataPointViewModel, DataPointViewModel>();
             construction.Services.AddTransient<ICreateViewModel<ITagViewModel>, CreateTagViewModel>();
+            construction.Services.AddTransient<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsViewModel>();
 
 
             return construction;
@@ -58,6 +59,7 @@ namespace Plapp
             construction.Services.AddSingleton<TopicPage>();
 
             construction.Services.AddTransient<CreateTagPopup>();
+            construction.Services.AddTransient<CreateDataPointsPopup>();
 
             construction.Services.AddSingleton(provider =>
                 new ViewFactory()
@@ -65,6 +67,7 @@ namespace Plapp
                     .ChainBindPage<ITopicViewModel, TopicPage>()
 
                     .ChainBindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
+                    .ChainBindPopup<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsPopup>()
             );
 
 
