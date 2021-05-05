@@ -22,7 +22,7 @@ namespace Plapp
             return construction;
         }
 
-        public static FrameworkConstruction AddPlappDataStore(this FrameworkConstruction construction)
+        public static FrameworkConstruction AddDataServices(this FrameworkConstruction construction)
         {
             construction.Services.AddDbContext<PlappDbContext>(async options =>
             {

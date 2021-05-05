@@ -1,8 +1,6 @@
 ﻿using Dna;
 using Plapp.Core;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -17,7 +15,7 @@ namespace Plapp
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddConfig()
                 .AddDefaultLogger()
-                .AddPlappDataStore()
+                .AddDataServices()
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()
@@ -29,11 +27,7 @@ namespace Plapp
 
         protected override async void OnStart()
         {
-            var cts = new CancellationTokenSource();
-
             EnsureDbCreated();
-
-            await IoC.Get<IPlappDataStore>().EnsureStorageReadyAsync(cts.Token);
 
             await IoC.Get<INavigator>().GoToAsync<IApplicationViewModel>();
         }
