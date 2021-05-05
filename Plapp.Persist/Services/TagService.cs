@@ -12,7 +12,7 @@ namespace Plapp.Persist
 
         public async Task<Tag> FetchAsync(string key, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             return await context.Set<Tag>().FirstOrDefaultAsync(t => t.Key == key, cancellationToken);
         }

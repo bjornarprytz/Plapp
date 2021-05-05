@@ -19,7 +19,7 @@ namespace Plapp.Persist
 
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             var existing = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
@@ -35,7 +35,7 @@ namespace Plapp.Persist
 
         public virtual async Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             var existing = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
 
@@ -51,21 +51,21 @@ namespace Plapp.Persist
 
         public virtual async Task<IEnumerable<T>> FetchAllAsync(CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             return await context.Set<T>().ToListAsync(cancellationToken);
         }
 
         public virtual async Task<T> FetchAsync(int id, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             return await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         public virtual async Task SaveAllAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             context.Set<T>().UpdateRange(entities);
 
@@ -74,7 +74,7 @@ namespace Plapp.Persist
 
         public virtual async Task<T> SaveAsync(T entity, CancellationToken cancellationToken = default)
         {
-            using var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _serviceProvider.Get<PlappDbContext>();
 
             var result = context.Set<T>().Update(entity);
 
