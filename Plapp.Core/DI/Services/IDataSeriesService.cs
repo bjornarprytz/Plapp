@@ -6,6 +6,7 @@ namespace Plapp.Core
 {
     public interface IDataSeriesService : IDataService<DataSeries>
     {
-        Task<IEnumerable<DataSeries>> FetchAsync(int? topicId = null, int? tagId = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DataSeries>> FetchAllAsync(int? topicId = null, int? tagId = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default);
     }
 }

@@ -28,7 +28,7 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var tags = await DataStore.FetchTagsAsync();
+            var tags = await TagService.FetchAllAsync();
 
             _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
         }

@@ -63,7 +63,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var existingTags = await DataStore.FetchTagsAsync();
+            var existingTags = await TagService.FetchAllAsync();
 
             var options = new List<string> { "Create new Tag" };
 
@@ -83,7 +83,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            await DataStore.SaveTagAsync(tag.ToModel());
+            await TagService.SaveAsync(tag.ToModel());
 
             var dataSeries = ServiceProvider.Get<IDataSeriesViewModel>(
                 ds =>
@@ -99,7 +99,7 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var freshDataSeries = await DataStore.FetchDataSeriesAsync(topicId: Id);
+            var freshDataSeries = await DataSeriesService.FetchAllAsync(topicId: Id);
 
             UpdateDataSeries(freshDataSeries);
         }
@@ -110,7 +110,7 @@ namespace Plapp.ViewModels
             
             var topic = this.ToModel();
 
-            await DataStore.SaveTopicAsync(this.ToModel());
+            await TopicService.SaveAsync(this.ToModel());
 
             Id = topic.Id;
         }

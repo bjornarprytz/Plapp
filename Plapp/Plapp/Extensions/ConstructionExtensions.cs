@@ -32,7 +32,9 @@ namespace Plapp
                 options.UseSqlite(connStr);
             }, contextLifetime: ServiceLifetime.Scoped);
 
-            construction.Services.AddTransient<IPlappDataStore, PlappDataStore>();
+            construction.Services.AddTransient<IDataSeriesService, DataSeriesService>();
+            construction.Services.AddTransient<ITagService, TagService>();
+            construction.Services.AddTransient<ITopicService, TopicService>();
 
             return construction;
         }

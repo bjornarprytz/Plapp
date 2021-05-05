@@ -9,7 +9,7 @@ namespace Plapp.Core
     public interface IDataService<T> where T : DomainObject
     {
         Task<T> SaveAsync(T entity, CancellationToken cancellationToken = default);
-        Task<IEnumerable<T>> SaveAllAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+        Task SaveAllAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default);
         Task<T> FetchAsync(int id, CancellationToken cancellationToken = default);

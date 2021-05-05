@@ -76,7 +76,7 @@ namespace Plapp.ViewModels
                 () => IsLoadingData,
                 async () =>
                 {
-                    var dataPoints = await DataStore.FetchDataPointsAsync(Id);
+                    var dataPoints = await DataSeriesService.FetchDataPointsAsync(Id);
 
                     UpdateDataPoints(dataPoints);
                     
@@ -114,7 +114,7 @@ namespace Plapp.ViewModels
                 () => IsSavingData,
                 async () =>
                 {
-                    await DataStore.SaveDataSeriesAsync(this.ToModel());
+                    await DataSeriesService.SaveAsync(this.ToModel());
                 });
         }
 

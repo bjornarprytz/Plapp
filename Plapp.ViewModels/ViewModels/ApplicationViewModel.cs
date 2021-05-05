@@ -34,7 +34,7 @@ namespace Plapp.ViewModels
 
             _topics.Add(newTopic);
 
-            _ = DataStore.SaveTopicAsync(newTopic.ToModel());
+            _ = TopicService.SaveAsync(newTopic.ToModel());
 
             await Navigator.GoToAsync(newTopic);
         }
@@ -43,14 +43,14 @@ namespace Plapp.ViewModels
         {
             _topics.Remove(topic);
             
-            Task.Run(() => DataStore.DeleteTopicAsync(topic.ToModel()));
+            Task.Run(() => TopicService.DeleteAsync(topic.ToModel()));
         }
 
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();
 
-            var freshTopics = await DataStore.FetchTopicsAsync();
+            var freshTopics = await TopicService.FetchAllAsync();
 
             UpdateTopics(freshTopics);
         }
