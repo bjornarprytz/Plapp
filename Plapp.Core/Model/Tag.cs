@@ -1,8 +1,7 @@
 ﻿namespace Plapp.Core
 {
-    public class Tag
+    public class Tag : DomainObject
     {
-        public int Id { get; set; }
         public string Key { get; set; }
         public string Unit { get; set; }
         public DataType DataType { get; set; }

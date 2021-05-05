@@ -2,9 +2,8 @@
 
 namespace Plapp.Core
 {
-    public class DataPoint
+    public class DataPoint : DomainObject
     {
-        public int Id { get; set; }
         public DateTime Date { get; set; }
         public long Value { get; set; }
 
