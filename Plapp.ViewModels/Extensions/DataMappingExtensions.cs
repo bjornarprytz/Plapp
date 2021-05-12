@@ -7,40 +7,15 @@ namespace Plapp.ViewModels
 {
     internal static class DataMappingExtensions
     {
-        internal static TopicViewModel ToViewModel(this Topic topic, IServiceProvider sp)
+        internal static TViewModel ToViewModel<TDomainObject, TViewModel>(this TDomainObject domainObject, Func<TViewModel> createVM)
+            where TDomainObject : DomainObject
+            where TViewModel : IViewModel, IHydrate<TDomainObject>
         {
-            var topicViewModel = new TopicViewModel(sp);
+            var vm = createVM();
 
-            topicViewModel.Hydrate(topic);
+            vm.Hydrate(domainObject);
 
-            return topicViewModel;
-        }
-
-        internal static DataSeriesViewModel ToViewModel(this DataSeries dataSeries, IServiceProvider sp)
-        {
-            var dataSeriesViewModel = new DataSeriesViewModel(sp);
-
-            dataSeriesViewModel.Hydrate(dataSeries);
-
-            return dataSeriesViewModel;
-        }
-
-        internal static DataPointViewModel ToViewModel(this DataPoint dataPoint, IServiceProvider sp)
-        {
-            var dataPointViewModel = new DataPointViewModel(sp);
-
-            dataPointViewModel.Hydrate(dataPoint);
-
-            return dataPointViewModel;
-        }
-
-        internal static ITagViewModel ToViewModel(this Tag tag, IServiceProvider sp)
-        {
-            var tagViewModel = new TagViewModel(sp);
-
-            tagViewModel.Hydrate(tag);
-
-            return tagViewModel;
+            return vm;
         }
 
         internal static Topic ToModel(this ITopicViewModel topicViewModel)

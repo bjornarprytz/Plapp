@@ -11,19 +11,6 @@ namespace Plapp.ViewModels
     {
         protected object mPropertyValueCheckLock = new object();
 
-        protected IServiceProvider ServiceProvider { get; private set; }
-        protected INavigator Navigator => ServiceProvider.Get<INavigator>();
-        protected IPrompter Prompter => ServiceProvider.Get<IPrompter>();
-        protected ITagService TagService => ServiceProvider.Get<ITagService>();
-        protected ITopicService TopicService => ServiceProvider.Get<ITopicService>();
-        protected IDataSeriesService DataSeriesService => ServiceProvider.Get<IDataSeriesService>();
-
-        protected ILogger Logger => ServiceProvider.Get<ILogger>();
-
-        protected BaseViewModel(IServiceProvider serviceProvider)
-        {
-            ServiceProvider = serviceProvider;
-        }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 

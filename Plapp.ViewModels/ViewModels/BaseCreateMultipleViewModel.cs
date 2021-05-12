@@ -18,7 +18,7 @@ namespace Plapp.ViewModels
         public ICommand ConfirmCurrentCommand { get; private set; }
         public ICommand BackToPreviousCommand { get; private set; }
 
-        protected BaseCreateMultipleViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
+        protected BaseCreateMultipleViewModel(IPrompter prompter) : base(prompter)
         {
             Partials = new ObservableCollection<TViewModel>();
 

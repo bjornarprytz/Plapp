@@ -50,6 +50,12 @@ namespace Plapp
             construction.Services.AddTransient<ICreateViewModel<ITagViewModel>, CreateTagViewModel>();
             construction.Services.AddTransient<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsViewModel>();
 
+            construction.Services.AddSingleton<ViewModelFactory<ITagViewModel>>(provider => () => provider.Get<ITagViewModel>());
+            construction.Services.AddSingleton<ViewModelFactory<ITopicViewModel>>(provider => () => provider.Get<ITopicViewModel>());
+            construction.Services.AddSingleton<ViewModelFactory<IDataSeriesViewModel>>(provider => () => provider.Get<IDataSeriesViewModel>());
+            construction.Services.AddSingleton<ViewModelFactory<IDataPointViewModel>>(provider => () => provider.Get<IDataPointViewModel>());
+            construction.Services.AddSingleton<ViewModelFactory<ICreateViewModel<ITagViewModel>>>(provider => () => provider.Get<ICreateViewModel<ITagViewModel>>());
+
 
             return construction;
         }

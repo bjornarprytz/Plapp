@@ -12,14 +12,41 @@ using Xamarin.Essentials;
 
 namespace Plapp.ViewModels
 {
-    public class TopicViewModel : PageViewModel, ITopicViewModel
+    public class TopicViewModel : PageViewModel, ITopicViewModel, IHydrate<Topic>
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataSeries;
-        private ICamera Camera => ServiceProvider.Get<ICamera>();
+        private readonly ICamera _camera;
+        private readonly INavigator _navigator;
+        private readonly ITagService _tagService;
+        private readonly IDataSeriesService _dataSeriesService;
+        private readonly ITopicService _topicService;
+        private readonly IPrompter _prompter;
+        private readonly ViewModelFactory<DataSeriesViewModel> _dataSeriesFactory;
+        private readonly ViewModelFactory<TagViewModel> _tagFactory;
+        private readonly ILogger _logger;
 
-        public TopicViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+        public TopicViewModel(
+            ICamera camera,
+            INavigator navigator,
+            ITagService tagService,
+            IDataSeriesService dataSeriesService,
+            ITopicService topicService,
+            IPrompter prompter,
+            ViewModelFactory<DataSeriesViewModel> dataSeriesFactory,
+            ViewModelFactory<TagViewModel> tagFactory,
+            ILogger logger
+            )
         {
+            _camera = camera;
+            _navigator = navigator;
+            _tagService = tagService;
+            _dataSeriesService = dataSeriesService;
+            _topicService = topicService;
+            _prompter = prompter;
+            _dataSeriesFactory = dataSeriesFactory;
+            _tagFactory = tagFactory;
+            _logger = logger;
+
             _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
 
@@ -28,7 +55,7 @@ namespace Plapp.ViewModels
             AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
         }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
         public bool IsSavingTopic { get; private set; }
@@ -46,12 +73,12 @@ namespace Plapp.ViewModels
 
         private async Task OpenTopic()
         {
-            await Navigator.GoToAsync<ITopicViewModel>(this);
+            await _navigator.GoToAsync<ITopicViewModel>(this);
         }
 
         private async Task AddImage()
         {
-            using var photoStream = await Camera.TakePhotoAsync();
+            using var photoStream = await _camera.TakePhotoAsync();
 
             if (photoStream == null)
             {
@@ -63,19 +90,19 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var existingTags = await TagService.FetchAllAsync();
+            var existingTags = await _tagService.FetchAllAsync();
 
             var options = new List<string> { "Create new Tag" };
 
             options.AddRange(existingTags.Select(t => t.Key));
 
-            var choice = await Prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
+            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
 
             var tag = choice switch
             {
                 "Cancel" => default,
-                "Create new Tag" => await Prompter.CreateAsync<ITagViewModel>(),
-                _ => existingTags.First(t => t.Key == choice).ToViewModel(ServiceProvider)
+                "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
+                _ => existingTags.First(t => t.Key == choice).ToViewModel(() => _tagFactory())
             };
 
             if (tag == default)
@@ -83,14 +110,14 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            await TagService.SaveAsync(tag.ToModel());
+            var tagData = await _tagService.SaveAsync(tag.ToModel());
 
-            var dataSeries = ServiceProvider.Get<IDataSeriesViewModel>(
-                ds =>
-                {
-                    ds.Topic = this;
-                    ds.Tag = tag;
-                });
+            tag.Id = tagData.Id;
+
+            var dataSeries = _dataSeriesFactory();
+
+            dataSeries.Topic = this;
+            dataSeries.Tag = tag;
 
             _dataSeries.Add(dataSeries);
         }
@@ -99,7 +126,7 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var freshDataSeries = await DataSeriesService.FetchAllAsync(topicId: Id);
+            var freshDataSeries = await _dataSeriesService.FetchAllAsync(topicId: Id);
 
             UpdateDataSeries(freshDataSeries);
         }
@@ -110,20 +137,20 @@ namespace Plapp.ViewModels
             
             var topic = this.ToModel();
 
-            await TopicService.SaveAsync(this.ToModel());
+            await _topicService.SaveAsync(this.ToModel());
 
             Id = topic.Id;
         }
 
-        internal void Hydrate(Topic topicModel)
+        public void Hydrate(Topic domainObject)
         {
-            if (Id != 0 && Id != topicModel.Id)
-                Logger.Log(LogLevel.Warning, $"Changing Id of Topic from {Id} to {topicModel.Id}");
+            if (Id != 0 && Id != domainObject.Id)
+                _logger.Log(LogLevel.Warning, $"Changing Id of Topic from {Id} to {domainObject.Id}");
 
-            Id = topicModel.Id;
-            Title = topicModel.Title;
-            Description = topicModel.Description;
-            ImageUri = topicModel.ImageUri;
+            Id = domainObject.Id;
+            Title = domainObject.Title;
+            Description = domainObject.Description;
+            ImageUri = domainObject.ImageUri;
         }
 
         private void UpdateDataSeries(IEnumerable<DataSeries> dataSeries)
@@ -137,13 +164,15 @@ namespace Plapp.ViewModels
 
                 if (existingDataSeries == default)
                 {
-                    dataSeriesToAdd.Add(_ds.ToViewModel(ServiceProvider));
+                    existingDataSeries = _dataSeriesFactory();
+                    dataSeriesToAdd.Add(existingDataSeries);
                 }
                 else
                 {
-                    existingDataSeries.Hydrate(_ds);
                     dataSeriesToRemove.Remove(existingDataSeries);
                 }
+                
+                existingDataSeries.Hydrate(_ds);
             }
 
             _dataSeries.AddRange(dataSeriesToAdd);

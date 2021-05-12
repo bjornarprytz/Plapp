@@ -8,14 +8,17 @@ namespace Plapp.ViewModels
 {
     public abstract class BaseTaskViewModel : PageViewModel, ITaskViewModel
     {
+        private readonly IPrompter _prompter;
+
         public bool IsConfirmed { get; protected set; }
 
-        protected BaseTaskViewModel(IServiceProvider serviceProvider) : base (serviceProvider)
+        protected BaseTaskViewModel(IPrompter prompter)
         {
             ConfirmCommand = new AsyncCommand(Confirm, o => CanConfirm(), allowsMultipleExecutions: false);
             CancelCommand = new AsyncCommand(Cancel, allowsMultipleExecutions: false);
 
             PropertyChanged += (s, e) => (ConfirmCommand as AsyncCommand).RaiseCanExecuteChanged(); // NOTE: Can this cause a memory leak?
+            _prompter = prompter;
         }
 
         public ICommand ConfirmCommand { get; protected set; }
@@ -24,12 +27,12 @@ namespace Plapp.ViewModels
         private async Task Confirm()
         {
             OnConfirm();
-            await Prompter.PopAsync();
+            await _prompter.PopAsync();
         }
 
         private async Task Cancel()
         {
-            await Prompter.PopAsync();
+            await _prompter.PopAsync();
         }
 
         protected abstract bool CanConfirm();

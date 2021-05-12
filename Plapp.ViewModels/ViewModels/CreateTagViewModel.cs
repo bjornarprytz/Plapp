@@ -9,10 +9,18 @@ namespace Plapp.ViewModels
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
-        
-        public CreateTagViewModel(IServiceProvider serviceProvider)
-            :base(serviceProvider)
+        private readonly ViewModelFactory<TagViewModel> _tagFactory;
+        private readonly ITagService _tagService;
+
+        public CreateTagViewModel(
+            ViewModelFactory<TagViewModel> tagFactory,
+            IPrompter prompter,
+            ITagService tagService
+            ) : base(tagFactory, prompter)
         {
+            _tagFactory = tagFactory;
+            _tagService = tagService;
+
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
         }
@@ -28,9 +36,9 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var tags = await TagService.FetchAllAsync();
+            var tags = await _tagService.FetchAllAsync();
 
-            _availableTags.AddRange(tags.Select(tag => tag.ToViewModel(ServiceProvider)));
+            _availableTags.AddRange(tags.Select(tag => (ITagViewModel) tag.ToViewModel(() => _tagFactory())));
         }
     }
 }

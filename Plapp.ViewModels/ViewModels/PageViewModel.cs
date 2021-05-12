@@ -6,8 +6,6 @@ namespace Plapp.ViewModels
 {
     public abstract class PageViewModel : BaseViewModel, IRootViewModel
     {
-        protected PageViewModel(IServiceProvider serviceProvider) : base(serviceProvider) { }
-
         public bool IsSavingData { get; private set; }
         public bool IsLoadingData { get; private set; }
         public bool IsShowing { get; private set; }

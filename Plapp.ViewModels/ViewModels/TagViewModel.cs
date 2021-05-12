@@ -1,15 +1,9 @@
 ﻿using Plapp.Core;
-using System;
 
 namespace Plapp.ViewModels
 {
-    public class TagViewModel : BaseViewModel, ITagViewModel
+    public class TagViewModel : BaseViewModel, ITagViewModel, IHydrate<Tag>
     {
-        public TagViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
-        {
-        }
-
         public int Id { get; set; }
         public string Key { get; set; }
         public string Unit { get; set; }
@@ -17,14 +11,14 @@ namespace Plapp.ViewModels
         public Icon Icon { get; set; }
         public string Color { get; set; }
 
-        internal void Hydrate(Tag tagData)
+        public void Hydrate(Tag domainObject)
         {
-            Id = tagData.Id;
-            Key = tagData.Key;
-            Unit = tagData.Unit;
-            Color = tagData.Color;
-            DataType = tagData.DataType;
-            Icon = tagData.Icon;
+            Id = domainObject.Id;
+            Key = domainObject.Key;
+            Unit = domainObject.Unit;
+            Color = domainObject.Color;
+            DataType = domainObject.DataType;
+            Icon = domainObject.Icon;
         }
     }
 }

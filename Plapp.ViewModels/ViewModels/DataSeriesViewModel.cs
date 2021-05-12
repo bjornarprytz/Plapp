@@ -13,12 +13,24 @@ namespace Plapp.ViewModels
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
         private readonly ObservableCollection<IDataPointViewModel> _dataPoints;
-
+        private readonly IPrompter _prompter;
+        private readonly IDataSeriesService _dataSeriesService;
+        private readonly ViewModelFactory<DataPointViewModel> _dataPointFactory;
+        private readonly ILogger _logger;
         private bool hasLoadedDataSeries;
 
-        public DataSeriesViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+        public DataSeriesViewModel(
+            IPrompter prompter,
+            IDataSeriesService dataSeriesService,
+            ViewModelFactory<DataPointViewModel> dataPointFactory,
+            ILogger logger
+            )
         {
+            _prompter = prompter;
+            _dataSeriesService = dataSeriesService;
+            _dataPointFactory = dataPointFactory;
+            _logger = logger;
+            
             _dataPoints = new ObservableCollection<IDataPointViewModel>();
             DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataPoints);
 
@@ -31,7 +43,7 @@ namespace Plapp.ViewModels
         public bool IsSavingData { get; private set; }
         public bool IsLoadingTags { get; private set; }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
 
@@ -53,8 +65,8 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            var dataPoints = await Prompter.CreateMultipleAsync<IDataPointViewModel>(
-                    () => new DataPointViewModel(ServiceProvider) // TODO: Make different DataPoints depending on Tag.DataType
+            var dataPoints = await _prompter.CreateMultipleAsync<IDataPointViewModel>(
+                    () => _dataPointFactory() // TODO: Make different DataPoints depending on Tag.DataType
                 ); 
 
             if (dataPoints == default)
@@ -76,7 +88,7 @@ namespace Plapp.ViewModels
                 () => IsLoadingData,
                 async () =>
                 {
-                    var dataPoints = await DataSeriesService.FetchDataPointsAsync(Id);
+                    var dataPoints = await _dataSeriesService.FetchDataPointsAsync(Id);
 
                     UpdateDataPoints(dataPoints);
                     
@@ -95,13 +107,15 @@ namespace Plapp.ViewModels
 
                 if (existingDataPoint == default)
                 {
-                    dataPointsToAdd.Add(_dp.ToViewModel(ServiceProvider));
+                    existingDataPoint = _dataPointFactory();
+                    dataPointsToAdd.Add(existingDataPoint);
                 }
                 else
                 {
-                    existingDataPoint.Hydrate(_dp);
                     dataPointsToRemove.Remove(existingDataPoint);
                 }
+                
+                existingDataPoint.Hydrate(_dp);
             }
 
             _dataPoints.AddRange(dataPointsToAdd);
@@ -114,14 +128,14 @@ namespace Plapp.ViewModels
                 () => IsSavingData,
                 async () =>
                 {
-                    await DataSeriesService.SaveAsync(this.ToModel());
+                    await _dataSeriesService.SaveAsync(this.ToModel());
                 });
         }
 
         internal void Hydrate(DataSeries dataSeriesModel)
         {
             if (Id != 0 && Id != dataSeriesModel.Id)
-                Logger.Log(LogLevel.Warning, $"Changing Id of DataSeries from {Id} to {dataSeriesModel.Id}");
+                _logger.Log(LogLevel.Warning, $"Changing Id of DataSeries from {Id} to {dataSeriesModel.Id}");
 
             Id = dataSeriesModel.Id;
             Title = dataSeriesModel.Title;

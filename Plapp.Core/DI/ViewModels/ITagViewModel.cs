@@ -4,7 +4,7 @@ namespace Plapp.Core
 {
     public interface ITagViewModel : IViewModel
     {
-        int Id { get; }
+        int Id { get; set; }
         string Key { get; set; }
         string Unit { get; set; }
         DataType DataType { get; set; }

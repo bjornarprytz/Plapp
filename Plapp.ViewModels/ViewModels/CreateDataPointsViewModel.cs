@@ -5,7 +5,7 @@ namespace Plapp.ViewModels
 {
     public class CreateDataPointsViewModel : BaseCreateMultipleViewModel<IDataPointViewModel>
     {
-        public CreateDataPointsViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
+        public CreateDataPointsViewModel(IPrompter prompter) : base(prompter)
         {
 
         }

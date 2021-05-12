@@ -8,9 +8,12 @@ namespace Plapp.ViewModels
     {
         public TViewModel Partial { get; set; }
 
-        protected BaseCreateViewModel(IServiceProvider serviceProvider) : base(serviceProvider) 
+        protected BaseCreateViewModel(
+            ViewModelFactory<TViewModel> viewModelFactory,
+            IPrompter prompter
+            ) : base (prompter)
         {
-            Partial = ServiceProvider.Get<TViewModel>();
+            Partial = viewModelFactory();
         }
 
         public TViewModel GetResult()

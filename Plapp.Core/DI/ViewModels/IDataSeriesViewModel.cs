@@ -8,7 +8,7 @@ namespace Plapp.Core
     {
         bool IsLoadingData { get; }
         bool IsSavingData { get; }
-        int Id { get; }
+        int Id { get; set; }
         string Title { get; set; }
         ITopicViewModel Topic { get; set; }
         ITagViewModel Tag { get; set; }

@@ -12,10 +12,20 @@ namespace Plapp.ViewModels
     public class ApplicationViewModel : PageViewModel, IApplicationViewModel
     {
         private readonly ObservableCollection<ITopicViewModel> _topics;
+        private readonly INavigator _navigator;
+        private readonly ViewModelFactory<TopicViewModel> _topicFactory;
+        private readonly ITopicService _topicService;
 
-        public ApplicationViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+        public ApplicationViewModel(
+            INavigator navigator,
+            ViewModelFactory<TopicViewModel> topicFactory, 
+            ITopicService topicService
+            )
         {
+            _navigator = navigator;
+            _topicFactory = topicFactory;
+            _topicService = topicService;
+
             _topics = new ObservableCollection<ITopicViewModel>();
             Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
 
@@ -30,27 +40,27 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var newTopic = ServiceProvider.Get<ITopicViewModel>();
+            var newTopic = _topicFactory();
 
             _topics.Add(newTopic);
 
-            _ = TopicService.SaveAsync(newTopic.ToModel());
+            _ = _topicService.SaveAsync(newTopic.ToModel());
 
-            await Navigator.GoToAsync(newTopic);
+            await _navigator.GoToAsync(newTopic);
         }
 
         private void DeleteTopic(ITopicViewModel topic)
         {
             _topics.Remove(topic);
             
-            Task.Run(() => TopicService.DeleteAsync(topic.ToModel()));
+            Task.Run(() => _topicService.DeleteAsync(topic.ToModel()));
         }
 
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();
 
-            var freshTopics = await TopicService.FetchAllAsync();
+            var freshTopics = await _topicService.FetchAllAsync();
 
             UpdateTopics(freshTopics);
         }
@@ -66,13 +76,15 @@ namespace Plapp.ViewModels
 
                 if (existingTopic == default)
                 {
-                    topicsToAdd.Add(topic.ToViewModel(ServiceProvider));
+                    existingTopic = _topicFactory();
+                    topicsToAdd.Add(existingTopic);
                 }
                 else
                 {
-                    existingTopic.Hydrate(topic);
                     topicsToRemove.Remove(existingTopic);
                 }
+
+                existingTopic.Hydrate(topic);
             }
 
             _topics.RemoveRange(topicsToRemove);
