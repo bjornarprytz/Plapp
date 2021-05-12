@@ -5,7 +5,7 @@ using Plapp.Core;
 namespace Plapp.ViewModels.Tests
 {
     [TestClass]
-    public abstract class PageViewModelTests<TViewModel> : BaseViewModelTest<TViewModel>
+    public abstract class PageViewModelTests<TViewModel> : BaseViewModelTests<TViewModel>
         where TViewModel : BaseViewModel, IRootViewModel
     {
 

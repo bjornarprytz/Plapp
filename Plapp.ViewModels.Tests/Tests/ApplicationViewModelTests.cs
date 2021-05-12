@@ -6,7 +6,7 @@ using Plapp.Core;
 namespace Plapp.ViewModels.Tests
 {
     [TestClass]
-    public class ApplicationViewModelTests : BaseViewModelTest<ApplicationViewModel>
+    public class ApplicationViewModelTests : BaseViewModelTests<ApplicationViewModel>
     {
         private Mock<INavigator> navigatorMock;
         private Mock<ViewModelFactory<ITopicViewModel>> topicFactoryMock;

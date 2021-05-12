@@ -66,7 +66,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            var dataPoints = await _prompter.CreateMultipleAsync<IDataPointViewModel>(
+            var dataPoints = await _prompter.CreateMultipleAsync(
                     () => _dataPointFactory() // TODO: Make different DataPoints depending on Tag.DataType
                 ); 
 

@@ -6,13 +6,11 @@ using System;
 namespace Plapp.ViewModels.Tests
 {
     [TestClass]
-    public abstract class BaseViewModelTest<TViewModel>
+    public abstract class BaseViewModelTests<TViewModel>
         where TViewModel : BaseViewModel
     {
-
         protected Mock<IServiceProvider> serviceProviderMock;
         protected TViewModel VM;
-
 
         [TestInitialize]
         public void Initialize()
