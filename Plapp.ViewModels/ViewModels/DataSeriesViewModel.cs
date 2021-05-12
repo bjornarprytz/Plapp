@@ -16,14 +16,14 @@ namespace Plapp.ViewModels
         private readonly ObservableCollection<IDataPointViewModel> _dataPoints;
         private readonly IPrompter _prompter;
         private readonly IDataSeriesService _dataSeriesService;
-        private readonly ViewModelFactory<DataPointViewModel> _dataPointFactory;
+        private readonly ViewModelFactory<IDataPointViewModel> _dataPointFactory;
         private readonly ILogger _logger;
         private bool hasLoadedDataSeries;
 
         public DataSeriesViewModel(
             IPrompter prompter,
             IDataSeriesService dataSeriesService,
-            ViewModelFactory<DataPointViewModel> dataPointFactory,
+            ViewModelFactory<IDataPointViewModel> dataPointFactory,
             ILogger logger
             )
         {
@@ -108,7 +108,7 @@ namespace Plapp.ViewModels
 
                 if (existingDataPoint == default)
                 {
-                    existingDataPoint = _dataPointFactory();
+                    existingDataPoint = _dataPointFactory() as DataPointViewModel;
                     dataPointsToAdd.Add(existingDataPoint);
                 }
                 else

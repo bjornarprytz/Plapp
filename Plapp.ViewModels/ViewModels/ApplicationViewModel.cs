@@ -14,12 +14,12 @@ namespace Plapp.ViewModels
     {
         private readonly ObservableCollection<ITopicViewModel> _topics;
         private readonly INavigator _navigator;
-        private readonly ViewModelFactory<TopicViewModel> _topicFactory;
+        private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
         private readonly ITopicService _topicService;
 
         public ApplicationViewModel(
             INavigator navigator,
-            ViewModelFactory<TopicViewModel> topicFactory, 
+            ViewModelFactory<ITopicViewModel> topicFactory, 
             ITopicService topicService
             )
         {
@@ -77,7 +77,7 @@ namespace Plapp.ViewModels
 
                 if (existingTopic == default)
                 {
-                    existingTopic = _topicFactory();
+                    existingTopic = _topicFactory() as TopicViewModel;
                     topicsToAdd.Add(existingTopic);
                 }
                 else

@@ -9,11 +9,11 @@ namespace Plapp.ViewModels
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
-        private readonly ViewModelFactory<TagViewModel> _tagFactory;
+        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ITagService _tagService;
 
         public CreateTagViewModel(
-            ViewModelFactory<TagViewModel> tagFactory,
+            ViewModelFactory<ITagViewModel> tagFactory,
             IPrompter prompter,
             ITagService tagService
             ) : base(tagFactory, prompter)
@@ -38,7 +38,7 @@ namespace Plapp.ViewModels
 
             var tags = await _tagService.FetchAllAsync();
 
-            _availableTags.AddRange(tags.Select(tag => (ITagViewModel) tag.ToViewModel(() => _tagFactory())));
+            _availableTags.AddRange(tags.Select(tag => (ITagViewModel) tag.ToViewModel(() => _tagFactory() as TagViewModel)));
         }
     }
 }

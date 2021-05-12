@@ -21,8 +21,8 @@ namespace Plapp.ViewModels
         private readonly IDataSeriesService _dataSeriesService;
         private readonly ITopicService _topicService;
         private readonly IPrompter _prompter;
-        private readonly ViewModelFactory<DataSeriesViewModel> _dataSeriesFactory;
-        private readonly ViewModelFactory<TagViewModel> _tagFactory;
+        private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
+        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ILogger _logger;
 
         public TopicViewModel(
@@ -32,8 +32,8 @@ namespace Plapp.ViewModels
             IDataSeriesService dataSeriesService,
             ITopicService topicService,
             IPrompter prompter,
-            ViewModelFactory<DataSeriesViewModel> dataSeriesFactory,
-            ViewModelFactory<TagViewModel> tagFactory,
+            ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
+            ViewModelFactory<ITagViewModel> tagFactory,
             ILogger logger
             )
         {
@@ -102,7 +102,7 @@ namespace Plapp.ViewModels
             {
                 "Cancel" => default,
                 "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
-                _ => existingTags.First(t => t.Key == choice).ToViewModel(() => _tagFactory())
+                _ => existingTags.First(t => t.Key == choice).ToViewModel(() => _tagFactory() as TagViewModel)
             };
 
             if (tag == default)
@@ -164,7 +164,7 @@ namespace Plapp.ViewModels
 
                 if (existingDataSeries == default)
                 {
-                    existingDataSeries = _dataSeriesFactory();
+                    existingDataSeries = _dataSeriesFactory() as DataSeriesViewModel;
                     dataSeriesToAdd.Add(existingDataSeries);
                 }
                 else

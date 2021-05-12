@@ -26,13 +26,8 @@ namespace Plapp.ViewModels
                 Title = topicViewModel.Title,
                 Description = topicViewModel.Description,
                 ImageUri = topicViewModel.ImageUri,
-                DataSeries = new List<DataSeries>(),
+                DataSeries = topicViewModel.DataSeries?.Select(ds => ds.ToModel()).ToList() ?? new List<DataSeries>(),
             };
-
-            foreach(var dataSeries in topicViewModel.DataSeries)
-            {
-                topic.DataSeries.Add(dataSeries.ToModel());
-            }
 
             return topic;
         }
@@ -45,13 +40,8 @@ namespace Plapp.ViewModels
                 Title = dataSeriesViewModel.Title,
                 TopicId = dataSeriesViewModel.Topic?.Id ?? default,
                 TagId = dataSeriesViewModel.Tag?.Id ?? default,
-                DataPoints = new List<DataPoint>(),
+                DataPoints = dataSeriesViewModel.DataPoints?.Select(dp => dp.ToModel(dataSeriesViewModel.Id)).ToList() ?? new List<DataPoint>(),
             };
-
-            foreach(var dataSerie in dataSeriesViewModel.DataPoints)
-            {
-                dataSeries.DataPoints.Add(dataSerie.ToModel(dataSerie.Id));
-            }
 
             return dataSeries;
         }
