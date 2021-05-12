@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -36,7 +37,7 @@ namespace Plapp.ViewModels
 
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             SaveCommand = new AsyncCommand(SaveDataAsync, allowsMultipleExecutions: false);
-            RefreshCommand = new CommandHandler(RefreshData);
+            RefreshCommand = new Command(RefreshData);
         }
 
         public bool IsLoadingData { get; private set; }

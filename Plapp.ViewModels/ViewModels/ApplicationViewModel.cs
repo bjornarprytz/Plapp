@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -30,7 +31,7 @@ namespace Plapp.ViewModels
             Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
 
             AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
-            DeleteTopicCommand = new CommandHandler<ITopicViewModel>(DeleteTopic);
+            DeleteTopicCommand = new Command<ITopicViewModel>(DeleteTopic);
         }
 
         public ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
