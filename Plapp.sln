@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Peripherals", "Plapp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.ViewModels", "Plapp.ViewModels\Plapp.ViewModels.csproj", "{328E5994-3778-41BE-954C-8F56B1C08FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Persist.Tests", "Tests\Plapp.Persist.Tests\Plapp.Persist.Tests.csproj", "{FB75E112-6B7B-49F0-81EE-536AA871F1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plapp.Persist.Tests", "Tests\Plapp.Persist.Tests\Plapp.Persist.Tests.csproj", "{FB75E112-6B7B-49F0-81EE-536AA871F1FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
