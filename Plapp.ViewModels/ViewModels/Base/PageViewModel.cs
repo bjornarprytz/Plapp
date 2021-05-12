@@ -1,6 +1,8 @@
 ﻿using Plapp.Core;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
@@ -10,12 +12,21 @@ namespace Plapp.ViewModels
         public bool IsLoadingData { get; private set; }
         public bool IsShowing { get; private set; }
 
+        public ICommand LoadDataCommand { get; private set; }
+
+        public ICommand SaveDataCommand { get; private set; }
+
+        protected PageViewModel()
+        {
+            LoadDataCommand = new AsyncCommand(LoadData, allowsMultipleExecutions: false);
+            SaveDataCommand = new AsyncCommand(SaveData, allowsMultipleExecutions: false);
+        }
 
         public virtual void OnShow()
         {
             IsShowing = true;
 
-            Task.Run(LoadData);
+            LoadDataCommand.Execute(null);
         }
 
         public virtual void OnHide()
@@ -26,7 +37,7 @@ namespace Plapp.ViewModels
 
         public virtual void OnUserInteractionStopped() 
         {
-            Task.Run(SaveData);
+            SaveDataCommand.Execute(null);
         }
 
         private Task SaveData()

@@ -13,7 +13,7 @@ namespace Plapp.ViewModels
     {
         public ObservableCollection<TViewModel> Partials { get; set; }
         public TViewModel Current { get; set; }
-        public Func<TViewModel> TemplateFunc { get; set; }
+        public Func<TViewModel> TemplateFactory { get; set; }
 
         public ICommand ConfirmCurrentCommand { get; private set; }
         public ICommand BackToPreviousCommand { get; private set; }
@@ -52,7 +52,7 @@ namespace Plapp.ViewModels
         {
             Partials.Add(Current);
 
-            Current = TemplateFunc();
+            Current = (TemplateFactory != null) ? TemplateFactory() : default;
 
             (BackToPreviousCommand as Command).ChangeCanExecute();
         }

@@ -42,7 +42,7 @@ namespace Plapp
                 vm => 
                 {
                     vm.Current = getTemplateFunc();
-                    vm.TemplateFunc = getTemplateFunc;
+                    vm.TemplateFactory = getTemplateFunc;
                 });
 
 
