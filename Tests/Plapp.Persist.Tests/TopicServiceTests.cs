@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plapp.Core;
 using System;
 
@@ -30,9 +31,9 @@ namespace Plapp.Persist.Tests
             return topic;
         }
 
-        protected override TopicService CreateTestableService(IServiceProvider sp)
+        protected override TopicService CreateTestableService(IDbContextFactory<PlappDbContext> contextFactory)
         {
-            return new TopicService(sp);
+            return new TopicService(contextFactory);
         }
     }
 }

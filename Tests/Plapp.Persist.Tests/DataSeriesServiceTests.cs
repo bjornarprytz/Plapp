@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plapp.Core;
 using System;
@@ -244,9 +245,9 @@ namespace Plapp.Persist.Tests
             return dataSeries;
         }
 
-        protected override DataSeriesService CreateTestableService(IServiceProvider sp)
+        protected override DataSeriesService CreateTestableService(IDbContextFactory<PlappDbContext> contextFactory)
         {
-            return new DataSeriesService(sp);
+            return new DataSeriesService(contextFactory);
         }
     }
 }

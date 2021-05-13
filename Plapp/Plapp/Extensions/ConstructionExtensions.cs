@@ -9,6 +9,7 @@ using Plapp.ViewModels;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Plapp
 {
@@ -24,17 +25,22 @@ namespace Plapp
 
         public static FrameworkConstruction AddDataServices(this FrameworkConstruction construction)
         {
-            construction.Services.AddDbContext<PlappDbContext>(async options =>
-            {
-                var config = await IoC.Get<IConfigurationManager>().GetAsync();
-
-                var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, config.ConnectionStrings.PlappDb)}";
-                options.UseSqlite(connStr);
-            }, contextLifetime: ServiceLifetime.Scoped);
-
             construction.Services.AddTransient<IDataSeriesService, DataSeriesService>();
             construction.Services.AddTransient<ITagService, TagService>();
             construction.Services.AddTransient<ITopicService, TopicService>();
+
+            return construction;
+        }
+
+        public static FrameworkConstruction AddDbContext(this FrameworkConstruction construction)
+        {
+            construction.Services.AddDbContextFactory<PlappDbContext, PlappDbContextFactory>(async options =>
+            {
+                var config = await IoC.Get<IConfigurationManager>().GetAsync(); // TODO: refactor this to use proper Config
+
+                var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, config.ConnectionStrings.PlappDb)}";
+                options.UseSqlite(connStr);
+            }, lifetime: ServiceLifetime.Scoped);
 
             return construction;
         }

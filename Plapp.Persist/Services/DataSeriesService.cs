@@ -10,11 +10,11 @@ namespace Plapp.Persist
 {
     public class DataSeriesService : BaseDataService<DataSeries>, IDataSeriesService
     {
-        public DataSeriesService(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        public DataSeriesService(IDbContextFactory<PlappDbContext> contextFactory) : base(contextFactory) { }
 
         public async Task<IEnumerable<DataSeries>> FetchAllAsync(int? topicId = null, int? tagId = null, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             return await context.Set<DataSeries>().Where(
                 d => (tagId == null || d.TagId == tagId)
@@ -26,7 +26,7 @@ namespace Plapp.Persist
 
         public async override Task<IEnumerable<DataSeries>> FetchAllAsync(CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             return await context.Set<DataSeries>()
                 .Include(d => d.DataPoints)
@@ -36,7 +36,7 @@ namespace Plapp.Persist
 
         public async override Task<DataSeries> FetchAsync(int id, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             return await context.Set<DataSeries>()
                 .Include(d => d.DataPoints)
@@ -46,7 +46,7 @@ namespace Plapp.Persist
 
         public async Task<IEnumerable<DataPoint>> FetchDataPointsAsync(int dataSeriesId, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             var existingDataSeries = await context.Set<DataSeries>().FirstOrDefaultAsync(ds => ds.Id == dataSeriesId, cancellationToken);
 

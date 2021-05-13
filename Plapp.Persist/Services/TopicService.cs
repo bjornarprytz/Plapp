@@ -1,10 +1,10 @@
-﻿using Plapp.Core;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Plapp.Core;
 
 namespace Plapp.Persist
 {
     public class TopicService : BaseDataService<Topic>, ITopicService
     {
-        public TopicService(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        public TopicService(IDbContextFactory<PlappDbContext> contextFactory) : base(contextFactory) { }
     }
 }

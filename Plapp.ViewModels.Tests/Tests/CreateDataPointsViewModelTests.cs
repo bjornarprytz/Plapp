@@ -11,7 +11,7 @@ namespace Plapp.ViewModels.Tests
         {
             base.SetUpVM();
 
-            return new CreateDataPointsViewModel(_prompterMock.Object);
+            return new CreateDataPointsViewModel(prompterMock.Object);
         }
     }
 }

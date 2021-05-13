@@ -16,6 +16,7 @@ namespace Plapp
                 .AddConfig()
                 .AddDefaultLogger()
                 .AddDataServices()
+                .AddDbContext()
                 .AddViewModels()
                 .AddCamera()
                 .AddNavigation()

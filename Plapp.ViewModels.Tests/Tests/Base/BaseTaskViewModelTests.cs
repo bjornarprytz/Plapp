@@ -9,11 +9,11 @@ namespace Plapp.ViewModels.Tests
     public abstract class BaseTaskViewModelTests<TViewModel> : PageViewModelTests<TViewModel>
         where TViewModel : BaseTaskViewModel
     {
-        protected Mock<IPrompter> _prompterMock;
+        protected Mock<IPrompter> prompterMock;
 
         protected override TViewModel SetUpVM()
         {
-            _prompterMock = new Mock<IPrompter>();
+            prompterMock = new Mock<IPrompter>();
 
             return null;
         }
@@ -31,7 +31,7 @@ namespace Plapp.ViewModels.Tests
         {
             VM.ConfirmCommand.Execute(null);
 
-            _prompterMock.Verify(p => p.PopAsync(), Times.Once);
+            prompterMock.Verify(p => p.PopAsync(), Times.Once);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Plapp.ViewModels.Tests
         {
             VM.CancelCommand.Execute(null);
 
-            _prompterMock.Verify(p => p.PopAsync(), Times.Once);
+            prompterMock.Verify(p => p.PopAsync(), Times.Once);
         }
     }
 }

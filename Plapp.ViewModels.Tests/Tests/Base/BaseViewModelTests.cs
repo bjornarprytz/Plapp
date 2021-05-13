@@ -9,13 +9,11 @@ namespace Plapp.ViewModels.Tests
     public abstract class BaseViewModelTests<TViewModel>
         where TViewModel : BaseViewModel
     {
-        protected Mock<IServiceProvider> serviceProviderMock;
         protected TViewModel VM;
 
         [TestInitialize]
         public void Initialize()
         {
-            serviceProviderMock = new Mock<IServiceProvider>();
             VM = SetUpVM();
         }
 

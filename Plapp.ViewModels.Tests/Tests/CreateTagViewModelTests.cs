@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Plapp.Core;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,18 @@ namespace Plapp.ViewModels.Tests
     public class CreateTagViewModelTests : BaseCreateViewModelTests<CreateTagViewModel, ITagViewModel>
     {
         // TODO: Test OnShow(), that LoadAvailableTags is called
+
+        protected override CreateTagViewModel SetUpVM()
+        {
+            base.SetUpVM();
+
+            var tagServiceMock = new Mock<ITagService>();
+
+            return new CreateTagViewModel(
+                factoryMock.Object,
+                prompterMock.Object,
+                tagServiceMock.Object
+                );
+        }
     }
 }

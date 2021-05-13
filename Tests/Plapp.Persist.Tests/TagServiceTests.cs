@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plapp.Core;
 using System;
 using System.Threading.Tasks;
@@ -55,9 +56,9 @@ namespace Plapp.Persist.Tests
             return tag;
         }
 
-        protected override TagService CreateTestableService(IServiceProvider sp)
+        protected override TagService CreateTestableService(IDbContextFactory<PlappDbContext> contextFactory)
         {
-            return new TagService(sp);
+            return new TagService(contextFactory);
         }
     }
 }

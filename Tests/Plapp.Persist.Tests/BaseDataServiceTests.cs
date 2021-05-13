@@ -20,15 +20,17 @@ namespace Plapp.Persist.Tests
         protected readonly DbContextOptions<PlappDbContext> options = new DbContextOptionsBuilder<PlappDbContext>()
                                                                 .UseInMemoryDatabase(databaseName: "PlappDb")
                                                                 .Options;
-        private Mock<IServiceProvider> serviceProviderMock;
-        
+
+        protected Mock<IDbContextFactory<PlappDbContext>> contextFactoryMock;
+
         [TestInitialize]
         public virtual void Initialize()
         {
-            serviceProviderMock = new Mock<IServiceProvider>();
-            serviceProviderMock.Setup(sp => sp.GetService(It.Is<Type>(t => t == typeof(PlappDbContext)))).Returns(() => new PlappDbContext(options));
+            contextFactoryMock = new Mock<IDbContextFactory<PlappDbContext>>();
 
-            dataService = CreateTestableService(serviceProviderMock.Object);
+            contextFactoryMock.Setup(f => f.CreateDbContext()).Returns(() => new PlappDbContext(options));
+
+            dataService = CreateTestableService(contextFactoryMock.Object);
 
             DeleteDatabase();
         }
@@ -197,7 +199,7 @@ namespace Plapp.Persist.Tests
             result2.Should().BeEquivalentTo(item2);
         }
 
-        protected abstract TService CreateTestableService(IServiceProvider sp);
+        protected abstract TService CreateTestableService(IDbContextFactory<PlappDbContext> contextFactory);
         protected abstract T CreateStub(int id=0);
         protected abstract T AlteredCopy(T stub);
         protected void SeedDbWith(params T[] stubs)

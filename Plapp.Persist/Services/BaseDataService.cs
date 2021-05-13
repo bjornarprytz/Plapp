@@ -10,16 +10,16 @@ namespace Plapp.Persist
     public abstract class BaseDataService<T> : IDataService<T>
         where T : DomainObject
     {
-        protected readonly IServiceProvider _serviceProvider;
+        protected readonly IDbContextFactory<PlappDbContext> _contextFactory;
 
-        protected BaseDataService(IServiceProvider serviceProvider)
+        protected BaseDataService(IDbContextFactory<PlappDbContext> contextFactory)
         {
-            _serviceProvider = serviceProvider;
+            _contextFactory = contextFactory;
         }
 
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             var existing = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
@@ -35,7 +35,7 @@ namespace Plapp.Persist
 
         public virtual async Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             var existing = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
 
@@ -51,21 +51,21 @@ namespace Plapp.Persist
 
         public virtual async Task<IEnumerable<T>> FetchAllAsync(CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             return await context.Set<T>().ToListAsync(cancellationToken);
         }
 
         public virtual async Task<T> FetchAsync(int id, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             return await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         public virtual async Task SaveAllAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             context.Set<T>().UpdateRange(entities);
 
@@ -74,7 +74,7 @@ namespace Plapp.Persist
 
         public virtual async Task<T> SaveAsync(T entity, CancellationToken cancellationToken = default)
         {
-            var context = _serviceProvider.Get<PlappDbContext>();
+            var context = _contextFactory.CreateDbContext();
 
             var result = context.Set<T>().Update(entity);
 

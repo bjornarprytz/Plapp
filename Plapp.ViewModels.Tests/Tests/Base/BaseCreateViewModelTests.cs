@@ -20,7 +20,7 @@ namespace Plapp.ViewModels.Tests
 
         protected override TViewModel SetUpVM()
         {
-            return base.SetUpVM();
+            base.SetUpVM();
 
             templateMock = new Mock<TTemplate>();
 
