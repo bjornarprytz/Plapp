@@ -24,7 +24,5 @@ namespace Plapp.ViewModels.Tests
 
             VM.IsShowing.Should().BeFalse();
         }
-
-        // TODO: Write tests for save / load data OnHide, OnShow and OnUserInteractionStopped
     }
 }
