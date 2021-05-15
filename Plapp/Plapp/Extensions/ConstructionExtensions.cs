@@ -19,7 +19,15 @@ namespace Plapp
 
         public static FrameworkConstruction AddConfig(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton<IConfigurationManager>(new DefaultConfigurationManager("appsettings.json"));
+            var configStream = FileSystem.OpenAppPackageFileAsync("appsettings.json")
+                .GetAwaiter()
+                .GetResult();
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonStream(configStream)
+                .Build();
+
+            construction.AddConfiguration(builder);
 
             return construction;
         }
@@ -35,7 +43,9 @@ namespace Plapp
 
         public static FrameworkConstruction AddDbContext(this FrameworkConstruction construction)
         {
-            var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, "Plapp.db")}"; // TODO: refactor this to use proper Config
+            var dbName = construction.Configuration.GetConnectionString("PlappDb");
+
+            var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, dbName)}";
 
             Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlite(connStr);
 

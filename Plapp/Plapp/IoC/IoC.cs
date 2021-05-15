@@ -12,5 +12,7 @@ namespace Plapp
             => Framework.Provider.GetService(type) as T;
 
         public static object Resolve(Type type) => Framework.Provider.GetService(type);
+
+        public static PlappConfiguration Config => Get<PlappConfiguration>();
     }
 }

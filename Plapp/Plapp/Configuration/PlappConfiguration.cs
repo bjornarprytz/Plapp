@@ -1,6 +1,6 @@
 ﻿namespace Plapp
 {
-    public class Configuration
+    public class PlappConfiguration
     {
         public ConnectionStrings ConnectionStrings { get; set; }
     }
