@@ -39,6 +39,15 @@ namespace Plapp.ViewModels
         public ICommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
 
+        protected override async Task AutoLoadDataAsync()
+        {
+            await base.AutoLoadDataAsync();
+
+            var freshTopics = await _topicService.FetchAllAsync();
+
+            UpdateTopics(freshTopics);
+        }
+
         private async Task AddTopic()
         {
             var newTopic = _topicFactory();
@@ -55,15 +64,6 @@ namespace Plapp.ViewModels
             _topics.Remove(topic);
             
             Task.Run(() => _topicService.DeleteAsync(topic.ToModel()));
-        }
-
-        protected override async Task AutoLoadDataAsync()
-        {
-            await base.AutoLoadDataAsync();
-
-            var freshTopics = await _topicService.FetchAllAsync();
-
-            UpdateTopics(freshTopics);
         }
 
         private void UpdateTopics(IEnumerable<Topic> topics)

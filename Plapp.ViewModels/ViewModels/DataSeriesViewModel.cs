@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
+    public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel, IHydrate<DataSeries>
     {
         private readonly ObservableCollection<IDataPointViewModel> _dataPoints;
         private readonly IPrompter _prompter;
@@ -133,13 +133,13 @@ namespace Plapp.ViewModels
                 });
         }
 
-        internal void Hydrate(DataSeries dataSeriesModel)
+        public void Hydrate(DataSeries domainObject)
         {
-            if (Id != 0 && Id != dataSeriesModel.Id)
-                _logger.Log(LogLevel.Warning, $"Changing Id of DataSeries from {Id} to {dataSeriesModel.Id}");
+            if (Id != 0 && Id != domainObject.Id)
+                _logger.Log(LogLevel.Warning, $"Changing Id of DataSeries from {Id} to {domainObject.Id}");
 
-            Id = dataSeriesModel.Id;
-            Title = dataSeriesModel.Title;
+            Id = domainObject.Id;
+            Title = domainObject.Title;
         }
     }
 }

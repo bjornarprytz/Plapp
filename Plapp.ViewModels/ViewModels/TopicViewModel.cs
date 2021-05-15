@@ -71,6 +71,35 @@ namespace Plapp.ViewModels
         public ICommand AddImageCommand { get; private set; }
         public ICommand AddDataSeriesCommand { get; private set; }
 
+        public void Hydrate(Topic domainObject)
+        {
+            if (Id != 0 && Id != domainObject.Id)
+                _logger.Log(LogLevel.Warning, $"Changing Id of Topic from {Id} to {domainObject.Id}");
+
+            Id = domainObject.Id;
+            Title = domainObject.Title;
+            Description = domainObject.Description;
+            ImageUri = domainObject.ImageUri;
+        }
+
+        protected override async Task AutoLoadDataAsync()
+        {
+            await base.AutoLoadDataAsync();
+
+            var freshDataSeries = await _dataSeriesService.FetchAllAsync(topicId: Id);
+
+            UpdateDataSeries(freshDataSeries);
+        }
+
+        protected override async Task AutoSaveDataAsync()
+        {
+            await base.AutoSaveDataAsync();
+
+            var topic = await _topicService.SaveAsync(this.ToModel());
+
+            Id = topic.Id;
+        }
+
         private async Task OpenTopic()
         {
             await _navigator.GoToAsync<ITopicViewModel>(this);
@@ -120,35 +149,6 @@ namespace Plapp.ViewModels
             dataSeries.Tag = tag;
 
             _dataSeries.Add(dataSeries);
-        }
-
-        protected override async Task AutoLoadDataAsync()
-        {
-            await base.AutoLoadDataAsync();
-
-            var freshDataSeries = await _dataSeriesService.FetchAllAsync(topicId: Id);
-
-            UpdateDataSeries(freshDataSeries);
-        }
-
-        protected override async Task AutoSaveDataAsync()
-        {
-            await base.AutoSaveDataAsync();
-            
-            var topic = await _topicService.SaveAsync(this.ToModel());
-
-            Id = topic.Id;
-        }
-
-        public void Hydrate(Topic domainObject)
-        {
-            if (Id != 0 && Id != domainObject.Id)
-                _logger.Log(LogLevel.Warning, $"Changing Id of Topic from {Id} to {domainObject.Id}");
-
-            Id = domainObject.Id;
-            Title = domainObject.Title;
-            Description = domainObject.Description;
-            ImageUri = domainObject.ImageUri;
         }
 
         private void UpdateDataSeries(IEnumerable<DataSeries> dataSeries)
