@@ -42,7 +42,7 @@ namespace Plapp.Persist.Tests
 
             var items = await dataService.FetchAllAsync();
 
-            Assert.IsTrue(items.Count() == 2);
+            items.Should().HaveCount(2);
         }
 
         [TestMethod]
@@ -55,8 +55,7 @@ namespace Plapp.Persist.Tests
 
             var item = await dataService.FetchAsync(1);
 
-            Assert.IsNotNull(item);
-            Assert.IsTrue(item.Id == 1);
+            item.Id.Should().Be(1);
         }
 
         [TestMethod]
@@ -68,7 +67,7 @@ namespace Plapp.Persist.Tests
 
             var item = await dataService.FetchAsync(69);
 
-            Assert.IsNull(item);
+            item.Should().BeNull();
         }
 
         [TestMethod]
@@ -82,7 +81,7 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(context.Set<T>().Any(item => item.Id == 1));
+            context.Set<T>().Should().NotContain(item => item.Id == 1);
         }
 
         [TestMethod]
@@ -96,7 +95,7 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(context.Set<T>().Any(item => item.Id == 1));
+            context.Set<T>().Should().NotContain(item => item.Id == 1);
         }
 
         [TestMethod]
@@ -106,7 +105,7 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(context.Set<T>().Any());
+            context.Set<T>().Should().BeEmpty();
         }
 
         [TestMethod]
@@ -118,7 +117,7 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            Assert.IsFalse(context.Set<T>().Any());
+            context.Set<T>().Should().BeEmpty();
         }
 
         [TestMethod]
@@ -134,14 +133,12 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            var result = context.Set<T>().FirstOrDefault(item => item.Id == item1.Id);
-
-            Assert.IsNotNull(result);
-            result.Should().BeEquivalentTo(mutatedItem);
+            context.Set<T>().Should().HaveCount(1);
+            context.Set<T>().Should().ContainEquivalentOf(mutatedItem);
         }
 
         [TestMethod]
-        public async Task SaveAsync_IdIsZero_AddsIt()
+        public async Task SaveAsync_IdIsZero_AddsItWithNewId()
         {
             var item1 = CreateStub(id: 0);
 
@@ -151,12 +148,12 @@ namespace Plapp.Persist.Tests
 
             var result = context.Set<T>();
 
-            Assert.IsTrue(result.Count() == 1);
-            Assert.IsFalse(result.Any(item => item.Id == 0));
+            result.Should().HaveCount(1);
+            result.Should().NotContain(item => item.Id == 0);
         }
 
         [TestMethod]
-        public async Task SaveAllAsync_IdsAreZero_AddsThem()
+        public async Task SaveAllAsync_IdsAreZero_AddsThemWithNewIds()
         {
             var item1 = CreateStub(id: 0);
             var item2 = CreateStub(id: 0);
@@ -165,10 +162,8 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            var result = context.Set<T>();
-
-            Assert.IsTrue(result.Count() == 2);
-            Assert.IsFalse(result.Any(item => item.Id == 0));
+            context.Set<T>().Should().HaveCount(2);
+            context.Set<T>().Should().NotContain(item => item.Id == 0);
         }
 
         [TestMethod]
@@ -186,17 +181,10 @@ namespace Plapp.Persist.Tests
 
             using var context = new PlappDbContext(options);
 
-            Assert.IsTrue(context.Set<T>().Count() == 2);
+            context.Set<T>().Should().HaveCount(2);
 
-            Assert.IsFalse(context.Set<T>().Any(item => item.Id == 0));
-
-            var result1 = context.Set<T>().First(item => item.Id == item1.Id);
-
-            result1.Should().BeEquivalentTo(mutatedItem);
-            
-            var result2 = context.Set<T>().First(item => item.Id == item2.Id);
-
-            result2.Should().BeEquivalentTo(item2);
+            context.Set<T>().Should().ContainEquivalentOf(mutatedItem);
+            context.Set<T>().Should().ContainEquivalentOf(item2);
         }
 
         protected abstract TService CreateTestableService(IDbContextFactory<PlappDbContext> contextFactory);

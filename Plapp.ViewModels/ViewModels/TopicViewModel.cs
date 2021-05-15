@@ -135,9 +135,7 @@ namespace Plapp.ViewModels
         {
             await base.AutoSaveDataAsync();
             
-            var topic = this.ToModel();
-
-            await _topicService.SaveAsync(this.ToModel());
+            var topic = await _topicService.SaveAsync(this.ToModel());
 
             Id = topic.Id;
         }
