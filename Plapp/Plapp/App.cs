@@ -1,5 +1,7 @@
 ﻿using Dna;
+using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
+using Plapp.Persist;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -40,6 +42,12 @@ namespace Plapp
 
             if (!File.Exists(path))
                 File.Create(path);
+
+            var contextFactory = IoC.Get<IDbContextFactory<PlappDbContext>>();
+
+            using var context = contextFactory.CreateDbContext();
+
+            context.Database.EnsureCreated();
         }
     }
 }

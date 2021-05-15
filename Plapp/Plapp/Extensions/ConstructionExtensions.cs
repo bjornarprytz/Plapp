@@ -10,6 +10,7 @@ using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Plapp
 {
@@ -34,13 +35,12 @@ namespace Plapp
 
         public static FrameworkConstruction AddDbContext(this FrameworkConstruction construction)
         {
-            construction.Services.AddDbContextFactory<PlappDbContext, PlappDbContextFactory>(async options =>
-            {
-                var config = await IoC.Get<IConfigurationManager>().GetAsync(); // TODO: refactor this to use proper Config
+            var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, "Plapp.db")}"; // TODO: refactor this to use proper Config
 
-                var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, config.ConnectionStrings.PlappDb)}";
-                options.UseSqlite(connStr);
-            }, lifetime: ServiceLifetime.Scoped);
+            Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlite(connStr);
+
+            construction.Services.AddDbContext<PlappDbContext>(configureDbContext);
+            construction.Services.AddSingleton<IDbContextFactory<PlappDbContext>>(new PlappDbContextFactory(configureDbContext));
 
             return construction;
         }
