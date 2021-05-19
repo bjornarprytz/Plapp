@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using AutoMapper;
+using Plapp.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,16 +17,19 @@ namespace Plapp.ViewModels
         private readonly INavigator _navigator;
         private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
         private readonly ITopicService _topicService;
+        private readonly IMapper _mapper;
 
         public ApplicationViewModel(
             INavigator navigator,
             ViewModelFactory<ITopicViewModel> topicFactory, 
-            ITopicService topicService
+            ITopicService topicService,
+            IMapper mapper
             )
         {
             _navigator = navigator;
             _topicFactory = topicFactory;
             _topicService = topicService;
+            _mapper = mapper;
 
             _topics = new ObservableCollection<ITopicViewModel>();
             Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
@@ -54,7 +58,7 @@ namespace Plapp.ViewModels
 
             _topics.Add(newTopic);
 
-            _ = _topicService.SaveAsync(newTopic.ToModel());
+            _ = _topicService.SaveAsync(_mapper.Map<Topic>(newTopic));
 
             await _navigator.GoToAsync(newTopic);
         }
@@ -63,7 +67,7 @@ namespace Plapp.ViewModels
         {
             _topics.Remove(topic);
             
-            Task.Run(() => _topicService.DeleteAsync(topic.ToModel()));
+            Task.Run(() => _topicService.DeleteAsync(_mapper.Map<Topic>(topic)));
         }
 
         private void UpdateTopics(IEnumerable<Topic> topics)

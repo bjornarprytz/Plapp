@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Plapp.Core;
@@ -24,7 +25,8 @@ namespace Plapp.ViewModels.Tests
             return new CreateTagViewModel(
                 factoryMock.Object,
                 prompterMock.Object,
-                tagServiceMock.Object
+                tagServiceMock.Object,
+                mapper
                 );
         }
 

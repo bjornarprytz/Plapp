@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Plapp.Core;
 using PropertyChanged;
 using System;
@@ -12,7 +13,7 @@ using Xamarin.Essentials;
 
 namespace Plapp.ViewModels
 {
-    public class TopicViewModel : IOViewModel, ITopicViewModel, IHydrate<Topic>
+    public class TopicViewModel : IOViewModel, ITopicViewModel
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataSeries;
         private readonly ICamera _camera;
@@ -22,8 +23,8 @@ namespace Plapp.ViewModels
         private readonly ITopicService _topicService;
         private readonly IPrompter _prompter;
         private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
-        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
         public TopicViewModel(
             ICamera camera,
@@ -33,8 +34,8 @@ namespace Plapp.ViewModels
             ITopicService topicService,
             IPrompter prompter,
             ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
-            ViewModelFactory<ITagViewModel> tagFactory,
-            ILogger logger
+            ILogger logger,
+            IMapper mapper
             )
         {
             _camera = camera;
@@ -44,8 +45,8 @@ namespace Plapp.ViewModels
             _topicService = topicService;
             _prompter = prompter;
             _dataSeriesFactory = dataSeriesFactory;
-            _tagFactory = tagFactory;
             _logger = logger;
+            _mapper = mapper;
 
             _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
@@ -88,14 +89,17 @@ namespace Plapp.ViewModels
 
             var freshDataSeries = await _dataSeriesService.FetchAllAsync(topicId: Id);
 
-            UpdateDataSeries(freshDataSeries);
+            _dataSeries.Update(
+                freshDataSeries,
+                _mapper,
+                (d, v) => d.Id == v.Id);
         }
 
         protected override async Task AutoSaveDataAsync()
         {
             await base.AutoSaveDataAsync();
 
-            var topic = await _topicService.SaveAsync(this.ToModel());
+            var topic = await _topicService.SaveAsync(_mapper.Map<Topic>(this));
 
             Id = topic.Id;
         }
@@ -131,7 +135,7 @@ namespace Plapp.ViewModels
             {
                 "Cancel" => default,
                 "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
-                _ => existingTags.First(t => t.Key == choice).ToViewModel(() => _tagFactory() as TagViewModel)
+                _ => _mapper.Map<ITagViewModel>(existingTags.First(t => t.Key == choice))
             };
 
             if (tag == default)
@@ -139,7 +143,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            var tagData = await _tagService.SaveAsync(tag.ToModel());
+            var tagData = await _tagService.SaveAsync(_mapper.Map<Tag>(tag));
 
             tag.Id = tagData.Id;
 
@@ -149,32 +153,6 @@ namespace Plapp.ViewModels
             dataSeries.Tag = tag;
 
             _dataSeries.Add(dataSeries);
-        }
-
-        private void UpdateDataSeries(IEnumerable<DataSeries> dataSeries)
-        {
-            var dataSeriesToAdd = new List<IDataSeriesViewModel>();
-            var dataSeriesToRemove = new List<IDataSeriesViewModel>(_dataSeries);
-
-            foreach (var _ds in dataSeries)
-            {
-                var existingDataSeries = _dataSeries.OfType<DataSeriesViewModel>().FirstOrDefault(ds => ds.Id == _ds.Id);
-
-                if (existingDataSeries == default)
-                {
-                    existingDataSeries = _dataSeriesFactory() as DataSeriesViewModel;
-                    dataSeriesToAdd.Add(existingDataSeries);
-                }
-                else
-                {
-                    dataSeriesToRemove.Remove(existingDataSeries);
-                }
-                
-                existingDataSeries.Hydrate(_ds);
-            }
-
-            _dataSeries.AddRange(dataSeriesToAdd);
-            _dataSeries.RemoveRange(dataSeriesToRemove);
         }
     }
 }

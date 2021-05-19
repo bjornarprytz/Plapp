@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using AutoMapper;
+using Plapp.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace Plapp.ViewModels
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
-        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ITagService _tagService;
+        private readonly IMapper _mapper;
 
         public CreateTagViewModel(
             ViewModelFactory<ITagViewModel> tagFactory,
             IPrompter prompter,
-            ITagService tagService
+            ITagService tagService,
+            IMapper mapper
             ) : base(tagFactory, prompter)
         {
-            _tagFactory = tagFactory;
             _tagService = tagService;
+            _mapper = mapper;
 
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
@@ -36,7 +38,10 @@ namespace Plapp.ViewModels
         {
             var tags = await _tagService.FetchAllAsync();
 
-            _availableTags.AddRange(tags.Select(tag => (ITagViewModel) tag.ToViewModel(() => _tagFactory() as TagViewModel)));
+            _availableTags.Update(
+                tags,
+                _mapper,
+                (d, v) => d.Id == v.Id);
         }
     }
 }

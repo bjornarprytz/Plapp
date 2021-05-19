@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Plapp.Core\Plapp.Core.csproj" />
     <ProjectReference Include="..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
+    <ProjectReference Include="..\Plapp\Plapp\Plapp.csproj" />
   </ItemGroup>
 
 </Project>

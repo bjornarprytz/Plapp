@@ -23,7 +23,8 @@ namespace Plapp.ViewModels.Tests
             return new ApplicationViewModel(
                 navigatorMock.Object,
                 topicFactoryMock.Object,
-                topicServiceMock.Object
+                topicServiceMock.Object,
+                mapper
                 );
         }
 

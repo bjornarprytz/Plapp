@@ -4,7 +4,7 @@ using System;
 
 namespace Plapp.ViewModels
 {
-    public class DataPointViewModel : BaseViewModel, IDataPointViewModel, IHydrate<DataPoint>
+    public class DataPointViewModel : BaseViewModel, IDataPointViewModel
     {
         private readonly ILogger _logger;
 
@@ -16,15 +16,5 @@ namespace Plapp.ViewModels
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public long Value { get; set; }
-
-        public void Hydrate(DataPoint domainObject)
-        {
-            if (Id != 0 && Id != domainObject.Id)
-                _logger.Log(LogLevel.Warning, $"Changing Id of DataPoint from {Id} to {domainObject.Id}");
-
-            Id = domainObject.Id;
-            Date = domainObject.Date;
-            Value = domainObject.Value;
-        }
     }
 }

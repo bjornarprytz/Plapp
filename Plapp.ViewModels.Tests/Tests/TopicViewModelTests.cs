@@ -44,8 +44,8 @@ namespace Plapp.ViewModels.Tests
                 topicServiceMock.Object,
                 prompterMock.Object,
                 dataSeriesFactoryMock.Object,
-                tagFactoryMock.Object,
-                loggerMock.Object
+                loggerMock.Object,
+                mapper
                 );
         }
 

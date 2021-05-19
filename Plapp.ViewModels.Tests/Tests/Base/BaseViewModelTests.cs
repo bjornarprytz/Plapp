@@ -1,8 +1,7 @@
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Plapp.Core;
-using System;
 
 namespace Plapp.ViewModels.Tests
 {
@@ -11,10 +10,13 @@ namespace Plapp.ViewModels.Tests
         where TViewModel : BaseViewModel
     {
         protected TViewModel VM;
+        protected IMapper mapper;
 
         [TestInitialize]
         public void Initialize()
         {
+            mapper = PlappMapping.Configure();
+
             VM = SetUpVM();
         }
 

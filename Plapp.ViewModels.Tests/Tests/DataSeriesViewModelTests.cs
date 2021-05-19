@@ -30,7 +30,8 @@ namespace Plapp.ViewModels.Tests
                 prompterMock.Object,
                 dataSeriesServiceMock.Object,
                 dataPointFactoryMock.Object,
-                loggerMock.Object
+                loggerMock.Object,
+                mapper
                 );
         }
         [TestMethod]
