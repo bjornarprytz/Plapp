@@ -1,3 +1,5 @@
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,17 +12,21 @@ namespace Plapp.ViewModels.Tests
         where TViewModel : BaseViewModel
     {
         protected TViewModel VM;
-        protected IMapper mapper;
+
+        protected IFixture _fixture;
 
         [TestInitialize]
         public void Initialize()
         {
-            mapper = PlappMapping.Configure();
+            _fixture = new Fixture()
+                .Customize(new AutoMoqCustomization { GenerateDelegates = true });
 
-            VM = SetUpVM();
+            FreezeFixtures();
+
+            VM = _fixture.Create<TViewModel>();
         }
 
-        protected abstract TViewModel SetUpVM();
+        protected virtual void FreezeFixtures() { }
 
 
         [TestMethod]

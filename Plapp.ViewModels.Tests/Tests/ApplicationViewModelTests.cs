@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using AutoMapper;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Plapp.Core;
@@ -14,32 +16,29 @@ namespace Plapp.ViewModels.Tests
         private Mock<ITopicService> topicServiceMock;
 
 
-        protected override ApplicationViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            navigatorMock = new Mock<INavigator>();
-            topicFactoryMock = new Mock<ViewModelFactory<ITopicViewModel>>();
-            topicServiceMock = new Mock<ITopicService>();
+            base.FreezeFixtures();
 
-            return new ApplicationViewModel(
-                navigatorMock.Object,
-                topicFactoryMock.Object,
-                topicServiceMock.Object,
-                mapper
-                );
+            navigatorMock = _fixture.Freeze<Mock<INavigator>>();
+            topicFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<ITopicViewModel>>>();
+            topicServiceMock = _fixture.Freeze<Mock<ITopicService>>();
         }
 
         [TestMethod]
         public async Task AddTopicCommand_FactoryCalledOnce()
         {
+            var t = _fixture.Freeze<Mock<ViewModelFactory<ITopicViewModel>>>();
+
             await VM.AddTopicCommand.ExecuteAsync();
 
-            topicFactoryMock.Verify(f => f(), Times.Once);
+            t.Verify(f => f(), Times.Once);
         }
 
         [TestMethod]
         public async Task AddTopicCommand_TopicAddedToCollection()
         {
-            var topicMock = new Mock<ITopicViewModel>();
+            var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
             topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
 
             var topicCount = VM.Topics.Count;
@@ -53,21 +52,15 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public async Task AddTopicCommand_TopicSavedToService()
         {
-            const int ID = 1;
-
-            var topicMock = new Mock<ITopicViewModel>();
-            topicMock.SetupGet(t => t.Id).Returns(ID);
-            topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
-
             await VM.AddTopicCommand.ExecuteAsync();
 
-            topicServiceMock.Verify(s => s.SaveAsync(It.Is<Topic>(t => t.Id == ID), default));
+            topicServiceMock.Verify(s => s.SaveAsync(It.IsAny<Topic>(), default));
         }
 
         [TestMethod]
         public async Task AddTopicCommand_NavigatesToTopicOnce()
         {
-            var topicMock = new Mock<ITopicViewModel>();
+            var topicMock = _fixture.Freeze <Mock<ITopicViewModel>>();
             topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
@@ -78,12 +71,12 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public async Task DeleteTopicCommand_TopicRemovedFromCollection()
         {
-            var topicMock = new Mock<ITopicViewModel>();
+            var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
             topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
 
-            VM.DeleteTopicCommand.Execute(topicMock.Object);
+            await VM.DeleteTopicCommand.ExecuteAsync(topicMock.Object);
 
             VM.Topics.Should().BeEmpty();
         }
@@ -93,16 +86,16 @@ namespace Plapp.ViewModels.Tests
         {
             const int ID = 1;
 
-            var topicMock = new Mock<ITopicViewModel>();
+            var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
             topicMock.SetupGet(t => t.Id).Returns(ID);
 
             topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
 
-            VM.DeleteTopicCommand.Execute(topicMock.Object);
+            await VM.DeleteTopicCommand.ExecuteAsync(topicMock.Object);
 
-            topicServiceMock.Verify(s => s.DeleteAsync(It.Is<Topic>(t => t.Id == ID), default));
+            topicServiceMock.Verify(s => s.DeleteAsync(It.IsAny<Topic>(), default));
         }
     }
 }

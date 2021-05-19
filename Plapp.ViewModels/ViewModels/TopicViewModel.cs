@@ -72,17 +72,6 @@ namespace Plapp.ViewModels
         public ICommand AddImageCommand { get; private set; }
         public ICommand AddDataSeriesCommand { get; private set; }
 
-        public void Hydrate(Topic domainObject)
-        {
-            if (Id != 0 && Id != domainObject.Id)
-                _logger.Log(LogLevel.Warning, $"Changing Id of Topic from {Id} to {domainObject.Id}");
-
-            Id = domainObject.Id;
-            Title = domainObject.Title;
-            Description = domainObject.Description;
-            ImageUri = domainObject.ImageUri;
-        }
-
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();

@@ -50,6 +50,8 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public virtual void PartialsIsEmpty_BackToPreviousCommand_CanExecute_IsFalse()
         {
+            VM.Partials.Clear();
+
             VM.BackToPreviousCommand.CanExecute(null).Should().BeFalse();
         }
         

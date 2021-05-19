@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Plapp.Core;
@@ -11,11 +12,11 @@ namespace Plapp.ViewModels.Tests
     {
         protected Mock<IPrompter> prompterMock;
 
-        protected override TViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            prompterMock = new Mock<IPrompter>();
+            base.FreezeFixtures();
 
-            return null;
+            prompterMock = _fixture.Freeze<Mock<IPrompter>>();
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,29 +25,19 @@ namespace Plapp.ViewModels.Tests
         private Mock<ViewModelFactory<ITagViewModel>> tagFactoryMock;
         private Mock<ILogger> loggerMock;
 
-        protected override TopicViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            cameraMock = new Mock<ICamera>();
-            navigatorMock = new Mock<INavigator>();
-            tagServiceMock = new Mock<ITagService>();
-            dataSeriesFactoryMock = new Mock<ViewModelFactory<IDataSeriesViewModel>>();
-            topicServiceMock = new Mock<ITopicService>();
-            dataSeriesServiceMock = new Mock<IDataSeriesService>();
-            prompterMock = new Mock<IPrompter>();
-            tagFactoryMock = new Mock<ViewModelFactory<ITagViewModel>>();
-            loggerMock = new Mock<ILogger>();
-
-            return new TopicViewModel(
-                cameraMock.Object,
-                navigatorMock.Object,
-                tagServiceMock.Object,
-                dataSeriesServiceMock.Object,
-                topicServiceMock.Object,
-                prompterMock.Object,
-                dataSeriesFactoryMock.Object,
-                loggerMock.Object,
-                mapper
-                );
+            base.FreezeFixtures();
+            
+            cameraMock = _fixture.Freeze<Mock<ICamera>>();
+            navigatorMock = _fixture.Freeze<Mock<INavigator>>();
+            tagServiceMock = _fixture.Freeze<Mock<ITagService>>();
+            dataSeriesFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<IDataSeriesViewModel>>>();
+            topicServiceMock = _fixture.Freeze<Mock<ITopicService>>();
+            dataSeriesServiceMock = _fixture.Freeze<Mock<IDataSeriesService>>();
+            prompterMock = _fixture.Freeze<Mock<IPrompter>>();
+            tagFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<ITagViewModel>>>();
+            loggerMock = _fixture.Freeze<Mock<ILogger>>();
         }
 
         [TestMethod]

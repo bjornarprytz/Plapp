@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AutoFixture;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,18 +17,11 @@ namespace Plapp.ViewModels.Tests
     {
         private Mock<ITagService> tagServiceMock;
 
-        protected override CreateTagViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            base.SetUpVM();
+            base.FreezeFixtures();
 
-            tagServiceMock = new Mock<ITagService>();
-
-            return new CreateTagViewModel(
-                factoryMock.Object,
-                prompterMock.Object,
-                tagServiceMock.Object,
-                mapper
-                );
+            tagServiceMock = _fixture.Freeze<Mock<ITagService>>();
         }
 
         [TestMethod]
@@ -41,8 +35,6 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public async Task LoadDataCommand_AvailableTagsAreAddedToCollection()
         {
-            factoryMock.Setup(f => f()).Returns(() => new Mock<ITagViewModel>().Object);
-
             var tag1 = new Tag { Id = 1 };
             var tag2 = new Tag { Id = 2 };
 
@@ -52,8 +44,7 @@ namespace Plapp.ViewModels.Tests
 
             await VM.LoadDataCommand.ExecuteAsync();
 
-            VM.AvailableTags.Should().Contain(tag => tag.Id == 1);
-            VM.AvailableTags.Should().Contain(tag => tag.Id == 2);
+            VM.AvailableTags.Should().HaveCount(2);
         }
 
         // TODO: Test OnShow(), that LoadAvailableTags is called

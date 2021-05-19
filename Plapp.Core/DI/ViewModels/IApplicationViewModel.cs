@@ -8,6 +8,6 @@ namespace Plapp.Core
     {
         ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         IAsyncCommand AddTopicCommand { get; }
-        ICommand DeleteTopicCommand { get; }
+        IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AutoFixture;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,16 +20,14 @@ namespace Plapp.ViewModels.Tests
         protected Mock<ViewModelFactory<TTemplate>> factoryMock;
         protected Mock<TTemplate> templateMock;
 
-        protected override TViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            base.SetUpVM();
+            base.FreezeFixtures();
 
-            templateMock = new Mock<TTemplate>();
+            templateMock = _fixture.Freeze<Mock<TTemplate>>();
+            factoryMock = _fixture.Freeze<Mock<ViewModelFactory<TTemplate>>>();
 
-            factoryMock = new Mock<ViewModelFactory<TTemplate>>();
             factoryMock.Setup(f => f()).Returns(templateMock.Object);
-
-            return null;
         }
 
         [TestMethod]

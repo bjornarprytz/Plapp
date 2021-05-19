@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -15,24 +16,12 @@ namespace Plapp.ViewModels.Tests
     public class DataSeriesViewModelTests : BaseViewModelTests<DataSeriesViewModel>
     {
         private Mock<IPrompter> prompterMock;
-        private Mock<IDataSeriesService> dataSeriesServiceMock;
-        private Mock<ViewModelFactory<IDataPointViewModel>> dataPointFactoryMock;
-        private Mock<ILogger> loggerMock;
 
-        protected override DataSeriesViewModel SetUpVM()
+        protected override void FreezeFixtures()
         {
-            prompterMock = new Mock<IPrompter>();
-            dataSeriesServiceMock = new Mock<IDataSeriesService>();
-            dataPointFactoryMock = new Mock<ViewModelFactory<IDataPointViewModel>>();
-            loggerMock = new Mock<ILogger>();
+            base.FreezeFixtures();
 
-            return new DataSeriesViewModel(
-                prompterMock.Object,
-                dataSeriesServiceMock.Object,
-                dataPointFactoryMock.Object,
-                loggerMock.Object,
-                mapper
-                );
+            prompterMock = _fixture.Freeze<Mock<IPrompter>>();
         }
         [TestMethod]
         public void AddDataPointCommand_ShouldPromptUser()
