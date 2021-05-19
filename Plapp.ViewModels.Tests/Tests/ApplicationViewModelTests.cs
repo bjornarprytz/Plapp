@@ -84,10 +84,7 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public async Task DeleteTopicCommand_TopicDeletedFromService()
         {
-            const int ID = 1;
-
             var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
-            topicMock.SetupGet(t => t.Id).Returns(ID);
 
             topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
 
