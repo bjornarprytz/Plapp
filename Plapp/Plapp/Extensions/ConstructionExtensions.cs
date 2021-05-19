@@ -43,7 +43,7 @@ namespace Plapp
 
         public static FrameworkConstruction AddDbContext(this FrameworkConstruction construction)
         {
-            var dbName = construction.Configuration.GetConnectionString("PlappDb");
+            var dbName = construction.Configuration.GetConnectionString("PlappDb"); // TODO: Clean this up, so that the whole connection string is in the config
 
             var connStr = $"Data Source={Path.Combine(FileSystem.AppDataDirectory, dbName)}";
 
@@ -118,7 +118,7 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBindPage<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : IRootViewModel
+            where TViewModel : IIOViewModel
             where TView : BaseContentPage<TViewModel>
         {
             viewFactory.BindPage<TViewModel, TView>();
@@ -127,7 +127,7 @@ namespace Plapp
         }
 
         private static IViewFactory ChainBindPopup<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : ITaskViewModel, IRootViewModel
+            where TViewModel : ITaskViewModel, IIOViewModel
             where TView : BasePopupPage<TViewModel>
         {
             viewFactory.BindPopup<TViewModel, TView>();

@@ -6,7 +6,7 @@ using Plapp.Core;
 namespace Plapp.ViewModels.Tests
 {
     [TestClass]
-    public abstract class BaseTaskViewModelTests<TViewModel> : PageViewModelTests<TViewModel>
+    public abstract class BaseTaskViewModelTests<TViewModel> : IOViewModelTests<TViewModel>
         where TViewModel : BaseTaskViewModel
     {
         protected Mock<IPrompter> prompterMock;

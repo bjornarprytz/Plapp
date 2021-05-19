@@ -6,7 +6,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public abstract class BaseTaskViewModel : PageViewModel, ITaskViewModel
+    public abstract class BaseTaskViewModel : IOViewModel, ITaskViewModel
     {
         private readonly IPrompter _prompter;
 

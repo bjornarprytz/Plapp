@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace Plapp
 {
     public abstract class BaseContentPage<TViewModel> : ContentPage
-        where TViewModel : IRootViewModel
+        where TViewModel : IViewModel
     {
         public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
 

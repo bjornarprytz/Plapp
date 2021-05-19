@@ -2,7 +2,7 @@
 
 namespace Plapp.ViewModels
 {
-    public class LoadingViewModel : PageViewModel
+    public class LoadingViewModel : BaseViewModel
     {
         public LoadingViewModel()
         {

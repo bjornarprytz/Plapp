@@ -14,6 +14,21 @@ namespace Plapp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
+        public bool IsShowing { get; private set; }
+        
+        public virtual void OnShow()
+        {
+            IsShowing = true;
+        }
+
+        public virtual void OnHide()
+        {
+            IsShowing = false;
+            OnUserInteractionStopped();
+        }
+
+        public virtual void OnUserInteractionStopped() { }
+
         public void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));

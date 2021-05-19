@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface ITopicViewModel : IRootViewModel
+    public interface ITopicViewModel : IIOViewModel
     {
         bool LacksImage { get; }
 

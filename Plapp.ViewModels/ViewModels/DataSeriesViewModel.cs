@@ -11,14 +11,13 @@ using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel, IHydrate<DataSeries>
+    public class DataSeriesViewModel : IOViewModel, IDataSeriesViewModel, IHydrate<DataSeries>
     {
         private readonly ObservableCollection<IDataPointViewModel> _dataPoints;
         private readonly IPrompter _prompter;
         private readonly IDataSeriesService _dataSeriesService;
         private readonly ViewModelFactory<IDataPointViewModel> _dataPointFactory;
         private readonly ILogger _logger;
-        private bool hasLoadedDataSeries;
 
         public DataSeriesViewModel(
             IPrompter prompter,
@@ -36,33 +35,16 @@ namespace Plapp.ViewModels
             DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataPoints);
 
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
-            SaveCommand = new AsyncCommand(SaveDataAsync, allowsMultipleExecutions: false);
-            RefreshCommand = new Command(RefreshData);
         }
-
-        public bool IsLoadingData { get; private set; }
-        public bool IsSavingData { get; private set; }
-        public bool IsLoadingTags { get; private set; }
-
         public int Id { get; set; }
-
         public string Title { get; set; }
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
         public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
-        public ReadOnlyObservableCollection<ITagViewModel> AvailableTags { get; }
 
         public ICommand AddDataPointCommand { get; private set; }
-        public ICommand RefreshCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
 
-        private void RefreshData()
-        {
-            hasLoadedDataSeries = false;
-
-            Task.Run(LoadData);
-        }
 
         private async Task AddDataPointsAsync()
         {
@@ -78,23 +60,11 @@ namespace Plapp.ViewModels
             _dataPoints.AddRange(dataPoints);
         }
 
-        private async Task LoadData()
+        protected override async Task AutoLoadDataAsync()
         {
-            if (hasLoadedDataSeries)
-            {
-                return;
-            }
+            var dataPoints = await _dataSeriesService.FetchDataPointsAsync(Id);
 
-            await FlagActionAsync(
-                () => IsLoadingData,
-                async () =>
-                {
-                    var dataPoints = await _dataSeriesService.FetchDataPointsAsync(Id);
-
-                    UpdateDataPoints(dataPoints);
-                    
-                    hasLoadedDataSeries = true;
-                });
+            UpdateDataPoints(dataPoints);
         }
 
         private void UpdateDataPoints(IEnumerable<DataPoint> dataPoints)
@@ -123,14 +93,9 @@ namespace Plapp.ViewModels
             _dataPoints.RemoveRange(dataPointsToRemove);
         }
 
-        private async Task SaveDataAsync()
+        protected override async Task AutoSaveDataAsync()
         {
-            await FlagActionAsync(
-                () => IsSavingData,
-                async () =>
-                {
-                    await _dataSeriesService.SaveAsync(this.ToModel());
-                });
+            await _dataSeriesService.SaveAsync(this.ToModel());
         }
 
         public void Hydrate(DataSeries domainObject)

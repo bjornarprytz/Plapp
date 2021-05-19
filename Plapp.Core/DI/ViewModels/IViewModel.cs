@@ -4,6 +4,9 @@ namespace Plapp.Core
 {
     public interface IViewModel : INotifyPropertyChanged
     {
-        // TODO: Anything left here?
+        bool IsShowing { get; }
+        void OnShow();
+        void OnHide();
+        void OnUserInteractionStopped();
     }
 }

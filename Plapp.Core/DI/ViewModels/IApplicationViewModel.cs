@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface IApplicationViewModel : IRootViewModel
+    public interface IApplicationViewModel : IIOViewModel
     {
         ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }

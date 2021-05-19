@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Plapp.ViewModels.Tests
 {
     [TestClass]
-    public class TopicViewModelTests : PageViewModelTests<TopicViewModel>
+    public class TopicViewModelTests : IOViewModelTests<TopicViewModel>
     {
         private Mock<ICamera> cameraMock;
         private Mock<INavigator> navigatorMock;

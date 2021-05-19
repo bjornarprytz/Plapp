@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface ICreateMultipleViewModel<TViewModel> : ITaskViewModel, IRootViewModel
+    public interface ICreateMultipleViewModel<TViewModel> : ITaskViewModel, IIOViewModel
         where TViewModel : IViewModel
     {
         TViewModel Current { get; set; }

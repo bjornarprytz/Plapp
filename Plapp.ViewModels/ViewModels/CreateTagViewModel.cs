@@ -34,8 +34,6 @@ namespace Plapp.ViewModels
 
         protected override async Task AutoLoadDataAsync()
         {
-            await base.AutoLoadDataAsync();
-
             var tags = await _tagService.FetchAllAsync();
 
             _availableTags.AddRange(tags.Select(tag => (ITagViewModel) tag.ToViewModel(() => _tagFactory() as TagViewModel)));

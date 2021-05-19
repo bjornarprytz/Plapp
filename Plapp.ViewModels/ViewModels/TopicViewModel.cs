@@ -12,7 +12,7 @@ using Xamarin.Essentials;
 
 namespace Plapp.ViewModels
 {
-    public class TopicViewModel : PageViewModel, ITopicViewModel, IHydrate<Topic>
+    public class TopicViewModel : IOViewModel, ITopicViewModel, IHydrate<Topic>
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataSeries;
         private readonly ICamera _camera;

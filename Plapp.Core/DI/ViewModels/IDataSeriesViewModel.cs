@@ -4,10 +4,8 @@ using System.Windows.Input;
 
 namespace Plapp.Core
 {
-    public interface IDataSeriesViewModel : IViewModel
+    public interface IDataSeriesViewModel : IIOViewModel
     {
-        bool IsLoadingData { get; }
-        bool IsSavingData { get; }
         int Id { get; set; }
         string Title { get; set; }
         ITopicViewModel Topic { get; set; }
@@ -15,7 +13,5 @@ namespace Plapp.Core
         ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         ICommand AddDataPointCommand { get; }
-        ICommand RefreshCommand { get; }
-        ICommand SaveCommand { get; }
     }
 }

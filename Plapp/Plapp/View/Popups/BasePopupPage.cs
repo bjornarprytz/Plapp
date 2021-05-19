@@ -6,7 +6,7 @@ using System;
 namespace Plapp
 {
     public abstract class BasePopupPage<TViewModel> : PopupPage
-        where TViewModel : ITaskViewModel, IRootViewModel
+        where TViewModel : ITaskViewModel
     {
         public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
 
