@@ -50,22 +50,22 @@ namespace Plapp.ViewModels.Tests
         }
 
         [TestMethod]
-        public void OnHide_SaveTopicIsCalled()
+        public void OnUserInteractionStopped_SaveTopicIsCalled()
         {
-            VM.OnHide();
+            VM.OnUserInteractionStopped();
 
             topicServiceMock.Verify(s => s.SaveAsync(It.IsAny<Topic>(), default), Times.Once);
         }
 
         [TestMethod]
-        public void SaveDataCommand_IdIsZero_UpdatesItsOwnId()
+        public async Task SaveDataCommand_IdIsZero_UpdatesItsOwnId()
         {
             const int NEW_ID = 1;
 
             topicServiceMock.Setup(s => s.SaveAsync(It.IsAny<Topic>(), default))
                 .Returns(Task.FromResult(new Topic { Id = NEW_ID }));
 
-            VM.SaveDataCommand.Execute(null);
+            await VM.SaveDataCommand.ExecuteAsync();
 
             VM.Id.Should().Be(NEW_ID);
         }

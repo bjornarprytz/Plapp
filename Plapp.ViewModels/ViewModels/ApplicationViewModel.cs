@@ -36,17 +36,17 @@ namespace Plapp.ViewModels
 
         public ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         
-        public ICommand AddTopicCommand { get; private set; }
+        public IAsyncCommand AddTopicCommand { get; private set; }
         public ICommand DeleteTopicCommand { get; private set; }
 
         protected override async Task AutoLoadDataAsync()
         {
+            await base.AutoLoadDataAsync();
+
             var freshTopics = await _topicService.FetchAllAsync();
 
             UpdateTopics(freshTopics);
         }
-
-        protected override async Task AutoSaveDataAsync() { }
 
         private async Task AddTopic()
         {

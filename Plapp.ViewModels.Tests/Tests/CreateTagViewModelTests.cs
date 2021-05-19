@@ -12,8 +12,6 @@ namespace Plapp.ViewModels.Tests
     [TestClass]
     public class CreateTagViewModelTests : BaseCreateViewModelTests<CreateTagViewModel, ITagViewModel>
     {
-        // TODO: Test OnShow(), that LoadAvailableTags is called
-
         protected override CreateTagViewModel SetUpVM()
         {
             base.SetUpVM();
@@ -26,5 +24,7 @@ namespace Plapp.ViewModels.Tests
                 tagServiceMock.Object
                 );
         }
+
+        // TODO: Test OnShow(), that LoadAvailableTags is called
     }
 }
