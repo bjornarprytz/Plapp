@@ -11,6 +11,7 @@ using Xamarin.Essentials;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System;
+using AutoMapper;
 
 namespace Plapp
 {
@@ -75,6 +76,16 @@ namespace Plapp
 
             return construction;
         }
+
+        
+
+        public static FrameworkConstruction AddDataMapper(this FrameworkConstruction construction)
+        {
+            construction.Services.AddSingleton(PlappMapping.Configure());
+
+            return construction;
+        }
+
 
         public static FrameworkConstruction AddNavigation(this FrameworkConstruction construction)
         {

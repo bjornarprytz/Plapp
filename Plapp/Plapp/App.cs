@@ -20,6 +20,7 @@ namespace Plapp
                 .AddDataServices()
                 .AddDbContext()
                 .AddViewModels()
+                .AddDataMapper()
                 .AddCamera()
                 .AddNavigation()
                 .AddPrompter()
