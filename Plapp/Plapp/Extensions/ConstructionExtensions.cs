@@ -11,7 +11,6 @@ using Xamarin.Essentials;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System;
-using AutoMapper;
 
 namespace Plapp
 {
@@ -96,14 +95,7 @@ namespace Plapp
             construction.Services.AddTransient<CreateTagPopup>();
             construction.Services.AddTransient<CreateDataPointsPopup>();
 
-            construction.Services.AddSingleton(provider =>
-                new ViewFactory()
-                    .ChainBindPage<IApplicationViewModel, MainPage>()
-                    .ChainBindPage<ITopicViewModel, TopicPage>()
-
-                    .ChainBindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
-                    .ChainBindPopup<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsPopup>()
-            );
+            construction.Services.AddSingleton(PlappViews.Configure());
 
 
             construction.Services.AddSingleton<INavigator>(new Navigator());
@@ -128,22 +120,6 @@ namespace Plapp
             return construction;
         }
 
-        private static IViewFactory ChainBindPage<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : IIOViewModel
-            where TView : BaseContentPage<TViewModel>
-        {
-            viewFactory.BindPage<TViewModel, TView>();
-
-            return viewFactory;
-        }
-
-        private static IViewFactory ChainBindPopup<TViewModel, TView>(this IViewFactory viewFactory)
-            where TViewModel : ITaskViewModel, IIOViewModel
-            where TView : BasePopupPage<TViewModel>
-        {
-            viewFactory.BindPopup<TViewModel, TView>();
-
-            return viewFactory;
-        }
+        
     }
 }
