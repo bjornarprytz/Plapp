@@ -1,28 +1,29 @@
-﻿using Plapp.ViewModels;
+﻿using Lottie.Forms;
+using Plapp.ViewModels;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Markup;
 
 namespace Plapp
 {
     class LoadingPage : BaseContentPage<LoadingViewModel>
     {
-        Label label;
+        AnimationView animation;
 
         public LoadingPage()
         {
-            label = new Label
+            animation = new AnimationView
             {
-                Text = "Loading",
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-            };
+                AutoPlay = true,
+                RepeatMode = RepeatMode.Infinite
+            }.Bind(AnimationView.AnimationProperty, nameof(VM.Animation));
 
             Content = new Grid
             {
                 Children =
                 {
-                    label
+                    animation
                 }
             };
         }
@@ -31,8 +32,7 @@ namespace Plapp
         {
             base.OnAppearing();
 
-
-            await label.SillyAnimation();
+            await animation.SillyAnimation();
         }
     }
 }

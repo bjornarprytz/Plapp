@@ -51,6 +51,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.0.9" />
     <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
     <PackageReference Include="MaterialDesign.Icons" Version="1.1.0" />
     <PackageReference Include="Microcharts" Version="0.9.5.9" />

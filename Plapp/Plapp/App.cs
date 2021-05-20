@@ -26,7 +26,7 @@ namespace Plapp
                 .AddPrompter()
                 .Build();
 
-            MainPage = new NavigationPage(new LoadingPage()); // TODO: Use IoC.Get<ILoadingViewModel>() here and implement ILoadingViewModel
+            MainPage = new NavigationPage(IoC.Get<LoadingPage>()); // TODO: Use IoC.Get<ILoadingViewModel>() here and implement ILoadingViewModel
         }
 
         protected override async void OnStart()

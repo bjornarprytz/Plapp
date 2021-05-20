@@ -59,6 +59,8 @@ namespace Plapp
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
 
+            construction.Services.AddTransient<LoadingViewModel>(); // TODO: Implement an interface for this?
+
             construction.Services.AddTransient<ITagViewModel, TagViewModel>();
             construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();
             construction.Services.AddTransient<IDataSeriesViewModel, DataSeriesViewModel>();
@@ -92,6 +94,7 @@ namespace Plapp
             construction.Services.AddSingleton<MainPage>();
             construction.Services.AddSingleton<TopicPage>();
 
+            construction.Services.AddTransient<LoadingPage>();
             construction.Services.AddTransient<CreateTagPopup>();
             construction.Services.AddTransient<CreateDataPointsPopup>();
 

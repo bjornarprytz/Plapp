@@ -60,6 +60,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie">
+      <Version>4.0.9</Version>
+    </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
       <Version>3.3.3</Version>
     </PackageReference>
@@ -87,6 +90,7 @@
     <AndroidAsset Include="..\Plapp\appsettings.json">
       <Link>Assets\appsettings.json</Link>
     </AndroidAsset>
+    <AndroidAsset Include="Assets\Animations\Pineapple.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
