@@ -7,7 +7,12 @@ namespace Plapp.ViewModels
 {
     public static class CollecetionExtensions
     {
-        public static void Update<TSrc, TDst> (this ICollection<TDst> collection, IEnumerable<TSrc> domainObjects, IMapper mapper, Func<TSrc, TDst, bool> compareSrcDst)
+        public static void Update<TSrc, TDst> (
+            this ICollection<TDst> collection, 
+            IEnumerable<TSrc> domainObjects,
+            IMapper mapper, 
+            Func<TDst> create,
+            Func<TSrc, TDst, bool> compareSrcDst)
             where TDst : class
         {
             var toAdd = new List<TDst>();
@@ -19,14 +24,15 @@ namespace Plapp.ViewModels
 
                 if (existing == default)
                 {
-                    toAdd.Add(mapper.Map<TDst>(_do));
+                    existing = create();
+                    toAdd.Add(existing);
                 }
                 else
                 {
-                    mapper.Map(_do, existing);
                     toRemove.Remove(existing);
                 }
 
+                mapper.Map(_do, existing); // Hydrate
             }
 
             collection.AddRange(toAdd);

@@ -81,6 +81,7 @@ namespace Plapp.ViewModels
             _dataSeries.Update(
                 freshDataSeries,
                 _mapper,
+                () => _dataSeriesFactory(),
                 (d, v) => d.Id == v.Id);
         }
 

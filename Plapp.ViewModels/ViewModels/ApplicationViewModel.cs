@@ -47,6 +47,7 @@ namespace Plapp.ViewModels
             _topics.Update(
                 freshTopics,
                 _mapper,
+                () => _topicFactory(),
                 (d, v) => d.Id == v.Id);
         }
 

@@ -71,6 +71,7 @@ namespace Plapp.ViewModels
             _dataPoints.Update(
                 dataPoints,
                 _mapper,
+                () => _dataPointFactory(),
                 (d, v) => d.Id == v.Id);
         }
 

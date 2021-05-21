@@ -82,7 +82,7 @@ namespace Plapp
 
         public static FrameworkConstruction AddDataMapper(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton(PlappMapping.Configure());
+            construction.Services.AddSingleton(PlappMapping.Configure(construction.Provider));
 
             return construction;
         }

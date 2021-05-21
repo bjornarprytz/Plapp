@@ -10,6 +10,7 @@ namespace Plapp.ViewModels
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
+        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
 
@@ -20,6 +21,7 @@ namespace Plapp.ViewModels
             IMapper mapper
             ) : base(tagFactory, prompter)
         {
+            _tagFactory = tagFactory;
             _tagService = tagService;
             _mapper = mapper;
 
@@ -41,6 +43,7 @@ namespace Plapp.ViewModels
             _availableTags.Update(
                 tags,
                 _mapper,
+                () => _tagFactory(),
                 (d, v) => d.Id == v.Id);
         }
     }

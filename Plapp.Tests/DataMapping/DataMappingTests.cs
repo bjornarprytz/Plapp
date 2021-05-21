@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace Plapp.Tests.DataMapping
         [TestMethod]
         public void DataMappingConfig_IsValid()
         {
-            var mappingConfig = PlappMapping.Configure();
+            var serviceMock = new Mock<IServiceProvider>();
+
+            var mappingConfig = PlappMapping.Configure(serviceMock.Object);
 
             mappingConfig.ConfigurationProvider.AssertConfigurationIsValid();
         }
