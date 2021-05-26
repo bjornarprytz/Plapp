@@ -17,6 +17,7 @@ namespace Plapp
                 new StackLayout
                 {
                     Orientation = StackOrientation.Vertical,
+                    VerticalOptions = LayoutOptions.StartAndExpand,
 
                     Children =
                     {

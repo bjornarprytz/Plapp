@@ -51,7 +51,6 @@ namespace Plapp
 
             expander.Header = new StackLayout
             {
-                Margin = new Thickness(0, 10, 0, 0),
                 Orientation = StackOrientation.Horizontal,
 
                 Children = {

@@ -22,7 +22,9 @@ namespace Plapp
                     }
                 }).BindContext();
 
-            expander.Content = new DataSeriesGraph().BindContext();
+            expander.Content = new DataSeriesGraph()
+                .FillVertical()
+                .BindContext();
 
             Content = expander;
         }

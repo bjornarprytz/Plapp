@@ -21,6 +21,7 @@ namespace Plapp
                 {
                     new StackLayout
                         {
+                            Spacing = 10,
                             Margin = 20,
                             Orientation = StackOrientation.Vertical,
 
