@@ -22,7 +22,13 @@ namespace Plapp
                     {
                         new ChartView()
                             .Bind(IsVisibleProperty, nameof(VM.DataPoints), convert: (IEnumerable<IDataPointViewModel> c) => c.Any())
-                            .Bind(ChartView.ChartProperty, nameof(VM.DataPoints), converter: new DataSeriesToChartConverter<LineChart>()),
+                            .Bind(ChartView.ChartProperty, nameof(VM.DataPoints), converter: new DataSeriesToChartConverter<LineChart>(
+                                chart => 
+                                {
+                                    chart.LineMode = LineMode.Straight;
+                                    chart.PointMode = PointMode.Circle;
+                                    chart.LineSize = 1;
+                                })),
                         
                         new Button()
                             .MaterialIcon(MaterialDesign.Icons.MaterialIcon.Add)
