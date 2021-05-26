@@ -45,6 +45,50 @@ namespace Plapp.ViewModels.Tests
             VM.DataPoints.Should().ContainInOrder(dataPointMock1.Object, dataPointMock2.Object);
         }
 
-        // TODO: Test RefreshCommand (rename to LoadCommand?) and SaveCommand
+        [TestMethod]
+        public void AddDataPointCommand_PromtProducesDataPoints_ShouldInvokePropertyChanged()
+        {
+            bool dataPointsChanged = false;
+            var dataPointMock = new Mock<IDataPointViewModel>();
+
+            prompterMock.Setup(p => p.CreateMultipleAsync(It.IsAny<Func<IDataPointViewModel>>()))
+                .Returns(Task.FromResult(new List<IDataPointViewModel> { dataPointMock.Object } as IEnumerable<IDataPointViewModel>));
+
+            VM.ListenToPropertyChanged(nameof(VM.DataPoints), () => dataPointsChanged = true);
+
+            VM.AddDataPointCommand.Execute(null);
+
+            dataPointsChanged.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void AddDataPointCommand_PromtReturnsEmpty_ShouldNotInvokePropertyChanged()
+        {
+            bool dataPointsChanged = false;
+
+            prompterMock.Setup(p => p.CreateMultipleAsync(It.IsAny<Func<IDataPointViewModel>>()))
+                .Returns(Task.FromResult(Enumerable.Empty<IDataPointViewModel>()));
+
+            VM.ListenToPropertyChanged(nameof(VM.DataPoints), () => dataPointsChanged = true);
+
+            VM.AddDataPointCommand.Execute(null);
+
+            dataPointsChanged.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void AddDataPointCommand_PromtReturnsNull_ShouldNotInvokePropertyChanged()
+        {
+            bool dataPointsChanged = false;
+
+            prompterMock.Setup(p => p.CreateMultipleAsync(It.IsAny<Func<IDataPointViewModel>>()))
+                .Returns(Task.FromResult<IEnumerable<IDataPointViewModel>>(null));
+
+            VM.ListenToPropertyChanged(nameof(VM.DataPoints), () => dataPointsChanged = true);
+
+            VM.AddDataPointCommand.Execute(null);
+
+            dataPointsChanged.Should().BeFalse();
+        }
     }
 }
