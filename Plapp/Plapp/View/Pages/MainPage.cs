@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
+using MaterialDesign.Icons;
 
 namespace Plapp
 {
@@ -20,6 +21,7 @@ namespace Plapp
                         .BindItems(nameof(VM.Topics), new DataTemplate(() => new TopicThumbnail())),
 
                     ViewHelpers.FloatingActionButton()
+                        .MaterialIcon(MaterialIcon.Add)
                         .HorizontalOptions(LayoutOptions.EndAndExpand)
                         .VerticalOptions(LayoutOptions.EndAndExpand)
                         .BindCommand(nameof(VM.AddTopicCommand)),

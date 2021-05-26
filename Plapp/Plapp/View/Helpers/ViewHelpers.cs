@@ -13,7 +13,7 @@ namespace Plapp
     {
         public static Button FloatingActionButton()
             => new Button()
-            .MaterialIcon(MaterialIcon.Add)
+            .Margin(new Thickness(20))
             .Circle(80);
 
         /*

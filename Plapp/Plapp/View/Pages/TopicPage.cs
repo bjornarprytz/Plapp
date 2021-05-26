@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using MaterialDesign.Icons;
+using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
@@ -13,34 +14,41 @@ namespace Plapp
                                 .FillExpandVertical()
                                 .AutoSize(EditorAutoSizeOption.TextChanges)
                                 .Bind(nameof(VM.Description));
-
-
-            Content = new ScrollView
+              
+            Content = new Grid
             {
-                Content = new StackLayout
+                Children =
                 {
-                    Margin = 20,
-                    Orientation = StackOrientation.Vertical,
+                    new StackLayout
+                        {
+                            Margin = 20,
+                            Orientation = StackOrientation.Vertical,
 
-                    Children =
-                    {
-                        new Entry()
-                            .Bind(nameof(VM.Title)),
+                            Children =
+                            {
+                                new Entry()
+                                    .Bind(nameof(VM.Title)),
 
-                        ViewHelpers.PhotoFrame(
-                                nameof(VM.ImageUri),
-                                nameof(VM.LacksImage),
-                                nameof(VM.AddImageCommand)),
+                                ViewHelpers.PhotoFrame(
+                                        nameof(VM.ImageUri),
+                                        nameof(VM.LacksImage),
+                                        nameof(VM.AddImageCommand)),
 
-                        descriptionExpander,
+                                descriptionExpander,
 
-                        new CollectionView()
-                            .BindItems(nameof(VM.DataSeries), new DataTemplate(() => new DataSeriesInfoCard())),
-                                
-                        new Button()
-                            .BindCommand(nameof(VM.AddDataSeriesCommand)),
-                    }
-                },
+                                new CollectionView().ItemsLayout(new GridItemsLayout(ItemsLayoutOrientation.Vertical))
+                                    .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
+                                    .VerticalOptions(LayoutOptions.StartAndExpand)
+                                    .BindItems(nameof(VM.DataSeries), new DataTemplate(() => new DataSeriesInfoCard())),
+
+                            }
+                        },
+                    ViewHelpers.FloatingActionButton()
+                        .MaterialIcon(MaterialIcon.Add)
+                        .HorizontalOptions(LayoutOptions.EndAndExpand)
+                        .VerticalOptions(LayoutOptions.EndAndExpand)
+                        .BindCommand(nameof(VM.AddDataSeriesCommand)),
+                }
             };
         }
     }
