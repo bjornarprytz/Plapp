@@ -101,7 +101,7 @@ namespace Plapp
             construction.Services.AddSingleton(PlappViews.Configure());
 
 
-            construction.Services.AddSingleton<INavigator>(new Navigator());
+            construction.Services.AddSingleton<INavigator, Navigator>();
             construction.Services.AddSingleton(provider => PopupNavigation.Instance);
 
             construction.Services.AddSingleton(provider => Application.Current.MainPage.Navigation);
