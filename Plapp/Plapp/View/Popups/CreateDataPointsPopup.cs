@@ -18,6 +18,13 @@ namespace Plapp
                         new DataPointEditor()
                             .BindContext(nameof(VM.Current)),
 
+                        new Slider
+                        { 
+                            Maximum = 100
+                        }
+                        .Bind(nameof(VM.Current) + '.' + nameof(VM.Current.Value))
+                        .Bind(Slider.DragCompletedCommandProperty, nameof(VM.ConfirmCurrentCommand)),
+
                         new StackLayout
                         {
                             Orientation = StackOrientation.Horizontal,
@@ -29,9 +36,6 @@ namespace Plapp
                                 new Button()
                                     .MaterialIcon(MaterialIcon.Check)
                                     .BindCommand(nameof(VM.ConfirmCommand)),
-                                new Button()
-                                    .MaterialIcon(MaterialIcon.Add)
-                                    .BindCommand(nameof(VM.ConfirmCurrentCommand))
                             }
                         }
                     }

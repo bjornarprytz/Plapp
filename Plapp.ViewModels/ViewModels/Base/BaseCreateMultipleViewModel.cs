@@ -48,8 +48,12 @@ namespace Plapp.ViewModels
             }
         }
 
+        protected virtual void OnConfirmCurrent() { }
+
         private void ConfirmCurrent()
         {
+            OnConfirmCurrent();
+
             Partials.Add(Current);
 
             Current = (TemplateFactory != null) ? TemplateFactory() : default;
@@ -63,6 +67,8 @@ namespace Plapp.ViewModels
 
             if (Current is not null)
                 Partials.Remove(Current);
+            else
+                Current = (TemplateFactory != null) ? TemplateFactory() : default;
         }
 
         private bool CurrentIsValid()
