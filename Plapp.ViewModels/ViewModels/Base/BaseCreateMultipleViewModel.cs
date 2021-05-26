@@ -69,6 +69,8 @@ namespace Plapp.ViewModels
                 Partials.Remove(Current);
             else
                 Current = (TemplateFactory != null) ? TemplateFactory() : default;
+
+            (BackToPreviousCommand as Command).ChangeCanExecute();
         }
 
         private bool CurrentIsValid()

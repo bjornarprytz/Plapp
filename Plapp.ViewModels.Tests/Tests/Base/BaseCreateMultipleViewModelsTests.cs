@@ -48,6 +48,21 @@ namespace Plapp.ViewModels.Tests
         }
 
         [TestMethod]
+        public virtual void BackToPreviousCommand_CanExecute_IsChanged()
+        {
+            var vmMock = new Mock<TTemplate>();
+            VM.Partials.Add(vmMock.Object);
+
+            bool canExecuteChanged = false;
+
+            VM.BackToPreviousCommand.CanExecuteChanged += (s, e) => canExecuteChanged = true;
+
+            VM.BackToPreviousCommand.Execute(null);
+
+            canExecuteChanged.Should().BeTrue();
+        }
+
+        [TestMethod]
         public virtual void PartialsIsEmpty_BackToPreviousCommand_CanExecute_IsFalse()
         {
             VM.Partials.Clear();
