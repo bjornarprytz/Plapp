@@ -37,7 +37,7 @@ namespace Plapp
         public static Expander ExpanderWithHeader(View headerDecor)
         {
             var expander = new Expander()
-                .HorizontalOptions(LayoutOptions.FillAndExpand);
+                .FillHorizontal();
 
             var expanderIcon = new Image
             {
@@ -55,7 +55,7 @@ namespace Plapp
 
                 Children = {
                     headerDecor,
-                    expanderIcon.HorizontalOptions(LayoutOptions.End)
+                    expanderIcon.HorizontalOptions(LayoutOptions.EndAndExpand)
                 }
             };
 

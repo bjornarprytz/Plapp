@@ -8,6 +8,13 @@ namespace Plapp
     {
         public TopicPage()
         {
+            var descriptionExpander = ViewHelpers.ExpanderWithHeader(new Label { Text = "Description" });
+            descriptionExpander.Content = new Editor()
+                                .FillExpandVertical()
+                                .AutoSize(EditorAutoSizeOption.TextChanges)
+                                .Bind(nameof(VM.Description));
+
+
             Content = new ScrollView
             {
                 Content = new StackLayout
@@ -25,9 +32,7 @@ namespace Plapp
                                 nameof(VM.LacksImage),
                                 nameof(VM.AddImageCommand)),
 
-                        new Editor()
-                            .AutoSize(EditorAutoSizeOption.TextChanges)
-                            .Bind(nameof(VM.Description)),
+                        descriptionExpander,
 
                         new CollectionView()
                             .BindItems(nameof(VM.DataSeries), new DataTemplate(() => new DataSeriesInfoCard())),
