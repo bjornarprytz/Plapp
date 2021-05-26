@@ -97,7 +97,7 @@ namespace Plapp
                 Padding = 30,
                 Margin = new Thickness(20, 40),
                 BackgroundColor = Palette.BackgroundLight,
-                VerticalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
                 Content = content
             };

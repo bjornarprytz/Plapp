@@ -10,6 +10,7 @@ namespace Plapp
         {
             Content = new StackLayout
             {
+                VerticalOptions = LayoutOptions.CenterAndExpand,
                 Orientation = StackOrientation.Vertical,
                 Children =
                 {

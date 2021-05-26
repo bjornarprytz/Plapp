@@ -32,10 +32,11 @@ namespace Plapp
 
         private ChartEntry DataPointToChartEntry(IDataPointViewModel dataPointViewModel)
         {
-            return new ChartEntry(dataPointViewModel.Value) 
+            return new ChartEntry(dataPointViewModel.Value)
             {
                 Color = SKColors.White,
                 TextColor = SKColors.White,
+                Label = "",
                 ValueLabel = dataPointViewModel.Value.ToString(),
             };
         }

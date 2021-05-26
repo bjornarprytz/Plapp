@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Plapp.Core;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -56,12 +53,14 @@ namespace Plapp.ViewModels
                     () => _dataPointFactory() // TODO: Make different DataPoints depending on Tag.DataType
                 ); 
 
-            if (dataPoints == default)
+            if (dataPoints == default || !dataPoints.Any())
             {
                 return;
             }
 
             _dataPoints.AddRange(dataPoints);
+
+            OnPropertyChanged(nameof(DataPoints));
         }
 
         protected override async Task AutoLoadDataAsync()

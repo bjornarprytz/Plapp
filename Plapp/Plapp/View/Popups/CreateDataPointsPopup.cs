@@ -20,9 +20,10 @@ namespace Plapp
 
                         new Slider
                         { 
-                            Maximum = 100
+                            Maximum = 100, // Placeholder
+                            Margin = new Thickness(0, 40),
                         }
-                        .Bind(nameof(VM.Current) + '.' + nameof(VM.Current.Value))
+                        .Bind(BindingHelpers.BuildPath(nameof(VM.Current), nameof(VM.Current.Value)))
                         .Bind(Slider.DragCompletedCommandProperty, nameof(VM.ConfirmCurrentCommand)),
 
                         new StackLayout
@@ -31,9 +32,11 @@ namespace Plapp
                             Children =
                             {
                                 new Button()
+                                    .HorizontalOptions(LayoutOptions.Start)
                                     .MaterialIcon(MaterialIcon.Undo)
                                     .BindCommand(nameof(VM.BackToPreviousCommand)),
                                 new Button()
+                                    .HorizontalOptions(LayoutOptions.End)
                                     .MaterialIcon(MaterialIcon.Check)
                                     .BindCommand(nameof(VM.ConfirmCommand)),
                             }
