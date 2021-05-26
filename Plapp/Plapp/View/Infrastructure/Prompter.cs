@@ -12,19 +12,22 @@ namespace Plapp
     public class Prompter : IPrompter
     {
         private readonly IServiceProvider _serviceProvider;
-        private IPopupNavigation PopupNavigation => _serviceProvider.Get<IPopupNavigation>();
-        private IViewFactory ViewFactory => _serviceProvider.Get<IViewFactory>();
-        private INavigation Navigation => _serviceProvider.Get<INavigation>();
+        private readonly IPopupNavigation _popupNavigation;
+        private readonly IViewFactory _viewFactory;
+        private readonly INavigation _navigation;
 
-        public Prompter(IServiceProvider serviceProvider)
+        public Prompter(IServiceProvider serviceProvider, IPopupNavigation popupNavigation, IViewFactory viewFactory, INavigation navigation)
         {
             _serviceProvider = serviceProvider;
+            _popupNavigation = popupNavigation;
+            _viewFactory = viewFactory;
+            _navigation = navigation;
         }
 
         public async Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction = null)
             where TViewModel : IViewModel
         {
-            var popup = ViewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
+            var popup = _viewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
 
             setTemplateAction?.Invoke(popup.VM.Partial);
 
@@ -38,7 +41,7 @@ namespace Plapp
         {
             getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>();
 
-            var popup = ViewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>(
+            var popup = _viewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>(
                 vm => 
                 {
                     vm.Current = getTemplateFunc();
@@ -54,39 +57,39 @@ namespace Plapp
         public async Task PopupAsync<TViewModel>() 
             where TViewModel : ITaskViewModel, IIOViewModel
         {
-            var popup = ViewFactory.CreatePopup<TViewModel>();
+            var popup = _viewFactory.CreatePopup<TViewModel>();
 
             await PopupTaskAsync(popup);
         }
 
         public async Task AlertAsync(string title, string alert, string confirm)
         {
-            await Navigation.CurrentPage().DisplayAlert(title, alert, confirm);
+            await _navigation.CurrentPage().DisplayAlert(title, alert, confirm);
         }
 
         public async Task<bool> DilemmaAsync(string title, string question, string yes, string no)
         {
-            return await Navigation.CurrentPage().DisplayAlert(title, question, yes, no);
+            return await _navigation.CurrentPage().DisplayAlert(title, question, yes, no);
         }
 
         public async Task<string> ChooseAsync(string title, string cancel, string destruction, params string[] options)
         {
-            return await Navigation.CurrentPage().DisplayActionSheet(title, cancel, destruction, options);
+            return await _navigation.CurrentPage().DisplayActionSheet(title, cancel, destruction, options);
         }
 
         public async Task<string> AnswerAsync(string title, string question)
         {
-            return await Navigation.CurrentPage().DisplayPromptAsync(title, question);
+            return await _navigation.CurrentPage().DisplayPromptAsync(title, question);
         }
 
         public async Task<string> AnswerNumericAsync(string title, string question)
         {
-            return await Navigation.CurrentPage().DisplayPromptAsync(title, question, keyboard: Keyboard.Numeric);
+            return await _navigation.CurrentPage().DisplayPromptAsync(title, question, keyboard: Keyboard.Numeric);
         }
 
         public async Task PopAsync()
         {
-            await PopupNavigation.PopAsync();
+            await _popupNavigation.PopAsync();
         }
 
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
@@ -94,9 +97,9 @@ namespace Plapp
         {
             var waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             
-            PopupNavigation.Popped += PopupNavigation_Popped;
+            _popupNavigation.Popped += PopupNavigation_Popped;
 
-            await PopupNavigation.PushAsync(popupPage);
+            await _popupNavigation.PushAsync(popupPage);
 
             await Task.Run(() => waitHandle.WaitOne());
 
@@ -108,7 +111,7 @@ namespace Plapp
                 }
 
                 waitHandle.Set();
-                PopupNavigation.Popped -= PopupNavigation_Popped;
+                _popupNavigation.Popped -= PopupNavigation_Popped;
             }
         }
     }
