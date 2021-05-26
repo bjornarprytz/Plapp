@@ -57,7 +57,9 @@ namespace Plapp.ViewModels
 
             _topics.Add(newTopic);
 
-            _ = _topicService.SaveAsync(_mapper.Map<Topic>(newTopic));
+            var topicData = await _topicService.SaveAsync(_mapper.Map<Topic>(newTopic));
+
+            _mapper.Map(topicData, newTopic);
 
             await _navigator.GoToAsync(newTopic);
         }

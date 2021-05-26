@@ -95,6 +95,7 @@ namespace Plapp
             construction.Services.AddSingleton<TopicPage>();
 
             construction.Services.AddTransient<LoadingPage>();
+            construction.Services.AddTransient<DataSeriesPage>();
             construction.Services.AddTransient<CreateTagPopup>();
             construction.Services.AddTransient<CreateDataPointsPopup>();
 

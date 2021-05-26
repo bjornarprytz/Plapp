@@ -18,7 +18,7 @@ namespace Plapp
                 {
                     GestureRecognizers =
                             {
-                                new TapGestureRecognizer().BindCommand(nameof(VM.OpenTopicCommand))
+                                new TapGestureRecognizer().BindCommand(nameof(VM.OpenCommand))
                             },
 
                     Children =

@@ -23,6 +23,7 @@ namespace Plapp
                 }).BindContext();
 
             expander.Content = new DataSeriesGraph()
+                .BindTapGesture(nameof(VM.OpenCommand))
                 .FillVertical()
                 .BindContext();
 

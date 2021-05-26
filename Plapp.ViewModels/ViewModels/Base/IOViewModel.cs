@@ -1,7 +1,5 @@
 ﻿using Plapp.Core;
-using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels

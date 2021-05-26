@@ -21,9 +21,12 @@ namespace Plapp
 
                     Children =
                     {
+                        new Label()
+                            .NamedFontSize(NamedSize.Title)
+                            .Bind(nameof(VM.Title)),
+                        
                         new ChartView()
-                            .HeightRequest(120)
-                            .BindTapGesture(nameof(VM.AddDataPointCommand))
+                            .MinHeight(120)
                             .Bind(IsVisibleProperty, nameof(VM.DataPoints), convert: (IEnumerable<IDataPointViewModel> c) => c.Any())
                             .Bind(ChartView.ChartProperty, nameof(VM.DataPoints), converter: new DataSeriesToChartConverter<LineChart>(
                                 chart =>
@@ -32,12 +35,6 @@ namespace Plapp
                                     chart.PointMode = PointMode.Circle;
                                     chart.LineSize = 1;
                                 })),
-
-                        new Button()
-                            .BindCommand(nameof(VM.AddDataPointCommand))
-                            .BackgroundColor(Color.Transparent)
-                            .MaterialIcon(MaterialDesign.Icons.MaterialIcon.Add, color: Color.MediumPurple)
-                            .Bind(IsVisibleProperty, nameof(VM.DataPoints), convert: (IEnumerable<IDataPointViewModel> c) => !c.Any())
                     }
                 }.Bind(BackgroundColorProperty, BindingHelpers.BuildPath(nameof(VM.Tag), nameof(VM.Tag.Color)), converter: new StringToColorConverter());
         }

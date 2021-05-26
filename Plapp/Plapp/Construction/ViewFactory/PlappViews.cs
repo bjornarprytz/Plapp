@@ -12,6 +12,8 @@ namespace Plapp
             return new ViewFactory()
                     .ChainBindPage<IApplicationViewModel, MainPage>()
                     .ChainBindPage<ITopicViewModel, TopicPage>()
+                    .ChainBindPage<IDataSeriesViewModel, DataSeriesPage>()
+
                     .ChainBindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
                     .ChainBindPopup<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsPopup>();
         }

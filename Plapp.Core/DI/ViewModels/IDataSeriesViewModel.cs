@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
@@ -12,6 +13,8 @@ namespace Plapp.Core
         ITagViewModel Tag { get; set; }
         ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
-        ICommand AddDataPointCommand { get; }
+        IAsyncCommand OpenCommand { get; }
+        IAsyncCommand AddDataPointCommand { get; }
+        IAsyncCommand PickTagCommand { get; }
     }
 }

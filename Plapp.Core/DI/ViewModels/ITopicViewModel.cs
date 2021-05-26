@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
@@ -15,8 +14,8 @@ namespace Plapp.Core
 
         ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
-        ICommand OpenTopicCommand { get; }
-        ICommand AddImageCommand { get; }
-        ICommand AddDataSeriesCommand { get; }
+        IAsyncCommand OpenCommand { get; }
+        IAsyncCommand AddImageCommand { get; }
+        IAsyncCommand AddDataSeriesCommand { get; }
     }
 }

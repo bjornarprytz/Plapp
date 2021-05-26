@@ -51,7 +51,7 @@ namespace Plapp.ViewModels
             _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
 
-            OpenTopicCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
+            OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
             AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
         }
@@ -68,9 +68,9 @@ namespace Plapp.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public ICommand OpenTopicCommand { get; private set; }
-        public ICommand AddImageCommand { get; private set; }
-        public ICommand AddDataSeriesCommand { get; private set; }
+        public IAsyncCommand OpenCommand { get; private set; }
+        public IAsyncCommand AddImageCommand { get; private set; }
+        public IAsyncCommand AddDataSeriesCommand { get; private set; }
 
         protected override async Task AutoLoadDataAsync()
         {
@@ -113,36 +113,15 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var existingTags = await _tagService.FetchAllAsync();
+            var newDataSeries = _dataSeriesFactory();
 
-            var options = new List<string> { "Create new Tag" };
+            _dataSeries.Add(newDataSeries);
 
-            options.AddRange(existingTags.Select(t => t.Key));
+            var dataSeriesData = await _dataSeriesService.SaveAsync(_mapper.Map<DataSeries>(newDataSeries));
 
-            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
+            _mapper.Map(dataSeriesData, newDataSeries);
 
-            var tag = choice switch
-            {
-                "Cancel" => default,
-                "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
-                _ => _mapper.Map<ITagViewModel>(existingTags.First(t => t.Key == choice))
-            };
-
-            if (tag == default)
-            {
-                return;
-            }
-
-            var tagData = await _tagService.SaveAsync(_mapper.Map<Tag>(tag));
-
-            tag.Id = tagData.Id;
-
-            var dataSeries = _dataSeriesFactory();
-
-            dataSeries.Topic = this;
-            dataSeries.Tag = tag;
-
-            _dataSeries.Add(dataSeries);
+            await _navigator.GoToAsync(newDataSeries);
         }
     }
 }
