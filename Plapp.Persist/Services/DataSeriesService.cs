@@ -48,9 +48,9 @@ namespace Plapp.Persist
         {
             var context = _contextFactory.CreateDbContext();
 
-            var existingDataSeries = await context.Set<DataSeries>().FirstOrDefaultAsync(ds => ds.Id == dataSeriesId, cancellationToken);
-
-            return existingDataSeries?.DataPoints ?? Enumerable.Empty<DataPoint>();
+            return await context.Set<DataPoint>()
+                .Where(dp => dp.DataSeriesId == dataSeriesId)
+                .ToListAsync(cancellationToken);
         }
     }
 }
