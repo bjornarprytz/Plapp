@@ -14,7 +14,9 @@ namespace Plapp.Persist
         {
             var context = _contextFactory.CreateDbContext();
 
-            return await context.Set<Tag>().FirstOrDefaultAsync(t => t.Key == key, cancellationToken);
+            return await context.Set<Tag>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Key == key, cancellationToken);
         }
     }
 }

@@ -27,8 +27,11 @@ namespace Plapp
         {
             mapperExpression.CreateMap<TSrc, TDst>()
                 .DisableCtorValidation()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter() // Ignore ViewModel specific properties (e.g. IsShowing)
-                .ReverseMap(); // ViewModel -> DomainObject
+                .PreserveReferences()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter(); // Ignore ViewModel specific properties (e.g. IsShowing)
+                
+            mapperExpression.CreateMap<TDst, TSrc>()
+                .PreserveReferences(); // ViewModel -> DomainObject
 
             // Help resolve from concrete type to interface
             mapperExpression.CreateMap<TSrc, TDstInterface>().As<TDst>();

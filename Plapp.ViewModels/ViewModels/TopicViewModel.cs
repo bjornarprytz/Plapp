@@ -23,6 +23,7 @@ namespace Plapp.ViewModels
         private readonly ITopicService _topicService;
         private readonly IPrompter _prompter;
         private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
+        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
@@ -34,6 +35,7 @@ namespace Plapp.ViewModels
             ITopicService topicService,
             IPrompter prompter,
             ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
+            ViewModelFactory<ITagViewModel> tagFactory,
             ILogger logger,
             IMapper mapper
             )
@@ -45,6 +47,7 @@ namespace Plapp.ViewModels
             _topicService = topicService;
             _prompter = prompter;
             _dataSeriesFactory = dataSeriesFactory;
+            _tagFactory = tagFactory;
             _logger = logger;
             _mapper = mapper;
 
@@ -113,15 +116,49 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
+            var tag = await PickTagAsync();
+
+            if (tag == null) return;
+
             var newDataSeries = _dataSeriesFactory();
 
-            _dataSeries.Add(newDataSeries);
+            newDataSeries.Topic = this;
+            newDataSeries.Tag = tag;
 
+            _dataSeries.Add(newDataSeries);
+            
             var dataSeriesData = await _dataSeriesService.SaveAsync(_mapper.Map<DataSeries>(newDataSeries));
 
             _mapper.Map(dataSeriesData, newDataSeries);
 
             await _navigator.GoToAsync(newDataSeries);
+        }
+
+        private async Task<ITagViewModel> PickTagAsync()
+        {
+            var existingTags = await _tagService.FetchAllAsync();
+
+            var options = new List<string> { "Create new Tag" };
+
+            options.AddRange(existingTags.Select(t => t.Key));
+
+            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
+
+            var chosenTag = choice switch
+            {
+                "Cancel" => default,
+                "Create new Tag" => _mapper.Map<Tag>(await _prompter.CreateAsync<ITagViewModel>()),
+                _ => existingTags.First(t => t.Key == choice)
+            };
+
+            if (chosenTag == default)
+            {
+                return null;
+            }
+
+            var tag = await _tagService.SaveAsync(chosenTag);
+
+            return _mapper.Map<ITagViewModel>(tag);
         }
     }
 }

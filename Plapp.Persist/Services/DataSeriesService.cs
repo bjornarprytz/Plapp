@@ -20,7 +20,9 @@ namespace Plapp.Persist
                 d => (tagId == null || d.TagId == tagId)
                   && (topicId == null || d.TopicId == topicId))
                 .Include(d => d.DataPoints)
+                .Include(d => d.Topic)
                 .Include(d => d.Tag)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
 
@@ -30,7 +32,9 @@ namespace Plapp.Persist
 
             return await context.Set<DataSeries>()
                 .Include(d => d.DataPoints)
+                .Include(d => d.Topic)
                 .Include(d => d.Tag)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
 
@@ -40,7 +44,9 @@ namespace Plapp.Persist
 
             return await context.Set<DataSeries>()
                 .Include(d => d.DataPoints)
+                .Include(d => d.Topic)
                 .Include(d => d.Tag)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(ds => ds.Id == id, cancellationToken);
         }
 
@@ -50,6 +56,8 @@ namespace Plapp.Persist
 
             return await context.Set<DataPoint>()
                 .Where(dp => dp.DataSeriesId == dataSeriesId)
+                .Include(dp => dp.DataSeries)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
     }

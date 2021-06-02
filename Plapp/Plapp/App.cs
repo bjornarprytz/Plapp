@@ -31,6 +31,8 @@ namespace Plapp
 
         protected override async void OnStart()
         {
+            ResetDb();
+
             EnsureDbCreated();
 
             await IoC.Get<IApplicationViewModel>().LoadDataCommand.ExecuteAsync();
@@ -38,6 +40,19 @@ namespace Plapp
             await IoC.Get<INavigator>().GoToAsync<IApplicationViewModel>();
         }
 
+        private void ResetDb()
+        {
+            var path = Path.Combine(FileSystem.AppDataDirectory, "Plapp.db");
+
+            if (!File.Exists(path))
+                return;
+
+            var contextFactory = IoC.Get<IDbContextFactory<PlappDbContext>>();
+
+            using var context = contextFactory.CreateDbContext();
+
+            context.Database.EnsureDeleted();
+        }
 
         private void EnsureDbCreated()
         {

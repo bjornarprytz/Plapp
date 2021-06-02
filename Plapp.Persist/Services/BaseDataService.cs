@@ -53,14 +53,18 @@ namespace Plapp.Persist
         {
             var context = _contextFactory.CreateDbContext();
 
-            return await context.Set<T>().ToListAsync(cancellationToken);
+            return await context.Set<T>()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
         public virtual async Task<T> FetchAsync(int id, CancellationToken cancellationToken = default)
         {
             var context = _contextFactory.CreateDbContext();
 
-            return await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            return await context.Set<T>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         public virtual async Task SaveAllAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)

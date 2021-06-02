@@ -101,8 +101,8 @@ namespace Plapp.ViewModels
             var chosenTag = choice switch
             {
                 "Cancel" => default,
-                "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
-                _ => _mapper.Map<ITagViewModel>(existingTags.First(t => t.Key == choice))
+                "Create new Tag" => _mapper.Map<Tag>(await _prompter.CreateAsync<ITagViewModel>()),
+                _ => existingTags.First(t => t.Key == choice)
             };
 
             if (chosenTag == default)
@@ -110,9 +110,9 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            Tag = chosenTag;
+            var tag = await _tagService.SaveAsync(chosenTag);
 
-            await _tagService.SaveAsync(_mapper.Map<Tag>(chosenTag));
+            Tag = _mapper.Map<ITagViewModel>(chosenTag);
         }
 
         private async Task OpenAsync()
