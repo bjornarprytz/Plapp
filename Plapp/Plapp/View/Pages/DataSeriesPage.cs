@@ -5,7 +5,7 @@ namespace Plapp
 {
     public class DataSeriesPage : BaseContentPage<IDataSeriesViewModel>
     {
-        public DataSeriesPage()
+        public DataSeriesPage(IDataSeriesViewModel vm) : base(vm)
         {
             Content = new StackLayout
             {

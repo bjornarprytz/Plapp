@@ -8,7 +8,7 @@ namespace Plapp
 {
     public class MainPage : BaseContentPage<IApplicationViewModel>
     {
-        public MainPage()
+        public MainPage(IApplicationViewModel vm) : base(vm)
         {
             Content = new Grid
             {

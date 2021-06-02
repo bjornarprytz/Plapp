@@ -10,9 +10,9 @@ namespace Plapp
     {
         public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
 
-        protected BaseContentPage() 
+        protected BaseContentPage(TViewModel vm) 
         {
-            VM = IoC.Get<TViewModel>();
+            VM = vm;
         }
 
         protected override void OnAppearing()

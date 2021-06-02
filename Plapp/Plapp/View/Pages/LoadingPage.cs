@@ -11,7 +11,7 @@ namespace Plapp
     {
         AnimationView animation;
 
-        public LoadingPage()
+        public LoadingPage(LoadingViewModel vm) : base(vm)
         {
             animation = new AnimationView
             {
