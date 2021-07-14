@@ -11,6 +11,7 @@ using Xamarin.Essentials;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System;
+using Plapp.BusinessLogic;
 
 namespace Plapp
 {
@@ -28,6 +29,13 @@ namespace Plapp
                 .Build();
 
             construction.AddConfiguration(builder);
+
+            return construction;
+        }
+
+        public static FrameworkConstruction AddBusinessLogic(this FrameworkConstruction construction)
+        {
+            construction.Services.ConfigureMediator();
 
             return construction;
         }

@@ -17,6 +17,7 @@ namespace Plapp
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddConfig()
                 .AddDefaultLogger()
+                .AddBusinessLogic()
                 .AddDataServices()
                 .AddDbContext()
                 .AddViewModels()
