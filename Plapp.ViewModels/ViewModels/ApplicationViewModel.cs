@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MediatR;
+using Plapp.BusinessLogic;
 using Plapp.Core;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -10,20 +12,26 @@ namespace Plapp.ViewModels
     {
         private readonly ObservableCollection<ITopicViewModel> _topics;
         private readonly INavigator _navigator;
+        private readonly IMediator _mediator;
+        private readonly IQueryFactory<Topic> _topicQueryFactory;
+        private readonly ICommandFactory<Topic> _topicCommandFactory;
         private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
-        private readonly ITopicService _topicService;
         private readonly IMapper _mapper;
 
         public ApplicationViewModel(
             INavigator navigator,
-            ViewModelFactory<ITopicViewModel> topicFactory, 
-            ITopicService topicService,
+            IMediator mediator,
+            IQueryFactory<Topic> topicQueryFactory,
+            ICommandFactory<Topic> topicCommandFactory,
+            ViewModelFactory<ITopicViewModel> topicFactory,
             IMapper mapper
             )
         {
             _navigator = navigator;
+            _mediator = mediator;
+            _topicQueryFactory = topicQueryFactory;
+            _topicCommandFactory = topicCommandFactory;
             _topicFactory = topicFactory;
-            _topicService = topicService;
             _mapper = mapper;
 
             _topics = new ObservableCollection<ITopicViewModel>();
@@ -42,7 +50,14 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var freshTopics = await _topicService.FetchAllAsync();
+            var result = await _mediator.Send(_topicQueryFactory.CreateFetchAll());
+
+            if (result.Error)
+            {
+                return;
+            }
+
+            var freshTopics = result.Data;
 
             _topics.Update(
                 freshTopics,
@@ -66,8 +81,8 @@ namespace Plapp.ViewModels
         private async Task DeleteTopic(ITopicViewModel topic)
         {
             _topics.Remove(topic);
-            
-            await _topicService.DeleteAsync(_mapper.Map<Topic>(topic));
+
+            await _mediator.Send(_topicCommandFactory.CreateDelete(topic.Id));
         }
     }
 }

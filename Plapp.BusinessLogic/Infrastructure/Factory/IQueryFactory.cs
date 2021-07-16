@@ -1,5 +1,4 @@
-﻿using Plapp.BusinessLogic.Queries;
-using Plapp.Core;
+﻿using Plapp.Core;
 
 namespace Plapp.BusinessLogic
 {

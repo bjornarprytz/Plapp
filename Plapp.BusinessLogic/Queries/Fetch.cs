@@ -1,11 +1,8 @@
 ﻿using Plapp.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Queries
+namespace Plapp.BusinessLogic
 {
     public class Fetch<T> : IRequestWrapper<T>
         where T : DomainObject

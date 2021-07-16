@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Commands
+namespace Plapp.BusinessLogic
 {
     public class SaveCommand<T> : IRequestWrapper<T>
         where T : DomainObject

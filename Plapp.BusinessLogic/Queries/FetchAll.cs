@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Queries
+namespace Plapp.BusinessLogic
 {
-    public class FetchAll<T> : IRequestWrapper<IEnumerable<T>> 
+    public abstract class FetchAll<T> : IRequestWrapper<IEnumerable<T>> 
         where T : DomainObject 
     {
-        internal FetchAll() { }
+        protected FetchAll() { }
     }
 
-    public class GetAllHandler<T> : IHandlerWrapper<FetchAll<T>, IEnumerable<T>>
+    public class FetchAllTopics : FetchAll<Topic> { }
+
+    public abstract class FetchAllHandler<T> : IHandlerWrapper<FetchAll<T>, IEnumerable<T>>
         where T : DomainObject
     {
         private readonly IDataService<T> _dataService;
 
-        public GetAllHandler(IDataService<T> dataService)
+        protected FetchAllHandler(IDataService<T> dataService)
         {
             _dataService = dataService;
         }
@@ -25,5 +27,10 @@ namespace Plapp.BusinessLogic.Queries
         {
             return Response.Ok(await _dataService.FetchAllAsync(cancellationToken));
         }
+    }
+
+    public class FetchAllTopicsHandler : FetchAllHandler<Topic>
+    {
+        public FetchAllTopicsHandler(IDataService<Topic> dataService) : base(dataService) { }
     }
 }

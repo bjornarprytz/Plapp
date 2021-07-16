@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Commands
+namespace Plapp.BusinessLogic
 {
     public class DeleteCommand<T> : IRequestWrapper<Unit>
         where T : DomainObject
@@ -24,12 +24,12 @@ namespace Plapp.BusinessLogic.Commands
         public int Id { get; }
     }
 
-    public class DeleteCommandHandler<T> : IHandlerWrapper<DeleteCommand<T>, Unit>
+    public abstract class DeleteCommandHandler<T> : IHandlerWrapper<DeleteCommand<T>, Unit>
         where T : DomainObject
     {
         private readonly IDataService<T> _dataService;
 
-        public DeleteCommandHandler(IDataService<T> dataService)
+        protected DeleteCommandHandler(IDataService<T> dataService)
         {
             _dataService = dataService;
         }
@@ -44,6 +44,13 @@ namespace Plapp.BusinessLogic.Commands
             }
 
             return Response.Ok();
+        }
+    }
+
+    public class DeleteTopicCommandHandler : DeleteCommandHandler<Topic>
+    {
+        public DeleteTopicCommandHandler(IDataService<Topic> dataService) : base(dataService)
+        {
         }
     }
 }

@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Plapp.BusinessLogic\Plapp.BusinessLogic.csproj" />
     <ProjectReference Include="..\Plapp.Core\Plapp.Core.csproj" />
   </ItemGroup>
 

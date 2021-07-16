@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Commands
+namespace Plapp.BusinessLogic
 {
     public class SaveAllCommand<T> : IRequestWrapper<Unit>
     {
