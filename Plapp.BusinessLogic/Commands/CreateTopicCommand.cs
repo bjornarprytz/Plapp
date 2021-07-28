@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Plapp.Core;
 using System.Threading;
 using System.Threading.Tasks;

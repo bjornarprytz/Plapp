@@ -36,8 +36,6 @@ namespace Plapp
 
             EnsureDbCreated();
 
-            await IoC.Get<IApplicationViewModel>().LoadDataCommand.ExecuteAsync();
-
             await IoC.Get<INavigator>().GoToAsync<IApplicationViewModel>();
         }
 
