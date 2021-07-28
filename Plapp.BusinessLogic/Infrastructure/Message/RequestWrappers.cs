@@ -15,6 +15,6 @@ namespace Plapp.BusinessLogic
     { }
     
     public interface IHandlerWrapper<TIn> : IRequestHandler<TIn, Response<Unit>>
-        where TIn : IRequestWrapper<Unit>
+        where TIn : IRequestWrapper
     { }
 }

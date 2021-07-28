@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
+using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +22,7 @@ namespace Plapp.ViewModels
         private readonly ViewModelFactory<IDataPointViewModel> _dataPointFactory;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public DataSeriesViewModel(
             INavigator navigator,
@@ -27,7 +31,8 @@ namespace Plapp.ViewModels
             ITagService tagService,
             ViewModelFactory<IDataPointViewModel> dataPointFactory,
             ILogger logger,
-            IMapper mapper
+            IMapper mapper,
+            IMediator mediator
             )
         {
             _navigator = navigator;
@@ -37,7 +42,7 @@ namespace Plapp.ViewModels
             _dataPointFactory = dataPointFactory;
             _logger = logger;
             _mapper = mapper;
-
+            _mediator = mediator;
             _dataPoints = new ObservableCollection<IDataPointViewModel>();
             DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataPoints);
 
@@ -58,13 +63,16 @@ namespace Plapp.ViewModels
 
         protected override async Task AutoLoadDataAsync()
         {
-            var dataPoints = await _dataSeriesService.FetchDataPointsAsync(Id);
+            var dataPointsResponse = await _mediator.Send(new GetAllDataPointsQuery(Id));
+
+            if (dataPointsResponse.Error)
+                dataPointsResponse.Throw();
+
+            var dataPoints = dataPointsResponse.Data;
 
             _dataPoints.Update(
                 dataPoints,
-                _mapper,
-                () => _dataPointFactory(),
-                (d, v) => d.Id == v.Id);
+                (v1, v2) => v1.Id == v2.Id);
         }
 
         protected override async Task AutoSaveDataAsync()

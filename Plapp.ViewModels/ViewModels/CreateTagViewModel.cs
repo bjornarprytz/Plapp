@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using MediatR;
+using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System;
 using System.Collections.ObjectModel;
@@ -11,19 +14,18 @@ namespace Plapp.ViewModels
     {
         private readonly ObservableCollection<ITagViewModel> _availableTags;
         private readonly ViewModelFactory<ITagViewModel> _tagFactory;
-        private readonly ITagService _tagService;
-        private readonly IMapper _mapper;
+        private readonly IPrompter _prompter;
+        private readonly IMediator _mediator;
 
         public CreateTagViewModel(
             ViewModelFactory<ITagViewModel> tagFactory,
             IPrompter prompter,
-            ITagService tagService,
-            IMapper mapper
+            IMediator mediator
             ) : base(tagFactory, prompter)
         {
             _tagFactory = tagFactory;
-            _tagService = tagService;
-            _mapper = mapper;
+            _prompter = prompter;
+            _mediator = mediator;
 
             _availableTags = new ObservableCollection<ITagViewModel>();
             AvailableTags = new ReadOnlyObservableCollection<ITagViewModel>(_availableTags);
@@ -38,13 +40,16 @@ namespace Plapp.ViewModels
 
         protected override async Task AutoLoadDataAsync()
         {
-            var tags = await _tagService.FetchAllAsync();
+            var tagsResponse = await _mediator.Send(new GetAllTagsQuery());
+
+            if (tagsResponse.Error)
+                tagsResponse.Throw();
+
+            var tags = tagsResponse.Data;
 
             _availableTags.Update(
                 tags,
-                _mapper,
-                () => _tagFactory(),
-                (d, v) => d.Id == v.Id);
+                (v1, v2) => v1.Id == v2.Id);
         }
     }
 }

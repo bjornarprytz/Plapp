@@ -1,10 +1,12 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Plapp.BusinessLogic
 {
+    public interface IResponse
+    {
+        bool Error { get; }
+        string Message { get; }
+    }
     public static class Response
     {
         public static Response<T> Fail<T>(string message, T data = default) => new Response<T>(data, message, true);
@@ -13,7 +15,7 @@ namespace Plapp.BusinessLogic
         public static Response<Unit> Ok(string message = "") => new Response<Unit>(Unit.Value, message, false);
     }
 
-    public class Response<T>
+    public class Response<T> : IResponse
     {
         internal Response(T data, string msg, bool error)
         {

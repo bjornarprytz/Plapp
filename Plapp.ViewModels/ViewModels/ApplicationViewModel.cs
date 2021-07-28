@@ -54,9 +54,7 @@ namespace Plapp.ViewModels
 
             _topics.Update(
                 freshTopics,
-                _mapper,
-                () => _topicFactory(),
-                (d, v) => d.Id == v.Id);
+                (v1, v2) => v1.Id == v2.Id);
         }
 
         private async Task AddTopic()

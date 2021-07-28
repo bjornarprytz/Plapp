@@ -5,38 +5,35 @@ using System.Linq;
 
 namespace Plapp.ViewModels
 {
-    public static class CollecetionExtensions
+    public static class CollectionExtensions
     {
-        public static void Update<TSrc, TDst> (
-            this ICollection<TDst> collection, 
-            IEnumerable<TSrc> domainObjects,
-            IMapper mapper, 
-            Func<TDst> create,
-            Func<TSrc, TDst, bool> compareSrcDst)
-            where TDst : class
+        public static void Update<T> (
+            this ICollection<T> stale, 
+            IEnumerable<T> fresh,
+            Func<T, T, bool> compareItems)
+            where T : class
         {
-            var toAdd = new List<TDst>();
-            var toRemove = new List<TDst>(collection);
+            var toAdd = new List<T>();
+            var toRemove = new List<T>(stale);
 
-            foreach (var _do in domainObjects)
+            foreach (var freshItem in fresh)
             {
-                var existing = collection.FirstOrDefault(o => compareSrcDst(_do, o));
+                var existing = stale.FirstOrDefault(staleItem => compareItems(freshItem, staleItem));
 
                 if (existing == default)
                 {
-                    existing = create();
-                    toAdd.Add(existing);
+                    toAdd.Add(freshItem);
                 }
                 else
                 {
+                    // TODO: Update existing with freshItem? New data will be "ignored" here currently
+
                     toRemove.Remove(existing);
                 }
-
-                mapper.Map(_do, existing); // Hydrate
             }
 
-            collection.AddRange(toAdd);
-            collection.RemoveRange(toRemove);
+            stale.AddRange(toAdd);
+            stale.RemoveRange(toRemove);
 
         }
 

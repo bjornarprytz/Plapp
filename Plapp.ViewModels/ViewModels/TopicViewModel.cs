@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
+using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Commands;
+using Plapp.BusinessLogic.Interactive;
+using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using PropertyChanged;
 using System;
@@ -24,8 +29,7 @@ namespace Plapp.ViewModels
         private readonly IPrompter _prompter;
         private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
         private readonly ViewModelFactory<ITagViewModel> _tagFactory;
-        private readonly ILogger _logger;
-        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public TopicViewModel(
             ICamera camera,
@@ -36,8 +40,7 @@ namespace Plapp.ViewModels
             IPrompter prompter,
             ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
             ViewModelFactory<ITagViewModel> tagFactory,
-            ILogger logger,
-            IMapper mapper
+            IMediator mediator
             )
         {
             _camera = camera;
@@ -48,9 +51,7 @@ namespace Plapp.ViewModels
             _prompter = prompter;
             _dataSeriesFactory = dataSeriesFactory;
             _tagFactory = tagFactory;
-            _logger = logger;
-            _mapper = mapper;
-
+            _mediator = mediator;
             _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
 
@@ -79,22 +80,23 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var freshDataSeries = await _dataSeriesService.FetchAllAsync(topicId: Id);
+            var response = await _mediator.Send(new GetAllDataSeriesQuery(topicId: Id));
+
+            if (response.Error)
+                response.Throw();
+
+            var freshDataSeries = response.Data;
 
             _dataSeries.Update(
                 freshDataSeries,
-                _mapper,
-                () => _dataSeriesFactory(),
-                (d, v) => d.Id == v.Id);
+                (v1, v2) => v1.Id == v2.Id);
         }
 
         protected override async Task AutoSaveDataAsync()
         {
             await base.AutoSaveDataAsync();
 
-            var topic = await _topicService.SaveAsync(_mapper.Map<Topic>(this));
-
-            Id = topic.Id;
+            await _mediator.Send(new SaveTopicCommand(this));
         }
 
         private async Task OpenTopic()
@@ -116,49 +118,28 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var tag = await PickTagAsync();
+            var chooseResult = await _mediator.Send(new PickTagAction());
 
-            if (tag == null) return;
+            if (chooseResult.Error)
+                chooseResult.Throw();
+
+            var chosenTag = chooseResult.Data;
+
+            if (chosenTag == null) return;
 
             var newDataSeries = _dataSeriesFactory();
 
             newDataSeries.Topic = this;
-            newDataSeries.Tag = tag;
+            newDataSeries.Tag = chosenTag;
 
             _dataSeries.Add(newDataSeries);
-            
-            var dataSeriesData = await _dataSeriesService.SaveAsync(_mapper.Map<DataSeries>(newDataSeries));
 
-            _mapper.Map(dataSeriesData, newDataSeries);
+            var saveResult = await _mediator.Send(new SaveDataSeriesCommand(newDataSeries));
+
+            if (saveResult.Error)
+                saveResult.Throw();
 
             await _navigator.GoToAsync(newDataSeries);
-        }
-
-        private async Task<ITagViewModel> PickTagAsync()
-        {
-            var existingTags = await _tagService.FetchAllAsync();
-
-            var options = new List<string> { "Create new Tag" };
-
-            options.AddRange(existingTags.Select(t => t.Key));
-
-            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
-
-            var chosenTag = choice switch
-            {
-                "Cancel" => default,
-                "Create new Tag" => _mapper.Map<Tag>(await _prompter.CreateAsync<ITagViewModel>()),
-                _ => existingTags.First(t => t.Key == choice)
-            };
-
-            if (chosenTag == default)
-            {
-                return null;
-            }
-
-            var tag = await _tagService.SaveAsync(chosenTag);
-
-            return _mapper.Map<ITagViewModel>(tag);
         }
     }
 }
