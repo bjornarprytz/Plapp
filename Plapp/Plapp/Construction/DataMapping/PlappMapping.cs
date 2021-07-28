@@ -7,21 +7,21 @@ namespace Plapp
 {
     public static class PlappMapping
     {
-        public static IMapper Configure(IServiceProvider serviceProvider)
+        public static IMapper Configure()
         {
             return new Mapper(
                     new MapperConfiguration(cfg =>
                     {
                         cfg
-                        .CreateTwoWayMapWithInterface<Topic, TopicViewModel, ITopicViewModel>(serviceProvider)
-                        .CreateTwoWayMapWithInterface<Tag, TagViewModel, ITagViewModel>(serviceProvider)
-                        .CreateTwoWayMapWithInterface<DataSeries, DataSeriesViewModel, IDataSeriesViewModel>(serviceProvider)
-                        .CreateTwoWayMapWithInterface<DataPoint, DataPointViewModel, IDataPointViewModel>(serviceProvider);
+                        .CreateTwoWayMapWithInterface<Topic, TopicViewModel, ITopicViewModel>()
+                        .CreateTwoWayMapWithInterface<Tag, TagViewModel, ITagViewModel>()
+                        .CreateTwoWayMapWithInterface<DataSeries, DataSeriesViewModel, IDataSeriesViewModel>()
+                        .CreateTwoWayMapWithInterface<DataPoint, DataPointViewModel, IDataPointViewModel>();
                     }
                 ));
         }
 
-        private static IMapperConfigurationExpression CreateTwoWayMapWithInterface<TSrc, TDst, TDstInterface>(this IMapperConfigurationExpression mapperExpression, IServiceProvider serviceProvider)
+        private static IMapperConfigurationExpression CreateTwoWayMapWithInterface<TSrc, TDst, TDstInterface>(this IMapperConfigurationExpression mapperExpression)
             where TDst : TDstInterface
         
         {

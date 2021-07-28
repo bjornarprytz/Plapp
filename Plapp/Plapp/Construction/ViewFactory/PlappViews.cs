@@ -1,5 +1,6 @@
 ﻿using Dna;
 using Plapp.Core;
+using System;
 
 namespace Plapp
 {
@@ -7,7 +8,7 @@ namespace Plapp
     {
         public static IViewFactory Configure()
         {
-            return new ViewFactory(Framework.Provider)
+            return new ViewFactory()
                     .ChainBindPage<ILoadingViewModel, LoadingPage>()
                     .ChainBindPage<IApplicationViewModel, MainPage>()
                     .ChainBindPage<ITopicViewModel, TopicPage>()

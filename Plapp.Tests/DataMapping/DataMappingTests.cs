@@ -14,9 +14,7 @@ namespace Plapp.Tests.DataMapping
         [TestMethod]
         public void DataMappingConfig_IsValid()
         {
-            var serviceMock = new Mock<IServiceProvider>();
-
-            var mappingConfig = PlappMapping.Configure(serviceMock.Object);
+            var mappingConfig = PlappMapping.Configure();
 
             mappingConfig.ConfigurationProvider.AssertConfigurationIsValid();
         }

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
 using Plapp.Persist;
-using Plapp.ViewModels;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -35,7 +34,7 @@ namespace Plapp
 
         protected override async void OnStart()
         {
-            ResetDb();
+            //ResetDb(); // Uncomment if the DB needs to be cleaned up for testing purposes!
 
             EnsureDbCreated();
 

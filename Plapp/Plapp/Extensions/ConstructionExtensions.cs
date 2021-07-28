@@ -90,7 +90,7 @@ namespace Plapp
 
         public static FrameworkConstruction AddDataMapper(this FrameworkConstruction construction)
         {
-            construction.Services.AddSingleton(PlappMapping.Configure(construction.Provider));
+            construction.Services.AddSingleton(PlappMapping.Configure());
 
             return construction;
         }
@@ -98,7 +98,6 @@ namespace Plapp
 
         public static FrameworkConstruction AddNavigation(this FrameworkConstruction construction)
         {
-
             construction.Services.AddSingleton<MainPage>();
             construction.Services.AddSingleton<TopicPage>();
 

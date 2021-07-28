@@ -9,11 +9,11 @@ using Plapp.Core;
 
 namespace Plapp
 {
-    class LoadingPage : BaseContentPage<ILoadingViewModel>
+    public class LoadingPage : BaseContentPage<ILoadingViewModel>
     {
         AnimationView animation;
 
-        public LoadingPage(LoadingViewModel vm, ILogger logger) : base(vm, logger)
+        public LoadingPage(ILoadingViewModel vm, ILogger logger) : base(vm, logger)
         {
             animation = new AnimationView
             {

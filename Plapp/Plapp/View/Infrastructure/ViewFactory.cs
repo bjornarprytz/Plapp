@@ -1,4 +1,5 @@
-﻿using Plapp.Core;
+﻿using Dna;
+using Plapp.Core;
 using System;
 using System.Collections.Generic;
 
@@ -9,11 +10,8 @@ namespace Plapp
         private readonly Dictionary<Type, Type> _pageMap = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, Type> _popupMap = new Dictionary<Type, Type>();
         
-        private readonly IServiceProvider _serviceProvider;
-
-        public ViewFactory(IServiceProvider serviceProvider)
+        public ViewFactory()
         {
-            _serviceProvider = serviceProvider;
         }
 
         public void BindPage<TViewModel, TView>()
@@ -91,7 +89,9 @@ namespace Plapp
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Page. Remember to bind it first :)");
             }
 
-            var view = _serviceProvider.Resolve<BaseContentPage<TViewModel>>(_pageMap[viewModelType]);
+            var pageType = _pageMap[viewModelType];
+
+            var view = Framework.Provider.Resolve<BaseContentPage<TViewModel>>(pageType);
 
             return view;
         }
@@ -106,7 +106,7 @@ namespace Plapp
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Popup. Remember to bind it first :)");
             }
 
-            var view = _serviceProvider.Resolve<BasePopupPage<TViewModel>>(_popupMap[viewModelType]);
+            var view = Framework.Provider.Resolve<BasePopupPage<TViewModel>>(_popupMap[viewModelType]);
 
             return view;
         }
