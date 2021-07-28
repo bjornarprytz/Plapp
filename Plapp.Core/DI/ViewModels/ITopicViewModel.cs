@@ -12,7 +12,7 @@ namespace Plapp.Core
         string Title { get; set; }
         string Description { get; set; }
 
-        ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
+        ObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
         IAsyncCommand OpenCommand { get; }
         IAsyncCommand AddImageCommand { get; }

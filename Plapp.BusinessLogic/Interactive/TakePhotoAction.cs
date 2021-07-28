@@ -25,7 +25,7 @@ namespace Plapp.BusinessLogic.Interactive
 
             if (photoStream == null)
             {
-                return Response.Ok<string>(string.Empty);
+                return Response.Cancel<string>();
             }
 
             var imageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream);

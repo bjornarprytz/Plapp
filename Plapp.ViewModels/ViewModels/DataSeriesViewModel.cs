@@ -15,7 +15,6 @@ namespace Plapp.ViewModels
 {
     public class DataSeriesViewModel : IOViewModel, IDataSeriesViewModel
     {
-        private readonly ObservableCollection<IDataPointViewModel> _dataPoints;
         private readonly INavigator _navigator;
         private readonly IPrompter _prompter;
         private readonly IDataSeriesService _dataSeriesService;
@@ -38,8 +37,8 @@ namespace Plapp.ViewModels
             _dataPointFactory = dataPointFactory;
             _mapper = mapper;
             _mediator = mediator;
-            _dataPoints = new ObservableCollection<IDataPointViewModel>();
-            DataPoints = new ReadOnlyObservableCollection<IDataPointViewModel>(_dataPoints);
+
+            DataPoints = new ObservableCollection<IDataPointViewModel>();
 
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             OpenCommand = new AsyncCommand(OpenAsync, allowsMultipleExecutions: false);
@@ -50,7 +49,7 @@ namespace Plapp.ViewModels
 
         public ITagViewModel Tag { get; set; }
         public ITopicViewModel Topic { get; set; }
-        public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
+        public ObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         public IAsyncCommand AddDataPointCommand { get; private set; }
         public IAsyncCommand OpenCommand { get; private set; }
@@ -65,7 +64,7 @@ namespace Plapp.ViewModels
 
             var dataPoints = dataPointsResponse.Data;
 
-            _dataPoints.Update(
+            DataPoints.Update(
                 dataPoints,
                 (v1, v2) => v1.Id == v2.Id);
         }
@@ -86,7 +85,7 @@ namespace Plapp.ViewModels
                 return;
             }
 
-            _dataPoints.AddRange(dataPoints);
+            DataPoints.AddRange(dataPoints);
 
             OnPropertyChanged(nameof(DataPoints));
         }
@@ -95,12 +94,13 @@ namespace Plapp.ViewModels
         {
             var chooseResult = await _mediator.Send(new PickTagAction());
 
+            if (chooseResult.Cancelled)
+                return;
+
             if (chooseResult.Error)
                 chooseResult.Throw();
 
             var chosenTag = chooseResult.Data;
-
-            if (chosenTag == null) return;
             
             Tag = chosenTag;
         }

@@ -11,7 +11,6 @@ namespace Plapp.ViewModels
 {
     public class ApplicationViewModel : IOViewModel, IApplicationViewModel
     {
-        private readonly ObservableCollection<ITopicViewModel> _topics;
         private readonly INavigator _navigator;
         private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
         private readonly ITopicService _topicService;
@@ -31,14 +30,14 @@ namespace Plapp.ViewModels
             _topicService = topicService;
             _mapper = mapper;
             _mediator = mediator;
-            _topics = new ObservableCollection<ITopicViewModel>();
-            Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
+
+            Topics = new ObservableCollection<ITopicViewModel>();
 
             AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
             DeleteTopicCommand = new AsyncCommand<ITopicViewModel>(DeleteTopic, allowsMultipleExecutions: false);
         }
 
-        public ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
+        public ObservableCollection<ITopicViewModel> Topics { get; }
         
         public IAsyncCommand AddTopicCommand { get; private set; }
         public IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; private set; }
@@ -49,10 +48,12 @@ namespace Plapp.ViewModels
 
             var freshTopicResponse = await _mediator.Send(new GetAllTopicsQuery());
 
-            var freshTopics = freshTopicResponse.Error ? throw new System.Exception()
-                : freshTopicResponse.Data;
+            if (freshTopicResponse.Error)
+                freshTopicResponse.Throw();
 
-            _topics.Update(
+            var freshTopics = freshTopicResponse.Data;
+
+            Topics.Update(
                 freshTopics,
                 (v1, v2) => v1.Id == v2.Id);
         }
@@ -61,7 +62,7 @@ namespace Plapp.ViewModels
         {
             var newTopic = _topicFactory();
 
-            _topics.Add(newTopic);
+            Topics.Add(newTopic);
 
             //var topicData = await _topicService.SaveAsync(_mapper.Map<Topic>(newTopic));
             //_mapper.Map(topicData, newTopic);
@@ -71,7 +72,7 @@ namespace Plapp.ViewModels
 
         private async Task DeleteTopic(ITopicViewModel topic)
         {
-            _topics.Remove(topic);
+            Topics.Remove(topic);
             
             await _topicService.DeleteAsync(_mapper.Map<Topic>(topic));
         }

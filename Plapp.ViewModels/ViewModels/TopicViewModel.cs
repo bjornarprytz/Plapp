@@ -20,22 +20,18 @@ namespace Plapp.ViewModels
 {
     public class TopicViewModel : IOViewModel, ITopicViewModel
     {
-        private readonly ObservableCollection<IDataSeriesViewModel> _dataSeries;
         private readonly INavigator _navigator;
-        private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
         private readonly IMediator _mediator;
 
         public TopicViewModel(
             INavigator navigator,
-            ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
             IMediator mediator
             )
         {
             _navigator = navigator;
-            _dataSeriesFactory = dataSeriesFactory;
             _mediator = mediator;
-            _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
-            DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
+            
+            DataSeries = new ObservableCollection<IDataSeriesViewModel>();
 
             OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
@@ -43,7 +39,7 @@ namespace Plapp.ViewModels
         }
 
         public int Id { get; set; }
-        public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries { get; }
+        public ObservableCollection<IDataSeriesViewModel> DataSeries { get; }
 
         public bool IsSavingTopic { get; private set; }
         
@@ -69,7 +65,7 @@ namespace Plapp.ViewModels
 
             var freshDataSeries = response.Data;
 
-            _dataSeries.Update(
+            DataSeries.Update(
                 freshDataSeries,
                 (v1, v2) => v1.Id == v2.Id);
         }
@@ -90,6 +86,9 @@ namespace Plapp.ViewModels
         {
             var cameraResponse = await _mediator.Send(new TakePhotoAction());
 
+            if (cameraResponse.Cancelled)
+                return;
+
             if (cameraResponse.Error)
                 cameraResponse.Throw();
 
@@ -98,26 +97,15 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var chooseResult = await _mediator.Send(new PickTagAction());
+            var addResponse = await _mediator.Send(new AddDataSeriesAction(this));
 
-            if (chooseResult.Error)
-                chooseResult.Throw();
+            if (addResponse.Cancelled)
+                return;
 
-            var chosenTag = chooseResult.Data;
+            if (addResponse.Error)
+                addResponse.Throw();
 
-            if (chosenTag == null) return;
-
-            var newDataSeries = _dataSeriesFactory();
-
-            newDataSeries.Topic = this;
-            newDataSeries.Tag = chosenTag;
-
-            _dataSeries.Add(newDataSeries);
-
-            var saveResult = await _mediator.Send(new SaveDataSeriesCommand(newDataSeries));
-
-            if (saveResult.Error)
-                saveResult.Throw();
+            var newDataSeries = addResponse.Data;
 
             await _navigator.GoToAsync(newDataSeries);
         }

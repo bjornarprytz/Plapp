@@ -6,7 +6,7 @@ namespace Plapp.Core
 {
     public interface IApplicationViewModel : IIOViewModel
     {
-        ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
+        ObservableCollection<ITopicViewModel> Topics { get; }
         IAsyncCommand AddTopicCommand { get; }
         IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; }
     }

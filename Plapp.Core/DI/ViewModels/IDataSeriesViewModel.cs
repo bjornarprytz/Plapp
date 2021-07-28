@@ -11,7 +11,7 @@ namespace Plapp.Core
         string Title { get; set; }
         ITopicViewModel Topic { get; set; }
         ITagViewModel Tag { get; set; }
-        ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
+        ObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         IAsyncCommand OpenCommand { get; }
         IAsyncCommand AddDataPointCommand { get; }
