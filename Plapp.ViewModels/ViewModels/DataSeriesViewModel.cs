@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
@@ -16,26 +17,14 @@ namespace Plapp.ViewModels
     public class DataSeriesViewModel : IOViewModel, IDataSeriesViewModel
     {
         private readonly INavigator _navigator;
-        private readonly IPrompter _prompter;
-        private readonly IDataSeriesService _dataSeriesService;
-        private readonly ViewModelFactory<IDataPointViewModel> _dataPointFactory;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public DataSeriesViewModel(
             INavigator navigator,
-            IPrompter prompter,
-            IDataSeriesService dataSeriesService,
-            ViewModelFactory<IDataPointViewModel> dataPointFactory,
-            IMapper mapper,
             IMediator mediator
             )
         {
             _navigator = navigator;
-            _prompter = prompter;
-            _dataSeriesService = dataSeriesService;
-            _dataPointFactory = dataPointFactory;
-            _mapper = mapper;
             _mediator = mediator;
 
             DataPoints = new ObservableCollection<IDataPointViewModel>();
@@ -71,19 +60,22 @@ namespace Plapp.ViewModels
 
         protected override async Task AutoSaveDataAsync()
         {
-            await _dataSeriesService.SaveAsync(_mapper.Map<DataSeries>(this));
+            await _mediator.Send(new SaveDataSeriesCommand(this));
         }
 
         private async Task AddDataPointsAsync()
         {
-            var dataPoints = await _prompter.CreateMultipleAsync(
-                    () => _dataPointFactory() // TODO: Make different DataPoints depending on Tag.DataType
-                );
+            var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction());
 
-            if (dataPoints == default || !dataPoints.Any())
+            if (dataPointsResponse.Cancelled)
             {
                 return;
             }
+
+            if (dataPointsResponse.Error)
+                dataPointsResponse.Throw();
+
+            var dataPoints = dataPointsResponse.Data;
 
             DataPoints.AddRange(dataPoints);
 

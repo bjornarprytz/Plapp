@@ -8,6 +8,9 @@ namespace Plapp.BusinessLogic.Interactive
     public class NavigateAction<TViewModel> : IRequestWrapper
         where TViewModel : IIOViewModel
     {
+        // This does not work because requests/handlers can't have generic type input
+        // TODO: Refactor the INavigator to use an enum instead.
+
         public NavigateAction(TViewModel viewModel)
         {
             ViewModel = viewModel;

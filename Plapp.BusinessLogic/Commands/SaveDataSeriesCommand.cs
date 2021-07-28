@@ -33,8 +33,6 @@ namespace Plapp.BusinessLogic.Commands
         {
             var dataSeries = _mapper.Map<DataSeries>(request.DataSeries);
 
-            // TODO: how to handle this?? Sometimes we want viewmodels, sometimes we just want the DomainObject
-
             await _dataSeriesService.SaveAsync(dataSeries, cancellationToken);
 
             request.DataSeries.Id = dataSeries.Id;
