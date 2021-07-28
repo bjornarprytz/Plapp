@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.ObjectModel;
@@ -12,23 +13,14 @@ namespace Plapp.ViewModels
     public class ApplicationViewModel : IOViewModel, IApplicationViewModel
     {
         private readonly INavigator _navigator;
-        private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
-        private readonly ITopicService _topicService;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public ApplicationViewModel(
             INavigator navigator,
-            ViewModelFactory<ITopicViewModel> topicFactory, 
-            ITopicService topicService,
-            IMapper mapper,
             IMediator mediator
             )
         {
             _navigator = navigator;
-            _topicFactory = topicFactory;
-            _topicService = topicService;
-            _mapper = mapper;
             _mediator = mediator;
 
             Topics = new ObservableCollection<ITopicViewModel>();
@@ -60,21 +52,23 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var newTopic = _topicFactory();
+            var topicResponse = await _mediator.Send(new CreateTopicCommand());
+
+            if (topicResponse.Error)
+                topicResponse.Throw();
+
+            var newTopic = topicResponse.Data;
 
             Topics.Add(newTopic);
-
-            //var topicData = await _topicService.SaveAsync(_mapper.Map<Topic>(newTopic));
-            //_mapper.Map(topicData, newTopic);
 
             await _navigator.GoToAsync(newTopic);
         }
 
         private async Task DeleteTopic(ITopicViewModel topic)
         {
+            await _mediator.Send(new DeleteTopicCommand(topic));
+
             Topics.Remove(topic);
-            
-            await _topicService.DeleteAsync(_mapper.Map<Topic>(topic));
         }
     }
 }
