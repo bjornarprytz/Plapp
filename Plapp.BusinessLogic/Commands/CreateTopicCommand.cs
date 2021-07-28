@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Plapp.Core;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,16 +12,19 @@ namespace Plapp.BusinessLogic.Commands
 
     public class CreateTopicCommandHandler : IHandlerWrapper<CreateTopicCommand, ITopicViewModel>
     {
+        private readonly IMediator _mediator;
         private readonly ITopicService _topicService;
         private readonly ViewModelFactory<ITopicViewModel> _viewModelFactory;
         private readonly IMapper _mapper;
 
         public CreateTopicCommandHandler(
+            IMediator mediator,
             ITopicService topicService,
             ViewModelFactory<ITopicViewModel> viewModelFactory,
             IMapper mapper
             )
         {
+            _mediator = mediator;
             _topicService = topicService;
             _viewModelFactory = viewModelFactory;
             _mapper = mapper;
@@ -30,7 +34,7 @@ namespace Plapp.BusinessLogic.Commands
         {
             var viewModel = _viewModelFactory();
 
-            await _topicService.SaveAsync(_mapper.Map<Topic>(viewModel), cancellationToken);
+            await _mediator.Send(new SaveTopicCommand(viewModel), cancellationToken);
 
             return Response.Ok(viewModel);
         }
