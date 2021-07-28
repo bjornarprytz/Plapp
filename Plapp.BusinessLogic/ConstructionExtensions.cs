@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Plapp.BusinessLogic.Middleware;
 
 namespace Plapp.BusinessLogic
 {
@@ -13,6 +12,7 @@ namespace Plapp.BusinessLogic
 
             // Order of pipes matter: first registered is first executed
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggerPipe<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorPipe<,>));
         }
     }
 }

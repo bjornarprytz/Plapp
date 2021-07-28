@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using MediatR;
+using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -13,19 +16,21 @@ namespace Plapp.ViewModels
         private readonly ViewModelFactory<ITopicViewModel> _topicFactory;
         private readonly ITopicService _topicService;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public ApplicationViewModel(
             INavigator navigator,
             ViewModelFactory<ITopicViewModel> topicFactory, 
             ITopicService topicService,
-            IMapper mapper
+            IMapper mapper,
+            IMediator mediator
             )
         {
             _navigator = navigator;
             _topicFactory = topicFactory;
             _topicService = topicService;
             _mapper = mapper;
-
+            _mediator = mediator;
             _topics = new ObservableCollection<ITopicViewModel>();
             Topics = new ReadOnlyObservableCollection<ITopicViewModel>(_topics);
 
@@ -42,7 +47,10 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var freshTopics = await _topicService.FetchAllAsync();
+            var freshTopicResponse = await _mediator.Send(new GetAllTopicsQuery());
+
+            var freshTopics = freshTopicResponse.Error ? throw new System.Exception()
+                : freshTopicResponse.Data;
 
             _topics.Update(
                 freshTopics,

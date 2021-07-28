@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plapp.BusinessLogic.Middleware
+namespace Plapp.BusinessLogic
 {
     public class LoggerPipe<TIn, TOut> : IPipelineBehavior<TIn, TOut>
     {
