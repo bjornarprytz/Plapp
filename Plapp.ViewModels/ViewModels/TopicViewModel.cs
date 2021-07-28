@@ -21,36 +21,18 @@ namespace Plapp.ViewModels
     public class TopicViewModel : IOViewModel, ITopicViewModel
     {
         private readonly ObservableCollection<IDataSeriesViewModel> _dataSeries;
-        private readonly ICamera _camera;
         private readonly INavigator _navigator;
-        private readonly ITagService _tagService;
-        private readonly IDataSeriesService _dataSeriesService;
-        private readonly ITopicService _topicService;
-        private readonly IPrompter _prompter;
         private readonly ViewModelFactory<IDataSeriesViewModel> _dataSeriesFactory;
-        private readonly ViewModelFactory<ITagViewModel> _tagFactory;
         private readonly IMediator _mediator;
 
         public TopicViewModel(
-            ICamera camera,
             INavigator navigator,
-            ITagService tagService,
-            IDataSeriesService dataSeriesService,
-            ITopicService topicService,
-            IPrompter prompter,
             ViewModelFactory<IDataSeriesViewModel> dataSeriesFactory,
-            ViewModelFactory<ITagViewModel> tagFactory,
             IMediator mediator
             )
         {
-            _camera = camera;
             _navigator = navigator;
-            _tagService = tagService;
-            _dataSeriesService = dataSeriesService;
-            _topicService = topicService;
-            _prompter = prompter;
             _dataSeriesFactory = dataSeriesFactory;
-            _tagFactory = tagFactory;
             _mediator = mediator;
             _dataSeries = new ObservableCollection<IDataSeriesViewModel>();
             DataSeries = new ReadOnlyObservableCollection<IDataSeriesViewModel>(_dataSeries);
@@ -106,14 +88,12 @@ namespace Plapp.ViewModels
 
         private async Task AddImage()
         {
-            using var photoStream = await _camera.TakePhotoAsync();
+            var cameraResponse = await _mediator.Send(new TakePhotoAction());
 
-            if (photoStream == null)
-            {
-                return;
-            }
+            if (cameraResponse.Error)
+                cameraResponse.Throw();
 
-            ImageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream);
+            ImageUri = cameraResponse.Data;
         }
 
         private async Task AddDataSeriesAsync()

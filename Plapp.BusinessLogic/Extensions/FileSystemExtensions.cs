@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Plapp.ViewModels
+namespace Plapp.BusinessLogic
 {
     public static class FileSystemExtensions
     {

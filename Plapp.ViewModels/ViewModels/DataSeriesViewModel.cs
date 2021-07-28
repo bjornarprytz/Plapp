@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Plapp.BusinessLogic;
+using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.Generic;
@@ -18,9 +19,7 @@ namespace Plapp.ViewModels
         private readonly INavigator _navigator;
         private readonly IPrompter _prompter;
         private readonly IDataSeriesService _dataSeriesService;
-        private readonly ITagService _tagService;
         private readonly ViewModelFactory<IDataPointViewModel> _dataPointFactory;
-        private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
@@ -28,9 +27,7 @@ namespace Plapp.ViewModels
             INavigator navigator,
             IPrompter prompter,
             IDataSeriesService dataSeriesService,
-            ITagService tagService,
             ViewModelFactory<IDataPointViewModel> dataPointFactory,
-            ILogger logger,
             IMapper mapper,
             IMediator mediator
             )
@@ -38,9 +35,7 @@ namespace Plapp.ViewModels
             _navigator = navigator;
             _prompter = prompter;
             _dataSeriesService = dataSeriesService;
-            _tagService = tagService;
             _dataPointFactory = dataPointFactory;
-            _logger = logger;
             _mapper = mapper;
             _mediator = mediator;
             _dataPoints = new ObservableCollection<IDataPointViewModel>();
@@ -98,29 +93,16 @@ namespace Plapp.ViewModels
 
         private async Task PickTagAsync()
         {
-            var existingTags = await _tagService.FetchAllAsync();
+            var chooseResult = await _mediator.Send(new PickTagAction());
 
-            var options = new List<string> { "Create new Tag" };
+            if (chooseResult.Error)
+                chooseResult.Throw();
 
-            options.AddRange(existingTags.Select(t => t.Key));
+            var chosenTag = chooseResult.Data;
 
-            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
-
-            var chosenTag = choice switch
-            {
-                "Cancel" => default,
-                "Create new Tag" => _mapper.Map<Tag>(await _prompter.CreateAsync<ITagViewModel>()),
-                _ => existingTags.First(t => t.Key == choice)
-            };
-
-            if (chosenTag == default)
-            {
-                return;
-            }
-
-            var tag = await _tagService.SaveAsync(chosenTag);
-
-            Tag = _mapper.Map<ITagViewModel>(chosenTag);
+            if (chosenTag == null) return;
+            
+            Tag = chosenTag;
         }
 
         private async Task OpenAsync()
