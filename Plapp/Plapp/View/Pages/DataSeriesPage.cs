@@ -1,11 +1,12 @@
-﻿using Plapp.Core;
+﻿using Microsoft.Extensions.Logging;
+using Plapp.Core;
 using Xamarin.Forms;
 
 namespace Plapp
 {
     public class DataSeriesPage : BaseContentPage<IDataSeriesViewModel>
     {
-        public DataSeriesPage(IDataSeriesViewModel vm) : base(vm)
+        public DataSeriesPage(IDataSeriesViewModel vm, ILogger logger) : base(vm, logger)
         {
             Content = new StackLayout
             {

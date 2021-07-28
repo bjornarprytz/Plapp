@@ -4,14 +4,16 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.CommunityToolkit.Markup;
+using Microsoft.Extensions.Logging;
+using Plapp.Core;
 
 namespace Plapp
 {
-    class LoadingPage : BaseContentPage<LoadingViewModel>
+    class LoadingPage : BaseContentPage<ILoadingViewModel>
     {
         AnimationView animation;
 
-        public LoadingPage(LoadingViewModel vm) : base(vm)
+        public LoadingPage(LoadingViewModel vm, ILogger logger) : base(vm, logger)
         {
             animation = new AnimationView
             {

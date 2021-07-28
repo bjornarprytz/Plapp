@@ -13,5 +13,8 @@ namespace Plapp
 
             return thing;
         }
+
+        public static T Resolve<T>(this IServiceProvider serviceProvider, Type serviceType) where T : class 
+            => serviceProvider.GetService(serviceType) as T;
     }
 }

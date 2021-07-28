@@ -8,11 +8,15 @@ namespace Plapp
     public abstract class BasePopupPage<TViewModel> : PopupPage
         where TViewModel : ITaskViewModel
     {
+        private readonly ILogger _logger;
+
         public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
 
-        protected BasePopupPage()
+        protected BasePopupPage(TViewModel vm, ILogger logger)
         {
-            VM = IoC.Get<TViewModel>();
+            VM = vm;
+
+            _logger = logger;
 
             BackgroundClicked += BasePopupPage_BackgroundClicked;        }
 
@@ -28,7 +32,7 @@ namespace Plapp
                 base.OnAppearing();
                 VM?.OnShow();
             }
-            catch (Exception ex) { IoC.Get<ILogger>().LogTrace(ex.Message); }
+            catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
 
         protected override void OnDisappearing()
@@ -38,7 +42,7 @@ namespace Plapp
                 VM?.OnHide();
                 base.OnDisappearing();
             }
-            catch (Exception ex) { IoC.Get<ILogger>().LogTrace(ex.Message); }
+            catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
     }
 }

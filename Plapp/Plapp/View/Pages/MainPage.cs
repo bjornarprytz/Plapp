@@ -3,12 +3,13 @@ using Xamarin.Forms;
 using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using MaterialDesign.Icons;
+using Microsoft.Extensions.Logging;
 
 namespace Plapp
 {
     public class MainPage : BaseContentPage<IApplicationViewModel>
     {
-        public MainPage(IApplicationViewModel vm) : base(vm)
+        public MainPage(IApplicationViewModel vm, ILogger logger) : base(vm, logger)
         {
             Content = new Grid
             {

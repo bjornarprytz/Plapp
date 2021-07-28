@@ -1,4 +1,5 @@
 ﻿using MaterialDesign.Icons;
+using Microsoft.Extensions.Logging;
 using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
@@ -7,7 +8,7 @@ namespace Plapp
 {
     public class TopicPage : BaseContentPage<ITopicViewModel>
     {
-        public TopicPage(ITopicViewModel vm) : base(vm)
+        public TopicPage(ITopicViewModel vm, ILogger logger) : base(vm, logger)
         {
             var descriptionExpander = ViewHelpers.ExpanderWithHeader(new Label { Text = "Description" });
             descriptionExpander.Content = new Editor()

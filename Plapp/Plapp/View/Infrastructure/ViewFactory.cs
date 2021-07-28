@@ -8,6 +8,13 @@ namespace Plapp
     {
         private readonly Dictionary<Type, Type> _pageMap = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, Type> _popupMap = new Dictionary<Type, Type>();
+        
+        private readonly IServiceProvider _serviceProvider;
+
+        public ViewFactory(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public void BindPage<TViewModel, TView>()
             where TViewModel : IIOViewModel
@@ -84,7 +91,7 @@ namespace Plapp
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Page. Remember to bind it first :)");
             }
 
-            var view = IoC.Resolve<BaseContentPage<TViewModel>>(_pageMap[viewModelType]);
+            var view = _serviceProvider.Resolve<BaseContentPage<TViewModel>>(_pageMap[viewModelType]);
 
             return view;
         }
@@ -99,7 +106,7 @@ namespace Plapp
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Popup. Remember to bind it first :)");
             }
 
-            var view = IoC.Resolve<BasePopupPage<TViewModel>>(_popupMap[viewModelType]);
+            var view = _serviceProvider.Resolve<BasePopupPage<TViewModel>>(_popupMap[viewModelType]);
 
             return view;
         }

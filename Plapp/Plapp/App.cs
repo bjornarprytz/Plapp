@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
 using Plapp.Persist;
+using Plapp.ViewModels;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -13,7 +14,7 @@ namespace Plapp
         public App()
         {
             Resources = Styles.Implicit;
-            
+
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddConfig()
                 .AddDefaultLogger()
@@ -27,7 +28,9 @@ namespace Plapp
                 .AddPrompter()
                 .Build();
 
-            MainPage = new NavigationPage(IoC.Get<LoadingPage>()); // TODO: Use IoC.Get<ILoadingViewModel>() here and implement ILoadingViewModel
+            var loadingPage = Framework.Provider.Get<IViewFactory>().CreatePage<ILoadingViewModel>();
+
+            MainPage = new NavigationPage(loadingPage);
         }
 
         protected override async void OnStart()
@@ -36,7 +39,7 @@ namespace Plapp
 
             EnsureDbCreated();
 
-            await IoC.Get<INavigator>().GoToAsync<IApplicationViewModel>();
+            await Framework.Provider.Get<INavigator>().GoToAsync<IApplicationViewModel>();
         }
 
         private void ResetDb()
@@ -46,7 +49,7 @@ namespace Plapp
             if (!File.Exists(path))
                 return;
 
-            var contextFactory = IoC.Get<IDbContextFactory<PlappDbContext>>();
+            var contextFactory = Framework.Provider.Get<IDbContextFactory<PlappDbContext>>();
 
             using var context = contextFactory.CreateDbContext();
 
@@ -60,7 +63,7 @@ namespace Plapp
             if (!File.Exists(path))
                 File.Create(path);
 
-            var contextFactory = IoC.Get<IDbContextFactory<PlappDbContext>>();
+            var contextFactory = Framework.Provider.Get<IDbContextFactory<PlappDbContext>>();
 
             using var context = contextFactory.CreateDbContext();
 

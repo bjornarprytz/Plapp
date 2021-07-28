@@ -1,7 +1,5 @@
-﻿using Plapp.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Dna;
+using Plapp.Core;
 
 namespace Plapp
 {
@@ -9,7 +7,8 @@ namespace Plapp
     {
         public static IViewFactory Configure()
         {
-            return new ViewFactory()
+            return new ViewFactory(Framework.Provider)
+                    .ChainBindPage<ILoadingViewModel, LoadingPage>()
                     .ChainBindPage<IApplicationViewModel, MainPage>()
                     .ChainBindPage<ITopicViewModel, TopicPage>()
                     .ChainBindPage<IDataSeriesViewModel, DataSeriesPage>()

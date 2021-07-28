@@ -67,7 +67,7 @@ namespace Plapp
         {
             construction.Services.AddSingleton<IApplicationViewModel, ApplicationViewModel>();
 
-            construction.Services.AddTransient<LoadingViewModel>(); // TODO: Implement an interface for this?
+            construction.Services.AddTransient<ILoadingViewModel, LoadingViewModel>();
 
             construction.Services.AddTransient<ITagViewModel, TagViewModel>();
             construction.Services.AddTransient<ITopicViewModel, TopicViewModel>();

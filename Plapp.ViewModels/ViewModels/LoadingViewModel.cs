@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Plapp.Core;
 using System.IO;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public class LoadingViewModel : BaseViewModel
+    public class LoadingViewModel : IOViewModel, ILoadingViewModel
     {
         public string Animation { get; private set; }
 
