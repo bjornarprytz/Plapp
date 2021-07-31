@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Plapp.Core;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace Plapp.ViewModels.Tests
 {
@@ -15,6 +16,7 @@ namespace Plapp.ViewModels.Tests
         private Mock<ViewModelFactory<ITopicViewModel>> topicFactoryMock;
         private Mock<ITopicService> topicServiceMock;
 
+        private Mock<IMediator> mediatorMock;
 
         protected override void FreezeFixtures()
         {
@@ -23,6 +25,7 @@ namespace Plapp.ViewModels.Tests
             navigatorMock = _fixture.Freeze<Mock<INavigator>>();
             topicFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<ITopicViewModel>>>();
             topicServiceMock = _fixture.Freeze<Mock<ITopicService>>();
+            mediatorMock = _fixture.Freeze<Mock<IMediator>>();
         }
 
         [TestMethod]
