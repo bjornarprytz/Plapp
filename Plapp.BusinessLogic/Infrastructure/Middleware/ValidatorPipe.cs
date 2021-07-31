@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Plapp.BusinessLogic
 {
     public class ValidatorPipe<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequestWrapper<TResponse>
+        where TResponse : Response
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -17,7 +17,7 @@ namespace Plapp.BusinessLogic
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext<TRequest>(request);
 
@@ -27,10 +27,12 @@ namespace Plapp.BusinessLogic
                 .Where(e => e != null)
                 .ToList();
 
-            
-            // TODO: Do something with the failures (return Response.Fail(...))
+            if (failures.Any())
+            {
+                return Response.Fail(failures.ToString()) as TResponse;
+            }
 
-            return next();
+             return await next();
         }
     }
 }

@@ -70,6 +70,7 @@
     <ProjectReference Include="..\..\Plapp.Core\Plapp.Core.csproj" />
     <ProjectReference Include="..\..\Plapp.Peripherals\Plapp.Peripherals.csproj" />
     <ProjectReference Include="..\..\Plapp.Persist\Plapp.Persist.csproj" />
+    <ProjectReference Include="..\..\Plapp.Validation\Plapp.Validation.csproj" />
     <ProjectReference Include="..\..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
   </ItemGroup>
 </Project>

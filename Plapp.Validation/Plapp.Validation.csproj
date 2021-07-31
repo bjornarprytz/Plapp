@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dna.Framework" Version="1.0.7.19" />
+      <PackageReference Include="FluentValidation" Version="10.3.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Plapp.BusinessLogic\Plapp.BusinessLogic.csproj" />
+    </ItemGroup>
+
+</Project>

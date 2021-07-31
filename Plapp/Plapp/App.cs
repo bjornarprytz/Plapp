@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
 using Plapp.Persist;
+using Plapp.Validation;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,6 +17,7 @@ namespace Plapp
 
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddConfig()
+                .AddValidation()
                 .AddDefaultLogger()
                 .AddBusinessLogic()
                 .AddDataServices()
