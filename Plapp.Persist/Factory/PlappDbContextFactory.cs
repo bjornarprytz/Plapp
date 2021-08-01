@@ -5,20 +5,16 @@ namespace Plapp.Persist
 {
     public class PlappDbContextFactory : IDbContextFactory<PlappDbContext>
     {
-        private readonly Action<DbContextOptionsBuilder> _configureDbContext;
+        private readonly IDbContextConfigurationAction _configureDbContext;
 
-        public PlappDbContextFactory(Action<DbContextOptionsBuilder> configureDbContext)
+        public PlappDbContextFactory(IDbContextConfigurationAction configureDbContext)
         {
             _configureDbContext = configureDbContext;
         }
 
         public PlappDbContext CreateDbContext()
         {
-            var options = new DbContextOptionsBuilder<PlappDbContext>();
-
-            _configureDbContext(options);
-
-            return new PlappDbContext(options.Options);
+            return new PlappDbContext(_configureDbContext.GetOptions());
         }
     }
 }

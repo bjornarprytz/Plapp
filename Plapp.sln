@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.BusinessLogic", "Plap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.Validation", "Plapp.Validation\Plapp.Validation.csproj", "{6F4BF2F6-F447-4515-9B6E-69240714A438}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plapp.DependencyInjection", "Plapp.DependencyInjection\Plapp.DependencyInjection.csproj", "{2D36D60F-E228-4CCA-8747-C05E16158A06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,18 @@ Global
 		{6F4BF2F6-F447-4515-9B6E-69240714A438}.Release|iPhone.Build.0 = Release|Any CPU
 		{6F4BF2F6-F447-4515-9B6E-69240714A438}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{6F4BF2F6-F447-4515-9B6E-69240714A438}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|iPhone.Build.0 = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{2D36D60F-E228-4CCA-8747-C05E16158A06}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

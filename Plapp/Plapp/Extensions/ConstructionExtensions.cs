@@ -17,6 +17,8 @@ namespace Plapp
 {
     public static class ConstructionExtensions
     {
+        
+        
 
         public static FrameworkConstruction AddConfig(this FrameworkConstruction construction)
         {
@@ -29,13 +31,6 @@ namespace Plapp
                 .Build();
 
             construction.AddConfiguration(builder);
-
-            return construction;
-        }
-
-        public static FrameworkConstruction AddBusinessLogic(this FrameworkConstruction construction)
-        {
-            construction.Services.ConfigureMediator();
 
             return construction;
         }

@@ -2,8 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Plapp.Core;
 using Plapp.Persist;
-using Plapp.Validation;
+using Plapp.DependencyInjection;
 using System.IO;
+using Microsoft.Extensions.Configuration;
+using Plapp.BusinessLogic;
+using Plapp.DependencyInjection;
+using Plapp.Modules;
+using Plapp.Validation;
+using Plapp.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -15,8 +21,14 @@ namespace Plapp
         {
             Resources = Styles.Implicit;
 
-            Framework.Construct<DefaultFrameworkConstruction>()
-                .AddConfig()
+            var config = ReadConfig();
+            
+            Framework.Construction
+                .AddConfiguration(config)
+                AddModules()
+                    .Build;
+                
+
                 .AddValidation()
                 .AddDefaultLogger()
                 .AddBusinessLogic()
@@ -69,6 +81,19 @@ namespace Plapp
             using var context = contextFactory.CreateDbContext();
 
             context.Database.EnsureCreated();
+        }
+
+        private IConfigurationRoot ReadConfig()
+        {
+            var configStream = FileSystem.OpenAppPackageFileAsync("appsettings.json")
+                .GetAwaiter()
+                .GetResult();
+
+            var configRoot = new ConfigurationBuilder()
+                .AddJsonStream(configStream)
+                .Build();
+
+            return configRoot;
         }
     }
 }
