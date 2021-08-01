@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using Plapp.Core;
+using Rg.Plugins.Popup.Pages;
 
 namespace Plapp.Views.Popups
 {

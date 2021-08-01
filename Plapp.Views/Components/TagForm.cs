@@ -1,6 +1,7 @@
 ﻿using Plapp;
 using Plapp.Core;
 using Plapp.Views.Helpers;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Components

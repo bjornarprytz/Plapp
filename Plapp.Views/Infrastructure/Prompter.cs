@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Plapp.Core;
 using Plapp.Views.Extensions;
 using Plapp.Views.Popups;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Events;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Infrastructure
@@ -39,7 +41,7 @@ namespace Plapp.Views.Infrastructure
         public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null)
             where TViewModel : IViewModel
         {
-            getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>();
+            getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>(); // TODO: Use ViewModel Factory instead
 
             var popup = _viewFactory.CreatePopup<ICreateMultipleViewModel<TViewModel>>(
                 vm => 

@@ -2,6 +2,7 @@
 using Plapp.Core;
 using Plapp.Views.Extensions.UI;
 using Plapp.Views.Styles;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Components

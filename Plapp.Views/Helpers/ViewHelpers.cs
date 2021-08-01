@@ -2,6 +2,7 @@
 using MaterialDesign.Icons;
 using Plapp.Views.Extensions.UI;
 using Plapp.Views.Styles;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
@@ -18,7 +19,7 @@ namespace Plapp.Views.Helpers
          * The PhotoFrame a button to take a photo if there isn't one already.
          */
         public static Grid PhotoFrame(string imageBinding, string isVisibleBinding, string takePhotoCommandBinding)
-            => new()
+            => new Grid()
             {
                 Children =
                 {

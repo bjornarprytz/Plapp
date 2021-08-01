@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using Plapp.Core;
 using Xamarin.Forms;
 

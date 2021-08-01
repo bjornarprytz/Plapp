@@ -1,6 +1,10 @@
-﻿using Plapp.Core;
+﻿using MaterialDesign.Icons;
+using Microsoft.Extensions.Logging;
+using Plapp.Core;
+using Plapp.Views.Components;
 using Plapp.Views.Extensions.UI;
 using Plapp.Views.Helpers;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Popups

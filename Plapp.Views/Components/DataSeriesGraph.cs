@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microcharts;
+using Microcharts.Forms;
 using Plapp;
 using Plapp.Core;
 using Plapp.Views.Converters;
 using Plapp.Views.Extensions.UI;
 using Plapp.Views.Helpers;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Components

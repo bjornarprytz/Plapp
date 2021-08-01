@@ -1,4 +1,8 @@
-﻿using Plapp.Core;
+﻿using Lottie.Forms;
+using Microsoft.Extensions.Logging;
+using Plapp.Core;
+using Plapp.Views.Extensions;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Pages

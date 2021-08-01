@@ -8,19 +8,28 @@ namespace Plapp.Views.Infrastructure
 {
     public class ViewLayout : IViewLayout
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly Dictionary<Type, Type> _pageMap = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, Type> _popupMap = new Dictionary<Type, Type>();
 
-        public ViewLayout(IViewLayoutBuilder builder, IServiceProvider serviceProvider)
+        public IViewLayout BindPage<TViewModel, TView>()
+            where TViewModel : IIOViewModel
+            where TView : BaseContentPage<TViewModel>
         {
-            _serviceProvider = serviceProvider;
-            _pageMap = builder.BuildPages();
-            _popupMap = builder.BuildPopups();
+            _pageMap[typeof(TViewModel)] = typeof(TView);
+
+            return this;
+        }
+
+        public IViewLayout BindPopup<TViewModel, TView>()
+            where TViewModel : ITaskViewModel, IIOViewModel
+            where TView : BasePopupPage<TViewModel>
+        {
+            _popupMap[typeof(TViewModel)] = typeof(TView);
+
+            return this;
         }
         
-        
-        public BaseContentPage<TViewModel> ResolvePage<TViewModel>()
+        public Type ResolvePage<TViewModel>()
             where TViewModel : IIOViewModel
         {
             var viewModelType = typeof(TViewModel);
@@ -30,14 +39,10 @@ namespace Plapp.Views.Infrastructure
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Page. Remember to bind it first :)");
             }
 
-            var pageType = _pageMap[viewModelType];
-
-            var view = _serviceProvider.Resolve<BaseContentPage<TViewModel>>(pageType); // TODO: Change this to a view model factory
-
-            return view;
+            return _pageMap[viewModelType];
         }
 
-        public BasePopupPage<TViewModel> ResolvePopup<TViewModel>()
+        public Type ResolvePopup<TViewModel>()
             where TViewModel : ITaskViewModel, IIOViewModel
         {
             var viewModelType = typeof(TViewModel);
@@ -47,9 +52,7 @@ namespace Plapp.Views.Infrastructure
                 throw new ArgumentException($"View model(type: {viewModelType}) not bound to a Popup. Remember to bind it first :)");
             }
 
-            var view = _serviceProvider.Resolve<BasePopupPage<TViewModel>>(_popupMap[viewModelType]); // TODO: Change this to a view model factory
-
-            return view;
+            return _popupMap[viewModelType];
         }
     }
 }

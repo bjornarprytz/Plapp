@@ -8,12 +8,12 @@ namespace Plapp.Views.TemplateSelectors
     {
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (! (item is TViewModel))
+            if (! (item is TViewModel model))
             {
                 return OnInvalidTemplate();
             }
 
-            return OnSelectTemplate((TViewModel)item);
+            return OnSelectTemplate(model);
         }
         protected virtual DataTemplate OnInvalidTemplate() => null;
         protected abstract DataTemplate OnSelectTemplate(TViewModel vm);

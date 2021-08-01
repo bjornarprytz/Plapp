@@ -21,17 +21,15 @@ namespace Plapp.Modules
             services.AddTransient<CreateTagPopup>();
             services.AddTransient<CreateDataPointsPopup>();
 
-            services.AddSingleton<IViewLayoutBuilder>(provider =>
-                new ViewLayoutBuilder()
-                    .BindPage<ILoadingViewModel, LoadingPage>()
-                    .BindPage<IApplicationViewModel, MainPage>()
-                    .BindPage<ITopicViewModel, TopicPage>()
-                    .BindPage<IDataSeriesViewModel, DataSeriesPage>()
-                    .BindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
-                    .BindPopup<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsPopup>());
-
-            services.AddSingleton<IViewLayout, ViewLayout>();
-            services.AddSingleton<IViewFactory, ViewFactory>();
+            services.AddSingleton<IViewFactory, ViewFactory>(provider  => new ViewFactory(provider, 
+                layout => layout
+                        .BindPage<ILoadingViewModel, LoadingPage>()
+                        .BindPage<IApplicationViewModel, MainPage>()
+                        .BindPage<ITopicViewModel, TopicPage>()
+                        .BindPage<IDataSeriesViewModel, DataSeriesPage>()
+                        .BindPopup<ICreateViewModel<ITagViewModel>, CreateTagPopup>()
+                        .BindPopup<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsPopup>()
+                ) );
 
             services.AddScoped<IPrompter, Prompter>();
             

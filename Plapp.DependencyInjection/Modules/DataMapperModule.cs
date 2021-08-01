@@ -27,7 +27,6 @@ namespace Plapp.DependencyInjection
                     ));
             }
         }
-
     }
     internal static class MapperExtenions
     {

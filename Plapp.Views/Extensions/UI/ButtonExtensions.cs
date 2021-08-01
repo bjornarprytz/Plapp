@@ -1,4 +1,5 @@
 ﻿using MaterialDesign.Icons;
+using Plapp.Views.Styles;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Extensions.UI
