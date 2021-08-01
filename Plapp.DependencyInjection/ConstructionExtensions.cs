@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Dna;
+using Plapp.DependencyInjection.Extensions;
 
 namespace Plapp.DependencyInjection
 {
@@ -7,30 +9,39 @@ namespace Plapp.DependencyInjection
     {
         public static FrameworkConstruction AddModules(this FrameworkConstruction construction)
         {
-            // TODO: Scan assembly for DependencyModules and add them
+            var assembly = typeof(AssemblyInfo).Assembly;
 
-            construction
-                .RegisterModule<BusinessLogicModule>()
-                .RegisterModule<DataMapperModule>()
-                .RegisterModule<NavigationModule>()
-                .RegisterModule<PeripheralModule>()
-                .RegisterModule<PersistModule>()
-                .RegisterModule<ValidationModule>()
-                .RegisterModule<ViewModelsModule>()
-                ;
+            foreach (var type in assembly.GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(DependencyModule))
+                                && t.HasParameterlessConstructor()))
+            {
+                construction.RegisterModule(type);
+            }
             
             return construction;
         }
-        
-        public static FrameworkConstruction RegisterModule<T>(this FrameworkConstruction construction)
+
+        private static FrameworkConstruction RegisterModule<T>(this FrameworkConstruction construction)
             where T : IDependencyModule, new()
         {
             var module = new T();
             
             return construction.RegisterModule<T>(module);
         }
+
+        private static FrameworkConstruction RegisterModule(this FrameworkConstruction construction, Type moduleType)
+        {
+            if (moduleType == null)
+            {
+                throw new Exception("Trying to register module of null type");
+            }
+
+            var module = Activator.CreateInstance(moduleType) as DependencyModule;
+
+            return construction.RegisterModule(module);
+        }
         
-        public static FrameworkConstruction RegisterModule<T>(this FrameworkConstruction construction, T module)
+        private static FrameworkConstruction RegisterModule<T>(this FrameworkConstruction construction, T module)
             where T : IDependencyModule
         {
             if (module == null)

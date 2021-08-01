@@ -24,7 +24,7 @@ namespace Plapp.Persist
 
             options.UseSqlite(connStr);
 
-            return options.Options; // TODO: Make sure this works, or does it have to be "Built"?
+            return options.Options;
         }
     }
 }

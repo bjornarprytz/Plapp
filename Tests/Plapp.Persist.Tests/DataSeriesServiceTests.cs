@@ -123,9 +123,6 @@ namespace Plapp.Persist.Tests
             resultTag.Should().BeEquivalentTo(mutatedTag);
         }
 
-        // TODO:
-        // Check that DataSeries includes DataPoints and Tag
-
         [TestMethod]
         public async Task FetchAsync_IncludesTag()
         {
