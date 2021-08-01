@@ -17,7 +17,7 @@ namespace Plapp.BusinessLogic
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext<TRequest>(request);
 
@@ -29,10 +29,10 @@ namespace Plapp.BusinessLogic
 
             if (failures.Any())
             {
-                return Response.Fail(failures.ToString()) as TResponse;
+                return Task.FromResult(Response.Fail(failures.ToString()) as TResponse);
             }
 
-             return await next();
+            return next();
         }
     }
 }
