@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Plapp.Core;
 using Plapp.DependencyInjection;
+using Plapp.Persist;
 
 namespace Plapp.DependencyInjection
 {

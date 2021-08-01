@@ -5,11 +5,8 @@ using Plapp.Persist;
 using Plapp.DependencyInjection;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Plapp.BusinessLogic;
-using Plapp.DependencyInjection;
-using Plapp.Modules;
-using Plapp.Validation;
-using Plapp.ViewModels;
+using Plapp.Views.Infrastructure;
+using Plapp.Views.Styles;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -25,22 +22,9 @@ namespace Plapp
             
             Framework.Construction
                 .AddConfiguration(config)
-                AddModules()
-                    .Build;
-                
-
-                .AddValidation()
-                .AddDefaultLogger()
-                .AddBusinessLogic()
-                .AddDataServices()
-                .AddDbContext()
-                .AddViewModels()
-                .AddDataMapper()
-                .AddCamera()
-                .AddNavigation()
-                .AddPrompter()
+                .AddModules()
                 .Build();
-
+                
             var loadingPage = Framework.Provider.Get<IViewFactory>().CreatePage<ILoadingViewModel>();
 
             MainPage = new NavigationPage(loadingPage);

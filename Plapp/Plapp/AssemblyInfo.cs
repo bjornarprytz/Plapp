@@ -1,4 +1,4 @@
-using Plapp;
+using Plapp.Views.Styles;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Plapp.BusinessLogic\Plapp.BusinessLogic.csproj" />
-      <ProjectReference Include="..\Plapp.DependencyInjection\Plapp.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ namespace Plapp.DependencyInjection
                 .RegisterModule<ViewModelsModule>()
                 .RegisterModule<ValidationModule>()
                 .RegisterModule<PersistModule>()
-                .RegisterModule<MapperModule>();
+                .RegisterModule<DataMapperModule>();
             
             return construction;
         }
