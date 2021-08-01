@@ -28,7 +28,7 @@ namespace Plapp.BusinessLogic.Interactive
 
         public async Task<Response<ITagViewModel>> Handle(PickTagAction request, CancellationToken cancellationToken)
         {
-            var tagResponse = await _mediator.Send(new GetAllTagsQuery());
+            var tagResponse = await _mediator.Send(new GetAllTagsQuery(), cancellationToken);
 
             if (tagResponse.Error)
                 return tagResponse.Nest<ITagViewModel>();
@@ -53,7 +53,7 @@ namespace Plapp.BusinessLogic.Interactive
                 return null;
             }
 
-            var saveResponse = await _mediator.Send(new SaveTagCommand(chosenTag));
+            var saveResponse = await _mediator.Send(new SaveTagCommand(chosenTag), cancellationToken);
 
             if (saveResponse.Error)
                 return tagResponse.Nest<ITagViewModel>();

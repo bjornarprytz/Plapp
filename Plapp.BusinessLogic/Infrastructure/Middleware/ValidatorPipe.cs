@@ -29,7 +29,7 @@ namespace Plapp.BusinessLogic
 
             if (failures.Any())
             {
-                return Task.FromResult(Response.Fail(failures.ToString()) as TResponse);
+                return Task.FromResult(Response.Fail(failures.ToString()) as TResponse); // TODO: Fix this cast, it throws null exception
             }
 
             return next();

@@ -10,7 +10,7 @@ namespace Plapp.BusinessLogic
 
         public static void Throw(this Response response)
         { 
-            // TODO: Remove this once I've added proper error handling in the view.
+            // TODO: Add proper error handling in the view. Then remove this function
 
             throw new System.Exception(response.Message);
         }

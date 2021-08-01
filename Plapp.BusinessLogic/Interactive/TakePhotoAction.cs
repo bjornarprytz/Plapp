@@ -21,14 +21,14 @@ namespace Plapp.BusinessLogic.Interactive
 
         public async Task<Response<string>> Handle(TakePhotoAction request, CancellationToken cancellationToken)
         {
-            using var photoStream = await _camera.TakePhotoAsync();
+            await using var photoStream = await _camera.TakePhotoAsync();
 
             if (photoStream == null)
             {
                 return Response.Cancel<string>();
             }
 
-            var imageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream);
+            var imageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream, cancellationToken);
 
             return Response.Ok<string>(imageUri);
         }

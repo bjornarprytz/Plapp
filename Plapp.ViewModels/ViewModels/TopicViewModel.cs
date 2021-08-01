@@ -21,14 +21,17 @@ namespace Plapp.ViewModels
     public class TopicViewModel : IOViewModel, ITopicViewModel
     {
         private readonly INavigator _navigator;
+        private readonly IViewModelFactory _vmFactory;
         private readonly IMediator _mediator;
 
         public TopicViewModel(
             INavigator navigator,
+            IViewModelFactory vmFactory,
             IMediator mediator
             )
         {
             _navigator = navigator;
+            _vmFactory = vmFactory;
             _mediator = mediator;
             
             DataSeries = new ObservableCollection<IDataSeriesViewModel>();
@@ -58,7 +61,7 @@ namespace Plapp.ViewModels
         {
             await base.AutoLoadDataAsync();
 
-            var response = await _mediator.Send(new GetAllDataSeriesQuery(topicId: Id));
+            var response = await _mediator.Send(new GetAllDataSeriesQuery(Id));
 
             if (response.Error)
                 response.Throw();
@@ -97,15 +100,22 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var addResponse = await _mediator.Send(new AddDataSeriesAction(this));
-
-            if (addResponse.Cancelled)
+            var tagResponse = await _mediator.Send(new PickTagAction());
+            
+            if (tagResponse.Cancelled)
                 return;
 
-            if (addResponse.Error)
-                addResponse.Throw();
+            if (tagResponse.Error)
+                tagResponse.Throw();
 
-            var newDataSeries = addResponse.Data;
+            var chosenTag = tagResponse.Data;
+            
+            var newDataSeries = _vmFactory.Create<IDataSeriesViewModel>();
+
+            newDataSeries.Topic = this;
+            newDataSeries.Tag = chosenTag;
+            
+            DataSeries.Add(newDataSeries);
 
             await _navigator.GoToAsync(newDataSeries);
         }
