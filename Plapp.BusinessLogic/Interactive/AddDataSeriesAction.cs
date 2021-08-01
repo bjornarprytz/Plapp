@@ -19,15 +19,15 @@ namespace Plapp.BusinessLogic.Interactive
     public class AddDataSeriesActionHandler : IHandlerWrapper<AddDataSeriesAction, IDataSeriesViewModel>
     {
         private readonly IMediator _mediator;
-        private readonly ViewModelFactory<IDataSeriesViewModel> _createVM;
+        private readonly IViewModelFactory _vmFactory;
 
         public AddDataSeriesActionHandler(
             IMediator mediator,
-            ViewModelFactory<IDataSeriesViewModel> viewModelFactory
+            IViewModelFactory vmFactory
             )
         {
             _mediator = mediator;
-            _createVM = viewModelFactory;
+            _vmFactory = vmFactory;
         }
 
         public async Task<Response<IDataSeriesViewModel>> Handle(AddDataSeriesAction request, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ namespace Plapp.BusinessLogic.Interactive
 
             if (chosenTag == null) return Response.Cancel<IDataSeriesViewModel>();
 
-            var newDataSeries = _createVM();
+            var newDataSeries = _vmFactory.Create<IDataSeriesViewModel>();
 
             newDataSeries.Topic = request.Topic;
             newDataSeries.Tag = chosenTag;

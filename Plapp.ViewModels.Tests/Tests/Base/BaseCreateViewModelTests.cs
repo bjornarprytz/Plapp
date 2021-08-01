@@ -17,7 +17,7 @@ namespace Plapp.ViewModels.Tests
         where TViewModel : BaseCreateViewModel<TTemplate>
         where TTemplate : class, IViewModel
     {
-        protected Mock<ViewModelFactory<TTemplate>> factoryMock;
+        protected Mock<IViewModelFactory> factoryMock;
         protected Mock<TTemplate> templateMock;
 
         protected override void FreezeFixtures()
@@ -25,9 +25,9 @@ namespace Plapp.ViewModels.Tests
             base.FreezeFixtures();
 
             templateMock = _fixture.Freeze<Mock<TTemplate>>();
-            factoryMock = _fixture.Freeze<Mock<ViewModelFactory<TTemplate>>>();
+            factoryMock = _fixture.Freeze<Mock<IViewModelFactory>>();
 
-            factoryMock.Setup(f => f()).Returns(templateMock.Object);
+            factoryMock.Setup(f => f.Create<TTemplate>()).Returns(templateMock.Object);
         }
 
         [TestMethod]

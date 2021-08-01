@@ -13,14 +13,17 @@ namespace Plapp.ViewModels
     public class ApplicationViewModel : IOViewModel, IApplicationViewModel
     {
         private readonly INavigator _navigator;
+        private readonly IViewModelFactory _vmFactory;
         private readonly IMediator _mediator;
 
         public ApplicationViewModel(
             INavigator navigator,
+            IViewModelFactory vmFactory,
             IMediator mediator
             )
         {
             _navigator = navigator;
+            _vmFactory = vmFactory;
             _mediator = mediator;
 
             Topics = new ObservableCollection<ITopicViewModel>();
@@ -52,12 +55,7 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var topicResponse = await _mediator.Send(new CreateTopicCommand());
-
-            if (topicResponse.Error)
-                topicResponse.Throw();
-
-            var newTopic = topicResponse.Data;
+            var newTopic = _vmFactory.Create<ITopicViewModel>();
 
             Topics.Add(newTopic);
 

@@ -19,12 +19,7 @@ namespace Plapp.DependencyInjection
             services.AddTransient<ICreateViewModel<ITagViewModel>, CreateTagViewModel>();
             services.AddTransient<ICreateMultipleViewModel<IDataPointViewModel>, CreateDataPointsViewModel>();
 
-            services.AddSingleton<ViewModelFactory<ITagViewModel>>(provider => () => provider.Get<ITagViewModel>());
-            services.AddSingleton<ViewModelFactory<ITopicViewModel>>(provider => () => provider.Get<ITopicViewModel>());
-            services.AddSingleton<ViewModelFactory<IDataSeriesViewModel>>(provider => () => provider.Get<IDataSeriesViewModel>());
-            services.AddSingleton<ViewModelFactory<IDataPointViewModel>>(provider => () => provider.Get<IDataPointViewModel>());
-            services.AddSingleton<ViewModelFactory<ICreateViewModel<ITagViewModel>>>(provider => () => provider.Get<ICreateViewModel<ITagViewModel>>());
-
+            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
         }
     }
 }

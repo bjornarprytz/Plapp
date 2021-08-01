@@ -21,8 +21,7 @@ namespace Plapp.ViewModels.Tests
         private Mock<IDataSeriesService> dataSeriesServiceMock;
         private Mock<ITopicService> topicServiceMock;
         private Mock<IPrompter> prompterMock;
-        private Mock<ViewModelFactory<IDataSeriesViewModel>> dataSeriesFactoryMock;
-        private Mock<ViewModelFactory<ITagViewModel>> tagFactoryMock;
+        private Mock<IViewModelFactory> vmFactoryMock;
         private Mock<ILogger> loggerMock;
 
         protected override void FreezeFixtures()
@@ -32,11 +31,10 @@ namespace Plapp.ViewModels.Tests
             cameraMock = _fixture.Freeze<Mock<ICamera>>();
             navigatorMock = _fixture.Freeze<Mock<INavigator>>();
             tagServiceMock = _fixture.Freeze<Mock<ITagService>>();
-            dataSeriesFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<IDataSeriesViewModel>>>();
+            vmFactoryMock = _fixture.Freeze<Mock<IViewModelFactory>>();
             topicServiceMock = _fixture.Freeze<Mock<ITopicService>>();
             dataSeriesServiceMock = _fixture.Freeze<Mock<IDataSeriesService>>();
             prompterMock = _fixture.Freeze<Mock<IPrompter>>();
-            tagFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<ITagViewModel>>>();
             loggerMock = _fixture.Freeze<Mock<ILogger>>();
         }
 

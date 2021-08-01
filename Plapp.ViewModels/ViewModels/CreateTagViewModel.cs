@@ -12,10 +12,10 @@ namespace Plapp.ViewModels
         private readonly IMediator _mediator;
 
         public CreateTagViewModel(
-            ViewModelFactory<ITagViewModel> tagFactory,
+            IViewModelFactory vmFactory,
             IPrompter prompter,
             IMediator mediator
-            ) : base(tagFactory, prompter)
+            ) : base(vmFactory.Create<ITagViewModel>, prompter)
         {
             _mediator = mediator;
 

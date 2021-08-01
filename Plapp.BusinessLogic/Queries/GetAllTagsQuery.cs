@@ -14,12 +14,12 @@ namespace Plapp.BusinessLogic.Queries
     public class GetAllTagsQueryHandler : IHandlerWrapper<GetAllTagsQuery, IEnumerable<ITagViewModel>>
     {
         private readonly ITagService _tagService;
-        private readonly ViewModelFactory<ITagViewModel> _viewModelFactory;
+        private readonly IViewModelFactory _viewModelFactory;
         private readonly IMapper _mapper;
 
         public GetAllTagsQueryHandler(
             ITagService tagService,
-            ViewModelFactory<ITagViewModel> viewModelFactory,
+            IViewModelFactory viewModelFactory,
             IMapper mapper)
         {
             _tagService = tagService;
@@ -31,7 +31,7 @@ namespace Plapp.BusinessLogic.Queries
         {
             var tags = await _tagService.FetchAllAsync(cancellationToken);
 
-            var viewModels = tags.Select(t => _mapper.Map(t, _viewModelFactory()));
+            var viewModels = tags.Select(t => _mapper.Map(t, _viewModelFactory.Create<ITagViewModel>()));
 
             return Response.Ok(viewModels);
         }

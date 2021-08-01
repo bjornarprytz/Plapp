@@ -20,16 +20,16 @@ namespace Plapp.BusinessLogic.Queries
     public class GetAllDataPointsQueryHandler : IHandlerWrapper<GetAllDataPointsQuery, IEnumerable<IDataPointViewModel>>
     {
         private readonly IDataSeriesService _dataSeriesService;
-        private readonly ViewModelFactory<IDataPointViewModel> _viewModelFactory;
+        private readonly IViewModelFactory _vmFactory;
         private readonly IMapper _mapper;
 
         public GetAllDataPointsQueryHandler(
             IDataSeriesService dataSeriesService,
-            ViewModelFactory<IDataPointViewModel> viewModelFactory,
+            IViewModelFactory vmFactory,
             IMapper mapper)
         {
             _dataSeriesService = dataSeriesService;
-            _viewModelFactory = viewModelFactory;
+            _vmFactory = vmFactory;
             _mapper = mapper;
         }
 
@@ -37,7 +37,7 @@ namespace Plapp.BusinessLogic.Queries
         {
             var dataPoints = await _dataSeriesService.FetchDataPointsAsync(request.DataSeriesId, cancellationToken);
 
-            var viewModels = dataPoints.Select(d => _mapper.Map(d, _viewModelFactory()));
+            var viewModels = dataPoints.Select(d => _mapper.Map(d, _vmFactory.Create<IDataPointViewModel>()));
 
             return Response.Ok(viewModels);
         }

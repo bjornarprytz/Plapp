@@ -13,7 +13,7 @@ namespace Plapp.ViewModels.Tests
     public class ApplicationViewModelTests : BaseViewModelTests<ApplicationViewModel>
     {
         private Mock<INavigator> navigatorMock;
-        private Mock<ViewModelFactory<ITopicViewModel>> topicFactoryMock;
+        private Mock<IViewModelFactory> vmFactoryMock;
         private Mock<ITopicService> topicServiceMock;
 
         private Mock<IMediator> mediatorMock;
@@ -23,7 +23,7 @@ namespace Plapp.ViewModels.Tests
             base.FreezeFixtures();
 
             navigatorMock = _fixture.Freeze<Mock<INavigator>>();
-            topicFactoryMock = _fixture.Freeze<Mock<ViewModelFactory<ITopicViewModel>>>();
+            vmFactoryMock = _fixture.Freeze<Mock<IViewModelFactory>>();
             topicServiceMock = _fixture.Freeze<Mock<ITopicService>>();
             mediatorMock = _fixture.Freeze<Mock<IMediator>>();
         }
@@ -31,18 +31,18 @@ namespace Plapp.ViewModels.Tests
         [TestMethod]
         public async Task AddTopicCommand_FactoryCalledOnce()
         {
-            var t = _fixture.Freeze<Mock<ViewModelFactory<ITopicViewModel>>>();
+            var t = _fixture.Freeze<Mock<IViewModelFactory>>();
 
             await VM.AddTopicCommand.ExecuteAsync();
 
-            t.Verify(f => f(), Times.Once);
+            t.Verify(f => f.Create<ITopicViewModel>(), Times.Once);
         }
 
         [TestMethod]
         public async Task AddTopicCommand_TopicAddedToCollection()
         {
             var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
-            topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
+            vmFactoryMock.Setup(f => f.Create<ITopicViewModel>()).Returns(() => topicMock.Object);
 
             var topicCount = VM.Topics.Count;
 
@@ -64,7 +64,7 @@ namespace Plapp.ViewModels.Tests
         public async Task AddTopicCommand_NavigatesToTopicOnce()
         {
             var topicMock = _fixture.Freeze <Mock<ITopicViewModel>>();
-            topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
+            vmFactoryMock.Setup(f => f.Create<ITopicViewModel>()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
 
@@ -75,7 +75,7 @@ namespace Plapp.ViewModels.Tests
         public async Task DeleteTopicCommand_TopicRemovedFromCollection()
         {
             var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
-            topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
+            vmFactoryMock.Setup(f => f.Create<ITopicViewModel>()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
 
@@ -89,7 +89,7 @@ namespace Plapp.ViewModels.Tests
         {
             var topicMock = _fixture.Freeze<Mock<ITopicViewModel>>();
 
-            topicFactoryMock.Setup(f => f()).Returns(() => topicMock.Object);
+            vmFactoryMock.Setup(f => f.Create<ITopicViewModel>()).Returns(() => topicMock.Object);
 
             await VM.AddTopicCommand.ExecuteAsync();
 

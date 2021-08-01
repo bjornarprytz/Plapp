@@ -14,24 +14,24 @@ namespace Plapp.BusinessLogic.Interactive
     public class CreateDataPointsActionHandler : IHandlerWrapper<CreateDataPointsAction, IEnumerable<IDataPointViewModel>>
     {
         private readonly IPrompter _prompter;
-        private readonly ViewModelFactory<IDataPointViewModel> _viewModelFactory;
+        private readonly IViewModelFactory _vmFactory;
 
         public CreateDataPointsActionHandler(
             IPrompter prompter,
-            ViewModelFactory<IDataPointViewModel> viewModelFactory
+            IViewModelFactory vmFactory
             )
         {
             _prompter = prompter;
-            _viewModelFactory = viewModelFactory;
+            _vmFactory = vmFactory;
         }
 
         public async Task<Response<IEnumerable<IDataPointViewModel>>> Handle(CreateDataPointsAction request, CancellationToken cancellationToken)
         {
             var dataPoints = await _prompter.CreateMultipleAsync(
-                    () => _viewModelFactory() // TODO: Make different DataPoints depending on Tag.DataType
+                    () => _vmFactory.Create<IDataPointViewModel>() // TODO: Make different DataPoints depending on Tag.DataType
                 );
 
-            if (dataPoints == default || !dataPoints.Any())
+            if (dataPoints.Equals(default) || !dataPoints.Any())
             {
                 return Response.Cancel<IEnumerable<IDataPointViewModel>>();
             }

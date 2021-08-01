@@ -12,16 +12,16 @@ namespace Plapp.BusinessLogic.Queries
     public class GetAllTopicsQueryHandler : IHandlerWrapper<GetAllTopicsQuery, IEnumerable<ITopicViewModel>>
     {
         private readonly ITopicService _topicService;
-        private readonly ViewModelFactory<ITopicViewModel> _createVM;
+        private readonly IViewModelFactory _vmFactory;
         private readonly IMapper _mapper;
 
         public GetAllTopicsQueryHandler(
             ITopicService topicService,
-            ViewModelFactory<ITopicViewModel> viewModelFactory,
+            IViewModelFactory viewModelFactory,
             IMapper mapper)
         {
             _topicService = topicService;
-            _createVM = viewModelFactory;
+            _vmFactory = viewModelFactory;
             _mapper = mapper;
         }
 
@@ -29,7 +29,7 @@ namespace Plapp.BusinessLogic.Queries
         {
             var topics = await _topicService.FetchAllAsync(cancellationToken);
 
-            var viewModels = topics.Select(t => _mapper.Map(t, _createVM()));
+            var viewModels = topics.Select(t => _mapper.Map(t, _vmFactory.Create<ITopicViewModel>()));
 
             return Response.Ok(viewModels);
         }

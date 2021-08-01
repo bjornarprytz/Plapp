@@ -9,7 +9,7 @@ namespace Plapp.ViewModels
         public TViewModel Partial { get; set; }
 
         protected BaseCreateViewModel(
-            ViewModelFactory<TViewModel> viewModelFactory,
+            Func<TViewModel> viewModelFactory,
             IPrompter prompter
             ) : base (prompter)
         {
