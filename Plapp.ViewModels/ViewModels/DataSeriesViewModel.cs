@@ -65,7 +65,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction());
+            var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction(Tag));
 
             if (dataPointsResponse.Cancelled)
             {

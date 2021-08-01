@@ -15,7 +15,7 @@ namespace Plapp.ViewModels
             IViewModelFactory vmFactory,
             IPrompter prompter,
             IMediator mediator
-            ) : base(vmFactory.Create<ITagViewModel>, prompter)
+            ) : base(() => vmFactory.Create<ITagViewModel>(), prompter)
         {
             _mediator = mediator;
 

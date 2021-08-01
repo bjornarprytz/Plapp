@@ -8,6 +8,12 @@ namespace Plapp.BusinessLogic.Interactive
 {
     public class CreateDataPointsAction : IRequestWrapper<IEnumerable<IDataPointViewModel>>
     {
+        public ITagViewModel Tag { get; }
+
+        public CreateDataPointsAction(ITagViewModel tag)
+        {
+            Tag = tag;
+        }
     }
 
 
@@ -28,7 +34,7 @@ namespace Plapp.BusinessLogic.Interactive
         public async Task<Response<IEnumerable<IDataPointViewModel>>> Handle(CreateDataPointsAction request, CancellationToken cancellationToken)
         {
             var dataPoints = await _prompter.CreateMultipleAsync(
-                    () => _vmFactory.Create<IDataPointViewModel>() // TODO: Make different DataPoints depending on Tag.DataType
+                    () => _vmFactory.Create<IDataPointViewModel>(dp => dp.DataType = request.Tag.DataType)
                 );
 
             if (dataPoints.Equals(default) || !dataPoints.Any())
