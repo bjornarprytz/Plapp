@@ -10,14 +10,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.0.9" />
+      <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.0.10" />
       <PackageReference Include="MaterialDesign.Icons" Version="1.1.0" />
       <PackageReference Include="Microcharts" Version="0.9.5.9" />
       <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-      <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.11" />
-      <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.1.0" />
-      <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
+      <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
+      <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.2.0" />
+      <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     </ItemGroup>
 
 </Project>
