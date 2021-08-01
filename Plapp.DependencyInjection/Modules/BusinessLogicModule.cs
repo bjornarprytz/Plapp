@@ -13,8 +13,6 @@ namespace Plapp.DependencyInjection
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggerPipe<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorPipe<,>));
-            
-            throw new System.NotImplementedException();
         }
     }
 }

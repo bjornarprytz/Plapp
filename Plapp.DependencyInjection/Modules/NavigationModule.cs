@@ -7,7 +7,7 @@ using Plapp.Views.Popups;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
-namespace Plapp.Modules
+namespace Plapp.DependencyInjection
 {
     public class NavigationModule : DependencyModule
     {

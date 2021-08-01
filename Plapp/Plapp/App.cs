@@ -20,7 +20,7 @@ namespace Plapp
 
             var config = ReadConfig();
             
-            Framework.Construction
+            Framework.Construct<DefaultFrameworkConstruction>()
                 .AddConfiguration(config)
                 .AddModules()
                 .Build();

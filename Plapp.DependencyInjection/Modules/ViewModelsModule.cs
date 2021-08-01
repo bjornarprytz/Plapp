@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Plapp.Core;
-using Plapp.DependencyInjection;
 using Plapp.ViewModels;
 
 namespace Plapp.DependencyInjection
