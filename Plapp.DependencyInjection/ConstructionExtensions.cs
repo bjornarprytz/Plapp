@@ -1,7 +1,5 @@
 using System;
 using Dna;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Plapp.BusinessLogic;
 
 namespace Plapp.DependencyInjection
 {

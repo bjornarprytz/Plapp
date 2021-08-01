@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Xamarin.Essentials">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft\Xamarin\NuGet\xamarin.essentials\1.6.1\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
     </Reference>
