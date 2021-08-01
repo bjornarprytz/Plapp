@@ -97,6 +97,8 @@ namespace Plapp.Views.Infrastructure
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
             where TViewModel : ITaskViewModel, IIOViewModel
         {
+            // TODO: Possibly refactor this to use Reactive Extensions instead
+            
             var waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             
             _popupNavigation.Popped += PopupNavigation_Popped;

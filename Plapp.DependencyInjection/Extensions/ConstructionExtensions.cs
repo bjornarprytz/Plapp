@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoMapper.Internal;
 using Dna;
 using Plapp.DependencyInjection.Extensions;
 
@@ -12,7 +13,7 @@ namespace Plapp.DependencyInjection
             var assembly = typeof(AssemblyInfo).Assembly;
 
             foreach (var type in assembly.GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(DependencyModule))
+                .Where(t => t.GetInterfaces().Contains(typeof(IDependencyModule))
                                 && t.HasParameterlessConstructor()))
             {
                 construction.RegisterModule(type);
@@ -36,7 +37,7 @@ namespace Plapp.DependencyInjection
                 throw new Exception("Trying to register module of null type");
             }
 
-            var module = Activator.CreateInstance(moduleType) as DependencyModule;
+            var module = Activator.CreateInstance(moduleType) as IDependencyModule;
 
             return construction.RegisterModule(module);
         }
