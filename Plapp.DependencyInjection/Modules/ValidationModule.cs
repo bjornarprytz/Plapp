@@ -2,7 +2,7 @@
 
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Plapp.DependencyInjection;
+using Plapp.BusinessLogic;
 
 namespace Plapp.DependencyInjection
 {
@@ -11,6 +11,8 @@ namespace Plapp.DependencyInjection
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<Plapp.Validation.AssemblyInfo>();
+
+            services.AddTransient(typeof(ICompositeValidator<>), typeof(CompositeValidator<>));
         }
     }
 }

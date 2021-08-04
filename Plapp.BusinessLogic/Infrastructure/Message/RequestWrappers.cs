@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Plapp.BusinessLogic
 {
-    public interface IRequestWrapper<T> : IRequest<Response<T>> 
+    public interface IRequestWrapper<out TOut> : IRequest<IResponseWrapper<TOut>> 
     { }
-    public interface IRequestWrapper : IRequest<Response<Unit>> 
+    public interface IRequestWrapper : IRequest<IResponseWrapper> 
     { }
 
-    public interface IHandlerWrapper<TIn, TOut> : IRequestHandler<TIn, Response<TOut>>
+    public interface IHandlerWrapper<in TIn, TOut> : IRequestHandler<TIn, IResponseWrapper<TOut>>
         where TIn : IRequestWrapper<TOut>
     { }
     
-    public interface IHandlerWrapper<TIn> : IRequestHandler<TIn, Response<Unit>>
+    public interface IHandlerWrapper<in TIn> : IRequestHandler<TIn, IResponseWrapper>
         where TIn : IRequestWrapper
     { }
 }

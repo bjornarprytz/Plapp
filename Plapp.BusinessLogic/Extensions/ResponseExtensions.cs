@@ -1,18 +1,17 @@
-﻿
+using System;
+
 namespace Plapp.BusinessLogic
 {
     public static class ResponseExtensions
     {
-        public static Response<T> Nest<T>(this Response inner)
+        public static IResponseWrapper<TResponse> WrapErrors<TResponse>(this IResponseWrapper response)
         {
-            return Response.Fail<T>(inner.Message);
+            return Response.GenerateTypedErrorResponse<IResponseWrapper<TResponse>>(response.Failures);
         }
 
-        public static void Throw(this Response response)
-        { 
-            // TODO: Add proper error handling in the view. Then remove this function
-
-            throw new System.Exception(response.Message);
+        public static void Throw(this IResponseWrapper response)
+        {
+            throw new Exception();
         }
     }
 }

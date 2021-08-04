@@ -31,7 +31,7 @@ namespace Plapp.BusinessLogic.Interactive
             _vmFactory = vmFactory;
         }
 
-        public async Task<Response<IEnumerable<IDataPointViewModel>>> Handle(CreateDataPointsAction request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<IEnumerable<IDataPointViewModel>>> Handle(CreateDataPointsAction request, CancellationToken cancellationToken)
         {
             var dataPoints = await _prompter.CreateMultipleAsync(
                     () => _vmFactory.Create<IDataPointViewModel>(dp => dp.DataType = request.Tag.DataType)

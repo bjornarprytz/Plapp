@@ -48,10 +48,10 @@ namespace Plapp.ViewModels
         {
             var dataPointsResponse = await _mediator.Send(new GetAllDataPointsQuery(Id));
 
-            if (dataPointsResponse.Error)
+            if (dataPointsResponse.IsError)
                 dataPointsResponse.Throw();
 
-            var dataPoints = dataPointsResponse.Data;
+            var dataPoints = dataPointsResponse.Payload;
 
             DataPoints.Update(
                 dataPoints,
@@ -67,15 +67,15 @@ namespace Plapp.ViewModels
         {
             var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction(Tag));
 
-            if (dataPointsResponse.Cancelled)
+            if (dataPointsResponse.IsCancelled)
             {
                 return;
             }
 
-            if (dataPointsResponse.Error)
+            if (dataPointsResponse.IsError)
                 dataPointsResponse.Throw();
 
-            var dataPoints = dataPointsResponse.Data;
+            var dataPoints = dataPointsResponse.Payload;
 
             DataPoints.AddRange(dataPoints);
 
@@ -86,13 +86,13 @@ namespace Plapp.ViewModels
         {
             var chooseResult = await _mediator.Send(new PickTagAction());
 
-            if (chooseResult.Cancelled)
+            if (chooseResult.IsCancelled)
                 return;
 
-            if (chooseResult.Error)
+            if (chooseResult.IsError)
                 chooseResult.Throw();
 
-            var chosenTag = chooseResult.Data;
+            var chosenTag = chooseResult.Payload;
             
             Tag = chosenTag;
         }

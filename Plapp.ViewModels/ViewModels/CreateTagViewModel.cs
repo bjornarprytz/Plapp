@@ -33,10 +33,10 @@ namespace Plapp.ViewModels
         {
             var tagsResponse = await _mediator.Send(new GetAllTagsQuery());
 
-            if (tagsResponse.Error)
+            if (tagsResponse.IsError)
                 tagsResponse.Throw();
 
-            var tags = tagsResponse.Data;
+            var tags = tagsResponse.Payload;
 
             AvailableTags.Update(
                 tags,

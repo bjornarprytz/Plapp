@@ -33,7 +33,7 @@ namespace Plapp.BusinessLogic.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<IEnumerable<IDataPointViewModel>>> Handle(GetAllDataPointsQuery request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<IEnumerable<IDataPointViewModel>>> Handle(GetAllDataPointsQuery request, CancellationToken cancellationToken)
         {
             var dataPoints = await _dataSeriesService.FetchDataPointsAsync(request.DataSeriesId, cancellationToken);
 

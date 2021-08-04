@@ -25,7 +25,7 @@ namespace Plapp.BusinessLogic.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<IEnumerable<ITopicViewModel>>> Handle(GetAllTopicsQuery request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<IEnumerable<ITopicViewModel>>> Handle(GetAllTopicsQuery request, CancellationToken cancellationToken)
         {
             var topics = await _topicService.FetchAllAsync(cancellationToken);
 

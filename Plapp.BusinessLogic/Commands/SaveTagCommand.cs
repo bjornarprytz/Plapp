@@ -32,7 +32,7 @@ namespace Plapp.BusinessLogic.Commands
             _mapper = mapper;
         }
 
-        public async Task<Response<Unit>> Handle(SaveTagCommand request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper> Handle(SaveTagCommand request, CancellationToken cancellationToken)
         {
             var tag = _mapper.Map<Tag>(request.Tag);
 

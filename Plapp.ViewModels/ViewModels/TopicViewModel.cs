@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -63,10 +64,10 @@ namespace Plapp.ViewModels
 
             var response = await _mediator.Send(new GetAllDataSeriesQuery(Id));
 
-            if (response.Error)
+            if (response.IsError)
                 response.Throw();
 
-            var freshDataSeries = response.Data;
+            var freshDataSeries = response.Payload;
 
             DataSeries.Update(
                 freshDataSeries,
@@ -87,28 +88,31 @@ namespace Plapp.ViewModels
 
         private async Task AddImage()
         {
-            var cameraResponse = await _mediator.Send(new TakePhotoAction());
+            var response = await _mediator.Send(new TakePhotoAction());
 
-            if (cameraResponse.Cancelled)
-                return;
-
-            if (cameraResponse.Error)
-                cameraResponse.Throw();
-
-            ImageUri = cameraResponse.Data;
+            switch (response.Outcome)
+            {
+                case Outcome.Cancel: return;
+                case Outcome.Ok:
+                    ImageUri = response.Payload;
+                    break;
+                default:
+                    response.Throw();
+                    break;
+            }
         }
 
         private async Task AddDataSeriesAsync()
         {
             var tagResponse = await _mediator.Send(new PickTagAction());
             
-            if (tagResponse.Cancelled)
+            if (tagResponse.IsCancelled)
                 return;
 
-            if (tagResponse.Error)
+            if (tagResponse.IsError)
                 tagResponse.Throw();
 
-            var chosenTag = tagResponse.Data;
+            var chosenTag = tagResponse.Payload;
             
             var newDataSeries = _vmFactory.Create<IDataSeriesViewModel>();
 

@@ -43,10 +43,10 @@ namespace Plapp.ViewModels
 
             var freshTopicResponse = await _mediator.Send(new GetAllTopicsQuery());
 
-            if (freshTopicResponse.Error)
+            if (freshTopicResponse.IsError)
                 freshTopicResponse.Throw();
 
-            var freshTopics = freshTopicResponse.Data;
+            var freshTopics = freshTopicResponse.Payload;
 
             Topics.Update(
                 freshTopics,

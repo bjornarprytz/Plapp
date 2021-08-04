@@ -29,7 +29,7 @@ namespace Plapp.BusinessLogic.Interactive
             _navigator = navigator;
         }
 
-        public async Task<Response<Unit>> Handle(NavigateAction<TViewModel> request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper> Handle(NavigateAction<TViewModel> request, CancellationToken cancellationToken)
         {
             await _navigator.GoToAsync(request.ViewModel);
 

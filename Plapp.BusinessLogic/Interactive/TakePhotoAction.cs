@@ -19,18 +19,18 @@ namespace Plapp.BusinessLogic.Interactive
             _camera = camera;
         }
 
-        public async Task<Response<string>> Handle(TakePhotoAction request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<string>> Handle(TakePhotoAction request, CancellationToken cancellationToken)
         {
             await using var photoStream = await _camera.TakePhotoAsync();
 
             if (photoStream == null)
             {
-                return Response.Cancel<string>();
+                return Response<string>.Cancel();
             }
 
             var imageUri = await FileSystem.AppDataDirectory.SaveAsync($"{Guid.NewGuid()}.jpg", photoStream, cancellationToken);
 
-            return Response.Ok<string>(imageUri);
+            return Response<string>.Ok(imageUri);
         }
     }
 }

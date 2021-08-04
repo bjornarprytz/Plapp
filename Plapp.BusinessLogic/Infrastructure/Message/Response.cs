@@ -1,36 +1,81 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 
 namespace Plapp.BusinessLogic
 {
-    public class Response
+    public class Response<T> : IResponseWrapper<T>
     {
-        public string Message { get; set; }
-        public bool Error { get; set; }
-        public bool Cancelled { get; set; }
-
-        protected Response(string message, bool error,  bool cancelled)
+        public bool IsError => Outcome == Outcome.Error;
+        public bool IsValid => Outcome == Outcome.Ok;
+        public bool IsCancelled => Outcome == Outcome.Cancel;
+        public T Payload { get; private set; }
+        public Outcome Outcome { get; private set; }
+        public IList<string> Failures { get; private set; }
+        public string Message => Failures.FirstOrDefault() ?? string.Empty;
+		
+        private Response(T payload, Outcome outcome, IEnumerable<string> failures = null)
         {
-            Cancelled = cancelled;
-            Error = error;
-            Message = message;
+            Payload = payload;
+            Outcome = outcome;
+            Failures = failures != null ? failures.ToList() : new List<string>();
         }
-        
-        public static Response<T> Fail<T>(string message, T data = default) => new Response<T>(data, message, true, false);
-        public static Response Fail(string message) => new Response(message, true, false);
-        public static Response<T> Ok<T>(T data, string message = "") => new Response<T>(data, message, false, false);
-        public static Response<Unit> Ok(string message = "") => new Response<Unit>(Unit.Value, message, false, false);
-        public static Response<T> Cancel<T>(string message = "") => new Response<T>(default, message, false, true);
-        public static Response Cancel(string message = "") => new Response(message, false, false);
+
+        public static IResponseWrapper<T> Ok(T payload) => new Response<T>(payload, Outcome.Ok);
+        public static IResponseWrapper<T> Cancel() => new Response<T>(default, Outcome.Cancel);
+        public static IResponseWrapper<T> Error(IEnumerable<string> failures) => new Response<T>(default, Outcome.Error, failures);
+        public static IResponseWrapper<T> Error(string error) => new Response<T>(default, Outcome.Error, new []{ error });
     }
 
-    public class Response<T> : Response
+    public static class Response
     {
-        internal Response(T data, string msg, bool error, bool cancelled) : base(msg, error, cancelled)
-        {
-            Data = data;
-        }
+        public static IResponseWrapper<T> Ok<T>(T payload) => Response<T>.Ok(payload);
+        public static IResponseWrapper<T> Cancel<T>() => Response<T>.Cancel();
+        public static IResponseWrapper<Unit> Ok() => Response<Unit>.Ok(default);
 
-        public T Data { get; set; }
+        public static T GenerateTypedErrorResponse<T>(IList<string> errors)
+            where  T : IResponseWrapper
+        {
+            var responseType = typeof(Response<>).MakeGenericType(typeof(T).GetGenericArguments());
+
+            var methodName = nameof(Response<Unit>.Error);
+			
+            // Get a static method which accepts errors as a parameter
+            var methodInfo =  responseType.GetMethods()
+                .Where(m => m.Name == methodName)
+                .FirstOrDefault(m => m.ReturnType.IsAssignableFrom(typeof(T))
+                                     && m.GetParameters().Length == 1
+                                     && m.GetParameters().Single().ParameterType.IsInstanceOfType(errors));
+
+            if (methodInfo == null) // TODO: Make a test for this function and don't throw exception
+            {
+                throw new MissingMethodException($"Missing response constructor {methodName} for type: {typeof(T)}");
+            }
+			
+            return (T)methodInfo.Invoke(null, new []{ errors });
+        }
+    }
+	
+    public interface IResponseWrapper<out T> : IResponseWrapper
+    {
+        T Payload { get; }
+    }
+	
+    public interface IResponseWrapper
+    {
+        bool IsError { get; }
+        bool IsValid { get; }
+        bool IsCancelled { get; }
+        Outcome Outcome { get; }
+        string Message { get; }
+        IList<string> Failures { get; }
+    }
+
+    public enum Outcome
+    {
+        Ok,
+        Error,
+        Cancel
     }
 }

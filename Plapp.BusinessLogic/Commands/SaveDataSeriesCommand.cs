@@ -29,7 +29,7 @@ namespace Plapp.BusinessLogic.Commands
             _mapper = mapper;
         }
 
-        public async Task<Response<Unit>> Handle(SaveDataSeriesCommand request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper> Handle(SaveDataSeriesCommand request, CancellationToken cancellationToken)
         {
             var dataSeries = _mapper.Map<DataSeries>(request.DataSeries);
 

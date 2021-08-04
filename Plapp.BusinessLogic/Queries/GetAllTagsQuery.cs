@@ -27,7 +27,7 @@ namespace Plapp.BusinessLogic.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<IEnumerable<ITagViewModel>>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<IEnumerable<ITagViewModel>>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
         {
             var tags = await _tagService.FetchAllAsync(cancellationToken);
 

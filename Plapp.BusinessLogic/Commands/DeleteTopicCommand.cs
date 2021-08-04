@@ -27,7 +27,7 @@ namespace Plapp.BusinessLogic.Commands
             _topicService = topicService;
         }
 
-        public async Task<Response<Unit>> Handle(DeleteTopicCommand request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper> Handle(DeleteTopicCommand request, CancellationToken cancellationToken)
         {
             await _topicService.DeleteAsync(request.Topic.Id, cancellationToken);
 

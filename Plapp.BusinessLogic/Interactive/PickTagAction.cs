@@ -26,14 +26,14 @@ namespace Plapp.BusinessLogic.Interactive
             _prompter = prompter;
         }
 
-        public async Task<Response<ITagViewModel>> Handle(PickTagAction request, CancellationToken cancellationToken)
+        public async Task<IResponseWrapper<ITagViewModel>> Handle(PickTagAction request, CancellationToken cancellationToken)
         {
             var tagResponse = await _mediator.Send(new GetAllTagsQuery(), cancellationToken);
 
-            if (tagResponse.Error)
-                return tagResponse.Nest<ITagViewModel>();
+            if (!tagResponse.IsValid)
+                return tagResponse.WrapErrors<ITagViewModel>();
 
-            var existingTags = tagResponse.Data;
+            var existingTags = tagResponse.Payload;
 
             var options = new List<string> { "Create new Tag" };
 
@@ -55,10 +55,7 @@ namespace Plapp.BusinessLogic.Interactive
 
             var saveResponse = await _mediator.Send(new SaveTagCommand(chosenTag), cancellationToken);
 
-            if (saveResponse.Error)
-                return tagResponse.Nest<ITagViewModel>();
-
-            return Response.Ok(chosenTag);
+            return saveResponse.IsValid ? Response.Ok(chosenTag) : tagResponse.WrapErrors<ITagViewModel>();
         }
     }
 }

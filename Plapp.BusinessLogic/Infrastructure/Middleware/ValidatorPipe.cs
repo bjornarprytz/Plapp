@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,32 @@ using System.Threading.Tasks;
 namespace Plapp.BusinessLogic
 {
     public class ValidatorPipe<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TResponse : Response
+        where TResponse : IResponseWrapper
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private readonly ICompositeValidator<TRequest> _validator;
 
-        public ValidatorPipe(IEnumerable<IValidator<TRequest>> validators)
+        public ValidatorPipe(ICompositeValidator<TRequest> validator)
         {
-            _validators = validators;
+            _validator = validator;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var context = new ValidationContext<TRequest>(request);
-
-            var failures = _validators
-                .Select(v => v.Validate(context))
-                .SelectMany(v => v.Errors)
+            var results = await _validator.ValidateAsync(request, cancellationToken);
+            
+            var failures = results.SelectMany(v => v.Errors)
                 .Where(e => e != null)
+                .Select(f => f.ErrorMessage)
                 .ToList();
 
             if (failures.Any())
             {
-                return Task.FromResult(Response.Fail(failures.ToString()) as TResponse); // TODO: Fix this cast, it throws null exception
+                return Response.GenerateTypedErrorResponse<TResponse>(failures);
             }
 
-            return next();
+            return await next();
         }
+        
+        
     }
 }
