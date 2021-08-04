@@ -38,9 +38,9 @@ namespace Plapp.BusinessLogic.Queries
         public async Task<IResponseWrapper<IEnumerable<IDataSeriesViewModel>>> Handle(GetAllDataSeriesQuery request, CancellationToken cancellationToken)
         {
             var dataSeries = await _dataSeriesService.FetchAllAsync(request.TopicId, request.TagId, cancellationToken);
-
-            // TODO: Fix the mapper. Automapper might not be up to the task.
-            var viewModels = dataSeries.Select(ds => _mapper.Map(ds, _vmFactory.Create<IDataSeriesViewModel>()));
+            
+            var viewModels = dataSeries.Select(
+                ds => _mapper.Map(ds, _vmFactory.Create<IDataSeriesViewModel>()));
             
 
             return Response.Ok(viewModels);

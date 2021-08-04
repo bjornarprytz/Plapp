@@ -37,7 +37,6 @@ namespace Plapp.ViewModels
         public string Title { get; set; }
 
         public ITagViewModel Tag { get; set; }
-        public ITopicViewModel Topic { get; set; }
         public ObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         public IAsyncCommand AddDataPointCommand { get; private set; }

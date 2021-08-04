@@ -9,7 +9,6 @@ namespace Plapp.Core
     {
         int Id { get; set; }
         string Title { get; set; }
-        ITopicViewModel Topic { get; set; }
         ITagViewModel Tag { get; set; }
         ObservableCollection<IDataPointViewModel> DataPoints { get; }
 

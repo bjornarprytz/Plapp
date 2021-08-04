@@ -1,21 +1,13 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using MediatR;
 using Plapp.BusinessLogic;
 using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -116,7 +108,6 @@ namespace Plapp.ViewModels
             
             var newDataSeries = _vmFactory.Create<IDataSeriesViewModel>();
 
-            newDataSeries.Topic = this;
             newDataSeries.Tag = chosenTag;
             
             DataSeries.Add(newDataSeries);

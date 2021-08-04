@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using MediatR;
 
 namespace Plapp.BusinessLogic
@@ -37,14 +38,16 @@ namespace Plapp.BusinessLogic
         public static T GenerateTypedErrorResponse<T>(IList<string> errors)
             where  T : IResponseWrapper
         {
-            var responseType = typeof(Response<>).MakeGenericType(typeof(T).GetGenericArguments());
-
-            var methodName = nameof(Response<Unit>.Error);
-			
+            const string methodName = nameof(Response<Unit>.Error);
+            
+            var responseType = typeof(T).IsGenericType
+                ? typeof(Response<>).MakeGenericType(typeof(T).GetGenericArguments())
+                : typeof(Response<Unit>);
+            
             // Get a static method which accepts errors as a parameter
-            var methodInfo =  responseType.GetMethods()
+            var methodInfo = responseType.GetMethods()
                 .Where(m => m.Name == methodName)
-                .FirstOrDefault(m => m.ReturnType.IsAssignableFrom(typeof(T))
+                .FirstOrDefault(m => m.ReturnType.IsAssignableTo<T>()
                                      && m.GetParameters().Length == 1
                                      && m.GetParameters().Single().ParameterType.IsInstanceOfType(errors));
 
