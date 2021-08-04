@@ -61,7 +61,7 @@ namespace Plapp.ViewModels
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();
-
+            
             var response = await _mediator.Send(new GetAllDataSeriesQuery(Id));
 
             if (response.IsError)

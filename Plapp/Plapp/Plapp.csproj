@@ -70,12 +70,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Plapp.BusinessLogic\Plapp.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\Plapp.Core\Plapp.Core.csproj" />
     <ProjectReference Include="..\..\Plapp.DependencyInjection\Plapp.DependencyInjection.csproj" />
-    <ProjectReference Include="..\..\Plapp.Peripherals\Plapp.Peripherals.csproj" />
     <ProjectReference Include="..\..\Plapp.Persist\Plapp.Persist.csproj" />
-    <ProjectReference Include="..\..\Plapp.Validation\Plapp.Validation.csproj" />
     <ProjectReference Include="..\..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
     <ProjectReference Include="..\..\Plapp.Views\Plapp.Views.csproj" />
   </ItemGroup>

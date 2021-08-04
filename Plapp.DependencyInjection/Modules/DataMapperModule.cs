@@ -28,7 +28,7 @@ namespace Plapp.DependencyInjection
             }
         }
     }
-    internal static class MapperExtenions
+    internal static class MapperExtensions
     {
         internal static IMapperConfigurationExpression CreateTwoWayMapWithInterface<TSrc, TDst, TDstInterface>(this IMapperConfigurationExpression mapperExpression)
             where TDst : TDstInterface

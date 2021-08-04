@@ -216,7 +216,7 @@ namespace Plapp.Persist.Tests
 
             context.Set<T>().AddRange(stubs);
 
-            context.SaveChanges();
+            var c = context.SaveChanges();
         }
 
         private void DeleteDatabase()

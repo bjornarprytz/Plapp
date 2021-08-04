@@ -20,9 +20,9 @@ namespace Plapp.Persist.Tests
 
             SeedDbWith(tag1, tag2);
 
-            var item1 = new DataSeries { Id = 1, TagId = 1 };
-            var item2 = new DataSeries { Id = 2, TagId = 1 };
-            var item3 = new DataSeries { Id = 3, TagId = 2 };
+            var item1 = new DataSeries { Id = 1, TagId = 1, Topic = new Topic() };
+            var item2 = new DataSeries { Id = 2, TagId = 1, Topic = new Topic() };
+            var item3 = new DataSeries { Id = 3, TagId = 2, Topic = new Topic() };
 
             SeedDbWith(item1, item2, item3);
 
@@ -134,6 +134,7 @@ namespace Plapp.Persist.Tests
             {
                 Id = 1,
                 TagId = 1,
+                Topic = new Topic()
             };
 
             SeedDbWith(item1);
@@ -157,6 +158,7 @@ namespace Plapp.Persist.Tests
             {
                 Id = 1,
                 Tag = new Tag(),
+                Topic = new Topic()
             };
 
             SeedDbWith(item1);
@@ -180,6 +182,7 @@ namespace Plapp.Persist.Tests
             {
                 Id = 1,
                 TagId = 1,
+                Topic = new Topic()
             };
 
             SeedDbWith(item1);
@@ -205,6 +208,7 @@ namespace Plapp.Persist.Tests
             {
                 Id = 1,
                 Tag = new Tag(),
+                Topic = new Topic(),
             };
 
             SeedDbWith(item1);
@@ -236,7 +240,8 @@ namespace Plapp.Persist.Tests
             {
                 Id = id,
                 DataPoints = new Collection<DataPoint>(),
-                Tag = new Tag()
+                Tag = new Tag(),
+                Topic = new Topic()
             };
 
             return dataSeries;
