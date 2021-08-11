@@ -8,17 +8,17 @@ namespace Plapp.Views.Infrastructure
     public interface IViewLayout
     {
         Type ResolvePage<TViewModel>()
-            where TViewModel : IIOViewModel;
+            where TViewModel : IViewModel;
         
         Type ResolvePopup<TViewModel>()
-            where TViewModel : ITaskViewModel, IIOViewModel;
+            where TViewModel : ITaskViewModel;
 
         IViewLayout BindPage<TViewModel, TView>()
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
             where TView : BaseContentPage<TViewModel>;
 
         IViewLayout BindPopup<TViewModel, TView>()
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
             where TView : BasePopupPage<TViewModel>;
     }
 }

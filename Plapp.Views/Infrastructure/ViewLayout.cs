@@ -12,7 +12,7 @@ namespace Plapp.Views.Infrastructure
         private readonly Dictionary<Type, Type> _popupMap = new Dictionary<Type, Type>();
 
         public IViewLayout BindPage<TViewModel, TView>()
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
             where TView : BaseContentPage<TViewModel>
         {
             _pageMap[typeof(TViewModel)] = typeof(TView);
@@ -21,7 +21,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         public IViewLayout BindPopup<TViewModel, TView>()
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
             where TView : BasePopupPage<TViewModel>
         {
             _popupMap[typeof(TViewModel)] = typeof(TView);
@@ -30,7 +30,7 @@ namespace Plapp.Views.Infrastructure
         }
         
         public Type ResolvePage<TViewModel>()
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             var viewModelType = typeof(TViewModel);
 
@@ -43,7 +43,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         public Type ResolvePopup<TViewModel>()
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             var viewModelType = typeof(TViewModel);
 

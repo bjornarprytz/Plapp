@@ -19,13 +19,13 @@ namespace Plapp.Views.Infrastructure
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>() 
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             return ResolvePage<TViewModel>();
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>(Action<TViewModel> setStateAction) 
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             var view = ResolvePage<TViewModel>();
 
@@ -35,7 +35,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         public BaseContentPage<TViewModel> CreatePage<TViewModel>(TViewModel viewModel)
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             var view = ResolvePage<TViewModel>();
 
@@ -44,13 +44,13 @@ namespace Plapp.Views.Infrastructure
             return view;
         }
         public BasePopupPage<TViewModel> CreatePopup<TViewModel>() 
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             return ResolvePopup<TViewModel>();
         }
 
         public BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction) 
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -60,7 +60,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         public BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel) 
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             var view = ResolvePopup<TViewModel>();
 
@@ -71,7 +71,7 @@ namespace Plapp.Views.Infrastructure
 
 
         private BasePopupPage<TViewModel> ResolvePopup<TViewModel>()
-            where  TViewModel : ITaskViewModel, IIOViewModel
+            where  TViewModel : ITaskViewModel
         {
             var popup = _serviceProvider.GetService(_viewLayout.ResolvePopup<TViewModel>()) as BasePopupPage<TViewModel>;
             
@@ -79,7 +79,7 @@ namespace Plapp.Views.Infrastructure
         }
         
         private BaseContentPage<TViewModel> ResolvePage<TViewModel>()
-            where  TViewModel : IIOViewModel
+            where  TViewModel : IViewModel
         {
             var page = _serviceProvider.GetService(_viewLayout.ResolvePage<TViewModel>()) as BaseContentPage<TViewModel>;
             

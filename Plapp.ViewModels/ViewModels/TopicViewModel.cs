@@ -11,7 +11,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public class TopicViewModel : IOViewModel, ITopicViewModel
+    public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
         private readonly INavigator _navigator;
         private readonly IViewModelFactory _vmFactory;
@@ -32,6 +32,8 @@ namespace Plapp.ViewModels
             OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
             AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
+            
+            // TODO: Load/Save DataSeries on IsShowing==true/false
         }
 
         public int Id { get; set; }
@@ -50,6 +52,8 @@ namespace Plapp.ViewModels
         public IAsyncCommand AddImageCommand { get; private set; }
         public IAsyncCommand AddDataSeriesCommand { get; private set; }
 
+        /*
+         * 
         protected override async Task AutoLoadDataAsync()
         {
             await base.AutoLoadDataAsync();
@@ -72,6 +76,7 @@ namespace Plapp.ViewModels
 
             await _mediator.Send(new SaveTopicCommand(this));
         }
+         */
 
         private async Task OpenTopic()
         {

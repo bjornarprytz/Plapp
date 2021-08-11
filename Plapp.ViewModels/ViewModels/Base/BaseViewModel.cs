@@ -4,10 +4,11 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using ReactiveUI;
 
 namespace Plapp.ViewModels
 {
-    public abstract class BaseViewModel : IViewModel
+    public abstract class BaseViewModel : ReactiveObject, IViewModel
     {
         protected object mPropertyValueCheckLock = new object();
 

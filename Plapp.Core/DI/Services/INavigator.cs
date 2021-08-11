@@ -5,14 +5,14 @@ namespace Plapp.Core
 {
     public interface INavigator
     {
-        Task<IIOViewModel> GoBackAsync();
+        Task<IViewModel> GoBackAsync();
 
         Task BackToRootAsync();
 
         Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IIOViewModel;
+            where TViewModel : IViewModel;
         
         Task GoToAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IIOViewModel;
+            where TViewModel : IViewModel;
     }
 }

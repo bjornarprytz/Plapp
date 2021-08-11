@@ -9,7 +9,7 @@ namespace Plapp.Core
         Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction=null) where TViewModel : IViewModel;
         Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null) where TViewModel : IViewModel;
 
-        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel, IIOViewModel;
+        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel;
 
         Task AlertAsync(string title, string alert, string confirm);
 

@@ -4,7 +4,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
-    public interface IApplicationViewModel : IIOViewModel
+    public interface IApplicationViewModel : IViewModel
     {
         ObservableCollection<ITopicViewModel> Topics { get; }
         IAsyncCommand AddTopicCommand { get; }

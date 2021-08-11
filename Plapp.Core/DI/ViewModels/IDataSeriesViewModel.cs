@@ -5,7 +5,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
-    public interface IDataSeriesViewModel : IIOViewModel
+    public interface IDataSeriesViewModel : IViewModel
     {
         int Id { get; set; }
         string Title { get; set; }

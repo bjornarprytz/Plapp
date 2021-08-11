@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public class LoadingViewModel : IOViewModel, ILoadingViewModel
+    public class LoadingViewModel : BaseViewModel, ILoadingViewModel
     {
         public string Animation { get; private set; }
 

@@ -14,7 +14,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
-    public class DataSeriesViewModel : IOViewModel, IDataSeriesViewModel
+    public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
         private readonly INavigator _navigator;
         private readonly IMediator _mediator;
@@ -32,6 +32,9 @@ namespace Plapp.ViewModels
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             OpenCommand = new AsyncCommand(OpenAsync, allowsMultipleExecutions: false);
             PickTagCommand = new AsyncCommand(PickTagAsync, allowsMultipleExecutions: false);
+            
+            // TODO: Load DataSeries on IsShowing == true
+            // TODO: Save DataSeries on IsShowing == false
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -43,6 +46,8 @@ namespace Plapp.ViewModels
         public IAsyncCommand OpenCommand { get; private set; }
         public IAsyncCommand PickTagCommand { get; private set; }
 
+        /*
+         * 
         protected override async Task AutoLoadDataAsync()
         {
             var dataPointsResponse = await _mediator.Send(new GetAllDataPointsQuery(Id));
@@ -61,6 +66,7 @@ namespace Plapp.ViewModels
         {
             await _mediator.Send(new SaveDataSeriesCommand(this));
         }
+         */
 
         private async Task AddDataPointsAsync()
         {

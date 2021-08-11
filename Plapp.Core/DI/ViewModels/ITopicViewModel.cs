@@ -3,7 +3,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
-    public interface ITopicViewModel : IIOViewModel
+    public interface ITopicViewModel : IViewModel
     {
         bool LacksImage { get; }
 

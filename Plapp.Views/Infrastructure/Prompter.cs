@@ -57,7 +57,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         public async Task PopupAsync<TViewModel>() 
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             var popup = _viewFactory.CreatePopup<TViewModel>();
 
@@ -95,7 +95,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
-            where TViewModel : ITaskViewModel, IIOViewModel
+            where TViewModel : ITaskViewModel
         {
             // TODO: Possibly refactor this to use Reactive Extensions instead
             

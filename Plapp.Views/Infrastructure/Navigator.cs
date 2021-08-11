@@ -16,9 +16,9 @@ namespace Plapp.Views.Infrastructure
             _viewFactory = viewFactory;
         }
 
-        public async Task<IIOViewModel> GoBackAsync()
+        public async Task<IViewModel> GoBackAsync()
         {
-            var view = await _navigation.PopAsync() as BaseContentPage<IIOViewModel>;
+            var view = await _navigation.PopAsync() as BaseContentPage<IViewModel>;
 
             return view.VM;
         }
@@ -29,13 +29,13 @@ namespace Plapp.Views.Infrastructure
         }
 
         public async Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             var view = _viewFactory.CreatePage(setStateAction);
             await _navigation.PushAsync(view);
         }
         public async Task GoToAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IIOViewModel
+            where TViewModel : IViewModel
         {
             var view = _viewFactory.CreatePage(viewModel);
             await _navigation.PushAsync(view);

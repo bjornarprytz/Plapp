@@ -20,6 +20,8 @@ namespace Plapp.ViewModels
             _mediator = mediator;
 
             AvailableTags = new ObservableCollection<ITagViewModel>();
+            
+            // TODO: Load tags on IsShowing
         }
 
         public ObservableCollection<ITagViewModel> AvailableTags { get; }
@@ -28,7 +30,8 @@ namespace Plapp.ViewModels
         {
             return Partial != null;
         }
-
+/*
+ * 
         protected override async Task AutoLoadDataAsync()
         {
             var tagsResponse = await _mediator.Send(new GetAllTagsQuery());
@@ -42,5 +45,6 @@ namespace Plapp.ViewModels
                 tags,
                 (v1, v2) => v1.Id == v2.Id);
         }
+ */
     }
 }
