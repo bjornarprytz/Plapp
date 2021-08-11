@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Plapp.Core
 {
     public interface IViewModel : INotifyPropertyChanged
     {
         bool IsShowing { get; }
-        void OnShow();
-        void OnHide();
-        void OnUserInteractionStopped();
+        Task AppearingAsync();
+        Task DisappearingAsync();
     }
 }

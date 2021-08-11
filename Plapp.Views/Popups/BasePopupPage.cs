@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Plapp.Core;
+using ReactiveUI;
 using Rg.Plugins.Popup.Pages;
 
 namespace Plapp.Views.Popups
 {
-    public abstract class BasePopupPage<TViewModel> : PopupPage
-        where TViewModel : ITaskViewModel
+    public abstract class BasePopupPage<TViewModel> : PopupPage, IViewFor<TViewModel>
+        where TViewModel : class, ITaskViewModel
     {
         private readonly ILogger _logger;
-
-        public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
-
-        protected BasePopupPage(TViewModel vm, ILogger logger)
+        object IViewFor.ViewModel
         {
-            VM = vm;
+            get => ViewModel;
+            set => ViewModel = (TViewModel)value;
+        }
+        
+        public TViewModel ViewModel { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+
+        protected BasePopupPage(TViewModel viewModel, ILogger logger)
+        {
+            ViewModel = viewModel;
 
             _logger = logger;
 
@@ -22,27 +29,29 @@ namespace Plapp.Views.Popups
 
         private void BasePopupPage_BackgroundClicked(object sender, EventArgs e)
         {
-            VM.CancelCommand.Execute(null);
+            ViewModel.CancelCommand.Execute(null);
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             try
             {
                 base.OnAppearing();
-                VM?.OnShow();
+                await ViewModel.AppearingAsync();
             }
             catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
 
-        protected override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
             try
             {
-                VM?.OnHide();
+                await ViewModel.DisappearingAsync();
                 base.OnDisappearing();
             }
             catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
+
+        
     }
 }

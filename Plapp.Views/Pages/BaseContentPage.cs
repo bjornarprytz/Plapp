@@ -1,16 +1,21 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using Plapp.Core;
+using ReactiveUI.XamForms;
 using Xamarin.Forms;
 
 namespace Plapp.Views.Pages
 {
-    public abstract class BaseContentPage<TViewModel> : ContentPage
-        where TViewModel : IViewModel
+    public abstract class BaseContentPage<TViewModel> : ReactiveContentPage<TViewModel>
+        where TViewModel : class, IViewModel 
     {
         private readonly ILogger _logger;
 
-        public TViewModel VM { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+        public TViewModel VM 
+        { 
+            get => (TViewModel)BindingContext;
+            set => BindingContext = value;
+        }
 
         protected BaseContentPage(TViewModel vm, ILogger logger) 
         {
@@ -18,22 +23,25 @@ namespace Plapp.Views.Pages
             _logger = logger;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             try
             {
                 base.OnAppearing();
-                VM?.OnShow();
+
+                await VM.AppearingAsync();
             }
             catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
 
-        protected override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
             try
             {
-                VM?.OnHide();
+                await VM.DisappearingAsync();
+                
                 base.OnDisappearing();
+
             }
             catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }

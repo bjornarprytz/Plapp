@@ -29,13 +29,13 @@ namespace Plapp.Views.Infrastructure
         }
 
         public async Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
         {
             var view = _viewFactory.CreatePage(setStateAction);
             await _navigation.PushAsync(view);
         }
         public async Task GoToAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
         {
             var view = _viewFactory.CreatePage(viewModel);
             await _navigation.PushAsync(view);

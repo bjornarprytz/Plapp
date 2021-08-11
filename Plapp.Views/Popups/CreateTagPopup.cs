@@ -11,7 +11,7 @@ namespace Plapp.Views.Popups
 {
     public class CreateTagPopup : BasePopupPage<ICreateViewModel<ITagViewModel>>
     {
-        public CreateTagPopup(ICreateViewModel<ITagViewModel> vm, ILogger logger) : base(vm, logger)
+        public CreateTagPopup(ICreateViewModel<ITagViewModel> viewModel, ILogger logger) : base(viewModel, logger)
         {
             Content = ViewHelpers.PopupFrame(
                 new StackLayout
@@ -20,10 +20,10 @@ namespace Plapp.Views.Popups
                     Children =
                     {
                         new TagForm()
-                            .BindContext(nameof(VM.Partial)),
+                            .BindContext(nameof(ViewModel.Partial)),
                         new Button()
                             .MaterialIcon(MaterialIcon.Check)
-                            .BindCommand(nameof(VM.ConfirmCommand))
+                            .BindCommand(nameof(ViewModel.ConfirmCommand))
                     }
                 });
         }

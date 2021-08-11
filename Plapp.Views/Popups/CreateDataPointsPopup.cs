@@ -11,7 +11,7 @@ namespace Plapp.Views.Popups
 {
     public class CreateDataPointsPopup : BasePopupPage<ICreateMultipleViewModel<IDataPointViewModel>>
     {
-        public CreateDataPointsPopup(ICreateMultipleViewModel<IDataPointViewModel> vm, ILogger logger) : base(vm, logger)
+        public CreateDataPointsPopup(ICreateMultipleViewModel<IDataPointViewModel> viewModel, ILogger logger) : base(viewModel, logger)
         {
             Content = ViewHelpers.PopupFrame(
                 new StackLayout
@@ -20,15 +20,15 @@ namespace Plapp.Views.Popups
                     Children =
                     {
                         new DataPointEditor()
-                            .BindContext(nameof(VM.Current)),
+                            .BindContext(nameof(ViewModel.Current)),
 
                         new Slider
                         { 
                             Maximum = 100, // Placeholder
                             Margin = new Thickness(0, 40),
                         }
-                        .Bind(BindingHelpers.BuildPath(nameof(VM.Current), nameof(VM.Current.Value)))
-                        .Bind(Slider.DragCompletedCommandProperty, nameof(VM.ConfirmCurrentCommand)),
+                        .Bind(BindingHelpers.BuildPath(nameof(ViewModel.Current), nameof(ViewModel.Current.Value)))
+                        .Bind(Slider.DragCompletedCommandProperty, nameof(ViewModel.ConfirmCurrentCommand)),
 
                         new StackLayout
                         {
@@ -38,11 +38,11 @@ namespace Plapp.Views.Popups
                                 new Button()
                                     .HorizontalOptions(LayoutOptions.Start)
                                     .MaterialIcon(MaterialIcon.Undo)
-                                    .BindCommand(nameof(VM.BackToPreviousCommand)),
+                                    .BindCommand(nameof(ViewModel.BackToPreviousCommand)),
                                 new Button()
                                     .HorizontalOptions(LayoutOptions.End)
                                     .MaterialIcon(MaterialIcon.Check)
-                                    .BindCommand(nameof(VM.ConfirmCommand)),
+                                    .BindCommand(nameof(ViewModel.ConfirmCommand)),
                             }
                         }
                     }

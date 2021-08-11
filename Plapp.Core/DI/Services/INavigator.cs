@@ -10,9 +10,9 @@ namespace Plapp.Core
         Task BackToRootAsync();
 
         Task GoToAsync<TViewModel>(Action<TViewModel> setStateAction = null)
-            where TViewModel : IViewModel;
+            where TViewModel : class, IViewModel;
         
         Task GoToAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel;
+            where TViewModel : class, IViewModel;
     }
 }

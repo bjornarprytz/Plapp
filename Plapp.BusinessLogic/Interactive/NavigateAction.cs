@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Plapp.BusinessLogic.Interactive
 {
     public class NavigateAction<TViewModel> : IRequestWrapper
-        where TViewModel : IViewModel
+        where TViewModel : class, IViewModel
     {
         // This does not work because requests/handlers can't have generic type input
         // TODO: Refactor the INavigator to use an enum instead.
@@ -20,7 +20,7 @@ namespace Plapp.BusinessLogic.Interactive
     }
 
     public class NavigateActionHandler<TViewModel> : IHandlerWrapper<NavigateAction<TViewModel>>
-        where TViewModel : IViewModel
+        where TViewModel : class, IViewModel
     {
         private readonly INavigator _navigator;
 

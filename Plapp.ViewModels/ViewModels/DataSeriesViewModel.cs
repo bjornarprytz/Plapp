@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
@@ -83,8 +84,6 @@ namespace Plapp.ViewModels
             var dataPoints = dataPointsResponse.Payload;
 
             DataPoints.AddRange(dataPoints);
-
-            OnPropertyChanged(nameof(DataPoints));
         }
 
         private async Task PickTagAsync()

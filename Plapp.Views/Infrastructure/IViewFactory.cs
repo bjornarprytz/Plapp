@@ -8,21 +8,21 @@ namespace Plapp.Views.Infrastructure
     public interface IViewFactory
     {
         BaseContentPage<TViewModel> CreatePage<TViewModel>() 
-            where TViewModel : IViewModel;
+            where TViewModel : class, IViewModel;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>(TViewModel viewModel)
-            where TViewModel : IViewModel;
+            where TViewModel : class, IViewModel;
 
         BaseContentPage<TViewModel> CreatePage<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : IViewModel;
+            where TViewModel : class, IViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>()
-            where TViewModel : ITaskViewModel;
+            where TViewModel : class, ITaskViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(TViewModel viewModel)
-            where TViewModel : ITaskViewModel;
+            where TViewModel : class, ITaskViewModel;
 
         BasePopupPage<TViewModel> CreatePopup<TViewModel>(Action<TViewModel> setStateAction)
-            where TViewModel : ITaskViewModel;
+            where TViewModel : class, ITaskViewModel;
     }
 }

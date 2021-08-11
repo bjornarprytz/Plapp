@@ -27,19 +27,19 @@ namespace Plapp.Views.Infrastructure
         }
 
         public async Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction = null)
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
         {
             var popup = _viewFactory.CreatePopup<ICreateViewModel<TViewModel>>();
 
-            setTemplateAction?.Invoke(popup.VM.Partial);
+            setTemplateAction?.Invoke(popup.ViewModel.Partial);
 
             await PopupTaskAsync(popup);
 
-            return popup.VM.GetResult();
+            return popup.ViewModel.GetResult();
         }
 
         public async Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null)
-            where TViewModel : IViewModel
+            where TViewModel : class, IViewModel
         {
             getTemplateFunc ??= () => _serviceProvider.Get<TViewModel>(); // TODO: Use ViewModel Factory instead
 
@@ -53,11 +53,11 @@ namespace Plapp.Views.Infrastructure
 
             await PopupTaskAsync(popup);
 
-            return popup.VM.GetResult();
+            return popup.ViewModel.GetResult();
         }
 
         public async Task PopupAsync<TViewModel>() 
-            where TViewModel : ITaskViewModel
+            where TViewModel : class, ITaskViewModel
         {
             var popup = _viewFactory.CreatePopup<TViewModel>();
 
@@ -95,7 +95,7 @@ namespace Plapp.Views.Infrastructure
         }
 
         private async Task PopupTaskAsync<TViewModel>(BasePopupPage<TViewModel> popupPage)
-            where TViewModel : ITaskViewModel
+            where TViewModel : class, ITaskViewModel
         {
             // TODO: Possibly refactor this to use Reactive Extensions instead
             

@@ -6,10 +6,10 @@ namespace Plapp.Core
 {
     public interface IPrompter
     {
-        Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction=null) where TViewModel : IViewModel;
-        Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null) where TViewModel : IViewModel;
+        Task<TViewModel> CreateAsync<TViewModel>(Action<TViewModel> setTemplateAction=null) where TViewModel : class, IViewModel;
+        Task<IEnumerable<TViewModel>> CreateMultipleAsync<TViewModel>(Func<TViewModel> getTemplateFunc = null) where TViewModel : class, IViewModel;
 
-        Task PopupAsync<TViewModel>() where TViewModel : ITaskViewModel;
+        Task PopupAsync<TViewModel>() where TViewModel :class, ITaskViewModel;
 
         Task AlertAsync(string title, string alert, string confirm);
 
