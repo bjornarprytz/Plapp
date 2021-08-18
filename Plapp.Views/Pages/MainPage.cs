@@ -11,7 +11,7 @@ namespace Plapp.Views.Pages
 {
     public class MainPage : BaseContentPage<IApplicationViewModel>
     {
-        public MainPage(IApplicationViewModel vm, ILogger logger) : base(vm, logger)
+        public MainPage()
         {
             Content = new Grid
             {

@@ -1,11 +1,9 @@
 ﻿using Dna;
 using Microsoft.EntityFrameworkCore;
-using Plapp.Core;
 using Plapp.Persist;
 using Plapp.DependencyInjection;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Plapp.Views.Infrastructure;
 using Plapp.Views.Styles;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -24,8 +22,9 @@ namespace Plapp
                 .AddConfiguration(config)
                 .AddModules()
                 .Build();
-            
+
             MainPage = new AppShell();
+            
         }
 
         protected override async void OnStart()
@@ -34,7 +33,7 @@ namespace Plapp
 
             EnsureDbCreated();
 
-            await Framework.Provider.Get<INavigator>().GoToAsync<IApplicationViewModel>();
+            var page = Shell.Current;
         }
 
         private void ResetDb()

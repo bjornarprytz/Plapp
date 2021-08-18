@@ -1,4 +1,5 @@
 using Plapp.Views.Pages;
+using ReactiveUI.XamForms;
 using Xamarin.Forms;
 
 namespace Plapp
@@ -7,8 +8,9 @@ namespace Plapp
     {
         public AppShell()
         {
-            SetTabBarIsVisible(this, false);
-            Routing.RegisterRoute("loading", typeof(LoadingPage));
+            
+            
+            Routing.RegisterRoute("index", typeof(MainPage));
         }
     }
 }

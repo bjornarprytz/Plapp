@@ -12,15 +12,12 @@ namespace Plapp.ViewModels
 {
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
-        private readonly INavigator _navigator;
         private readonly IMediator _mediator;
 
         public DataSeriesViewModel(
-            INavigator navigator,
             IMediator mediator
             )
         {
-            _navigator = navigator;
             _mediator = mediator;
 
             DataPoints = new ObservableCollection<IDataPointViewModel>();
@@ -102,7 +99,7 @@ namespace Plapp.ViewModels
 
         private async Task OpenAsync()
         {
-            await _navigator.GoToAsync<IDataSeriesViewModel>(this);
+            await _mediator.Send(new NavigateAction("data-series")); // TODO: Specify parameter for this
         }
     }
 }

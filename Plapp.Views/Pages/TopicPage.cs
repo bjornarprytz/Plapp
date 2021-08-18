@@ -11,7 +11,7 @@ namespace Plapp.Views.Pages
 {
     public class TopicPage : BaseContentPage<ITopicViewModel>
     {
-        public TopicPage(ITopicViewModel vm, ILogger logger) : base(vm, logger)
+        public TopicPage()
         {
             var descriptionExpander = ViewHelpers.ExpanderWithHeader(new Label { Text = "Description" });
             descriptionExpander.Content = new Editor()

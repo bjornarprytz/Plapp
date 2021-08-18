@@ -6,23 +6,21 @@ using Plapp.Core;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Plapp.BusinessLogic.Interactive;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
 {
     public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
     {
-        private readonly INavigator _navigator;
         private readonly IViewModelFactory _vmFactory;
         private readonly IMediator _mediator;
 
         public ApplicationViewModel(
-            INavigator navigator,
             IViewModelFactory vmFactory,
             IMediator mediator
             )
         {
-            _navigator = navigator;
             _vmFactory = vmFactory;
             _mediator = mediator;
 
@@ -66,7 +64,7 @@ namespace Plapp.ViewModels
 
             Topics.Add(newTopic);
 
-            await _navigator.GoToAsync(newTopic);
+            await _mediator.Send(new NavigateAction("topic")); // TODO: Specify route to new topic
         }
 
         private async Task DeleteTopic(ITopicViewModel topic)

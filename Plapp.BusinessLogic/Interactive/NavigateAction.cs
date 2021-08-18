@@ -1,37 +1,27 @@
-﻿using MediatR;
-using Plapp.Core;
+﻿using Plapp.Core;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Plapp.BusinessLogic.Interactive
 {
-    public class NavigateAction<TViewModel> : IRequestWrapper
-        where TViewModel : class, IViewModel
+    public class NavigateAction : IRequestWrapper
     {
-        // This does not work because requests/handlers can't have generic type input
-        // TODO: Refactor the INavigator to use an enum instead.
+        public string Route { get; }
 
-        public NavigateAction(TViewModel viewModel)
+        public NavigateAction(string route)
         {
-            ViewModel = viewModel;
+            Route = route;
         }
-
-        public TViewModel ViewModel { get; private set; }
     }
 
-    public class NavigateActionHandler<TViewModel> : IHandlerWrapper<NavigateAction<TViewModel>>
+    public class NavigateActionHandler<TViewModel> : IHandlerWrapper<NavigateAction>
         where TViewModel : class, IViewModel
     {
-        private readonly INavigator _navigator;
 
-        public NavigateActionHandler(INavigator navigator)
+        public async Task<IResponseWrapper> Handle(NavigateAction request, CancellationToken cancellationToken)
         {
-            _navigator = navigator;
-        }
-
-        public async Task<IResponseWrapper> Handle(NavigateAction<TViewModel> request, CancellationToken cancellationToken)
-        {
-            await _navigator.GoToAsync(request.ViewModel);
+            await Shell.Current.GoToAsync(request.Route);
 
             return Response.Ok();
         }

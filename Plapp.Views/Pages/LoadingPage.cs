@@ -11,7 +11,7 @@ namespace Plapp.Views.Pages
     {
         AnimationView animation;
 
-        public LoadingPage(ILoadingViewModel vm, ILogger logger) : base(vm, logger)
+        public LoadingPage()
         {
             animation = new AnimationView
             {

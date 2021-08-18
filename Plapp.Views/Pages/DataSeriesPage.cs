@@ -8,7 +8,7 @@ namespace Plapp.Views.Pages
 {
     public class DataSeriesPage : BaseContentPage<IDataSeriesViewModel>
     {
-        public DataSeriesPage(IDataSeriesViewModel vm, ILogger logger) : base(vm, logger)
+        public DataSeriesPage()
         {
             Content = new StackLayout
             {

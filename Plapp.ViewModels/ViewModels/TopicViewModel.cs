@@ -13,17 +13,14 @@ namespace Plapp.ViewModels
 {
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
-        private readonly INavigator _navigator;
         private readonly IViewModelFactory _vmFactory;
         private readonly IMediator _mediator;
 
         public TopicViewModel(
-            INavigator navigator,
             IViewModelFactory vmFactory,
             IMediator mediator
             )
         {
-            _navigator = navigator;
             _vmFactory = vmFactory;
             _mediator = mediator;
             
@@ -81,7 +78,7 @@ namespace Plapp.ViewModels
 
         private async Task OpenTopic()
         {
-            await _navigator.GoToAsync<ITopicViewModel>(this);
+            await _mediator.Send(new NavigateAction("topic")); // Specify parameters for this
         }
 
         private async Task AddImage()
@@ -118,7 +115,7 @@ namespace Plapp.ViewModels
             
             DataSeries.Add(newDataSeries);
 
-            await _navigator.GoToAsync(newDataSeries);
+            await _mediator.Send(new NavigateAction("data-series"));  // TODO: Specify parameters for data series
         }
     }
 }
