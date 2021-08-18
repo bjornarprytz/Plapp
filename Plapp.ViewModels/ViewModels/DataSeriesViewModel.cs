@@ -1,16 +1,11 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using MediatR;
 using Plapp.BusinessLogic;
 using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels
@@ -33,9 +28,6 @@ namespace Plapp.ViewModels
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             OpenCommand = new AsyncCommand(OpenAsync, allowsMultipleExecutions: false);
             PickTagCommand = new AsyncCommand(PickTagAsync, allowsMultipleExecutions: false);
-            
-            // TODO: Load DataSeries on IsShowing == true
-            // TODO: Save DataSeries on IsShowing == false
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -47,9 +39,17 @@ namespace Plapp.ViewModels
         public IAsyncCommand OpenCommand { get; private set; }
         public IAsyncCommand PickTagCommand { get; private set; }
 
-        /*
-         * 
-        protected override async Task AutoLoadDataAsync()
+        public override Task AppearingAsync()
+        {
+            return LoadDataPointsAsync();
+        }
+
+        public override Task DisappearingAsync()
+        {
+            return SaveDataSeriesAsync();
+        }
+
+        private async Task LoadDataPointsAsync()
         {
             var dataPointsResponse = await _mediator.Send(new GetAllDataPointsQuery(Id));
 
@@ -63,11 +63,10 @@ namespace Plapp.ViewModels
                 (v1, v2) => v1.Id == v2.Id);
         }
 
-        protected override async Task AutoSaveDataAsync()
+        private async Task SaveDataSeriesAsync()
         {
             await _mediator.Send(new SaveDataSeriesCommand(this));
         }
-         */
 
         private async Task AddDataPointsAsync()
         {

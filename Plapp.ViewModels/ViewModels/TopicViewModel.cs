@@ -32,8 +32,6 @@ namespace Plapp.ViewModels
             OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
             AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
-            
-            // TODO: Load/Save DataSeries on IsShowing==true/false
         }
 
         public int Id { get; set; }
@@ -52,12 +50,18 @@ namespace Plapp.ViewModels
         public IAsyncCommand AddImageCommand { get; private set; }
         public IAsyncCommand AddDataSeriesCommand { get; private set; }
 
-        /*
-         * 
-        protected override async Task AutoLoadDataAsync()
+        public override Task AppearingAsync()
         {
-            await base.AutoLoadDataAsync();
-            
+            return LoadDataSeriesAsync();
+        }
+
+        public override Task DisappearingAsync()
+        {
+            return SaveTopicAsync();
+        }
+
+        private async Task LoadDataSeriesAsync()
+        {
             var response = await _mediator.Send(new GetAllDataSeriesQuery(Id));
 
             if (response.IsError)
@@ -70,13 +74,10 @@ namespace Plapp.ViewModels
                 (v1, v2) => v1.Id == v2.Id);
         }
 
-        protected override async Task AutoSaveDataAsync()
+        private Task SaveTopicAsync()
         {
-            await base.AutoSaveDataAsync();
-
-            await _mediator.Send(new SaveTopicCommand(this));
+            return _mediator.Send(new SaveTopicCommand(this));
         }
-         */
 
         private async Task OpenTopic()
         {

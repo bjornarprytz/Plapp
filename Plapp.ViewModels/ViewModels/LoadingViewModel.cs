@@ -1,6 +1,7 @@
-﻿using Plapp.Core;
+﻿using System;
+using Plapp.Core;
 using System.IO;
-using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace Plapp.ViewModels
 {
@@ -10,7 +11,6 @@ namespace Plapp.ViewModels
 
         public LoadingViewModel()
         {
-            
             Animation = Path.Combine("Animations","Pineapple.json");
         }
     }

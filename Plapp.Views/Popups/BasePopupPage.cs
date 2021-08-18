@@ -13,11 +13,15 @@ namespace Plapp.Views.Popups
         private readonly ILogger _logger;
         object IViewFor.ViewModel
         {
-            get => ViewModel;
-            set => ViewModel = (TViewModel)value;
+            get => BindingContext;
+            set => BindingContext = value;
         }
-        
-        public TViewModel ViewModel { get { return (TViewModel)BindingContext; } set { BindingContext = value; } }
+
+        public TViewModel ViewModel
+        {
+            get => (TViewModel)BindingContext;
+            set => BindingContext = value;
+        }
 
         protected BasePopupPage(TViewModel viewModel, ILogger logger)
         {
@@ -25,7 +29,8 @@ namespace Plapp.Views.Popups
 
             _logger = logger;
 
-            BackgroundClicked += BasePopupPage_BackgroundClicked;        }
+            BackgroundClicked += BasePopupPage_BackgroundClicked;        
+        }
 
         private void BasePopupPage_BackgroundClicked(object sender, EventArgs e)
         {
@@ -52,6 +57,10 @@ namespace Plapp.Views.Popups
             catch (Exception ex) { _logger.LogTrace(ex.Message); }
         }
 
-        
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            ViewModel = BindingContext as TViewModel;
+        }
     }
 }

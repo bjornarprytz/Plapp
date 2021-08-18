@@ -5,7 +5,6 @@ namespace Plapp.Core
 {
     public interface IViewModel : INotifyPropertyChanged
     {
-        bool IsShowing { get; }
         Task AppearingAsync();
         Task DisappearingAsync();
     }

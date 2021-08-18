@@ -10,6 +10,7 @@ namespace Plapp.ViewModels
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
         private readonly IMediator _mediator;
+        private readonly ObservableCollection<ITagViewModel> _availableTags;
 
         public CreateTagViewModel(
             IViewModelFactory vmFactory,
@@ -19,20 +20,21 @@ namespace Plapp.ViewModels
         {
             _mediator = mediator;
 
-            AvailableTags = new ObservableCollection<ITagViewModel>();
-            
-            // TODO: Load tags on IsShowing
+            _availableTags = new ObservableCollection<ITagViewModel>();
         }
 
-        public ObservableCollection<ITagViewModel> AvailableTags { get; }
 
         protected override bool PartialIsValid()
         {
             return Partial != null;
         }
-/*
- * 
-        protected override async Task AutoLoadDataAsync()
+
+        public override Task AppearingAsync()
+        {
+            return LoadTagsAsync();
+        }
+ 
+        private async Task LoadTagsAsync()
         {
             var tagsResponse = await _mediator.Send(new GetAllTagsQuery());
 
@@ -41,10 +43,9 @@ namespace Plapp.ViewModels
 
             var tags = tagsResponse.Payload;
 
-            AvailableTags.Update(
+            _availableTags.Update(
                 tags,
                 (v1, v2) => v1.Id == v2.Id);
         }
- */
     }
 }
