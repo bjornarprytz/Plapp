@@ -10,6 +10,7 @@ namespace Plapp.Views.Infrastructure
     {
         private readonly INavigation _navigation;
         private readonly IViewFactory _viewFactory;
+
         public Navigator(INavigation navigation, IViewFactory viewFactory)
         {
             _navigation = navigation;

@@ -24,10 +24,8 @@ namespace Plapp
                 .AddConfiguration(config)
                 .AddModules()
                 .Build();
-                
-            var loadingPage = Framework.Provider.Get<IViewFactory>().CreatePage<ILoadingViewModel>();
-
-            MainPage = new NavigationPage(loadingPage);
+            
+            MainPage = new AppShell();
         }
 
         protected override async void OnStart()
