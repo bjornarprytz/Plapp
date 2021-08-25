@@ -2,15 +2,16 @@ using System.Reactive.Disposables;
 using Plapp.Core;
 using ReactiveUI;
 using ReactiveUI.XamForms;
+using Splat;
 
 namespace Plapp.UI.Pages
 {
     public abstract class BaseContentPage<TViewModel> : ReactiveContentPage<TViewModel> 
         where TViewModel : class, IViewModel
     {
-        protected BaseContentPage(TViewModel viewModel)
+        protected BaseContentPage()
         {
-            ViewModel = viewModel;
+            ViewModel = Locator.Current.GetService<TViewModel>();
             
             this.WhenActivated(DoBindings);
         }

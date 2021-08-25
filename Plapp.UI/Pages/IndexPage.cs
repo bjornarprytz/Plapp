@@ -10,7 +10,7 @@ namespace Plapp.UI.Pages
     public class IndexPage : BaseContentPage<IApplicationViewModel>
     {
         private readonly CollectionView _topics = new ();
-        public IndexPage(IApplicationViewModel viewModel) : base(viewModel) // TODO: This throws exception (somewhere in DI, probably), due to missing Default Constructor
+        public IndexPage()
         {
             Content = _topics;
         }

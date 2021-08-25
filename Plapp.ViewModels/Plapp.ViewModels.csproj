@@ -11,8 +11,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
-    <PackageReference Include="ReactiveUI" Version="14.3.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="14.3.1" />
+    <PackageReference Include="ReactiveUI" Version="16.1.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="16.1.1" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
   </ItemGroup>

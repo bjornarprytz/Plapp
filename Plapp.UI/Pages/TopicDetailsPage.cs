@@ -10,7 +10,7 @@ namespace Plapp.UI.Pages
     {
         private readonly Button _button = new();
         
-        public TopicDetailsPage(ITopicViewModel viewModel) : base(viewModel)
+        public TopicDetailsPage()
         {
             Content = _button;
         }

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using Plapp.BusinessLogic.Interactive;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.ViewModels

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DynamicData;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
