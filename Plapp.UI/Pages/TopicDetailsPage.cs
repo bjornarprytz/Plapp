@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Plapp.Core;
+using ReactiveUI;
 using ReactiveUI.XamForms;
 using Xamarin.Forms;
 
@@ -7,18 +8,17 @@ namespace Plapp.UI.Pages
 {
     public class TopicDetailsPage : BaseContentPage<ITopicViewModel>
     {
-        private Button button;
+        private readonly Button _button = new();
         
-        public TopicDetailsPage()
+        public TopicDetailsPage(ITopicViewModel viewModel) : base(viewModel)
         {
-            button = new Button();
-
-            Content = button;
+            Content = _button;
         }
 
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
             // No bindings yet
         }
+
     }
 }

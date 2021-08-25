@@ -3,15 +3,13 @@ using Plapp.Core;
 using ReactiveUI;
 using ReactiveUI.XamForms;
 
-namespace Plapp.UI.Pages
+namespace Plapp.UI.ContentViews
 {
-    public abstract class BaseContentPage<TViewModel> : ReactiveContentPage<TViewModel> 
+    public abstract class BaseViewCell<TViewModel> : ReactiveViewCell<TViewModel> 
         where TViewModel : class, IViewModel
     {
-        protected BaseContentPage(TViewModel viewModel)
+        protected BaseViewCell()
         {
-            ViewModel = viewModel;
-            
             this.WhenActivated(DoBindings);
         }
         
@@ -28,8 +26,7 @@ namespace Plapp.UI.Pages
             
             base.OnDisappearing();
         }
-
-
+        
         protected abstract void DoBindings(CompositeDisposable bindingsDisposable);
     }
 }

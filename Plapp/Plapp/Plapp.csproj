@@ -75,6 +75,5 @@
     <ProjectReference Include="..\..\Plapp.Persist\Plapp.Persist.csproj" />
     <ProjectReference Include="..\..\Plapp.UI\Plapp.UI.csproj" />
     <ProjectReference Include="..\..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
-    <ProjectReference Include="..\..\Plapp.Views\Plapp.Views.csproj" />
   </ItemGroup>
 </Project>
