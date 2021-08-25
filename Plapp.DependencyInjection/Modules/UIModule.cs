@@ -12,10 +12,6 @@ namespace Plapp.DependencyInjection
         public override void ConfigureServices(IServiceCollection services)
         {
             services.UseMicrosoftDependencyResolver();
-
-            services.AddTransient<IViewFor<IApplicationViewModel>, IndexPage>();
-            
-            services.AddTransient<IViewFor<ITopicViewModel>, TopicThumbnail>();
         }
     }
 }

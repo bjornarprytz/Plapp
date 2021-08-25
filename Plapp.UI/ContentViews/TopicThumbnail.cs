@@ -5,28 +5,31 @@ using Xamarin.Forms;
 
 namespace Plapp.UI.ContentViews
 {
-    public class TopicThumbnail : BaseViewCell<ITopicViewModel>
+    public class TopicThumbnail : BaseContentView<ITopicViewModel>
     {
-        private readonly Label _title = new ()
+        private readonly Button _button = new ()
         {
             Text = "Hello world"
         };
         
         public TopicThumbnail()
         {
-            View = new StackLayout
+            Content = new StackLayout
             {
                 Children =
                 {
-                    _title
+                    _button
                 }
             };
         }
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            //this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._title.Text);
-            
+            this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._button.Text)
+                .DisposeWith(bindingsDisposable);
+
+            this.BindCommand(this.ViewModel, topic => topic.OpenCommand, v => v._button)
+                .DisposeWith(bindingsDisposable);
         }
     }
 }

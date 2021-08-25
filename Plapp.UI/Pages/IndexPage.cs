@@ -11,7 +11,7 @@ namespace Plapp.UI.Pages
         private readonly CollectionView _topics = new();
         public IndexPage()
         {
-            _topics.ItemTemplate = new DataTemplate(() =>  new Label{Text = "Yo"});
+            _topics.ItemTemplate = new DataTemplate(() =>  new TopicThumbnail());
             
             Content = _topics;
         }

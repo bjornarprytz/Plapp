@@ -13,7 +13,7 @@ using Xamarin.Forms;
 namespace Plapp.ViewModels
 {
     
-    [QueryProperty(nameof(TopicViewModel.Id), nameof(TopicViewModel.Id))]
+    [QueryProperty(nameof(Id), nameof(Id))]
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
         private readonly IViewModelFactory _vmFactory;
@@ -81,7 +81,9 @@ namespace Plapp.ViewModels
 
         private async Task OpenTopic()
         {
-            await _mediator.Send(new NavigateAction("topic")); // Specify parameters for this
+            await Shell.Current.GoToAsync($"topic?Id={Id}");
+            
+            //await _mediator.Send(new NavigateAction($"topic?Id={Id}"));
         }
 
         private async Task AddImage()

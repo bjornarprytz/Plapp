@@ -22,7 +22,7 @@ namespace Plapp
         void RegisterRoutes()
         {
             // TODO: Register routes
-            Routes.Add("topic/details", typeof(IndexPage));
+            Routes.Add("topic", typeof(TopicDetailsPage));
     
             foreach (var item in Routes)
             {
