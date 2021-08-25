@@ -4,7 +4,6 @@ using Plapp.Persist;
 using Plapp.DependencyInjection;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Plapp.Views.Styles;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -14,8 +13,6 @@ namespace Plapp
     {
         public App()
         {
-            Resources = Styles.Implicit;
-
             var config = ReadConfig();
             
             Framework.Construct<DefaultFrameworkConstruction>()
