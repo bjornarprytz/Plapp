@@ -14,9 +14,7 @@ namespace Plapp
         public AppShell()
         {
             InitializeComponent();
-            
-            
-            
+
             RegisterRoutes();
             BindingContext = this;
         }
@@ -24,7 +22,7 @@ namespace Plapp
         void RegisterRoutes()
         {
             // TODO: Register routes
-            //Routes.Add("topic/details", typeof(IndexPage));
+            Routes.Add("topic/details", typeof(IndexPage));
     
             foreach (var item in Routes)
             {

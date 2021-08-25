@@ -8,9 +8,12 @@ using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
+    
+    [QueryProperty(nameof(TopicViewModel.Id), nameof(TopicViewModel.Id))]
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
         private readonly IViewModelFactory _vmFactory;

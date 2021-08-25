@@ -21,7 +21,6 @@ namespace Plapp
                 .Build();
 
             MainPage = new AppShell();
-            
         }
 
         protected override async void OnStart()
@@ -29,8 +28,6 @@ namespace Plapp
             //ResetDb(); // Uncomment if the DB needs to be cleaned up for testing purposes!
 
             EnsureDbCreated();
-
-            var page = Shell.Current;
         }
 
         private void ResetDb()
