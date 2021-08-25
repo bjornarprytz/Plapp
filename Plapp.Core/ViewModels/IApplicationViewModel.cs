@@ -1,14 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using DynamicData;
-using ReactiveUI;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Plapp.Core
 {
     public interface IApplicationViewModel : IViewModel
     {
-        IObservableList<ITopicViewModel> Topics { get; }
+        ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         IAsyncCommand AddTopicCommand { get; }
         IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; }
     }

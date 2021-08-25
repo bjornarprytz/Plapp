@@ -7,7 +7,10 @@ namespace Plapp.UI.ContentViews
 {
     public class TopicThumbnail : BaseViewCell<ITopicViewModel>
     {
-        private readonly Label _title = new();
+        private readonly Label _title = new ()
+        {
+            Text = "Hello world"
+        };
         
         public TopicThumbnail()
         {
@@ -22,7 +25,7 @@ namespace Plapp.UI.ContentViews
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._title);
+            //this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._title.Text);
             
         }
     }

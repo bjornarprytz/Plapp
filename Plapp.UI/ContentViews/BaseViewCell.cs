@@ -2,6 +2,7 @@ using System.Reactive.Disposables;
 using Plapp.Core;
 using ReactiveUI;
 using ReactiveUI.XamForms;
+using Splat;
 
 namespace Plapp.UI.ContentViews
 {
@@ -10,6 +11,8 @@ namespace Plapp.UI.ContentViews
     {
         protected BaseViewCell()
         {
+            ViewModel = Locator.Current.GetService<TViewModel>();
+            
             this.WhenActivated(DoBindings);
         }
         

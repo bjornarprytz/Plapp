@@ -2,16 +2,17 @@ using System.Reactive.Disposables;
 using Plapp.Core;
 using Plapp.UI.ContentViews;
 using ReactiveUI;
-using ReactiveUI.XamForms;
 using Xamarin.Forms;
 
 namespace Plapp.UI.Pages
 {
     public class IndexPage : BaseContentPage<IApplicationViewModel>
     {
-        private readonly CollectionView _topics = new ();
+        private readonly CollectionView _topics = new();
         public IndexPage()
         {
+            _topics.ItemTemplate = new DataTemplate(() =>  new Label{Text = "Yo"});
+            
             Content = _topics;
         }
         
