@@ -10,7 +10,7 @@ namespace Plapp.Core
         int Id { get; set; }
         string Title { get; set; }
         ITagViewModel Tag { get; set; }
-        ObservableCollection<IDataPointViewModel> DataPoints { get; }
+        ReadOnlyObservableCollection<IDataPointViewModel> DataPoints { get; }
 
         IAsyncCommand OpenCommand { get; }
         IAsyncCommand AddDataPointCommand { get; }

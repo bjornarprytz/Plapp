@@ -7,7 +7,7 @@ namespace Plapp.UI.ContentViews
 {
     public class TopicThumbnail : BaseContentView<ITopicViewModel>
     {
-        private readonly Button _button = new ()
+        private readonly Button _openButton = new ()
         {
             Text = "Hello world"
         };
@@ -18,17 +18,17 @@ namespace Plapp.UI.ContentViews
             {
                 Children =
                 {
-                    _button
+                    _openButton
                 }
             };
         }
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._button.Text)
+            this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._openButton.Text)
                 .DisposeWith(bindingsDisposable);
 
-            this.BindCommand(this.ViewModel, topic => topic.OpenCommand, v => v._button)
+            this.BindCommand(this.ViewModel, topic => topic.OpenCommand, v => v._openButton)
                 .DisposeWith(bindingsDisposable);
         }
     }

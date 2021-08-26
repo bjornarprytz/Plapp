@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Plapp.BusinessLogic;
 using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
@@ -6,7 +7,10 @@ using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using PropertyChanged;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using DynamicData;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -16,31 +20,33 @@ namespace Plapp.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public class TopicViewModel : BaseViewModel, ITopicViewModel
     {
-        private readonly IViewModelFactory _vmFactory;
+        private readonly SourceCache<IDataSeriesViewModel, int> _dataSeriesMutable = new (topic => topic.Id);
+        private readonly ReadOnlyObservableCollection<IDataSeriesViewModel> _dataSeries;
         private readonly IMediator _mediator;
 
         public TopicViewModel(
-            IViewModelFactory vmFactory,
             IMediator mediator
             )
         {
-            _vmFactory = vmFactory;
             _mediator = mediator;
-            
-            DataSeries = new ObservableCollection<IDataSeriesViewModel>();
 
             OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
             AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
+
+            _dataSeriesMutable
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out _dataSeries)
+                .DisposeMany()
+                .Subscribe();
         }
 
         public int Id { get; set; }
-        public ObservableCollection<IDataSeriesViewModel> DataSeries { get; }
-
-        public bool IsSavingTopic { get; private set; }
+        public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries => _dataSeries;
         
         [AlsoNotifyFor(nameof(ImageUri))]
-        public bool LacksImage => string.IsNullOrEmpty(ImageUri);
+        public bool LacksImage => ImageUri.IsMissing();
         
         public string ImageUri { get; set; }
         public string Title { get; set; }
@@ -69,9 +75,11 @@ namespace Plapp.ViewModels
 
             var freshDataSeries = response.Payload;
 
-            DataSeries.Update(
-                freshDataSeries,
-                (v1, v2) => v1.Id == v2.Id);
+            _dataSeriesMutable.Edit(innerList =>
+            {
+                innerList.Clear();
+                innerList.AddOrUpdate(freshDataSeries);
+            });
         }
 
         private Task SaveTopicAsync()
@@ -82,8 +90,6 @@ namespace Plapp.ViewModels
         private async Task OpenTopic()
         {
             await Shell.Current.GoToAsync($"topic?Id={Id}");
-            
-            //await _mediator.Send(new NavigateAction($"topic?Id={Id}"));
         }
 
         private async Task AddImage()
@@ -104,23 +110,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataSeriesAsync()
         {
-            var tagResponse = await _mediator.Send(new PickTagAction());
-            
-            if (tagResponse.IsCancelled)
-                return;
-
-            if (tagResponse.IsError)
-                tagResponse.Throw();
-
-            var chosenTag = tagResponse.Payload;
-            
-            var newDataSeries = _vmFactory.Create<IDataSeriesViewModel>();
-
-            newDataSeries.Tag = chosenTag;
-            
-            DataSeries.Add(newDataSeries);
-
-            await _mediator.Send(new NavigateAction("data-series"));  // TODO: Specify parameters for data series
+            await Shell.Current.GoToAsync($"data-series");
         }
     }
 }

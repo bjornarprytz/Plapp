@@ -8,12 +8,20 @@ namespace Plapp.UI.Pages
 {
     public class IndexPage : BaseContentPage<IApplicationViewModel>
     {
+        private readonly Button _newTopicButton = new() {Text = "New Topic"};
         private readonly CollectionView _topics = new();
         public IndexPage()
         {
             _topics.ItemTemplate = new DataTemplate(() =>  new TopicThumbnail());
-            
-            Content = _topics;
+
+            Content = new StackLayout
+            {
+                Children =
+                {
+                    _newTopicButton,
+                    _topics
+                }
+            };
         }
         
         
@@ -22,8 +30,8 @@ namespace Plapp.UI.Pages
         {
             this.OneWayBind(ViewModel, vm => vm.Topics, page => page._topics.ItemsSource)
                 .DisposeWith(bindingsDisposable);
-            
-            
+
+            this.BindCommand(ViewModel, vm => vm.AddTopicCommand, page => page._newTopicButton);
         }
     }
 }

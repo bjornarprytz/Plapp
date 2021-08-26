@@ -23,6 +23,7 @@ namespace Plapp
         {
             // TODO: Register routes
             Routes.Add("topic", typeof(TopicDetailsPage));
+            Routes.Add("data-series", typeof(DataSeriesDetailsPage));
     
             foreach (var item in Routes)
             {

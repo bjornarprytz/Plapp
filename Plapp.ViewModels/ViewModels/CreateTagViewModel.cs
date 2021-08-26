@@ -1,16 +1,21 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Plapp.BusinessLogic;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using DynamicData;
+using ReactiveUI;
 
 namespace Plapp.ViewModels
 {
     public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
     {
+        private readonly SourceCache<ITagViewModel, int> _tagsMutable = new (tag => tag.Id);
+        private readonly ReadOnlyObservableCollection<ITagViewModel> _availableTags;
         private readonly IMediator _mediator;
-        private readonly ObservableCollection<ITagViewModel> _availableTags;
 
         public CreateTagViewModel(
             IViewModelFactory vmFactory,
@@ -20,7 +25,11 @@ namespace Plapp.ViewModels
         {
             _mediator = mediator;
 
-            _availableTags = new ObservableCollection<ITagViewModel>();
+            _tagsMutable
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out _availableTags)
+                .Subscribe();
         }
 
 
@@ -43,9 +52,11 @@ namespace Plapp.ViewModels
 
             var tags = tagsResponse.Payload;
 
-            _availableTags.Update(
-                tags,
-                (v1, v2) => v1.Id == v2.Id);
+            _tagsMutable.Edit(innerList =>
+            {
+                innerList.Clear();
+                innerList.AddOrUpdate(tags);
+            });
         }
     }
 }

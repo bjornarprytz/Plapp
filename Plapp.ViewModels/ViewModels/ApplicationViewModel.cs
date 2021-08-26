@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using MediatR;
@@ -9,11 +8,10 @@ using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DynamicData;
-using Plapp.BusinessLogic.Interactive;
 using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
@@ -22,14 +20,10 @@ namespace Plapp.ViewModels
         private readonly SourceCache<ITopicViewModel, int> _topicsMutable = new (topic => topic.Id);
         private readonly ReadOnlyObservableCollection<ITopicViewModel> _topics;
 
-        private readonly IViewModelFactory _vmFactory;
         private readonly IMediator _mediator;
 
-        public ApplicationViewModel(
-            IViewModelFactory vmFactory,
-            IMediator mediator)
+        public ApplicationViewModel(IMediator mediator)
         {
-            _vmFactory = vmFactory;
             _mediator = mediator;
 
             AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
@@ -41,7 +35,6 @@ namespace Plapp.ViewModels
                 .Bind(out _topics)
                 .DisposeMany()
                 .Subscribe();
-
         }
 
         public override Task AppearingAsync()
@@ -76,11 +69,7 @@ namespace Plapp.ViewModels
 
         private async Task AddTopic()
         {
-            var newTopic = _vmFactory.Create<ITopicViewModel>();
-
-            _topicsMutable.AddOrUpdate(newTopic);
-
-            await _mediator.Send(new NavigateAction("topic")); // TODO: Specify route to new topic
+            await Shell.Current.GoToAsync($"topic");
         }
 
         private async Task DeleteTopic(ITopicViewModel topic)

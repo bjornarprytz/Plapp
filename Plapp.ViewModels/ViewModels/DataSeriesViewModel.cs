@@ -1,36 +1,51 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Plapp.BusinessLogic;
 using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using DynamicData;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
+    [QueryProperty(nameof(Id), nameof(Id))]
     public class DataSeriesViewModel : BaseViewModel, IDataSeriesViewModel
     {
+        private readonly SourceCache<IDataPointViewModel, int> _dataPointsMutable = new (dataPoint => dataPoint.Id);
+        private readonly ReadOnlyObservableCollection<IDataPointViewModel> _dataPoints;
         private readonly IMediator _mediator;
+        private readonly ITagService _tagService;
 
-        public DataSeriesViewModel(
-            IMediator mediator
-            )
+        public DataSeriesViewModel(IMediator mediator,
+            ITagService tagService)
         {
             _mediator = mediator;
-
-            DataPoints = new ObservableCollection<IDataPointViewModel>();
+            _tagService = tagService;
 
             AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
             OpenCommand = new AsyncCommand(OpenAsync, allowsMultipleExecutions: false);
             PickTagCommand = new AsyncCommand(PickTagAsync, allowsMultipleExecutions: false);
+
+            _dataPointsMutable
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out _dataPoints)
+                .Subscribe();
         }
         public int Id { get; set; }
         public string Title { get; set; }
 
+        
+        public int TagId { get; set; }
         public ITagViewModel Tag { get; set; }
-        public ObservableCollection<IDataPointViewModel> DataPoints { get; }
+        public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints => _dataPoints;
 
         public IAsyncCommand AddDataPointCommand { get; private set; }
         public IAsyncCommand OpenCommand { get; private set; }
@@ -55,9 +70,11 @@ namespace Plapp.ViewModels
 
             var dataPoints = dataPointsResponse.Payload;
 
-            DataPoints.Update(
-                dataPoints,
-                (v1, v2) => v1.Id == v2.Id);
+            _dataPointsMutable.Edit(innerList =>
+            {
+                innerList.Clear();
+                innerList.AddOrUpdate(dataPoints);
+            });
         }
 
         private async Task SaveDataSeriesAsync()
@@ -67,6 +84,19 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
+            if (Tag == default)
+            {
+                var tagResponse = await _mediator.Send(new PickTagAction());
+            
+                if (tagResponse.IsCancelled)
+                    return;
+
+                if (tagResponse.IsError)
+                    tagResponse.Throw();
+
+                Tag = tagResponse.Payload;
+            }
+            
             var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction(Tag));
 
             if (dataPointsResponse.IsCancelled)
@@ -79,7 +109,11 @@ namespace Plapp.ViewModels
 
             var dataPoints = dataPointsResponse.Payload;
 
-            DataPoints.AddRange(dataPoints);
+            _dataPointsMutable.Edit(innerList =>
+            {
+                innerList.Clear();
+                innerList.AddOrUpdate(dataPoints);
+            });
         }
 
         private async Task PickTagAsync()
@@ -99,7 +133,7 @@ namespace Plapp.ViewModels
 
         private async Task OpenAsync()
         {
-            await _mediator.Send(new NavigateAction("data-series")); // TODO: Specify parameter for this
+            await _mediator.Send(new NavigateAction($"data-series?Id={Id}"));
         }
     }
 }
