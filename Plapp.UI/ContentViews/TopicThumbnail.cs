@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Plapp.Core;
+using Plapp.UI.Converters;
 using ReactiveUI;
 using Xamarin.Forms;
 
@@ -7,29 +8,36 @@ namespace Plapp.UI.ContentViews
 {
     public class TopicThumbnail : BaseContentView<ITopicViewModel>
     {
-        private readonly Button _openButton = new ()
-        {
-            Text = "Hello world"
-        };
+        private readonly Label _title = new();
+        private readonly Image _image = new();
+        
+        private readonly TapGestureRecognizer _tapGesture = new();
         
         public TopicThumbnail()
         {
             Content = new StackLayout
             {
+                GestureRecognizers = { _tapGesture },
                 Children =
                 {
-                    _openButton
+                    _title,
+                    _image
                 }
             };
         }
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            this.OneWayBind(this.ViewModel, topic => topic.Title, page => page._openButton.Text)
+            this.BindCommand(ViewModel, topic => topic.OpenCommand, thumbnail => thumbnail._tapGesture.Command)
                 .DisposeWith(bindingsDisposable);
 
-            this.BindCommand(this.ViewModel, topic => topic.OpenCommand, v => v._openButton)
+            this.OneWayBind(ViewModel, topic => topic.Title, thumbnail => thumbnail._title.Text)
+                .DisposeWith(bindingsDisposable);
+
+            this.OneWayBind(ViewModel, topic => topic.ImageUri, thumbnail => thumbnail._image.Source, StringTo.ImageSource)
                 .DisposeWith(bindingsDisposable);
         }
+
+        
     }
 }

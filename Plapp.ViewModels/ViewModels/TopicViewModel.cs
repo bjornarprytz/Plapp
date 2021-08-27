@@ -24,9 +24,7 @@ namespace Plapp.ViewModels
         private readonly ReadOnlyObservableCollection<IDataSeriesViewModel> _dataSeries;
         private readonly IMediator _mediator;
 
-        public TopicViewModel(
-            IMediator mediator
-            )
+        public TopicViewModel(IMediator mediator)
         {
             _mediator = mediator;
 
