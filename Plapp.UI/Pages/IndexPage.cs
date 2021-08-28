@@ -8,30 +8,43 @@ namespace Plapp.UI.Pages
 {
     public class IndexPage : BaseContentPage<IApplicationViewModel>
     {
-        private readonly Button _newTopicButton = new() {Text = "New Topic"};
-        private readonly CollectionView _topics = new();
+        private readonly Button _addTopicButton = new()
+        {
+            Text = "Add Topic",
+            HorizontalOptions = LayoutOptions.EndAndExpand,
+            VerticalOptions = LayoutOptions.EndAndExpand,
+            HeightRequest = 80,
+            WidthRequest = 80,
+            CornerRadius = 40,
+        };
+        private readonly CollectionView _topics = new()
+        {
+            ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
+            ItemSizingStrategy = ItemSizingStrategy.MeasureAllItems,
+            VerticalOptions = LayoutOptions.StartAndExpand
+        };
+        
         public IndexPage()
         {
             _topics.ItemTemplate = new DataTemplate(() =>  new TopicThumbnail());
 
-            Content = new StackLayout
+            Content = new Grid
             {
                 Children =
                 {
-                    _newTopicButton,
-                    _topics
+                    _topics,
+                    _addTopicButton,
                 }
             };
         }
         
-        
-
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
             this.OneWayBind(ViewModel, vm => vm.Topics, page => page._topics.ItemsSource)
                 .DisposeWith(bindingsDisposable);
 
-            this.BindCommand(ViewModel, vm => vm.AddTopicCommand, page => page._newTopicButton);
+            this.BindCommand(ViewModel, vm => vm.AddTopicCommand, page => page._addTopicButton)
+                .DisposeWith(bindingsDisposable);
         }
     }
 }

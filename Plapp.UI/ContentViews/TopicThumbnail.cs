@@ -9,26 +9,36 @@ namespace Plapp.UI.ContentViews
     public class TopicThumbnail : BaseContentView<ITopicViewModel>
     {
         private readonly Label _title = new();
-        private readonly Image _image = new();
+        private readonly Image _image = new() { Aspect = Aspect.AspectFit };
         
         private readonly TapGestureRecognizer _tapGesture = new();
         
         public TopicThumbnail()
         {
-            Content = new StackLayout
+            Content = new Frame()
             {
-                GestureRecognizers = { _tapGesture },
-                Children =
+                CornerRadius = 10,
+                Padding = 5,
+                
+                BackgroundColor = Color.Purple,
+                BorderColor = Color.Aquamarine,
+                
+                Content = new StackLayout
                 {
-                    _title,
-                    _image
+                    GestureRecognizers = { _tapGesture },   
+                    
+                    Children =
+                    {
+                        _title,
+                        _image
+                    }
                 }
             };
         }
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            this.BindCommand(ViewModel, topic => topic.OpenCommand, thumbnail => thumbnail._tapGesture.Command)
+            this.BindCommand(ViewModel, topic => topic.OpenCommand, thumbnail => thumbnail._tapGesture)
                 .DisposeWith(bindingsDisposable);
 
             this.OneWayBind(ViewModel, topic => topic.Title, thumbnail => thumbnail._title.Text)

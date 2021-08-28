@@ -9,7 +9,7 @@ namespace Plapp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AppShell : Shell
     {
-        public Dictionary<string, Type> Routes { get; private set; } = new Dictionary<string, Type>();
+        private Dictionary<string, Type> Routes { get; } = new ();
 
         public AppShell()
         {
@@ -21,7 +21,6 @@ namespace Plapp
 
         void RegisterRoutes()
         {
-            // TODO: Register routes
             Routes.Add("topic", typeof(TopicDetailsPage));
             Routes.Add("data-series", typeof(DataSeriesDetailsPage));
     

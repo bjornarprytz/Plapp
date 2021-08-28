@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -43,12 +44,10 @@ namespace Plapp.ViewModels
         public int Id { get; set; }
         public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries => _dataSeries;
         
-        [AlsoNotifyFor(nameof(ImageUri))]
-        public bool LacksImage => ImageUri.IsMissing();
-        
-        public string ImageUri { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        [Reactive] public bool LacksImage => ImageUri.IsMissing();
+        [Reactive] public string ImageUri { get; set; }
+        [Reactive] public string Title { get; set; }
+        [Reactive] public string Description { get; set; }
 
         public IAsyncCommand OpenCommand { get; private set; }
         public IAsyncCommand AddImageCommand { get; private set; }

@@ -11,9 +11,9 @@ namespace Plapp.UI.ContentViews
     {
         protected BaseContentView()
         {
-            ViewModel = Locator.Current.GetService<TViewModel>();
-            
             this.WhenActivated(DoBindings);
+            
+            ViewModel = Locator.Current.GetService<TViewModel>();
         }
         
         protected abstract void DoBindings(CompositeDisposable bindingsDisposable);
