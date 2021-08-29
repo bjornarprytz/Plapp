@@ -1,6 +1,8 @@
 using System.Reactive.Disposables;
+using MaterialDesign.Icons;
 using Plapp.Core;
 using Plapp.UI.ContentViews;
+using Plapp.UI.Extensions;
 using ReactiveUI;
 using Xamarin.Forms;
 
@@ -8,32 +10,24 @@ namespace Plapp.UI.Pages
 {
     public class IndexPage : BaseContentPage<IApplicationViewModel>
     {
-        private readonly Button _addTopicButton = new()
-        {
-            Text = "Add Topic",
-            HorizontalOptions = LayoutOptions.EndAndExpand,
-            VerticalOptions = LayoutOptions.EndAndExpand,
-            HeightRequest = 80,
-            WidthRequest = 80,
-            CornerRadius = 40,
-        };
-        private readonly CollectionView _topics = new()
-        {
-            ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-            ItemSizingStrategy = ItemSizingStrategy.MeasureAllItems,
-            VerticalOptions = LayoutOptions.StartAndExpand
-        };
+        private readonly Button _addTopicButton = new();
+        private readonly CollectionView _topics = new();
         
         public IndexPage()
         {
-            _topics.ItemTemplate = new DataTemplate(() =>  new TopicThumbnail());
-
             Content = new Grid
             {
                 Children =
                 {
-                    _topics,
-                    _addTopicButton,
+                    _topics
+                        .ItemTemplate(() => new TopicThumbnail())
+                        .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
+                        .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
+                        .VerticalOptions(LayoutOptions.StartAndExpand),
+                    _addTopicButton
+                        .MaterialIcon(MaterialIcon.Add)
+                        .Circle(80)
+                        .VerticalAndHorizontalOptions(LayoutOptions.EndAndExpand),
                 }
             };
         }
