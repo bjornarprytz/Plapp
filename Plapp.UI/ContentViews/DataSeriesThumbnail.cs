@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
+using MaterialDesign.Icons;
 using Microcharts;
 using Microcharts.Forms;
 using Plapp.Core;
 using Plapp.UI.Converters;
+using Plapp.UI.Extensions;
 using ReactiveUI;
 using Xamarin.Forms;
 using Xamarin.CommunityToolkit.Markup;
@@ -31,7 +33,7 @@ namespace Plapp.UI.ContentViews
                 {
                     _dataIcon.Column(0),
                     _chart.Column(1),
-                    _chevron.Column(2),
+                    _chevron.MaterialIcon(MaterialIcon.ChevronRight).Column(2),
                 }
             };
         }

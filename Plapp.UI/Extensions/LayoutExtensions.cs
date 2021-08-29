@@ -34,14 +34,6 @@ namespace Plapp.UI.Extensions
 
             return element;
         }
-
-        public static T  ItemTemplate<T>(this T itemsView, DataTemplate itemTemplate)
-            where T : ItemsView
-        {
-            itemsView.ItemTemplate = itemTemplate;
-
-            return itemsView;
-        }
         
         public static T ItemTemplate<T>(this T itemsView, Func<object> templateSelector)
             where T : ItemsView

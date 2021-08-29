@@ -18,7 +18,6 @@ namespace Plapp.UI.Extensions
             return frame; 
         }
 
-
         public static T Color<T>(this T boxView, Color color) 
             where T : BoxView 
         { 

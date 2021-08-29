@@ -16,7 +16,19 @@ namespace Plapp.UI.Extensions
             return button;
         }
 
-        public static T Icon<T>(this T button, string glyph, string fontFamily, Color color=default)
+        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, Color color = default)
+            where T : Button
+        {
+            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)IconSize.Medium, color);
+        }
+
+        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, IconSize size, Color color = default)
+            where T : Button
+        {
+            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)size, color);
+        }
+        
+        private static T Icon<T>(this T button, string glyph, string fontFamily, Color color=default)
             where T : Button
         {
             button.ImageSource = new FontImageSource
@@ -29,7 +41,7 @@ namespace Plapp.UI.Extensions
             return button;
         }
 
-        public static T Icon<T>(this T button, string glyph, string fontFamily, double size, Color color = default)
+        private static T Icon<T>(this T button, string glyph, string fontFamily, double size, Color color = default)
             where T : Button
         {
             button.ImageSource = new FontImageSource
@@ -41,18 +53,6 @@ namespace Plapp.UI.Extensions
             };
 
             return button;
-        }
-
-        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, Color color = default)
-            where T : Button
-        {
-            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)IconSize.Medium, color);
-        }
-
-        public static T MaterialIcon<T>(this T button, MaterialIcon glyph, IconSize size, Color color = default)
-            where T : Button
-        {
-            return button.Icon(glyph.ToIconFontString(), Fonts.MI, (double)size, color);
         }
     }
 }
