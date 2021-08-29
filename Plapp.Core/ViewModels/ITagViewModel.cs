@@ -8,7 +8,7 @@ namespace Plapp.Core
         string Key { get; set; }
         string Unit { get; set; }
         DataType DataType { get; set; }
-        Icon Icon { get; set; }
+        string IconUri { get; set; }
         string Color { get; set; }
     }
 }

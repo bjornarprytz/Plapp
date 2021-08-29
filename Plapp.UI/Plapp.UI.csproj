@@ -11,8 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
       <PackageReference Include="ReactiveUI.XamForms" Version="16.1.1" />
       <PackageReference Include="System.Reactive" Version="5.0.0" />
+      <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.2.0" />
     </ItemGroup>
 
 </Project>

@@ -47,7 +47,5 @@ namespace Plapp.UI.ContentViews
             this.OneWayBind(ViewModel, topic => topic.ImageUri, thumbnail => thumbnail._image.Source, StringTo.ImageSource)
                 .DisposeWith(bindingsDisposable);
         }
-
-        
     }
 }

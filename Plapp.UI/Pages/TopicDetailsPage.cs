@@ -14,6 +14,8 @@ namespace Plapp.UI.Pages
         private readonly Entry _title = new();
         private readonly Image _image = new();
         
+        private readonly CollectionView _dataSeries = new ();
+        
         public TopicDetailsPage()
         {
             Content = new StackLayout
@@ -36,6 +38,9 @@ namespace Plapp.UI.Pages
                 .DisposeWith(bindingsDisposable);
 
             this.OneWayBind(ViewModel, topic => topic.ImageUri, page => page._image.Source, StringTo.ImageSource)
+                .DisposeWith(bindingsDisposable);
+            
+            this.OneWayBind(ViewModel, topic => topic.DataSeries, page => page._dataSeries.ItemsSource)
                 .DisposeWith(bindingsDisposable);
         }
 

@@ -5,8 +5,6 @@ namespace Plapp.Core
 {
     public interface ITopicViewModel : IViewModel
     {
-        bool LacksImage { get; }
-
         int Id { get; set; }
         string ImageUri { get; set; }
         string Title { get; set; }

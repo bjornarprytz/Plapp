@@ -44,7 +44,6 @@ namespace Plapp.ViewModels
         public int Id { get; set; }
         public ReadOnlyObservableCollection<IDataSeriesViewModel> DataSeries => _dataSeries;
         
-        [Reactive] public bool LacksImage => ImageUri.IsMissing();
         [Reactive] public string ImageUri { get; set; }
         [Reactive] public string Title { get; set; }
         [Reactive] public string Description { get; set; }
@@ -99,6 +98,7 @@ namespace Plapp.ViewModels
                 case Outcome.Ok:
                     ImageUri = response.Payload;
                     break;
+                case Outcome.Error:
                 default:
                     response.Throw();
                     break;
