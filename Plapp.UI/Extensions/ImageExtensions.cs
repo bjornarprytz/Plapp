@@ -6,6 +6,12 @@ namespace Plapp.UI.Extensions
 {
     public static class ImageExtensions
     {
+        public static T Aspect<T>(this T image, Aspect aspect)
+            where T : Image
+        {
+            image.Aspect = aspect;
+            return image;
+        }
         
         public static T MaterialIcon<T>(this T image, MaterialIcon glyph, Color color = default)
             where T : Image

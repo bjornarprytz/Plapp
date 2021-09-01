@@ -20,9 +20,8 @@ namespace Plapp.UI.Pages
                 Children =
                 {
                     _topics
-                        .ItemTemplate(() => new TopicThumbnail())
-                        .ItemsLayout(new GridItemsLayout(2, ItemsLayoutOrientation.Vertical))
-                        .ItemSizingStrategy(ItemSizingStrategy.MeasureAllItems)
+                        .ItemTemplate(() => new TopicSummary())
+                        .ItemsLayout(new LinearItemsLayout(ItemsLayoutOrientation.Vertical))
                         .VerticalOptions(LayoutOptions.StartAndExpand),
                     _addTopicButton
                         .MaterialIcon(MaterialIcon.Add)
