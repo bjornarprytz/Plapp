@@ -123,9 +123,9 @@ namespace Plapp.ViewModels
             }
         }
 
-        private async Task AddDataSeriesAsync()
+        private Task AddDataSeriesAsync()
         {
-            await Shell.Current.GoToAsync($"data-series");
+            return Shell.Current.GoToAsync($"data-series");
         }
     }
 }
