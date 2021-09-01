@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -25,11 +26,20 @@ namespace Plapp.ViewModels
         private readonly SourceCache<IDataSeriesViewModel, int> _dataSeriesMutable = new (topic => topic.Id);
         private readonly ReadOnlyObservableCollection<IDataSeriesViewModel> _dataSeries;
 
+        private Topic _topic;
+        
         private readonly IMediator _mediator;
+        private readonly ITopicService _topicService;
+        private readonly IMapper _mapper;
 
-        public TopicViewModel(IMediator mediator)
+        public TopicViewModel(
+            IMediator mediator, 
+            ITopicService topicService,
+            IMapper mapper)
         {
             _mediator = mediator;
+            _topicService = topicService;
+            _mapper = mapper;
 
             OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
             AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
@@ -64,9 +74,12 @@ namespace Plapp.ViewModels
         {
             return SaveTopicAsync();
         }
-
+        
         private async Task LoadDataSeriesAsync()
         {
+            _topic = await _topicService.FetchAsync(Id);
+            _mapper.Map(_topic, this);
+            
             var response = await _mediator.Send(new GetAllDataSeriesQuery(Id));
 
             if (response.IsError)
@@ -83,7 +96,9 @@ namespace Plapp.ViewModels
 
         private Task SaveTopicAsync()
         {
-            return _mediator.Send(new SaveTopicCommand(this));
+            _mapper.Map(this, _topic);
+
+            return _topicService.SaveAsync(_topic);
         }
 
         private async Task OpenTopic()
