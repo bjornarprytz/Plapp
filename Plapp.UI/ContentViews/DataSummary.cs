@@ -33,7 +33,7 @@ namespace Plapp.UI.ContentViews
                     Children =
                     {
                         _overview.Column(0),
-                        _chevron.Column(1)
+                        _chevron.Column(1).BackgroundColor(Color.DarkSlateGray)
                     }
                 },
 

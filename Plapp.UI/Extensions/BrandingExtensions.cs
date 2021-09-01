@@ -25,19 +25,8 @@ namespace Plapp.UI.Extensions
             return boxView; 
         }
 
-        public static Label TextColor(this Label label, Color color) 
-        { 
-            label.TextColor = color; 
-            return label; 
-        }
-
-        public static Button TextColor(this Button button, Color color) 
-        { 
-            button.TextColor = color; 
-            return button; 
-        }
-
-        public static Entry TextColor(this Entry entry, Color color) 
+        public static T TextColor<T>(this T entry, Color color)
+            where T : InputView
         { 
             entry.TextColor = color; 
             return entry; 

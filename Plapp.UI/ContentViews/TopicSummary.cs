@@ -24,8 +24,8 @@ namespace Plapp.UI.ContentViews
                 
                 Children =
                 {
-                    _image.Aspect(Aspect.AspectFit),
-                    _title.NamedFontSize(NamedSize.Header),
+                    _image.Aspect(Aspect.AspectFill),
+                    _title.NamedFontSize(NamedSize.Header).TextColor(Color.Black),
                     _dataSummary,
                 }
             };

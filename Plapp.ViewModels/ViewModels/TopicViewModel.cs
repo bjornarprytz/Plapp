@@ -7,6 +7,7 @@ using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using PropertyChanged;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData;
@@ -23,6 +24,7 @@ namespace Plapp.ViewModels
     {
         private readonly SourceCache<IDataSeriesViewModel, int> _dataSeriesMutable = new (topic => topic.Id);
         private readonly ReadOnlyObservableCollection<IDataSeriesViewModel> _dataSeries;
+
         private readonly IMediator _mediator;
 
         public TopicViewModel(IMediator mediator)
@@ -47,6 +49,7 @@ namespace Plapp.ViewModels
         [Reactive] public string ImageUri { get; set; }
         [Reactive] public string Title { get; set; }
         [Reactive] public string Description { get; set; }
+        
 
         public IAsyncCommand OpenCommand { get; private set; }
         public IAsyncCommand AddImageCommand { get; private set; }

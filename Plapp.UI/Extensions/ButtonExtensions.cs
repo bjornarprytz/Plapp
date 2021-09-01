@@ -15,6 +15,13 @@ namespace Plapp.UI.Extensions
 
             return button;
         }
+        
+        public static T TextColor<T>(this T button, Color color)
+            where T : Button
+        { 
+            button.TextColor = color; 
+            return button; 
+        }
 
         public static T MaterialIcon<T>(this T button, MaterialIcon glyph, Color color = default)
             where T : Button
