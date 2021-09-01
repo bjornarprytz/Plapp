@@ -1,6 +1,8 @@
 using System;
 using System.Reactive.Disposables;
+using MaterialDesign.Icons;
 using Plapp.Core;
+using Plapp.UI.Constants;
 using Plapp.UI.Converters;
 using Plapp.UI.Extensions;
 using ReactiveUI;
@@ -32,7 +34,9 @@ namespace Plapp.UI.Pages
                         Children =
                         {
                             _addImageButton
-                                .TextColor(Color.Blue),
+                                .Rectangle(80, 60)
+                                .MaterialIcon(MaterialIcon.AddAPhoto, IconSize.Large, Color.Blue)
+                                .BackgroundColor(Color.DarkSlateGray),
                             _image
                                 .Aspect(Aspect.AspectFill),
                         }

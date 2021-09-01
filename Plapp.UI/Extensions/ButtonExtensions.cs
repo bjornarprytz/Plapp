@@ -16,6 +16,22 @@ namespace Plapp.UI.Extensions
             return button;
         }
         
+        public static T Rectangle<T>(this T button, double width, double height, int cornerRadius=0)
+            where T : Button
+        {
+            button.HeightRequest = width;
+            button.WidthRequest = height;
+            button.CornerRadius = cornerRadius;
+
+            return button;
+        }
+        
+        public static T Square<T>(this T button, double size, int cornerRadius=0)
+            where T : Button
+        {
+            return button.Rectangle(size, size, cornerRadius);
+        }
+        
         public static T TextColor<T>(this T button, Color color)
             where T : Button
         { 
