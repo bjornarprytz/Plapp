@@ -15,7 +15,16 @@ namespace Plapp.BusinessLogic
         {
             _validators = validators;
         }
-		
+
+        public IEnumerable<ValidationResult> Validate(T request)
+        {
+            var context = new ValidationContext<T>(request);
+
+            var errors = _validators.Select(v => v.Validate(context));
+			
+            return errors;
+        }
+
         public async Task<IEnumerable<ValidationResult>> ValidateAsync(T request, CancellationToken cancellationToken = default)
         {
             var context = new ValidationContext<T>(request);
@@ -29,6 +38,7 @@ namespace Plapp.BusinessLogic
 
     public interface ICompositeValidator<in T>
     {
+        IEnumerable<ValidationResult> Validate(T request);
         Task<IEnumerable<ValidationResult>> ValidateAsync(T request, CancellationToken cancellationToken = default);
     }
 }

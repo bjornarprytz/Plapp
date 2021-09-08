@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Plapp.UI.Pages;
+using Plapp.ViewModels;
 
 namespace Plapp
 {
@@ -23,6 +24,7 @@ namespace Plapp
         {
             Routes.Add("topic", typeof(TopicDetailsPage));
             Routes.Add("data-series", typeof(DataSeriesDetailsPage));
+            Routes.Add("tag", typeof(CreateTagViewModel));
     
             foreach (var item in Routes)
             {

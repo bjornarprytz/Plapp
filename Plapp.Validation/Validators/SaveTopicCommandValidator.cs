@@ -1,5 +1,6 @@
 using FluentValidation;
 using Plapp.BusinessLogic.Commands;
+using Plapp.Core;
 
 namespace Plapp.Validation
 {

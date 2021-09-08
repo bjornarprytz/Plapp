@@ -13,6 +13,8 @@ namespace Plapp.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IViewModel
     {
+        protected CompositeDisposable Disposables { get; } = new CompositeDisposable();
+
         public virtual Task AppearingAsync()
         {
             return Task.CompletedTask;

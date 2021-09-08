@@ -1,62 +1,27 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Plapp.BusinessLogic;
-using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
-using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
-using DynamicData;
-using ReactiveUI;
+using Plapp.BusinessLogic.Commands;
 
 namespace Plapp.ViewModels
 {
-    public class CreateTagViewModel : BaseCreateViewModel<ITagViewModel>
+    public class CreateTagViewModel : CreateViewModel<ITagViewModel>
     {
-        private readonly SourceCache<ITagViewModel, int> _tagsMutable = new (tag => tag.Id);
-        private readonly ReadOnlyObservableCollection<ITagViewModel> _availableTags;
         private readonly IMediator _mediator;
-
+        
         public CreateTagViewModel(
+            IMediator mediator,
             IViewModelFactory vmFactory,
-            IPrompter prompter,
-            IMediator mediator
-            ) : base(() => vmFactory.Create<ITagViewModel>(), prompter)
+            ICompositeValidator<ITagViewModel> validators)
+        : base(vmFactory, validators)
         {
             _mediator = mediator;
-
-            _tagsMutable
-                .Connect()
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _availableTags)
-                .Subscribe();
         }
 
-
-        protected override bool PartialIsValid()
+        protected override Task SaveViewModelAsync()
         {
-            return Partial != null;
-        }
-
-        public override Task AppearingAsync()
-        {
-            return LoadTagsAsync();
-        }
- 
-        private async Task LoadTagsAsync()
-        {
-            var tagsResponse = await _mediator.Send(new GetAllTagsQuery());
-
-            if (tagsResponse.IsError)
-                tagsResponse.Throw();
-
-            var tags = tagsResponse.Payload;
-
-            _tagsMutable.Edit(innerList =>
-            {
-                innerList.Clear();
-                innerList.AddOrUpdate(tags);
-            });
+            return _mediator.Send(new SaveTagCommand(ToCreate));
         }
     }
 }
