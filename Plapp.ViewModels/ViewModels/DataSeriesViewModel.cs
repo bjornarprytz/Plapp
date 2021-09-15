@@ -132,9 +132,9 @@ namespace Plapp.ViewModels
             Tag = chosenTag;
         }
 
-        private async Task OpenAsync()
+        private Task OpenAsync()
         {
-            await _mediator.Send(new NavigateAction($"data-series?Id={Id}"));
+            return Shell.Current.GoToAsync($"data-series?Id={Id}");
         }
     }
 }
