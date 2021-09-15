@@ -33,29 +33,20 @@ namespace Plapp.BusinessLogic.Interactive
             if (!tagResponse.IsValid)
                 return tagResponse.WrapErrors<ITagViewModel>();
 
-            var existingTags = tagResponse.Payload;
+            var existingTags = tagResponse.Payload.ToList();
 
-            var options = new List<string> { "Create new Tag" };
+            var options = existingTags.Select(t => t.Key).ToArray();
 
-            options.AddRange(existingTags.Select(t => t.Key));
-
-            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options.ToArray());
+            var choice = await _prompter.ChooseAsync("Choose a Tag", "Cancel", null, options);
 
             var chosenTag = choice switch
             {
                 "Cancel" => default,
-                "Create new Tag" => await _prompter.CreateAsync<ITagViewModel>(),
                 _ => existingTags.First(t => t.Key == choice)
             };
 
-            if (chosenTag == default)
-            {
-                return null;
-            }
+            return chosenTag == default ? Response.Cancel<ITagViewModel>() : Response.Ok(chosenTag);
 
-            var saveResponse = await _mediator.Send(new SaveTagCommand(chosenTag), cancellationToken);
-
-            return saveResponse.IsValid ? Response.Ok(chosenTag) : tagResponse.WrapErrors<ITagViewModel>();
         }
     }
 }

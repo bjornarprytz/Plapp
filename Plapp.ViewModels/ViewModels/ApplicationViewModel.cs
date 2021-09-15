@@ -9,7 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
+using Plapp.ViewModels.Infrastructure;
 using ReactiveUI;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Plapp.ViewModels
@@ -32,7 +34,7 @@ namespace Plapp.ViewModels
                 .DisposeMany()
                 .Subscribe();
 
-            AddTopicCommand = ReactiveCommand.CreateFromTask(AddTopic);
+            AddTopicCommand = new PlappCommand(AddTopicAsync);
         }
 
         public override Task AppearingAsync()
@@ -64,7 +66,7 @@ namespace Plapp.ViewModels
             });
         }
 
-        private Task AddTopic()
+        private Task AddTopicAsync()
         {
             return Shell.Current.GoToAsync("topic");
         }

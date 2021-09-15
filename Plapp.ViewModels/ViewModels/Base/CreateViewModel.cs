@@ -9,6 +9,7 @@ using System.Windows.Input;
 using FluentValidation.Results;
 using Plapp.BusinessLogic;
 using Plapp.Core;
+using Plapp.ViewModels.Infrastructure;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
@@ -28,6 +29,8 @@ namespace Plapp.ViewModels
             _viewModelFactory = viewModelFactory;
             _validators = validators;
 
+            /*
+             * 
             _validateCommand = ReactiveCommand.CreateFromTask<TViewModel, IEnumerable<ValidationResult>>(ValidateViewModel);
 
             _validateCommand
@@ -41,15 +44,17 @@ namespace Plapp.ViewModels
                 .DisposeWith(Disposables);
 
             var canExecute = this.WhenAnyValue(x => x.Error, err => err.IsMissing());
+             */
             
-            ConfirmCommand = ReactiveCommand.CreateFromTask(SaveViewModelAsync, canExecute);
-            CancelCommand = ReactiveCommand.CreateFromTask(GoBackAsync);
+            ConfirmCommand = new PlappCommand(SaveViewModelAsync);
+            CancelCommand = new PlappCommand(GoBackAsync);
 
             ToCreate = _viewModelFactory.Create<TViewModel>();
         }
 
-        [Reactive] public ICommand ConfirmCommand { get; private set; }
+        public ICommand ConfirmCommand { get; }
         public ICommand CancelCommand { get; }
+        
         [Reactive] public string Error { get; private set; }
         public TViewModel ToCreate { get; }
         

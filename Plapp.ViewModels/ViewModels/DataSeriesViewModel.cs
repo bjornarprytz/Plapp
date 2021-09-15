@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
+using Plapp.ViewModels.Infrastructure;
 using ReactiveUI;
 using Xamarin.Forms;
 
@@ -30,9 +31,9 @@ namespace Plapp.ViewModels
             _mediator = mediator;
             _tagService = tagService;
 
-            AddDataPointCommand = ReactiveCommand.CreateFromTask(AddDataPointsAsync);
-            OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
-            PickTagCommand = ReactiveCommand.CreateFromTask(PickTagAsync);
+            AddDataPointCommand = new PlappCommand(AddDataPointsAsync);
+            OpenCommand = new PlappCommand(OpenAsync);
+            PickTagCommand = new PlappCommand(PickTagAsync);
 
             _dataPointsMutable
                 .Connect()
@@ -85,36 +86,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            if (Tag == default)
-            {
-                var tagResponse = await _mediator.Send(new PickTagAction());
-            
-                if (tagResponse.IsCancelled)
-                    return;
-
-                if (tagResponse.IsError)
-                    tagResponse.Throw();
-
-                Tag = tagResponse.Payload;
-            }
-            
-            var dataPointsResponse = await _mediator.Send(new CreateDataPointsAction(Tag));
-
-            if (dataPointsResponse.IsCancelled)
-            {
-                return;
-            }
-
-            if (dataPointsResponse.IsError)
-                dataPointsResponse.Throw();
-
-            var dataPoints = dataPointsResponse.Payload;
-
-            _dataPointsMutable.Edit(innerList =>
-            {
-                innerList.Clear();
-                innerList.AddOrUpdate(dataPoints);
-            });
+            await Shell.Current.GoToAsync($"data-points?DataSeriesId={Id}");
         }
 
         private async Task PickTagAsync()

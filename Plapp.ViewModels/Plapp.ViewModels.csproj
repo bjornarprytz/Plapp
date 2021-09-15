@@ -13,6 +13,7 @@
     <PackageReference Include="ReactiveUI" Version="16.1.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="16.1.1" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
   </ItemGroup>
 

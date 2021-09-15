@@ -24,6 +24,7 @@ namespace Plapp
         {
             Routes.Add("topic", typeof(TopicDetailsPage));
             Routes.Add("data-series", typeof(DataSeriesDetailsPage));
+            Routes.Add("data-points", typeof(AddDataPointsPage));
             Routes.Add("tag", typeof(CreateTagViewModel));
     
             foreach (var item in Routes)

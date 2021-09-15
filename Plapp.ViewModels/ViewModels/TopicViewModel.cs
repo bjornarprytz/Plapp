@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AutoMapper;
 using DynamicData;
+using Plapp.ViewModels.Infrastructure;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
@@ -39,10 +40,10 @@ namespace Plapp.ViewModels
             _topicService = topicService;
             _mapper = mapper;
 
-            DeleteCommand = ReactiveCommand.CreateFromTask(DeleteAsync);
-            OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
-            AddImageCommand = ReactiveCommand.CreateFromTask(AddImageAsync);
-            AddDataSeriesCommand = ReactiveCommand.CreateFromTask(AddDataSeriesAsync);
+            DeleteCommand = new PlappCommand(DeleteAsync);
+            OpenCommand = new PlappCommand(OpenAsync);
+            AddImageCommand = new PlappCommand(AddImageAsync);
+            AddDataSeriesCommand = new PlappCommand(AddDataSeriesAsync);
 
             _dataSeriesMutable
                 .Connect()

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Plapp.Core;
+using Plapp.UI.Pages;
 using Plapp.ViewModels;
 
 namespace Plapp.DependencyInjection
@@ -18,6 +19,7 @@ namespace Plapp.DependencyInjection
             services.AddTransient<IDataSeriesViewModel, DataSeriesViewModel>();
             services.AddTransient<IDataPointViewModel, DataPointViewModel>();
             services.AddTransient<ICreateViewModel<ITagViewModel>, CreateTagViewModel>();
+            services.AddTransient<ICreateViewModel<IDataSeriesViewModel>, CreateDataPointsViewModel>();
             
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
         }
