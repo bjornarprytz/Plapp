@@ -1,8 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Plapp.Core;
-using Plapp.UI.ContentViews;
-using Plapp.UI.Pages;
-using ReactiveUI;
 using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace Plapp.DependencyInjection
