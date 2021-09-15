@@ -20,13 +20,13 @@ namespace Plapp.UI.Pages
         {
             base.OnAppearing();
 
-            await ViewModel.AppearingAsync();
+            if (ViewModel != null) await ViewModel.AppearingAsync();
         }
 
         protected sealed override async void OnDisappearing()
         {
-            await ViewModel.DisappearingAsync();
-            
+            if (ViewModel != null) await ViewModel.DisappearingAsync();
+
             base.OnDisappearing();
         }
 

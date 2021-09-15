@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using MediatR;
 using Plapp.BusinessLogic;
-using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Threading;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
 using ReactiveUI;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Plapp.ViewModels
@@ -48,7 +46,7 @@ namespace Plapp.ViewModels
 
         public ReadOnlyObservableCollection<ITopicViewModel> Topics => _topics;
 
-        public ICommand AddTopicCommand { get; private set; }
+        public ICommand AddTopicCommand { get; }
 
         private async Task LoadTopicsAsync(CancellationToken cancellationToken=default)
         {
@@ -66,9 +64,9 @@ namespace Plapp.ViewModels
             });
         }
 
-        private async Task AddTopic()
+        private Task AddTopic()
         {
-            await Shell.Current.GoToAsync($"topic");
+            return Shell.Current.GoToAsync("topic");
         }
     }
 }

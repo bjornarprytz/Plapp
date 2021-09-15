@@ -5,9 +5,7 @@ using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Interactive;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
-using PropertyChanged;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,7 +13,6 @@ using AutoMapper;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Plapp.ViewModels
