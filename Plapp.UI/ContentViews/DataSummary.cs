@@ -1,11 +1,10 @@
 using System.Reactive.Disposables;
-using Microcharts.Forms;
 using Plapp.Core;
 using Xamarin.CommunityToolkit.Markup;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Plapp.UI.Extensions;
 using ReactiveUI;
+using Xamarin.CommunityToolkit.UI.Views;
 
 namespace Plapp.UI.ContentViews
 {

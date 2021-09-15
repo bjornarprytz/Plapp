@@ -1,4 +1,3 @@
-using System;
 using System.Reactive.Disposables;
 using MaterialDesign.Icons;
 using Plapp.Core;
@@ -6,10 +5,7 @@ using Plapp.UI.Constants;
 using Plapp.UI.Converters;
 using Plapp.UI.Extensions;
 using ReactiveUI;
-using ReactiveUI.XamForms;
-using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
-using SkiaSharp.Views.Forms;
 using Xamarin.CommunityToolkit.Markup;
 
 namespace Plapp.UI.Pages

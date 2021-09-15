@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using AutoMapper;
 using DynamicData;
 using ReactiveUI;
@@ -41,9 +42,10 @@ namespace Plapp.ViewModels
             _topicService = topicService;
             _mapper = mapper;
 
-            OpenCommand = new AsyncCommand(OpenTopic, allowsMultipleExecutions: false);
-            AddImageCommand = new AsyncCommand(AddImage, allowsMultipleExecutions: false);
-            AddDataSeriesCommand = new AsyncCommand(AddDataSeriesAsync, allowsMultipleExecutions: false);
+            DeleteCommand = ReactiveCommand.CreateFromTask(DeleteAsync);
+            OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
+            AddImageCommand = ReactiveCommand.CreateFromTask(AddImageAsync);
+            AddDataSeriesCommand = ReactiveCommand.CreateFromTask(AddDataSeriesAsync);
 
             _dataSeriesMutable
                 .Connect()
@@ -61,9 +63,10 @@ namespace Plapp.ViewModels
         [Reactive] public string Description { get; set; }
         
 
-        public IAsyncCommand OpenCommand { get; private set; }
-        public IAsyncCommand AddImageCommand { get; private set; }
-        public IAsyncCommand AddDataSeriesCommand { get; private set; }
+        public ICommand DeleteCommand { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand AddImageCommand { get; }
+        public ICommand AddDataSeriesCommand { get; }
 
         public override Task AppearingAsync()
         {
@@ -72,7 +75,7 @@ namespace Plapp.ViewModels
 
         public override Task DisappearingAsync()
         {
-            return SaveTopicAsync();
+            return SaveAsync();
         }
         
         private async Task LoadDataSeriesAsync()
@@ -94,19 +97,27 @@ namespace Plapp.ViewModels
             });
         }
 
-        private Task SaveTopicAsync()
+        private async Task DeleteAsync()
         {
-            _mapper.Map(this, _topic);
+            var result = await _mediator.Send(new DeleteTopicCommand(this));
 
-            return _topicService.SaveAsync(_topic);
+            if (!result.IsValid)
+                return;
+
+            await Shell.Current.GoToAsync("..");
         }
 
-        private async Task OpenTopic()
+        private Task SaveAsync()
+        {
+            return _mediator.Send(new SaveTopicCommand(this));
+        }
+
+        private async Task OpenAsync()
         {
             await Shell.Current.GoToAsync($"topic?Id={Id}");
         }
 
-        private async Task AddImage()
+        private async Task AddImageAsync()
         {
             var response = await _mediator.Send(new TakePhotoAction());
 

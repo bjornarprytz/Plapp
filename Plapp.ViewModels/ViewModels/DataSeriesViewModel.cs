@@ -9,9 +9,9 @@ using Plapp.Core;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using DynamicData;
 using ReactiveUI;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Plapp.ViewModels
@@ -30,9 +30,9 @@ namespace Plapp.ViewModels
             _mediator = mediator;
             _tagService = tagService;
 
-            AddDataPointCommand = new AsyncCommand(AddDataPointsAsync, allowsMultipleExecutions: false);
-            OpenCommand = new AsyncCommand(OpenAsync, allowsMultipleExecutions: false);
-            PickTagCommand = new AsyncCommand(PickTagAsync, allowsMultipleExecutions: false);
+            AddDataPointCommand = ReactiveCommand.CreateFromTask(AddDataPointsAsync);
+            OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
+            PickTagCommand = ReactiveCommand.CreateFromTask(PickTagAsync);
 
             _dataPointsMutable
                 .Connect()
@@ -48,9 +48,9 @@ namespace Plapp.ViewModels
         public ITagViewModel Tag { get; set; }
         public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints => _dataPoints;
 
-        public IAsyncCommand AddDataPointCommand { get; private set; }
-        public IAsyncCommand OpenCommand { get; private set; }
-        public IAsyncCommand PickTagCommand { get; private set; }
+        public ICommand AddDataPointCommand { get; private set; }
+        public ICommand OpenCommand { get; private set; }
+        public ICommand PickTagCommand { get; private set; }
 
         public override Task AppearingAsync()
         {

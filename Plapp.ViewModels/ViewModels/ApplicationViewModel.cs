@@ -8,6 +8,7 @@ using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using DynamicData;
 using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -26,15 +27,14 @@ namespace Plapp.ViewModels
         {
             _mediator = mediator;
 
-            AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
-            DeleteTopicCommand = new AsyncCommand<ITopicViewModel>(DeleteTopic, allowsMultipleExecutions: false);
-
             _topicsMutable 
                 .Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _topics)
                 .DisposeMany()
                 .Subscribe();
+
+            AddTopicCommand = ReactiveCommand.CreateFromTask(AddTopic);
         }
 
         public override Task AppearingAsync()
@@ -48,8 +48,7 @@ namespace Plapp.ViewModels
 
         public ReadOnlyObservableCollection<ITopicViewModel> Topics => _topics;
 
-        public IAsyncCommand AddTopicCommand { get; private set; }
-        public IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; private set; }
+        public ICommand AddTopicCommand { get; private set; }
 
         private async Task LoadTopicsAsync(CancellationToken cancellationToken=default)
         {
@@ -70,13 +69,6 @@ namespace Plapp.ViewModels
         private async Task AddTopic()
         {
             await Shell.Current.GoToAsync($"topic");
-        }
-
-        private async Task DeleteTopic(ITopicViewModel topic)
-        {
-            await _mediator.Send(new DeleteTopicCommand(topic));
-
-            _topicsMutable.Remove(topic);
         }
     }
 }

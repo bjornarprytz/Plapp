@@ -27,7 +27,7 @@ namespace Plapp.ViewModels
         {
             _viewModelFactory = viewModelFactory;
             _validators = validators;
-            
+
             _validateCommand = ReactiveCommand.CreateFromTask<TViewModel, IEnumerable<ValidationResult>>(ValidateViewModel);
 
             _validateCommand
@@ -44,6 +44,8 @@ namespace Plapp.ViewModels
             
             ConfirmCommand = ReactiveCommand.CreateFromTask(SaveViewModelAsync, canExecute);
             CancelCommand = ReactiveCommand.CreateFromTask(GoBackAsync);
+
+            ToCreate = _viewModelFactory.Create<TViewModel>();
         }
 
         [Reactive] public ICommand ConfirmCommand { get; private set; }
