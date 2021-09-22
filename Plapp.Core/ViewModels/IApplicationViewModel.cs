@@ -8,5 +8,6 @@ namespace Plapp.Core
     {
         ReadOnlyObservableCollection<ITopicViewModel> Topics { get; }
         ICommand AddTopicCommand { get; }
+        ICommand AddTagCommand { get; }
     }
 }

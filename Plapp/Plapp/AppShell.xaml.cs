@@ -22,10 +22,10 @@ namespace Plapp
 
         void RegisterRoutes()
         {
-            Routes.Add("topic", typeof(TopicDetailsPage));
+            Routes.Add("topics", typeof(TopicDetailsPage));
             Routes.Add("data-series", typeof(DataSeriesDetailsPage));
-            Routes.Add("data-points", typeof(AddDataPointsPage));
-            Routes.Add("tag", typeof(EditTagViewModel));
+            Routes.Add("data-points", typeof(EditDataSeriesPage));
+            Routes.Add("tags", typeof(EditTagPage));
     
             foreach (var item in Routes)
             {

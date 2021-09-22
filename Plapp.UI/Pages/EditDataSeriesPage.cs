@@ -5,14 +5,14 @@ using Xamarin.Forms;
 
 namespace Plapp.UI.Pages
 {
-    public class AddDataPointsPage : BaseContentPage<IEditViewModel<IDataSeriesViewModel>>
+    public class EditDataSeriesPage : BaseContentPage<IEditViewModel<IDataSeriesViewModel>>
     {
         private readonly Button _cancelButton = new();
         private readonly Button _confirmButton = new();
         private readonly Entry _keyEntry = new();
         
         
-        public AddDataPointsPage()
+        public EditDataSeriesPage()
         {
             Shell.SetPresentationMode(this, PresentationMode.Modal);
             

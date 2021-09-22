@@ -13,6 +13,8 @@ namespace Plapp.UI.Pages
         private readonly Button _addTopicButton = new();
         private readonly CollectionView _topics = new();
         
+        private readonly Button _addTagButton = new();
+        
         public IndexPage()
         {
             Content = new Grid
@@ -27,6 +29,10 @@ namespace Plapp.UI.Pages
                         .MaterialIcon(MaterialIcon.Add)
                         .Circle(80)
                         .VerticalAndHorizontalOptions(LayoutOptions.EndAndExpand),
+                    _addTagButton
+                        .MaterialIcon(MaterialIcon.TagFaces)
+                        .Circle(80)
+                        .VerticalAndHorizontalOptions(LayoutOptions.StartAndExpand),
                 }
             };
         }
@@ -37,6 +43,9 @@ namespace Plapp.UI.Pages
                 .DisposeWith(bindingsDisposable);
 
             this.BindCommand(ViewModel, vm => vm.AddTopicCommand, page => page._addTopicButton)
+                .DisposeWith(bindingsDisposable);
+            
+            this.BindCommand(ViewModel, vm => vm.AddTagCommand, page => page._addTagButton)
                 .DisposeWith(bindingsDisposable);
         }
     }

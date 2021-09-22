@@ -37,7 +37,8 @@ namespace Plapp.UI.Pages
         
         protected override void DoBindings(CompositeDisposable bindingsDisposable)
         {
-            this.OneWayBind(ViewModel, dataSeries => dataSeries, page => page._graph.BindingContext);
+            this.OneWayBind(ViewModel, dataSeries => dataSeries, page => page._graph.BindingContext)
+                .DisposeWith(bindingsDisposable);
             
             this.OneWayBind(ViewModel, dataSeries => dataSeries.Tag.Key, page => page._tag.Text)
                 .DisposeWith(bindingsDisposable);

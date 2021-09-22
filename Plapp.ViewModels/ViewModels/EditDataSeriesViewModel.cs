@@ -18,7 +18,7 @@ namespace Plapp.ViewModels
             _mediator = mediator;
         }
 
-        public int DataSeriesId { get; set; }
+        public int DataSeriesId { get; set; } // TODO: Can this be private?
         
         public override async Task AppearingAsync()
         {

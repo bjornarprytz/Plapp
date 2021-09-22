@@ -49,9 +49,9 @@ namespace Plapp.ViewModels
         public ITagViewModel Tag { get; set; }
         public ReadOnlyObservableCollection<IDataPointViewModel> DataPoints => _dataPoints;
 
-        public ICommand AddDataPointCommand { get; private set; }
-        public ICommand OpenCommand { get; private set; }
-        public ICommand PickTagCommand { get; private set; }
+        public ICommand AddDataPointCommand { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand PickTagCommand { get; }
 
         public override Task AppearingAsync()
         {

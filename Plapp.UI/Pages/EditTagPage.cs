@@ -1,5 +1,7 @@
 using System.Reactive.Disposables;
 using Plapp.Core;
+using Plapp.UI.Controls;
+using Plapp.UI.Converters;
 using ReactiveUI;
 using ReactiveUI.XamForms;
 using Xamarin.CommunityToolkit.Markup;
@@ -7,13 +9,17 @@ using Xamarin.Forms;
 
 namespace Plapp.UI.Pages
 {
-    public class CreateTagPage : BaseContentPage<IEditViewModel<ITagViewModel>>
+    public class EditTagPage : BaseContentPage<IEditViewModel<ITagViewModel>>
     {
         private readonly Button _cancelButton = new();
         private readonly Button _confirmButton = new();
+        
         private readonly Entry _keyEntry = new();
         
-        public CreateTagPage()
+        private readonly Entry _unitEntry = new();
+        private readonly EnumPicker<DataType> _dataTypePicker = new();
+        
+        public EditTagPage()
         {
             Content = new StackLayout
             {
@@ -21,7 +27,9 @@ namespace Plapp.UI.Pages
                 {
                     _keyEntry,
                     _confirmButton,
-                    _cancelButton
+                    _cancelButton,
+                    _unitEntry,
+                    _dataTypePicker,
                 }
             };
         }
@@ -33,11 +41,17 @@ namespace Plapp.UI.Pages
             this.BindCommand(ViewModel, model => model.CancelCommand, page => page._cancelButton)
                 .DisposeWith(bindingsDisposable);
 
-            /* this throws an exception "Unsupported expression of type 'Constant'. Did you miss the member access prefix in the expression?"
+            this.OneWayBind(ViewModel, model => model.ToCreate.Unit, page => page._unitEntry.Text);
+            
+            this.Bind(ViewModel, model => model.ToCreate.DataType, page => page._dataTypePicker.SelectedItem, type => type, viewToVmConverter: ObjectTo.Enum<DataType> )
+                .DisposeWith(bindingsDisposable);
+
+            /*
              * 
             this.OneWayBind(ViewModel, model => model.ToCreate.Key, page => _keyEntry.Text)
                 .DisposeWith(bindingsDisposable);
              */
+
         }
     }
 }

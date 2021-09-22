@@ -35,6 +35,8 @@ namespace Plapp.ViewModels
                 .Subscribe();
 
             AddTopicCommand = new PlappCommand(AddTopicAsync);
+
+            AddTagCommand = new PlappCommand(AddTagAsync);
         }
 
         public override Task AppearingAsync()
@@ -49,6 +51,7 @@ namespace Plapp.ViewModels
         public ReadOnlyObservableCollection<ITopicViewModel> Topics => _topics;
 
         public ICommand AddTopicCommand { get; }
+        public ICommand AddTagCommand { get; }
 
         private async Task LoadTopicsAsync(CancellationToken cancellationToken=default)
         {
@@ -68,7 +71,11 @@ namespace Plapp.ViewModels
 
         private Task AddTopicAsync()
         {
-            return Shell.Current.GoToAsync("topic");
+            return Shell.Current.GoToAsync("topics");
+        }
+        private Task AddTagAsync()
+        {
+            return Shell.Current.GoToAsync("tags");
         }
     }
 }
