@@ -6,11 +6,11 @@ using Plapp.BusinessLogic.Commands;
 
 namespace Plapp.ViewModels
 {
-    public class CreateTagViewModel : CreateViewModel<ITagViewModel>
+    public class EditTagViewModel : EditViewModel<ITagViewModel>
     {
         private readonly IMediator _mediator;
         
-        public CreateTagViewModel(
+        public EditTagViewModel(
             IMediator mediator,
             IViewModelFactory vmFactory,
             ICompositeValidator<ITagViewModel> validators)
@@ -18,8 +18,9 @@ namespace Plapp.ViewModels
         {
             _mediator = mediator;
         }
+        
 
-        protected override Task SaveViewModelAsync()
+        protected override Task OnConfirm()
         {
             return _mediator.Send(new SaveTagCommand(ToCreate));
         }

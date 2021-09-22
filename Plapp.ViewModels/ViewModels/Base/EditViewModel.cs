@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public abstract class CreateViewModel<TViewModel> : BaseViewModel, ICreateViewModel<TViewModel>
+    public abstract class EditViewModel<TViewModel> : BaseViewModel, IEditViewModel<TViewModel>
         where TViewModel : IViewModel
     {
         private readonly IViewModelFactory _viewModelFactory;
@@ -24,7 +24,7 @@ namespace Plapp.ViewModels
 
         private ReactiveCommand<TViewModel, IEnumerable<ValidationResult>> _validateCommand;
 
-        protected CreateViewModel(IViewModelFactory viewModelFactory, ICompositeValidator<TViewModel> validators)
+        protected EditViewModel(IViewModelFactory viewModelFactory, ICompositeValidator<TViewModel> validators)
         {
             _viewModelFactory = viewModelFactory;
             _validators = validators;
@@ -46,8 +46,8 @@ namespace Plapp.ViewModels
             var canExecute = this.WhenAnyValue(x => x.Error, err => err.IsMissing());
              */
             
-            ConfirmCommand = new PlappCommand(SaveViewModelAsync);
-            CancelCommand = new PlappCommand(GoBackAsync);
+            ConfirmCommand = new PlappCommand(ConfirmAsync);
+            CancelCommand = new PlappCommand(CancelAsync);
 
             ToCreate = _viewModelFactory.Create<TViewModel>();
         }
@@ -56,15 +56,23 @@ namespace Plapp.ViewModels
         public ICommand CancelCommand { get; }
         
         [Reactive] public string Error { get; private set; }
-        public TViewModel ToCreate { get; }
+        public TViewModel ToCreate { get; protected set; }
         
         private Task<IEnumerable<ValidationResult>> ValidateViewModel(TViewModel viewModel, CancellationToken cancellationToken) => _validators.ValidateAsync(viewModel, cancellationToken);
 
-        private Task GoBackAsync()
+
+        private Task CancelAsync()
         {
             return Shell.Current.GoToAsync("..");
         }
+
+        private async Task ConfirmAsync()
+        {
+            await OnConfirm();
+
+            await Shell.Current.GoToAsync("..");
+        }
         
-        protected abstract Task SaveViewModelAsync();
+        protected abstract Task OnConfirm();
     }
 }

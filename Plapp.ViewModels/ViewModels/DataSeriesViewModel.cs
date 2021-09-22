@@ -86,7 +86,7 @@ namespace Plapp.ViewModels
 
         private async Task AddDataPointsAsync()
         {
-            await Shell.Current.GoToAsync($"data-points?DataSeriesId={Id}");
+            await Shell.Current.GoToAsync($"data-points?DataSeriesId={Id}"); // TODO: Clean up naming/navigation (maybe give Xam.Zero a try?)
         }
 
         private async Task PickTagAsync()

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Plapp.UI.Pages
 {
-    public class CreateTagPage : BaseContentPage<ICreateViewModel<ITagViewModel>>
+    public class CreateTagPage : BaseContentPage<IEditViewModel<ITagViewModel>>
     {
         private readonly Button _cancelButton = new();
         private readonly Button _confirmButton = new();

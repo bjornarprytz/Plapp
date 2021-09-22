@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Plapp.UI.Pages
 {
-    public class AddDataPointsPage : BaseContentPage<ICreateViewModel<IDataSeriesViewModel>>
+    public class AddDataPointsPage : BaseContentPage<IEditViewModel<IDataSeriesViewModel>>
     {
         private readonly Button _cancelButton = new();
         private readonly Button _confirmButton = new();
