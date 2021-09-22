@@ -12,8 +12,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-      <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
-      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+      <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="13.1.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,9 +20,9 @@
       <ProjectReference Include="..\Plapp.Core\Plapp.Core.csproj" />
       <ProjectReference Include="..\Plapp.Peripherals\Plapp.Peripherals.csproj" />
       <ProjectReference Include="..\Plapp.Persist\Plapp.Persist.csproj" />
+      <ProjectReference Include="..\Plapp.UI\Plapp.UI.csproj" />
       <ProjectReference Include="..\Plapp.Validation\Plapp.Validation.csproj" />
       <ProjectReference Include="..\Plapp.ViewModels\Plapp.ViewModels.csproj" />
-      <ProjectReference Include="..\Plapp.Views\Plapp.Views.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,75 +3,26 @@ using Plapp.Core;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Plapp.ViewModels
 {
-    public abstract class BaseViewModel : IViewModel
+    public abstract class BaseViewModel : ReactiveObject, IViewModel
     {
-        protected object mPropertyValueCheckLock = new object();
+        protected CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
-
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
-
-        public bool IsShowing { get; private set; }
-        
-        public virtual void OnShow()
+        public virtual Task AppearingAsync()
         {
-            IsShowing = true;
+            return Task.CompletedTask;
         }
 
-        public virtual void OnHide()
+        public virtual Task DisappearingAsync()
         {
-            IsShowing = false;
-            OnUserInteractionStopped();
-        }
-
-        public virtual void OnUserInteractionStopped() { }
-
-        public void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-        protected async Task FlagActionAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
-        {
-            lock (mPropertyValueCheckLock)
-            {
-                if (updatingFlag.GetPropertyValue())
-                    return;
-
-                updatingFlag.SetPropertyValue(true);
-            }
-
-            try
-            {
-                await action();
-            }
-            finally
-            {
-                updatingFlag.SetPropertyValue(false);
-            }
-        }
-
-        protected async Task<T> FlagActionAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default)
-        {
-            lock (mPropertyValueCheckLock)
-            {
-                if (updatingFlag.GetPropertyValue())
-                    return defaultValue;
-
-                updatingFlag.SetPropertyValue(true);
-            }
-
-            try
-            {
-                return await action();
-            }
-            finally
-            {
-                updatingFlag.SetPropertyValue(false);
-            }
+            return Task.CompletedTask;
         }
     }
 }

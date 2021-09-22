@@ -6,7 +6,7 @@ namespace Plapp.Validation.Validators
 {
     public class SaveTagCommandValidator : AbstractValidator<SaveTagCommand>
     {
-        public SaveTagCommandValidator(ITagService tagService)
+        public SaveTagCommandValidator()
         {
             RuleFor(x => x.Tag.Key).NotEmpty();
             RuleFor(x => x.Tag.Unit).NotEmpty();

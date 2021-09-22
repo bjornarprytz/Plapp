@@ -2,6 +2,10 @@
   "sdk": {
     "version": "5.0",
     "rollForward": "latestMajor",
+<<<<<<< HEAD
     "allowPrerelease": true
+=======
+    "allowPrerelease": false
+>>>>>>> reactive-ui
   }
 }

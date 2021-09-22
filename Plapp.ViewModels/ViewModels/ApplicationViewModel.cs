@@ -1,72 +1,74 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using MediatR;
 using Plapp.BusinessLogic;
-using Plapp.BusinessLogic.Commands;
 using Plapp.BusinessLogic.Queries;
 using Plapp.Core;
-using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using DynamicData;
+using Plapp.ViewModels.Infrastructure;
+using ReactiveUI;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Plapp.ViewModels
 {
-    public class ApplicationViewModel : IOViewModel, IApplicationViewModel
+    public class ApplicationViewModel : BaseViewModel, IApplicationViewModel
     {
-        private readonly INavigator _navigator;
-        private readonly IViewModelFactory _vmFactory;
+        private readonly SourceCache<ITopicViewModel, int> _topicsMutable = new (topic => topic.Id);
+        private readonly ReadOnlyObservableCollection<ITopicViewModel> _topics;
+
         private readonly IMediator _mediator;
 
-        public ApplicationViewModel(
-            INavigator navigator,
-            IViewModelFactory vmFactory,
-            IMediator mediator
-            )
+        public ApplicationViewModel(IMediator mediator)
         {
-            _navigator = navigator;
-            _vmFactory = vmFactory;
             _mediator = mediator;
 
-            Topics = new ObservableCollection<ITopicViewModel>();
+            _topicsMutable 
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out _topics)
+                .DisposeMany()
+                .Subscribe();
 
-            AddTopicCommand = new AsyncCommand(AddTopic, allowsMultipleExecutions: false);
-            DeleteTopicCommand = new AsyncCommand<ITopicViewModel>(DeleteTopic, allowsMultipleExecutions: false);
+            AddTopicCommand = new PlappCommand(AddTopicAsync);
         }
 
-        public ObservableCollection<ITopicViewModel> Topics { get; }
-        
-        public IAsyncCommand AddTopicCommand { get; private set; }
-        public IAsyncCommand<ITopicViewModel> DeleteTopicCommand { get; private set; }
-
-        protected override async Task AutoLoadDataAsync()
+        public override Task AppearingAsync()
         {
-            await base.AutoLoadDataAsync();
+            return LoadTopicsAsync();
+        }
 
-            var freshTopicResponse = await _mediator.Send(new GetAllTopicsQuery());
+
+        //public extern IEnumerable<ITopicViewModel> FlashyTopics { [ObservableAsProperty] get; private set; }
+        //[Reactive] private string FlashyThing { get; set; }
+
+        public ReadOnlyObservableCollection<ITopicViewModel> Topics => _topics;
+
+        public ICommand AddTopicCommand { get; }
+
+        private async Task LoadTopicsAsync(CancellationToken cancellationToken=default)
+        {
+            var freshTopicResponse = await _mediator.Send(new GetAllTopicsQuery(), cancellationToken);
 
             if (freshTopicResponse.IsError)
                 freshTopicResponse.Throw();
 
             var freshTopics = freshTopicResponse.Payload;
 
-            Topics.Update(
-                freshTopics,
-                (v1, v2) => v1.Id == v2.Id);
+            _topicsMutable.Edit(innerList =>
+            {
+                innerList.Clear();
+                innerList.AddOrUpdate(freshTopics);
+            });
         }
 
-        private async Task AddTopic()
+        private Task AddTopicAsync()
         {
-            var newTopic = _vmFactory.Create<ITopicViewModel>();
-
-            Topics.Add(newTopic);
-
-            await _navigator.GoToAsync(newTopic);
-        }
-
-        private async Task DeleteTopic(ITopicViewModel topic)
-        {
-            await _mediator.Send(new DeleteTopicCommand(topic));
-
-            Topics.Remove(topic);
+            return Shell.Current.GoToAsync("topic");
         }
     }
 }

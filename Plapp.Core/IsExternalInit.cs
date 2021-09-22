@@ -9,5 +9,5 @@
     - https://stackoverflow.com/questions/64749385/predefined-type-system-runtime-compilerservices-isexternalinit-is-not-defined
 
  Without this, we cannot use the Property { get; _init;_ } syntax for records.
- Hopefully this file can be deleted when we're on .NET 5
+ TODO: Hopefully this file can be deleted when we're on .NET 5
  */

@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Plapp.BusinessLogic;
-using Plapp.DependencyInjection;
 
 namespace Plapp.DependencyInjection
 {

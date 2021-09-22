@@ -5717,6 +5717,7 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Attribute.collapsedTitleGravity = global::Plapp.Droid.Resource.Attribute.collapsedTitleGravity;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.collapsedTitleTextAppearance = global::Plapp.Droid.Resource.Attribute.collapsedTitleTextAppearance;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.collapseIcon = global::Plapp.Droid.Resource.Attribute.collapseIcon;
+			global::SkiaSharp.Views.Forms.Resource.Attribute.collectionViewStyle = global::Plapp.Droid.Resource.Attribute.collectionViewStyle;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.color = global::Plapp.Droid.Resource.Attribute.color;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.colorAccent = global::Plapp.Droid.Resource.Attribute.colorAccent;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.colorBackgroundFloating = global::Plapp.Droid.Resource.Attribute.colorBackgroundFloating;
@@ -5923,6 +5924,7 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Attribute.scrimAnimationDuration = global::Plapp.Droid.Resource.Attribute.scrimAnimationDuration;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.scrimBackground = global::Plapp.Droid.Resource.Attribute.scrimBackground;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.scrimVisibleHeightTrigger = global::Plapp.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
+			global::SkiaSharp.Views.Forms.Resource.Attribute.scrollViewStyle = global::Plapp.Droid.Resource.Attribute.scrollViewStyle;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.searchHintIcon = global::Plapp.Droid.Resource.Attribute.searchHintIcon;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.searchIcon = global::Plapp.Droid.Resource.Attribute.searchIcon;
 			global::SkiaSharp.Views.Forms.Resource.Attribute.searchViewStyle = global::Plapp.Droid.Resource.Attribute.searchViewStyle;
@@ -6845,6 +6847,7 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.String.fab_transformation_sheet_behavior = global::Plapp.Droid.Resource.String.fab_transformation_sheet_behavior;
 			global::SkiaSharp.Views.Forms.Resource.String.hide_bottom_view_on_scroll_behavior = global::Plapp.Droid.Resource.String.hide_bottom_view_on_scroll_behavior;
 			global::SkiaSharp.Views.Forms.Resource.String.mtrl_chip_close_icon_content_description = global::Plapp.Droid.Resource.String.mtrl_chip_close_icon_content_description;
+			global::SkiaSharp.Views.Forms.Resource.String.overflow_tab_title = global::Plapp.Droid.Resource.String.overflow_tab_title;
 			global::SkiaSharp.Views.Forms.Resource.String.password_toggle_content_description = global::Plapp.Droid.Resource.String.password_toggle_content_description;
 			global::SkiaSharp.Views.Forms.Resource.String.path_password_eye = global::Plapp.Droid.Resource.String.path_password_eye;
 			global::SkiaSharp.Views.Forms.Resource.String.path_password_eye_mask_strike_through = global::Plapp.Droid.Resource.String.path_password_eye_mask_strike_through;
@@ -6858,6 +6861,7 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Style.Animation_AppCompat_DropDownUp = global::Plapp.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
 			global::SkiaSharp.Views.Forms.Resource.Style.Animation_AppCompat_Tooltip = global::Plapp.Droid.Resource.Style.Animation_AppCompat_Tooltip;
 			global::SkiaSharp.Views.Forms.Resource.Style.Animation_Design_BottomSheetDialog = global::Plapp.Droid.Resource.Style.Animation_Design_BottomSheetDialog;
+			global::SkiaSharp.Views.Forms.Resource.Style.AppCompatDialogStyle = global::Plapp.Droid.Resource.Style.AppCompatDialogStyle;
 			global::SkiaSharp.Views.Forms.Resource.Style.Base_AlertDialog_AppCompat = global::Plapp.Droid.Resource.Style.Base_AlertDialog_AppCompat;
 			global::SkiaSharp.Views.Forms.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Plapp.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
 			global::SkiaSharp.Views.Forms.Resource.Style.Base_Animation_AppCompat_Dialog = global::Plapp.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
@@ -7049,6 +7053,9 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Style.CardView = global::Plapp.Droid.Resource.Style.CardView;
 			global::SkiaSharp.Views.Forms.Resource.Style.CardView_Dark = global::Plapp.Droid.Resource.Style.CardView_Dark;
 			global::SkiaSharp.Views.Forms.Resource.Style.CardView_Light = global::Plapp.Droid.Resource.Style.CardView_Light;
+			global::SkiaSharp.Views.Forms.Resource.Style.collectionViewTheme = global::Plapp.Droid.Resource.Style.collectionViewTheme;
+			global::SkiaSharp.Views.Forms.Resource.Style.MainTheme = global::Plapp.Droid.Resource.Style.MainTheme;
+			global::SkiaSharp.Views.Forms.Resource.Style.MainTheme_Base = global::Plapp.Droid.Resource.Style.MainTheme_Base;
 			global::SkiaSharp.Views.Forms.Resource.Style.Platform_AppCompat = global::Plapp.Droid.Resource.Style.Platform_AppCompat;
 			global::SkiaSharp.Views.Forms.Resource.Style.Platform_AppCompat_Light = global::Plapp.Droid.Resource.Style.Platform_AppCompat_Light;
 			global::SkiaSharp.Views.Forms.Resource.Style.Platform_MaterialComponents = global::Plapp.Droid.Resource.Style.Platform_MaterialComponents;
@@ -7080,6 +7087,8 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Plapp.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
 			global::SkiaSharp.Views.Forms.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Plapp.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
 			global::SkiaSharp.Views.Forms.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Plapp.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::SkiaSharp.Views.Forms.Resource.Style.scrollViewScrollBars = global::Plapp.Droid.Resource.Style.scrollViewScrollBars;
+			global::SkiaSharp.Views.Forms.Resource.Style.scrollViewTheme = global::Plapp.Droid.Resource.Style.scrollViewTheme;
 			global::SkiaSharp.Views.Forms.Resource.Style.TextAppearance_AppCompat = global::Plapp.Droid.Resource.Style.TextAppearance_AppCompat;
 			global::SkiaSharp.Views.Forms.Resource.Style.TextAppearance_AppCompat_Body1 = global::Plapp.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
 			global::SkiaSharp.Views.Forms.Resource.Style.TextAppearance_AppCompat_Body2 = global::Plapp.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
@@ -7773,6 +7782,8 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Styleable.GradientColor_android_startY = global::Plapp.Droid.Resource.Styleable.GradientColor_android_startY;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.GradientColor_android_tileMode = global::Plapp.Droid.Resource.Styleable.GradientColor_android_tileMode;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.GradientColor_android_type = global::Plapp.Droid.Resource.Styleable.GradientColor_android_type;
+			global::SkiaSharp.Views.Forms.Resource.Styleable.ItemsViewRendererTheme = global::Plapp.Droid.Resource.Styleable.ItemsViewRendererTheme;
+			global::SkiaSharp.Views.Forms.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle = global::Plapp.Droid.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.LinearLayoutCompat = global::Plapp.Droid.Resource.Styleable.LinearLayoutCompat;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Plapp.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Plapp.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
@@ -7890,6 +7901,8 @@ namespace Plapp.Droid
 			global::SkiaSharp.Views.Forms.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::Plapp.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.ScrollingViewBehavior_Layout = global::Plapp.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::Plapp.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
+			global::SkiaSharp.Views.Forms.Resource.Styleable.ScrollViewRendererTheme = global::Plapp.Droid.Resource.Styleable.ScrollViewRendererTheme;
+			global::SkiaSharp.Views.Forms.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle = global::Plapp.Droid.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.SearchView = global::Plapp.Droid.Resource.Styleable.SearchView;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.SearchView_android_focusable = global::Plapp.Droid.Resource.Styleable.SearchView_android_focusable;
 			global::SkiaSharp.Views.Forms.Resource.Styleable.SearchView_android_imeOptions = global::Plapp.Droid.Resource.Styleable.SearchView_android_imeOptions;

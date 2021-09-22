@@ -44,7 +44,7 @@ namespace Plapp.Persist.Tests
                 Key = "water",
                 Color = "asd",
                 DataType = DataType.Decimal,
-                Icon = Icon.Diamond,
+                IconUri = "some/uri",
                 Unit = "ml",
             };
         }
